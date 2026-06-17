@@ -26,8 +26,7 @@ def get_completion(messages):
                     'content': str(m['content'])
                 } 
                 for m in messages
-            ],
-            max_tokens = token_limit
+            ]
         )
 
         full_res = completion.model_dump()
