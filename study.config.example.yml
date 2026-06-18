@@ -1,7 +1,7 @@
 # API Settings
 openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
 gpt_model: gpt-4-turbo            # Model to use
-gpt_max_tokens: 1000               # Max response length
+base_url: https://api.openai.com/v1    # Optional: Custom API base URL (e.g., for Azure OpenAI)
 
 # Study Settings
 condition: ai                      # 'ai' or 'no-ai'

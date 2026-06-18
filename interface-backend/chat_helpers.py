@@ -6,7 +6,12 @@ oai_key = config['openai_api_key']
 gpt_model = config['gpt_model']
 token_limit = int(config['gpt_max_tokens'])
 
-gpt_client = OpenAI(api_key = oai_key)
+api_base_url = config.get('base_url')
+
+client_kwargs = {'api_key': oai_key}
+if api_base_url:
+    client_kwargs['base_url'] = api_base_url
+gpt_client = OpenAI(**client_kwargs)
 
 def get_completion(messages):
     try:
