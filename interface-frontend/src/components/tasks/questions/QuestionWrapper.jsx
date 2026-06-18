@@ -36,7 +36,7 @@ const QuestionWrapper = ({ id, question, formControl }) => {
       <div className='flex flex-row justify-between items-center mb-8'>
         <h3 className='text-lg font-bold'>{id} - <RichText>{question.question}</RichText><span className='text-red-500'>*</span></h3>
         {/* Show copy button if AI condition and question type is option (this should probably be moved to the OptionQuestion component) */}
-        {(state.chatEnabled && state.condition === 'ai' && question.type === 'option') && <Tooltip className="p-4" content="Copy question and options to clipboard">
+        {(state.chatEnabled && state.condition === 'ai' && question.type === 'option') && <Tooltip className="p-2" content="Copy question and options to clipboard">
           <Button
             className='ml-8'
             color='default' 
