@@ -22,13 +22,14 @@ const TaskView = ({ tasks }) => {
     <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen p-16 bg-stone-100 shadow-2xl'>
       {state.taskIndex < tasks.length
         ? <TaskPage 
-          key={state.taskIndex}
-          title={tasks[state.taskIndex].title}
-          items={tasks[state.taskIndex].content} 
-          taskIndex={state.taskIndex}
-          sourceIndex={tasks[state.taskIndex].sourceIndex} 
-          next={handleNextPage} 
-        />
+            key={state.taskIndex}
+            title={tasks[state.taskIndex].title}
+            items={tasks[state.taskIndex].content}
+            tabs={tasks[state.taskIndex].tabs}
+            taskIndex={state.taskIndex}
+            sourceIndex={tasks[state.taskIndex].sourceIndex} 
+            next={handleNextPage} 
+          />
         : <DonePage />
       }
     </div>

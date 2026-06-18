@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Input } from '@nextui-org/react'
+import RichText from './RichText'
 
 const optionRadioStyle = 'mr-4 appearance-none box-border border-2 border-stone-300 shadow-inner w-8 h-8 min-w-8 min-h-8 max-w-8 max-h-8 rounded-full checked:border-stone-700 checked:shadow-xl checked:border-8 checked:box-border'
 
@@ -34,7 +35,7 @@ const OptionQuestion = ({ id, question, field }) => {
               value={o} 
               onClick={(e) => handleSelectOption(e.target.value, false)}
             />
-            <label htmlFor={`${id}_${i}`}>{o}</label>
+            <label htmlFor={`${id}_${i}`}><RichText>{o}</RichText></label>
           </div>
         )}
         {/* If applicable, render "other" option */}

@@ -1,17 +1,31 @@
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { store } from '../../../scripts/store'
-import { Button, ScrollShadow } from '@nextui-org/react'
+import { Button, ScrollShadow, Tabs, Tab } from '@nextui-org/react'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
+import RichText from './RichText'
 
 
-const TaskPage = ({ taskIndex, sourceIndex, title, items, next }) => {
+const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
   const [submitError, setSubmitError] = useState('')
   const ctxStore = useContext(store)
   const { handleSubmit, control } = useForm({
     mode: 'onSubmit'
   })
+
+  const pageTabs = tabs || [
+    {
+      title: 'Exercise',
+      content: items
+    }
+  ]
+
+  const hasMultipleTabs = pageTabs.length > 1
+
+  const exerciseItems = pageTabs.find(
+    (tab) => tab.title.toLowerCase() === 'exercise'
+  )?.content || pageTabs[0].content
 
   const onSubmit = (pageResponses) => {    
     const mappedResponses = {}
@@ -24,7 +38,9 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, next }) => {
       * Because these will be logged, we should map them to the source task index so we can compare between-participant 
       * responses later.
       */
-      const questionItems = items.filter((c) => ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(c.type))
+      const questionItems = exerciseItems.filter((c) =>
+        ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(c.type)
+      )
       pageResponses[taskIndex].forEach((r, i) => {
         if (r !== undefined && r !== null) {
           const questionItem = questionItems[i - 1]
@@ -69,25 +85,52 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, next }) => {
    * This is ONLY used to render the participant-facing question number, not what is logged (see onSubmit above)!
    * */ 
   const getQuestionIndex = (question) => {
-    const onlyQuestions = items.filter((c) => ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(c.type))
-    const qIndex = onlyQuestions.indexOf(question) + 1
-    return qIndex
+    const onlyQuestions = exerciseItems.filter((c) =>
+      ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(c.type)
+    )
+
+    return onlyQuestions.indexOf(question) + 1
+  }
+
+  const renderContentItem = (item, i) => {
+  if (['image', 'paragraph', 'h2', 'h3', 'ul', 'ol'].includes(item.type)) {
+    return <PlainContentWrapper key={i} content={item} />
+  }
+
+  if (['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type)) {
+    return (
+      <QuestionWrapper
+        key={i}
+        id={`${taskIndex}.${getQuestionIndex(item)}`}
+        question={item}
+        formControl={control}
+      />
+    )
+  }
+
+  return null
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit, showSubmitError)} className='flex flex-1 flex-col justify-between items-start w-full h-full' autoComplete='off'>
       {/* Display page contents */}
       <div className='flex flex-1 flex-col justify-start items-start w-full overflow-auto'>
-        <h1 className='text-4xl font-bold mb-4'>{title}</h1>
+        <h1 className='text-4xl font-bold mb-4'><RichText>{title}</RichText></h1>
         <ScrollShadow className='pb-4 w-full'>
-            {items.map((item, i) => {
-              if (['image', 'paragraph', 'h2', 'h3'].includes(item.type)) {
-                return <PlainContentWrapper key={i} content={item} />
-              } else if (['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type)) {
-                return <QuestionWrapper key={i} id={`${taskIndex}.${getQuestionIndex(item)}`} question={item} formControl={control} /> // Use taskIndex (the current order of the pages) as not to confuse/distract participants (in case page order is randomized
-              }
-            })}
-        </ScrollShadow>
+        {hasMultipleTabs ? (
+          <Tabs aria-label="Task tabs" variant="underlined">
+            {pageTabs.map((tab) => (
+              <Tab key={tab.title} title={tab.title}>
+                <div className="pt-6">
+                  {tab.content.map(renderContentItem)}
+                </div>
+              </Tab>
+            ))}
+          </Tabs>
+        ) : (
+          pageTabs[0].content.map(renderContentItem)
+  )}
+</ScrollShadow>
       </div>
       {/* Display contextual info + submit button */}
       <div className='w-full flex flex-row justify-between items-center mt-4'>

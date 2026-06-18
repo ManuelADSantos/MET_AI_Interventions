@@ -1,3 +1,173 @@
+const parseContentItems = (rawContent) => {
+  const rawQuestions = rawContent.split(/(?<!#)#{1}|>/).slice(1)
+
+  const parsedItems = rawQuestions.map((rq) => {
+    if (rq.startsWith('#')) {
+      const subHLevel = rq.match(/(?<!#)#{1,}|>/)[0].length + 1
+      return {
+        text: String(rq.split(/(?<!#)#{1,}|>/)[1].trim()),
+        type: `h${subHLevel}`
+      }
+    }
+
+    if (rq.trim().startsWith('!')) {
+      return {
+        url: String(rq.split('(')[1].split(')')[0].trim()),
+        type: 'image'
+      }
+    }
+
+    const list = parseList(rq)
+    if (list) {
+      return list
+    }
+
+    if (rq.split('$').length === 1) {
+      return {
+        text: String(rq.trim()),
+        type: 'paragraph',
+        listContinuation: /^\s{2,}/.test(String(rq).replace(/^\r?\n/, ''))
+      }
+    }
+
+    const questionText = rq.split('$')[0].trim()
+    const rawType = rq.split('$')[1].trim().split(';')[0].trim()
+    const isRequired = !rawType.endsWith('?')
+    const questionType = rawType.replace(/\?$/, '')
+
+    if (questionType === 'likert' || questionType === 'slider') {
+      let params = rq.split('$')[1].trim().split(';')
+
+      if (params.length < 2) {
+        return {
+          question: questionText,
+          type: questionType,
+          required: isRequired,
+          min: 1,
+          max: 10,
+          minLabel: 'min',
+          maxLabel: 'max'
+        }
+      }
+
+      params = params.slice(1)
+
+      return {
+        question: questionText,
+        type: questionType,
+        required: isRequired,
+        min: parseInt(params[0].trim()),
+        max: parseInt(params[1].trim()),
+        minLabel: params[2].trim(),
+        maxLabel: params[3].trim(),
+        additionalParams: [...params.slice(4).map((p) => p.trim())]
+      }
+    }
+
+    if (questionType === 'option') {
+      return {
+        question: questionText,
+        type: questionType,
+        required: isRequired,
+        options: rq.split('$')[1].trim().split(';').length > 1
+          ? rq.split('$')[1].trim().split(';').slice(1).map((o) => o.trim())
+          : ['Yes', 'No']
+      }
+    }
+
+    return {
+      question: questionText,
+      type: questionType,
+      required: isRequired
+    }
+  })
+
+  return mergeConsecutiveLists(parsedItems)
+}
+
+const parseList = (rawContent) => {
+  const lines = String(rawContent)
+    .split('\n')
+    .map((line) => line.trimEnd())
+    .filter((line) => line.trim().length > 0)
+
+  if (lines.length === 0) {
+    return undefined
+  }
+
+  const firstLine = lines[0].trim()
+  const isUnordered = /^[-*]\s+/.test(firstLine)
+  const isOrdered = /^\d+[.)]\s+/.test(firstLine)
+
+  if (!isUnordered && !isOrdered) {
+    return undefined
+  }
+
+  const items = []
+
+  lines.forEach((line) => {
+    const trimmedLine = line.trim()
+    const isListItem = isOrdered
+      ? /^\d+[.)]\s+/.test(trimmedLine)
+      : /^[-*]\s+/.test(trimmedLine)
+
+    if (isListItem) {
+      items.push(trimmedLine.replace(isOrdered ? /^\d+[.)]\s+/ : /^[-*]\s+/, ''))
+      return
+    }
+
+    if (items.length > 0) {
+      items[items.length - 1] = `${items[items.length - 1]}\n${trimmedLine}`
+    }
+  })
+
+  return {
+    type: isOrdered ? 'ol' : 'ul',
+    items
+  }
+}
+
+const mergeConsecutiveLists = (items) => {
+  return items.reduce((merged, item) => {
+    const previous = merged[merged.length - 1]
+
+    if (previous && ['ul', 'ol'].includes(previous.type) && item.type === 'paragraph' && item.listContinuation) {
+      previous.items[previous.items.length - 1] = `${previous.items[previous.items.length - 1]}\n${item.text}`
+      return merged
+    }
+
+    if (previous && ['ul', 'ol'].includes(previous.type) && previous.type === item.type) {
+      previous.items = [...previous.items, ...item.items]
+      return merged
+    }
+
+    return [...merged, item]
+  }, [])
+}
+
+const parseTabs = (rawPageContent) => {
+  if (!rawPageContent.includes(':::tab')) {
+    return undefined
+  }
+
+  const tabParts = rawPageContent.split(/:::tab\s+/).slice(1)
+
+  return tabParts.map((part) => {
+    const firstLineBreak = part.indexOf('\n')
+    const title = part.slice(0, firstLineBreak).trim()
+    const body = part
+      .slice(firstLineBreak)
+      .replace(/:::\s*$/, '')
+      .trim()
+
+    return {
+      title,
+      content: parseContentItems(body)
+    }
+  })
+}
+
+
 /** Load & parse tasks
  * @param tasks Raw text to parse tasks from.
  * @returns The parsed list of tasks as a JS array.
@@ -27,88 +197,24 @@ const loadTasks = (tasks) => {
         * pagesSoFar = number of pages in all previous sections */
         const pageIndex = pi + pagesSoFar
         
-        // Parse page title
-        const pageTitle = rs.split(/(?<!#)#{2,}(?!#)|>/)[0].trim()
+        // Parse only the first line as the page title so tab markers stay out of it.
+        const pageTitle = rs.split('\n')[0].trim()
 
-        // Then, begin parsing page contents
-        let pageContent = ''
-
-        // First, separate the subheadings (start with #) and paragraphs & questions (>)
-        const rawQuestions = rs.split(/(?<!#)#{1}|>/).slice(1)
-
-        // Parse each piece of content
-        const questions = rawQuestions.map((rq, i) => {
-          // Parse subheadings
-          if (rq.startsWith('#')) {
-            const subHLevel = rq.match(/(?<!#)#{1,}|>/)[0].length + 1
-            return { text: String(rq.split(/(?<!#)#{1,}|>/)[1].trim()), type: `h${subHLevel}`}
-          }
-
-          // Parse images
-          if (rq.trim().startsWith('!')) {
-            return { url: String(rq.split('(')[1].split(')')[0].trim()), type: 'image'}
-          }
-
-          // Parse paragraphs (no $ parameters present)
-          if (rq.split('$').length === 1) {
-            return { text: String(rq.trim()), type: 'paragraph'}
-          }
-
-          // Parse questions 
-          const questionText = rq.split('$')[0].trim()
-          const rawType = rq.split('$')[1].trim().split(';')[0].trim()
-          // Support optional questions by suffixing the type with '?', e.g., "$text?"
-          const isRequired = !rawType.endsWith('?')
-          const questionType = rawType.replace(/\?$/, '')
-
-          // Parse additional question options if present (separated by ;)
-          if (questionType === 'likert' || questionType === 'slider') {
-            let params = rq.split('$')[1].trim().split(';')
-
-            if (params.length < 2) {
-            return {
-              question: questionText,
-              type: questionType,
-              required: isRequired,
-              min: 1,
-              max: 10,
-              minLabel: 'min',
-              maxLabel: 'max'
-            }
-            }
-
-            params = params.slice(1)
-
-            return {
-              question: questionText,
-              type: questionType,
-              required: isRequired,
-              min: parseInt(params[0].trim()),
-              max: parseInt(params[1].trim()),
-              minLabel: params[2].trim(),
-              maxLabel: params[3].trim(),
-              additionalParams: [...params.slice(4).map((p) => p.trim())]
-            }
-          } else if (questionType === 'option') {
-            return {
-              question: questionText,
-              type: questionType,
-              required: isRequired,
-              options: rq.split('$')[1].trim().split(';').length > 1 
-                ? rq.split('$')[1].trim().split(';').slice(1).map((o) => o.trim()) 
-                : ['Yes', 'No']
-            }
-          }
-
-          return { question: questionText, type: questionType, required: isRequired }
-        })
-
-        pageContent = questions
+        const tabs = parseTabs(rs)
+        const pageContent = tabs
+          ? tabs.find((tab) => tab.title.toLowerCase() === 'exercise')?.content || tabs[0].content
+          : parseContentItems(rs)
 
         return {
           sourceIndex: pageIndex,
           title: pageTitle,
-          content: pageContent
+          content: pageContent,
+          tabs: tabs || [
+            {
+              title: 'Exercise',
+              content: pageContent
+            }
+          ]
         }
       })
 

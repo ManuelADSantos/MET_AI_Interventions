@@ -5,6 +5,7 @@ import SliderQuestion from './SliderQuestion'
 import { Input, Textarea, Button, Tooltip } from '@nextui-org/react'
 import { useController } from 'react-hook-form'
 import { store } from '../../../scripts/store'
+import RichText from './RichText'
 
 const QuestionWrapper = ({ id, question, formControl }) => {
   const [copyEnabled, setCopyEnabled] = useState(true)
@@ -33,7 +34,7 @@ const QuestionWrapper = ({ id, question, formControl }) => {
   return (
     <div className='my-16'>
       <div className='flex flex-row justify-between items-center mb-8'>
-        <h3 className='text-lg font-bold'>{id} - {question.question}<span className='text-red-500'>*</span></h3>
+        <h3 className='text-lg font-bold'>{id} - <RichText>{question.question}</RichText><span className='text-red-500'>*</span></h3>
         {/* Show copy button if AI condition and question type is option (this should probably be moved to the OptionQuestion component) */}
         {(state.chatEnabled && state.condition === 'ai' && question.type === 'option') && <Tooltip className="p-4" content="Copy question and options to clipboard">
           <Button
