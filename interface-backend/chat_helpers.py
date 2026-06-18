@@ -4,7 +4,6 @@ from config_loader import load_config
 config = load_config()
 oai_key = config['openai_api_key']
 gpt_model = config['gpt_model']
-token_limit = int(config['gpt_max_tokens'])
 
 api_base_url = config.get('base_url')
 
