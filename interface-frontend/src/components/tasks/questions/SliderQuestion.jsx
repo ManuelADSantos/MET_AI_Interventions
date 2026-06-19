@@ -27,12 +27,12 @@ const SliderQuestion = ({id, question, field}) => {
         fillOffset={sliderValue}
         color='foreground'
         label=''
-        size='lg'
         minValue={question.min}
         maxValue={question.max}
         value={sliderValue}
         onChange={handleMoveSlider}
         inputRef={field.ref}
+        showTooltip={true}
       />
       <span>{question.maxLabel}</span>
     </div>

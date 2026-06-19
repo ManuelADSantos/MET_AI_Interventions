@@ -3,7 +3,7 @@ import { store } from "./scripts/store"
 import { checkParticipation } from "./scripts/dbService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
-import { Button, Card, CardBody, Input, CardHeader, Divider, Spinner, } from '@nextui-org/react'
+import { Button, Card, CardBody, Input, CardHeader, Divider, Spinner} from '@nextui-org/react'
 
 const App = ({ condition, tasks }) => {
   const [idGiven, setIdGiven] = useState(false)
@@ -47,8 +47,8 @@ const App = ({ condition, tasks }) => {
   return (
     <>
       {!idGiven 
-      ? <div className='flex justify-center items-center h-full'>
-        <Card className='p-2'>
+      ? <div className='flex justify-center items-center h-screen bg-neutral-100'>
+        <Card className='p-2' isBlurred shadow='2xl'>
           <CardHeader className="flex gap-3">
           <p className='text-2m font'>Please enter your Prolific ID</p>
           </CardHeader>
@@ -57,14 +57,14 @@ const App = ({ condition, tasks }) => {
           <form onSubmit={handleIdSubmit}> 
             <div className="flex gap-4">
             <Input  type="text" maxLength={64} label="ID" labelPlacement='outside-left' placeholder='e.g. 0123456789' isInvalid={idError.length > 0} errorMessage={idError && idError} onClear={() => {}}/>
-            <Button type="submit" color="primary" variant="ghost">Submit</Button>
+            <Button type="submit" color="primary" variant="solid">Submit</Button>
             </div>
           </form>
           
           </CardBody>
         </Card>
-        <p className='fixed bottom-3 left-4 z-50 text-s text-stone-500 pointer-events-none'>
-        MET-Study Pilot v0.5.1</p>
+        <p className='fixed bottom-3 items-center z-50 text-s text-stone-400 pointer-events-none'>
+        MET-Study Pilot</p>
       </div>
       
       : <>
