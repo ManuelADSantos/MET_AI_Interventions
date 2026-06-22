@@ -1,9 +1,9 @@
 import os
 import json
 from datetime import datetime
-from flask import Flask, request
+from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
-from chat_helpers import get_completion
+from chat_helpers import get_completion, stream_completion
 from correct_answers import right_choices
 from config_loader import load_config
 import logging
@@ -31,6 +31,20 @@ def send_message():
         return {'response': result}, 200
     except Exception as e:
         return {'error': str(e)}, 500
+
+@app.route('/chat/stream', methods = ['POST'])
+def stream_message():
+    req = request.get_json()
+    messages = req['messages']
+
+    def generate():
+        try:
+            for event in stream_completion(messages):
+                yield json.dumps(event) + '\n'
+        except Exception as e:
+            yield json.dumps({'type': 'error', 'error': str(e)}) + '\n'
+
+    return Response(stream_with_context(generate()), mimetype='application/x-ndjson')
 
 RELEVANT_KEYS = {f'{i}.1' for i in range(4, 24)}
 

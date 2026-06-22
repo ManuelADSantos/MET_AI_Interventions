@@ -162,7 +162,7 @@ const defaultComponents = memoizeMarkdownComponents({
   table: ({ className, ...props }) => (
     <table
       className={cn(
-        "aui-md-table my-3 w-full border-separate border-spacing-0 overflow-y-auto",
+        "aui-md-table my-3 w-full border-separate border-spacing-0 overflow-hidden rounded-lg border border-[#d4d4d4]",
         className
       )}
       {...props} />
@@ -170,7 +170,7 @@ const defaultComponents = memoizeMarkdownComponents({
   th: ({ className, ...props }) => (
     <th
       className={cn(
-        "aui-md-th bg-muted px-3 py-1.5 text-start font-medium first:rounded-ss-lg last:rounded-se-lg [[align=center]]:text-center [[align=right]]:text-right",
+        "aui-md-th border-b border-[#c7c7c7] bg-[#f3f4f6] px-3 py-2 text-start text-sm font-semibold text-[#111827] first:rounded-ss-lg last:rounded-se-lg [[align=center]]:text-center [[align=right]]:text-right",
         className
       )}
       {...props} />
@@ -178,7 +178,7 @@ const defaultComponents = memoizeMarkdownComponents({
   td: ({ className, ...props }) => (
     <td
       className={cn(
-        "aui-md-td border-muted-foreground/20 border-s border-b px-3 py-1.5 text-start last:border-e [[align=center]]:text-center [[align=right]]:text-right",
+        "aui-md-td border-b border-l border-[#e5e7eb] px-3 py-2 text-start text-sm first:border-l-0 last:border-r [[align=center]]:text-center [[align=right]]:text-right",
         className
       )}
       {...props} />

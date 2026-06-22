@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useRef } from 'react'
 import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime } from '@assistant-ui/react'
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
-import { requestChatResponse } from '../../scripts/chatService'
+import { requestChatResponseStream } from '../../scripts/chatService'
 import { Thread } from '../thread'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
@@ -41,10 +41,6 @@ const toBackendMessage = (message) => {
   }
 }
 
-const getAssistantReply = (fullRes) => {
-  return fullRes?.choices?.[0]?.message?.content || ''
-}
-
 const ChatView = ({ sourceIndex }) => {
   const ctxStore = useContext(store)
   const ctxStoreRef = useRef(ctxStore)
@@ -54,7 +50,7 @@ const ChatView = ({ sourceIndex }) => {
   sourceIndexRef.current = sourceIndex
 
   const chatModel = useMemo(() => ({
-    async run({ messages, abortSignal }) {
+    async *run({ messages, abortSignal }) {
       const currentStore = ctxStoreRef.current
       const currentSourceIndex = sourceIndexRef.current
 
@@ -75,12 +71,33 @@ const ChatView = ({ sourceIndex }) => {
         task: currentSourceIndex
       }
 
-      const res = await requestChatResponse(backendMessages, abortSignal)
-      if (res.error) {
-        throw new Error(res.error)
+      let finalResponse
+      let replyContent = ''
+
+      for await (const event of requestChatResponseStream(backendMessages, abortSignal)) {
+        if (event.type === 'delta') {
+          replyContent = event.content || `${replyContent}${event.delta || ''}`
+          yield {
+            content: [{ type: 'text', text: replyContent }]
+          }
+        }
+
+        if (event.type === 'done') {
+          finalResponse = event.response
+        }
       }
 
-      const replyContent = getAssistantReply(res)
+      if (!finalResponse) {
+        finalResponse = {
+          choices: [
+            {
+              index: 0,
+              message: { role: 'assistant', content: replyContent },
+              finish_reason: 'stop'
+            }
+          ]
+        }
+      }
 
       currentStore.dispatch({
         type: 'UPDATE_MESSAGES',
@@ -88,7 +105,7 @@ const ChatView = ({ sourceIndex }) => {
           prompt,
           response: {
             role: 'assistant',
-            ...res,
+            ...finalResponse,
             render_complete: Date.now(),
             survey_index: currentSourceIndex
           }
@@ -97,7 +114,7 @@ const ChatView = ({ sourceIndex }) => {
 
       currentStore.dispatch({ type: 'TOGGLE_CHAT_USED', payload: { value: true } })
 
-      return {
+      yield {
         content: [{ type: 'text', text: replyContent }]
       }
     }
