@@ -195,11 +195,11 @@ const Composer = () => {
       <ComposerPrimitive.AttachmentDropzone asChild>
         <div
           data-slot="aui_composer-shell"
-          className="relative flex w-full rounded-[var(--composer-radius)] border border-[#e5e5e5] bg-[var(--composer-bg)] p-[var(--composer-padding)] shadow-[0_8px_28px_-18px_rgba(0,0,0,0.35),0_2px_8px_-6px_rgba(0,0,0,0.22)] transition-[border-color,box-shadow] focus-within:border-[#c9c9c9] focus-within:shadow-[0_10px_34px_-18px_rgba(0,0,0,0.42),0_3px_10px_-7px_rgba(0,0,0,0.25)] data-[dragging=true]:border-dashed data-[dragging=true]:border-[#0d0d0d]">
+          className="flex w-full items-end gap-2 rounded-[var(--composer-radius)] border border-[#e5e5e5] bg-[var(--composer-bg)] p-[var(--composer-padding)] shadow-[0_8px_28px_-18px_rgba(0,0,0,0.35),0_2px_8px_-6px_rgba(0,0,0,0.22)] transition-[border-color,box-shadow] focus-within:border-[#c9c9c9] focus-within:shadow-[0_10px_34px_-18px_rgba(0,0,0,0.42),0_3px_10px_-7px_rgba(0,0,0,0.25)] data-[dragging=true]:border-dashed data-[dragging=true]:border-[#0d0d0d]">
           <ComposerAttachments />
           <ComposerPrimitive.Input
             placeholder="Ask anything"
-            className="aui-composer-input max-h-32 min-h-10 w-full resize-none bg-transparent py-2 pl-3 pr-12 text-base leading-6 text-[#0d0d0d] outline-none placeholder:text-[#6f6f6f]"
+            className="aui-composer-input max-h-32 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 text-base leading-6 text-[#0d0d0d] outline-none placeholder:text-[#6f6f6f]"
             rows={1}
             autoFocus
             aria-label="Message input" />
@@ -211,43 +211,34 @@ const Composer = () => {
 };
 
 const ComposerAction = () => {
-  const composerIsEmpty = useAuiState((s) => s.composer.isEmpty);
-
   return (
     <div
-      className="aui-composer-action-wrapper absolute bottom-2 right-2 flex items-center">
+      className="aui-composer-action-wrapper flex shrink-0 items-end">
       <div className="flex items-center gap-1.5">
         <AuiIf condition={(s) => !s.thread.isRunning}>
           <ComposerPrimitive.Send asChild>
-            <button
+            <TooltipIconButton
+              tooltip="Send message"
+              side="bottom"
               type="button"
-              className="aui-composer-send flex shrink-0 items-center justify-center rounded-full p-0 text-white transition-colors disabled:cursor-default"
-              style={{
-                width: 32,
-                height: 32,
-                minWidth: 32,
-                borderRadius: 9999,
-                backgroundColor: composerIsEmpty ? "#d7d7d7" : "#5e83e6",
-              }}
+              variant="default"
+              size="icon"
+              className="aui-composer-send h-8 w-8 min-w-8 rounded-full bg-[#0d0d0d] p-0 text-white hover:bg-[#2f2f2f]"
               aria-label="Send message">
               <ArrowUpIcon className="aui-composer-send-icon size-4.5" />
-            </button>
+            </TooltipIconButton>
           </ComposerPrimitive.Send>
         </AuiIf>
         <AuiIf condition={(s) => s.thread.isRunning}>
           <ComposerPrimitive.Cancel asChild>
-            <button
+            <Button
               type="button"
-              className="aui-composer-cancel flex shrink-0 items-center justify-center rounded-full bg-[#0d0d0d] p-0 text-white transition-colors hover:bg-[#2f2f2f]"
-              style={{
-                width: 32,
-                height: 32,
-                minWidth: 32,
-                borderRadius: 9999,
-              }}
+              variant="default"
+              size="icon"
+              className="aui-composer-cancel size-8 rounded-full bg-[#0d0d0d] text-white hover:bg-[#2f2f2f]"
               aria-label="Stop generating">
               <SquareIcon className="aui-composer-cancel-icon size-3.5 fill-current" />
-            </button>
+            </Button>
           </ComposerPrimitive.Cancel>
         </AuiIf>
       </div>
