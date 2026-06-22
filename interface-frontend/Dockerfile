@@ -7,6 +7,7 @@ RUN apk add --no-cache dos2unix
 
 # Copy package files and install dependencies
 COPY package*.json ./
+COPY .npmrc ./
 RUN npm install
 
 # Copy entrypoint script, fix line endings, and make it executable

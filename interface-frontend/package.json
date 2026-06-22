@@ -10,15 +10,23 @@
   },
   "dependencies": {
     "@assistant-ui/react": "^0.14.23",
+    "@assistant-ui/react-markdown": "^0.14.4",
     "@nextui-org/react": "^2.2.10",
     "bootstrap-icons": "^1.11.3",
     "browser-image-compression": "^2.0.2",
+    "class-variance-authority": "^0.7.1",
     "framer-motion": "11.0.8",
+    "lucide-react": "^1.21.0",
+    "radix-ui": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.51.2"
+    "react-hook-form": "^7.51.2",
+    "remark-gfm": "^4.0.1",
+    "tw-shimmer": "^0.4.11",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@types/node": "^26.0.0",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
