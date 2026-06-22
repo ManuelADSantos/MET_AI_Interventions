@@ -27,5 +27,9 @@ def load_config():
         print("ERROR: OpenAI API key not set in study.config.yml")
         print("Please edit study.config.yml and set your API key in the 'openai_api_key' field.")
         sys.exit(1)
+        
+    if not config.get('base_url') or config.get('base_url') == 'BASE_URL_HERE':
+        print("WARNING: Base URL not set or using default in study.config.yml")
+        print("Make sure to set the 'base_url' field to the correct backend URL if needed.")
 
     return config

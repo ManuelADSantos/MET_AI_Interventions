@@ -63,8 +63,6 @@ const App = ({ condition, tasks }) => {
           
           </CardBody>
         </Card>
-        <p className='fixed bottom-3 items-center z-50 text-s text-stone-400 pointer-events-none'>
-        MET-Study Pilot</p>
       </div>
       
       : <>
