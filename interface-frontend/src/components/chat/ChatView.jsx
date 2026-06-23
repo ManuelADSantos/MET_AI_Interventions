@@ -127,9 +127,9 @@ const ChatView = ({ sourceIndex }) => {
   const runtime = useLocalRuntime(chatModel, runtimeOptions)
 
   return (
-    <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen bg-white'>
+    <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       {ctxStore.state.chatEnabled && (
-        <div className='flex justify-center items-center w-full py-3'>
+        <div className='flex justify-center items-center w-full bg-[#fafafa] py-3'>
           <Chip color='success' variant='dot'>ChatGPT</Chip>
         </div>
       )}

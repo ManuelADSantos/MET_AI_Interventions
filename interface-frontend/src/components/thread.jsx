@@ -31,6 +31,7 @@ import {
   SuggestionPrimitive,
   ThreadPrimitive,
   useAuiState,
+  useThreadViewport,
 } from "@assistant-ui/react";
 import {
   ArrowDownIcon,
@@ -43,13 +44,9 @@ import {
   MoreHorizontalIcon,
   PencilIcon,
   RefreshCwIcon,
-  ShareIcon,
   SquareIcon,
-  ThumbsDownIcon,
-  ThumbsUpIcon,
-  Volume2Icon,
 } from "lucide-react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const EMPTY_COMPONENTS = {};
 
@@ -77,7 +74,7 @@ const ThreadRoot = ({ isEmpty }) => {
 
   return (
     <ThreadPrimitive.Root
-      className="aui-root aui-thread-root @container flex h-full flex-col bg-white text-[#0d0d0d]"
+      className="aui-root aui-thread-root @container flex h-full flex-col bg-[#fafafa] text-[#0d0d0d]"
       style={{
         ["--thread-max-width"]: "48rem",
         ["--composer-bg"]: "#ffffff",
@@ -107,7 +104,7 @@ const ThreadRoot = ({ isEmpty }) => {
 
           <ThreadPrimitive.ViewportFooter
             className={cn(
-              "aui-thread-viewport-footer flex flex-col gap-2 overflow-visible bg-white pb-4 md:pb-5",
+              "aui-thread-viewport-footer flex flex-col gap-2 overflow-visible bg-[#fafafa] pb-4 md:pb-5",
               !isEmpty &&
                 "sticky bottom-0 mt-auto rounded-t-[var(--composer-radius)]"
             )}>
@@ -138,14 +135,61 @@ const ThreadMessage = () => {
 };
 
 const ThreadScrollToBottom = () => {
+  const viewport = useThreadViewport((s) => s.element.viewport);
+  const [isMeaningfullyAwayFromBottom, setIsMeaningfullyAwayFromBottom] =
+    useState(false);
+
+  useEffect(() => {
+    if (!viewport) {
+      setIsMeaningfullyAwayFromBottom(false);
+      return;
+    }
+
+    const updateVisibility = () => {
+      const distanceFromBottom =
+        viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight;
+      setIsMeaningfullyAwayFromBottom(distanceFromBottom > 160);
+    };
+
+    const scheduleUpdateVisibility = () => {
+      requestAnimationFrame(updateVisibility);
+    };
+
+    updateVisibility();
+    viewport.addEventListener("scroll", updateVisibility, { passive: true });
+
+    const resizeObserver = new ResizeObserver(scheduleUpdateVisibility);
+    resizeObserver.observe(viewport);
+    if (viewport.firstElementChild) {
+      resizeObserver.observe(viewport.firstElementChild);
+    }
+
+    const mutationObserver = new MutationObserver(scheduleUpdateVisibility);
+    mutationObserver.observe(viewport, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      viewport.removeEventListener("scroll", updateVisibility);
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [viewport]);
+
+  if (!isMeaningfullyAwayFromBottom) return null;
+
   return (
     <ThreadPrimitive.ScrollToBottom asChild>
-      <TooltipIconButton
-        tooltip="Scroll to bottom"
-        variant="outline"
-        className="aui-thread-scroll-to-bottom dark:border-border dark:bg-background dark:hover:bg-accent absolute -top-12 z-10 self-center rounded-full p-4 disabled:invisible">
-        <ArrowDownIcon />
-      </TooltipIconButton>
+      <button
+        type="button"
+        className="aui-thread-scroll-to-bottom absolute -top-12 z-10 flex h-10 w-10 min-w-10 items-center justify-center self-center rounded-full border border-white/70 bg-white/75 p-0 text-[#0d0d0d] shadow-lg backdrop-blur-md transition-colors hover:bg-white/90 disabled:invisible"
+        style={{ borderRadius: 9999 }}
+        aria-label="Scroll to bottom"
+        title="Scroll to bottom">
+        <ArrowDownIcon className="size-5" />
+      </button>
     </ThreadPrimitive.ScrollToBottom>
   );
 };
@@ -217,28 +261,22 @@ const ComposerAction = () => {
       <div className="flex items-center gap-1.5">
         <AuiIf condition={(s) => !s.thread.isRunning}>
           <ComposerPrimitive.Send asChild>
-            <TooltipIconButton
-              tooltip="Send message"
-              side="bottom"
+            <button
               type="button"
-              variant="default"
-              size="icon"
-              className="aui-composer-send h-8 w-8 min-w-8 rounded-full bg-[#0d0d0d] p-0 text-white hover:bg-[#2f2f2f]"
+              className="aui-composer-send flex h-10 w-10 min-w-10 shrink-0 items-center justify-center rounded-full bg-[#0d0d0d] p-0 text-white transition-colors hover:bg-[#2f2f2f] disabled:cursor-default disabled:bg-[#d7d7d7]"
               aria-label="Send message">
               <ArrowUpIcon className="aui-composer-send-icon size-4.5" />
-            </TooltipIconButton>
+            </button>
           </ComposerPrimitive.Send>
         </AuiIf>
         <AuiIf condition={(s) => s.thread.isRunning}>
           <ComposerPrimitive.Cancel asChild>
-            <Button
+            <button
               type="button"
-              variant="default"
-              size="icon"
-              className="aui-composer-cancel size-8 rounded-full bg-[#0d0d0d] text-white hover:bg-[#2f2f2f]"
+              className="aui-composer-cancel flex h-10 w-10 min-w-10 shrink-0 items-center justify-center rounded-full bg-[#0d0d0d] p-0 text-white transition-colors hover:bg-[#2f2f2f]"
               aria-label="Stop generating">
               <SquareIcon className="aui-composer-cancel-icon size-3.5 fill-current" />
-            </Button>
+            </button>
           </ComposerPrimitive.Cancel>
         </AuiIf>
       </div>
@@ -360,24 +398,6 @@ const AssistantActionBar = () => {
           </AuiIf>
         </TooltipIconButton>
       </ActionBarPrimitive.Copy>
-      <ActionBarPrimitive.FeedbackPositive asChild>
-        <TooltipIconButton tooltip="Good response" className="hover:bg-[#f4f4f4]">
-          <ThumbsUpIcon />
-        </TooltipIconButton>
-      </ActionBarPrimitive.FeedbackPositive>
-      <ActionBarPrimitive.FeedbackNegative asChild>
-        <TooltipIconButton tooltip="Bad response" className="hover:bg-[#f4f4f4]">
-          <ThumbsDownIcon />
-        </TooltipIconButton>
-      </ActionBarPrimitive.FeedbackNegative>
-      <ActionBarPrimitive.Speak asChild>
-        <TooltipIconButton tooltip="Read aloud" className="hover:bg-[#f4f4f4]">
-          <Volume2Icon />
-        </TooltipIconButton>
-      </ActionBarPrimitive.Speak>
-      <TooltipIconButton tooltip="Share" className="hover:bg-[#f4f4f4]">
-        <ShareIcon />
-      </TooltipIconButton>
       <ActionBarPrimitive.Reload asChild>
         <TooltipIconButton tooltip="Regenerate" className="hover:bg-[#f4f4f4]">
           <RefreshCwIcon />
