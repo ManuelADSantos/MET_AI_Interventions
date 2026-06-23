@@ -53,12 +53,12 @@ const DonePage = () => {
         <p className='italic'>Saving your responses...</p>
       </div>}
       {/* Show error message & retry button if save failed */}
-      {(saveSuccess !== undefined && saveSuccess === false) && <div>
+      {saveSuccess === false && <div>
         <p className='text-red-500 my-4'>{errorMessage}</p>
         <Button color='danger' onClick={() => tryToSave()}>Try again</Button>
       </div>}
       {/* Show thank-you message and Prolific redirect if save was successful */}
-      {(saveSuccess !== undefined && saveSuccess === true) && <div>
+      {saveSuccess === true && <div>
         <p>Thank you for taking part in the study!</p> 
         <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
         <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>

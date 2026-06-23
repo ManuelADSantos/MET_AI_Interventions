@@ -30,9 +30,6 @@ const loadTasks = (tasks) => {
         // Parse page title
         const pageTitle = rs.split(/(?<!#)#{2,}(?!#)|>/)[0].trim()
 
-        // Then, begin parsing page contents
-        let pageContent = ''
-
         // First, separate the subheadings (start with #) and paragraphs & questions (>)
         const rawQuestions = rs.split(/(?<!#)#{1}|>/).slice(1)
 
@@ -103,12 +100,10 @@ const loadTasks = (tasks) => {
           return { question: questionText, type: questionType, required: isRequired }
         })
 
-        pageContent = questions
-
         return {
           sourceIndex: pageIndex,
           title: pageTitle,
-          content: pageContent
+          content: questions
         }
       })
 
@@ -128,10 +123,7 @@ const loadTasks = (tasks) => {
       }
     }
 
-    // Convert to JSON and back as a final "validation" step
-    // sections is an array of arrays of objects so we'll use flat() to reduce the hierarchy into an array of objects
-    const pagesAsJSON = JSON.stringify(sections.flat())
-    return JSON.parse(pagesAsJSON)
+    return sections.flat()
 
   } catch (e) {
     console.log(e)

@@ -64,12 +64,6 @@ const ChatView = ({ sourceIndex }) => {
   const handleRenderChatMessage = (fullRes, messageHistory, newMessage) => {
     setIsGenerating(false)
 
-    /* If there's a processing error, show an error message and return */
-    if (fullRes.error) {
-      showErrorMessageInChat(fullRes.error, messageHistory, newMessage)
-      return
-    }
-
     /* Nice character-by-character reply rendering */
     const replyContent = fullRes.choices[0].message.content
     const pauseMs = 5 // 5ms pause between rendering characters

@@ -6,13 +6,10 @@ from flask_cors import CORS
 from chat_helpers import get_completion
 from correct_answers import right_choices
 from config_loader import load_config
-import logging
-from logging.config import dictConfig
 
 DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'study_data.json')
 
 config = load_config()
-front_url = config.get('frontend_url', 'http://localhost:5173')
 prolific_code = config.get('completion_code', 'COMPLETE')
 prolific_url = config.get('completion_url', '')
 

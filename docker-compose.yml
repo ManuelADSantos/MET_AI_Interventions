@@ -8,6 +8,8 @@ services:
     ports:
       - "5001:5001"
     volumes:
+      # Mount entire repo root for devcontainer workspace
+      - .:/workspace
       # Mount config file (read-only)
       - ./study.config.yml:/study.config.yml:ro
       # Mount customizations for hot-reload
