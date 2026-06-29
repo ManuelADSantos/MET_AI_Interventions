@@ -12,7 +12,7 @@
 
     $option; The best choice; The longest choice; All of the choices that are correct
 
-# Exercise 1 on "Future Days"
+# Exercise 1/5 - "Future Days"
 
 :::tab Exercise
 
@@ -62,7 +62,7 @@
 
 :::
 
-# Exercise 2 on "Future Days"
+# Exercise 2/5 - "Future Days"
 
 :::tab Exercise
 
@@ -108,7 +108,7 @@
 
 :::
 
-# Exercise 3 on "Future Days"
+# Exercise 3/5 - "Future Days"
 
 :::tab Exercise
 
@@ -157,7 +157,7 @@
 
 :::
 
-# Exercise 4 on "Future Days"
+# Exercise 4/5 - "Future Days"
 
 :::tab Exercise
 
@@ -206,7 +206,7 @@
 
 :::
 
-# Exercise 5 on "Future Days"
+# Exercise 5/5 - "Future Days"
 
 :::tab Exercise
 
