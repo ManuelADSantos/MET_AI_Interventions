@@ -35,7 +35,7 @@ const OptionQuestion = ({ id, question, field }) => {
               value={o} 
               onClick={(e) => handleSelectOption(e.target.value, false)}
             />
-            <label htmlFor={`${id}_${i}`}><RichText>{o}</RichText></label>
+            <label htmlFor={`${id}_${i}`}><RichText inline>{o}</RichText></label>
           </div>
         )}
         {/* If applicable, render "other" option */}

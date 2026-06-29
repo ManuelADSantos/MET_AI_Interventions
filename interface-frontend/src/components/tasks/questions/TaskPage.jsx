@@ -115,7 +115,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
     <form onSubmit={handleSubmit(onSubmit, showSubmitError)} className='flex flex-1 flex-col justify-between items-start w-full h-full' autoComplete='off'>
       {/* Display page contents */}
       <div className='flex flex-1 flex-col justify-start items-start w-full overflow-auto'>
-        <h1 className='text-4xl font-bold mb-4'><RichText>{title}</RichText></h1>
+        <h1 className='text-4xl font-bold mb-4'><RichText inline>{title}</RichText></h1>
         <ScrollShadow className='pb-4 w-full'>
         {hasMultipleTabs ? (
           <Tabs aria-label="Task tabs" variant="underlined">

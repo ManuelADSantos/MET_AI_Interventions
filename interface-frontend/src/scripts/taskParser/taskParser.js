@@ -1,5 +1,5 @@
 const parseContentItems = (rawContent) => {
-  const rawQuestions = rawContent.split(/(?<!#)#{1}|>/).slice(1)
+  const rawQuestions = splitQuestionDirectivesFromListChunks(rawContent.split(/(?<!#)#{1}|>/).slice(1))
 
   const parsedItems = rawQuestions.map((rq) => {
     if (rq.startsWith('#')) {
@@ -82,7 +82,29 @@ const parseContentItems = (rawContent) => {
     }
   })
 
-  return mergeConsecutiveLists(parsedItems)
+  return mergeConsecutiveMarkdownTables(mergeConsecutiveLists(parsedItems))
+}
+
+const splitQuestionDirectivesFromListChunks = (chunks) => {
+  return chunks.flatMap((chunk) => {
+    const lines = String(chunk).split('\n')
+    const firstContentLine = lines.find((line) => line.trim().length > 0)
+
+    if (!firstContentLine || !/^(\s*[-*]\s+|\s*\d+[.)]\s+)/.test(firstContentLine)) {
+      return [chunk]
+    }
+
+    const directiveIndex = lines.findIndex((line, index) => index > 0 && /^\s*\$/.test(line))
+
+    if (directiveIndex === -1) {
+      return [chunk]
+    }
+
+    return [
+      lines.slice(0, directiveIndex).join('\n'),
+      lines.slice(directiveIndex).join('\n')
+    ]
+  })
 }
 
 const parseList = (rawContent) => {
@@ -138,6 +160,61 @@ const mergeConsecutiveLists = (items) => {
 
     if (previous && ['ul', 'ol'].includes(previous.type) && previous.type === item.type) {
       previous.items = [...previous.items, ...item.items]
+      return merged
+    }
+
+    return [...merged, item]
+  }, [])
+}
+
+const getMarkdownTableLines = (item) => {
+  if (item?.type !== 'paragraph') {
+    return []
+  }
+
+  return String(item.text || '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+}
+
+const isMarkdownTableRow = (line) => /^\|.*\|$/.test(line)
+
+const isMarkdownTableDivider = (line) => {
+  const cells = line
+    .trim()
+    .replace(/^\|/, '')
+    .replace(/\|$/, '')
+    .split('|')
+    .map((cell) => cell.trim())
+
+  return cells.length > 0 && cells.every((cell) => /^:?-{3,}:?$/.test(cell))
+}
+
+const isMarkdownTableBlock = (item) => {
+  const lines = getMarkdownTableLines(item)
+  return lines.length > 0 && lines.every(isMarkdownTableRow)
+}
+
+const hasMarkdownTableDivider = (item) => {
+  return getMarkdownTableLines(item).some(isMarkdownTableDivider)
+}
+
+const startsWithMarkdownTableDivider = (item) => {
+  return isMarkdownTableDivider(getMarkdownTableLines(item)[0] || '')
+}
+
+const mergeConsecutiveMarkdownTables = (items) => {
+  return items.reduce((merged, item) => {
+    const previous = merged[merged.length - 1]
+
+    if (isMarkdownTableBlock(previous) && !hasMarkdownTableDivider(previous) && startsWithMarkdownTableDivider(item)) {
+      previous.text = `${previous.text}\n${item.text}`
+      return merged
+    }
+
+    if (isMarkdownTableBlock(previous) && hasMarkdownTableDivider(previous) && isMarkdownTableBlock(item)) {
+      previous.text = `${previous.text}\n${item.text}`
       return merged
     }
 

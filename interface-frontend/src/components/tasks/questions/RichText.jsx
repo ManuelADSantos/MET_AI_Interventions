@@ -1,33 +1,66 @@
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
-const renderFormattedText = (text) => {
-  const lines = String(text).split('\n')
-
-  return lines.flatMap((line, lineIndex) => {
-    const parts = line.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g)
-    const formattedParts = parts.map((part, i) => {
-      const key = `${lineIndex}.${i}`
-
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={key}>{part.slice(2, -2)}</strong>
-      }
-
-      if (part.startsWith('*') && part.endsWith('*')) {
-        return <em key={key}>{part.slice(1, -1)}</em>
-      }
-
-      return part
-    })
-
-    return lineIndex === lines.length - 1
-      ? formattedParts
-      : [...formattedParts, <br key={`${lineIndex}.br`} />]
-  })
+const inlineComponents = {
+  p: ({ children }) => <>{children}</>,
+  a: ({ children, ...props }) => (
+    <a className='text-blue-600 underline underline-offset-2' {...props}>
+      {children}
+    </a>
+  )
 }
 
-const RichText = ({ children }) => {
-  return <>{renderFormattedText(children)}</>
+const blockComponents = {
+  p: ({ children }) => <p className='mb-4 leading-relaxed'>{children}</p>,
+  a: ({ children, ...props }) => (
+    <a className='text-blue-600 underline underline-offset-2' {...props}>
+      {children}
+    </a>
+  ),
+  table: ({ children }) => (
+    <div className='my-4 w-full overflow-x-auto rounded-lg border border-[#d4d4d4]'>
+      <table className='w-max min-w-full border-separate border-spacing-0'>
+        {children}
+      </table>
+    </div>
+  ),
+  th: ({ children, align }) => (
+    <th
+      align={align}
+      className='border-b border-[#c7c7c7] bg-[#f3f4f6] px-3 py-2 text-start text-sm font-semibold text-[#111827] first:rounded-ss-lg last:rounded-se-lg'>
+      {children}
+    </th>
+  ),
+  td: ({ children, align }) => (
+    <td
+      align={align}
+      className='border-b border-l border-[#e5e7eb] px-3 py-2 text-start text-sm first:border-l-0 last:border-r'>
+      {children}
+    </td>
+  ),
+  ul: ({ children }) => <ul className='mb-4 ml-8 list-disc'>{children}</ul>,
+  ol: ({ children }) => <ol className='mb-4 ml-8 list-decimal'>{children}</ol>,
+  li: ({ children }) => <li className='mb-1 leading-relaxed'>{children}</li>,
+  code: ({ children }) => (
+    <code className='rounded bg-stone-200 px-1 py-0.5 font-mono text-sm'>
+      {children}
+    </code>
+  )
 }
+
+const RichText = ({ children, inline = false }) => {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={inline ? inlineComponents : blockComponents}
+    >
+      {String(children || '')}
+    </ReactMarkdown>
+  )
+}
+
+const renderFormattedText = (text) => <RichText inline>{text}</RichText>
 
 export { renderFormattedText }
 export default RichText
