@@ -36,22 +36,32 @@ def slugify(value):
     return text.strip("-") or "default"
 
 
-def run_label(models):
+def run_label(models, response_mode="json", extractor_config=None):
+    extractor_label = ""
+    if response_mode == "natural" and extractor_config:
+        extractor_label = f"_extractor-{slugify(extractor_config['name'])}"
+
     if len(models) == 1:
         model = models[0]
         reasoning_effort = model.get("reasoning_effort") or "default"
-        return f"{run_id()}_model-{slugify(model['name'])}_reasoning-{slugify(reasoning_effort)}"
+        return (
+            f"{run_id()}_model-{slugify(model['name'])}_reasoning-{slugify(reasoning_effort)}"
+            f"_mode-{slugify(response_mode)}{extractor_label}"
+        )
 
     model_label = "__".join(slugify(model["name"]) for model in models)
     reasoning_values = sorted({str(model.get("reasoning_effort") or "default") for model in models})
     reasoning_label = slugify(reasoning_values[0]) if len(reasoning_values) == 1 else "mixed"
-    return f"{run_id()}_models-{model_label}_reasoning-{reasoning_label}"
+    return (
+        f"{run_id()}_models-{model_label}_reasoning-{reasoning_label}"
+        f"_mode-{slugify(response_mode)}{extractor_label}"
+    )
 
 
-def build_prompt(task):
+def build_prompt(task, response_mode="json"):
     option_lines = "\n".join(f"{key}. {value}" for key, value in task.get("options", {}).items())
 
-    return f"""Evaluate this multiple-choice task.
+    prompt = f"""Evaluate this multiple-choice task.
 
 Context / information:
 {task.get("context", "").strip()}
@@ -61,10 +71,36 @@ Question:
 
 Answer choices:
 {option_lines}
+"""
 
+    if response_mode == "natural":
+        return prompt
+
+    return prompt + """
 Return only JSON in this shape:
 {{
   "reasoning": "Briefly solve the task before choosing the answer.",
+  "answer": "A"
+}}
+"""
+
+
+def build_extraction_prompt(task, response_text):
+    option_lines = "\n".join(f"{key}. {value}" for key, value in task.get("options", {}).items())
+
+    return f"""Extract the final multiple-choice answer from the model response.
+
+Question:
+{task.get("question", "").strip()}
+
+Answer choices:
+{option_lines}
+
+Model response:
+{response_text.strip()}
+
+Return only JSON in this shape:
+{{
   "answer": "A"
 }}
 """
@@ -171,12 +207,12 @@ def get_usage(raw_response):
     }
 
 
-def evaluate_once(client, model_config, task, defaults, iteration, max_retries):
+def evaluate_once(client, model_config, task, defaults, iteration, max_retries, extractor_client=None, extractor_config=None):
     options = task.get("options") or {}
     correct = normalize_answer(task.get("correct"), options)
     messages = [
         {"role": "system", "content": defaults["system_prompt"]},
-        {"role": "user", "content": build_prompt(task)},
+        {"role": "user", "content": build_prompt(task, defaults["response_mode"])},
     ]
     last_error = None
 
@@ -193,7 +229,36 @@ def evaluate_once(client, model_config, task, defaults, iteration, max_retries):
                 reasoning_effort=model_config.get("reasoning_effort"),
             )
             parsed = parse_json_object(content)
-            predicted = normalize_answer(parsed.get("answer") if parsed else content, options)
+            extraction_content = ""
+            extraction_raw_response = None
+            extraction_error = None
+
+            if defaults["response_mode"] == "natural" and extractor_client and extractor_config:
+                try:
+                    extraction_content, extraction_raw_response, _ = call_model(
+                        client=extractor_client,
+                        model_name=extractor_config["name"],
+                        messages=[
+                            {
+                                "role": "system",
+                                "content": "You extract multiple-choice answers. Return only the requested JSON.",
+                            },
+                            {"role": "user", "content": build_extraction_prompt(task, content)},
+                        ],
+                        max_completion_tokens=extractor_config.get("max_completion_tokens", 200),
+                        reasoning_effort=extractor_config.get("reasoning_effort"),
+                    )
+                    extraction_parsed = parse_json_object(extraction_content)
+                    predicted = normalize_answer(
+                        extraction_parsed.get("answer") if extraction_parsed else extraction_content,
+                        options,
+                    )
+                except Exception as exc:
+                    extraction_error = str(exc)
+                    predicted = normalize_answer(content, options)
+            else:
+                predicted = normalize_answer(parsed.get("answer") if parsed else content, options)
+
             usage = get_usage(raw_response)
 
             return {
@@ -201,6 +266,8 @@ def evaluate_once(client, model_config, task, defaults, iteration, max_retries):
                 "model": model_config["name"],
                 "provider": model_config.get("provider", "default"),
                 "reasoning_effort": model_config.get("reasoning_effort") or "default",
+                "response_mode": defaults["response_mode"],
+                "extractor_model": extractor_config.get("name") if extractor_config else "none",
                 "task_id": task["id"],
                 "iteration": iteration,
                 "correct_answer": correct,
@@ -211,7 +278,10 @@ def evaluate_once(client, model_config, task, defaults, iteration, max_retries):
                 "parsed": parsed,
                 "response_text": content,
                 "raw_response": raw_response,
-                "error": None,
+                "extraction_response_text": extraction_content,
+                "extraction_raw_response": extraction_raw_response,
+                "extraction_error": extraction_error,
+                "error": extraction_error,
             }
         except Exception as exc:
             last_error = str(exc)
@@ -223,6 +293,8 @@ def evaluate_once(client, model_config, task, defaults, iteration, max_retries):
         "model": model_config["name"],
         "provider": model_config.get("provider", "default"),
         "reasoning_effort": model_config.get("reasoning_effort") or "default",
+        "response_mode": defaults["response_mode"],
+        "extractor_model": extractor_config.get("name") if extractor_config else "none",
         "task_id": task["id"],
         "iteration": iteration,
         "correct_answer": correct,
@@ -237,6 +309,9 @@ def evaluate_once(client, model_config, task, defaults, iteration, max_retries):
         "parsed": None,
         "response_text": "",
         "raw_response": None,
+        "extraction_response_text": "",
+        "extraction_raw_response": None,
+        "extraction_error": None,
         "error": last_error,
     }
 
@@ -303,6 +378,7 @@ def main():
     config = load_yaml(args.config)
     providers = {provider["name"]: provider for provider in config.get("providers", [])}
     models = config.get("models", [])
+    extractor_config = config.get("answer_extractor")
     tasks = config.get("tasks", [])
 
     if not models:
@@ -316,17 +392,36 @@ def main():
             "You are a careful evaluator. Solve the task and return the requested JSON only.",
         ),
         "max_completion_tokens": config.get("max_completion_tokens", config.get("max_tokens", 800)),
+        "response_mode": config.get("response_mode", "json"),
     }
+    if defaults["response_mode"] not in {"json", "natural"}:
+        raise RuntimeError("response_mode must be either 'json' or 'natural'.")
+
+    if defaults["response_mode"] == "natural" and not extractor_config:
+        raise RuntimeError("response_mode: natural requires an answer_extractor model in the config.")
 
     repetitions = args.n if args.n is not None else int(config.get("n", 10))
     workers = args.workers if args.workers is not None else int(config.get("workers", 1))
     workers = max(1, workers)
-    output_dir = Path(args.out or Path("evaluation") / "runs" / run_label(models))
+    output_dir = Path(
+        args.out or Path("evaluation") / "runs" / run_label(models, defaults["response_mode"], extractor_config)
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     clients = {}
+    extractor_client = None
     results = []
     jobs = []
+
+    if extractor_config:
+        extractor_provider_name = extractor_config.get("provider", "default")
+        extractor_provider = providers.get(extractor_provider_name)
+        if not extractor_provider:
+            raise RuntimeError(
+                f"Answer extractor '{extractor_config['name']}' references missing provider "
+                f"'{extractor_provider_name}'."
+            )
+        extractor_client = get_client(extractor_provider)
 
     for model in models:
         provider_name = model.get("provider", "default")
@@ -339,11 +434,11 @@ def main():
 
         for task in tasks:
             for iteration in range(1, repetitions + 1):
-                jobs.append((clients[provider_name], model, task, iteration))
+                jobs.append((clients[provider_name], model, task, iteration, extractor_client, extractor_config))
 
     with tqdm(total=len(jobs), desc="Evaluating") as progress:
         if workers == 1:
-            for client, model, task, iteration in jobs:
+            for client, model, task, iteration, job_extractor_client, job_extractor_config in jobs:
                 results.append(
                     evaluate_once(
                         client=client,
@@ -352,6 +447,8 @@ def main():
                         defaults=defaults,
                         iteration=iteration,
                         max_retries=args.max_retries,
+                        extractor_client=job_extractor_client,
+                        extractor_config=job_extractor_config,
                     )
                 )
                 progress.update(1)
@@ -369,8 +466,10 @@ def main():
                         defaults,
                         iteration,
                         args.max_retries,
+                        extractor_client,
+                        extractor_config,
                     )
-                    for client, model, task, iteration in jobs
+                    for client, model, task, iteration, extractor_client, extractor_config in jobs
                 ]
 
                 for future in as_completed(futures):
@@ -380,16 +479,26 @@ def main():
                     if args.sleep_seconds > 0:
                         time.sleep(args.sleep_seconds)
 
-    results.sort(key=lambda row: (row["model"], row["reasoning_effort"], row["task_id"], row["iteration"]))
+    results.sort(
+        key=lambda row: (
+            row["model"],
+            row["reasoning_effort"],
+            row["response_mode"],
+            row["task_id"],
+            row["iteration"],
+        )
+    )
 
     write_jsonl(output_dir / "raw_results.jsonl", results)
 
     write_csv(
         output_dir / "summary_by_model_task.csv",
-        summarize(results, ["model", "reasoning_effort", "task_id"]),
+        summarize(results, ["model", "reasoning_effort", "response_mode", "extractor_model", "task_id"]),
         [
             "model",
             "reasoning_effort",
+            "response_mode",
+            "extractor_model",
             "task_id",
             "n",
             "answered",
@@ -407,10 +516,12 @@ def main():
     )
     write_csv(
         output_dir / "summary_by_model.csv",
-        summarize(results, ["model", "reasoning_effort"]),
+        summarize(results, ["model", "reasoning_effort", "response_mode", "extractor_model"]),
         [
             "model",
             "reasoning_effort",
+            "response_mode",
+            "extractor_model",
             "n",
             "answered",
             "correct",
@@ -427,10 +538,12 @@ def main():
     )
     write_csv(
         output_dir / "summary_by_task.csv",
-        summarize(results, ["task_id", "reasoning_effort"]),
+        summarize(results, ["task_id", "reasoning_effort", "response_mode", "extractor_model"]),
         [
             "task_id",
             "reasoning_effort",
+            "response_mode",
+            "extractor_model",
             "n",
             "answered",
             "correct",
@@ -452,6 +565,8 @@ def main():
             "config": str(Path(args.config).resolve()),
             "n": repetitions,
             "models": models,
+            "response_mode": defaults["response_mode"],
+            "answer_extractor": extractor_config,
             "task_count": len(tasks),
             "output_dir": str(output_dir.resolve()),
         }, handle, indent=2, ensure_ascii=False)

@@ -3,10 +3,11 @@
 
 n: 10
 workers: 4
-max_completion_tokens: 40000
+max_completion_tokens: 32000
+response_mode: natural
 system_prompt: >
   You are a careful logical reasoning assistant. Solve the task independently.
-  Return only the requested JSON.
+  Answer naturally.
 
 providers:
   - name: openai
@@ -18,8 +19,8 @@ providers:
 
 models:
   - provider: openai
-    name: gpt-5.4-mini
-    reasoning_effort: low
+    name: gpt-5.4
+    reasoning_effort: none
   #- provider: google
   #  name: gemini-3-flash-preview
   #  reasoning_effort: minimal
@@ -27,6 +28,11 @@ models:
   # - provider: openai
   #   name: gpt-5.2-2025-12-11
   #   reasoning_effort: low
+
+answer_extractor:
+  provider: openai
+  name: gpt-5.4-nano
+  max_completion_tokens: 300
 
 contexts:
   ypc: &ypc_context |
