@@ -111,7 +111,7 @@ const ThreadRoot = ({ isEmpty }) => {
             <ThreadScrollToBottom />
             <Composer />
             <p className="text-center text-xs text-[#5d5d5d]">
-              ChatGPT can make mistakes. Check important info.
+              AI can make mistakes. Check important info.
             </p>
             <AuiIf condition={(s) => isNewChatView(s) && s.composer.isEmpty}>
               <ThreadSuggestions />
