@@ -29,9 +29,9 @@ const StateProvider = ({ children }) => {
         return {...state, chatUsedOnPage: action.payload.value}
       case 'NEXT_TASK':
         if (state.condition === 'ai' && state.taskIndex + 1 >= chatEnabledIndex && state.taskIndex + 1 <= chatDisabledIndex) {
-          return {...state, taskIndex: state.taskIndex + 1, chatEnabled: true}
+          return {...state, taskIndex: state.taskIndex + 1, chatEnabled: true, chatUsedOnPage: false}
         } 
-        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false}
+        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false, chatUsedOnPage: false}
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {ts: resToUpdate['ts'], displayIndex: state.taskIndex, responses: action.payload.responses}

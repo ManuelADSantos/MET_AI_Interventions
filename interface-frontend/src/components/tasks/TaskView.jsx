@@ -15,7 +15,6 @@ const TaskView = ({ tasks }) => {
 
     dispatch({ type: 'UPDATE_TASK_TIMESTAMP', payload: {index: nextTaskSourceIndex, ts: Date.now()}})
     dispatch({ type: 'NEXT_TASK' })
-    dispatch({ type: 'TOGGLE_CHAT_USED', payload: {value: import.meta.env.VITE_DEV_MODE === 'true'} })
   }
 
   return (

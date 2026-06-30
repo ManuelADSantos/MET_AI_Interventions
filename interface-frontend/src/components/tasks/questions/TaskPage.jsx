@@ -142,7 +142,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
         {/* Display instruction to use chat if not used on this page yet */}
         <p className={`text-emerald-500 font-bold -mr-16 ${(ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
           <i className='bi bi-info-circle text-xl mr-2'></i>
-          Prompt ChatGPT on the right to solve the problem.
+          Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
         <Button 
