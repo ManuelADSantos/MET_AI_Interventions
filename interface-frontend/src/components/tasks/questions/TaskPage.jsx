@@ -137,6 +137,8 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
   ]
 
   const hasMultipleTabs = pageTabs.length > 1
+  const [selectedTabKey, setSelectedTabKey] = useState(pageTabs[0].title)
+  const selectedTab = pageTabs.find((tab) => tab.title === selectedTabKey) || pageTabs[0]
 
   const exerciseItems = pageTabs.find(
     (tab) => tab.title.toLowerCase() === 'exercise'
@@ -235,49 +237,38 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
       {/* Display page contents */}
       <div className='flex flex-1 flex-col justify-start items-start w-full overflow-auto'>
         <h1 className='text-4xl font-bold mb-4'><RichText inline>{title}</RichText></h1>
-        <ScrollShadow className='pb-4 w-full'>
-        {hasMultipleTabs ? (
-          <Tabs aria-label="Task tabs" variant="underlined">
+        {hasMultipleTabs && (
+          <Tabs
+            aria-label="Task tabs"
+            selectedKey={selectedTabKey}
+            onSelectionChange={(key) => setSelectedTabKey(String(key))}
+            variant="underlined"
+            className='mb-4'
+            classNames={{
+              panel: 'hidden'
+            }}
+          >
             {pageTabs.map((tab) => (
-              <Tab key={tab.title} title={tab.title}>
-                <div className="pt-6">
-                  {shouldShowCopyButton && (
-                    <div className='flex w-full justify-end'>
-                      <TabCopyButton
-                        text={buildCopyText({
-                          template: copyTemplate,
-                          pageTitle: title,
-                          tab,
-                          pageTabs,
-                          exerciseItems
-                        })}
-                      />
-                    </div>
-                  )}
-                  {tab.content.map(renderContentItem)}
-                </div>
-              </Tab>
+              <Tab key={tab.title} title={tab.title} />
             ))}
           </Tabs>
-        ) : (
-          <>
-            {shouldShowCopyButton && (
-              <div className='flex w-full justify-end'>
-                <TabCopyButton
-                  text={buildCopyText({
-                    template: copyTemplate,
-                    pageTitle: title,
-                    tab: pageTabs[0],
-                    pageTabs,
-                    exerciseItems
-                  })}
-                />
-              </div>
-            )}
-            {pageTabs[0].content.map(renderContentItem)}
-          </>
-  )}
-</ScrollShadow>
+        )}
+        <ScrollShadow className='pb-4 w-full'>
+          {shouldShowCopyButton && (
+            <div className='flex w-full justify-end'>
+              <TabCopyButton
+                text={buildCopyText({
+                  template: copyTemplate,
+                  pageTitle: title,
+                  tab: selectedTab,
+                  pageTabs,
+                  exerciseItems
+                })}
+              />
+            </div>
+          )}
+          {selectedTab.content.map(renderContentItem)}
+        </ScrollShadow>
       </div>
       {/* Display contextual info + submit button */}
       <div className='w-full flex flex-row justify-between items-center mt-4'>
