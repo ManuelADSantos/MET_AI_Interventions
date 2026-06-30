@@ -19,8 +19,8 @@ const blockComponents = {
     </a>
   ),
   table: ({ children }) => (
-    <div className='my-4 w-full overflow-x-auto rounded-lg border border-[#d4d4d4]'>
-      <table className='w-max min-w-full border-separate border-spacing-0'>
+    <div className='my-4 w-full overflow-hidden rounded-lg border border-[#d4d4d4]'>
+      <table className='w-full table-auto border-separate border-spacing-0'>
         {children}
       </table>
     </div>
@@ -28,14 +28,14 @@ const blockComponents = {
   th: ({ children, align }) => (
     <th
       align={align}
-      className='border-b border-[#c7c7c7] bg-[#f3f4f6] px-3 py-2 text-start text-sm font-semibold text-[#111827] first:rounded-ss-lg last:rounded-se-lg'>
+      className='whitespace-normal break-words border-b border-[#c7c7c7] bg-[#f3f4f6] px-3 py-2 text-start align-top text-sm font-semibold text-[#111827] first:rounded-ss-lg last:rounded-se-lg'>
       {children}
     </th>
   ),
   td: ({ children, align }) => (
     <td
       align={align}
-      className='border-b border-l border-[#e5e7eb] px-3 py-2 text-start text-sm first:border-l-0 last:border-r'>
+      className='whitespace-normal break-words border-b border-l border-[#e5e7eb] px-3 py-2 text-start align-top text-sm first:border-l-0 last:border-r'>
       {children}
     </td>
   ),
