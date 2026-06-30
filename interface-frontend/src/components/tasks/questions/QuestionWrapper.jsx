@@ -1,16 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import LikertQuestion from './LikertQuestion'
 import OptionQuestion from './OptionQuestion'
 import SliderQuestion from './SliderQuestion'
-import { Input, Textarea, Button, Tooltip } from '@nextui-org/react'
+import { Input, Textarea } from '@nextui-org/react'
 import { useController } from 'react-hook-form'
-import { store } from '../../../scripts/store'
 import RichText from './RichText'
 
 const QuestionWrapper = ({ id, question, formControl }) => {
-  const [copyEnabled, setCopyEnabled] = useState(true)
-  const { state } = useContext(store)
-
   const { field, fieldState } = useController({ 
     control: formControl, 
     name: id, 
@@ -22,35 +18,11 @@ const QuestionWrapper = ({ id, question, formControl }) => {
       ...getValidationRules(question) // All fields are required. Get additional rules based on question type.
     }
   })
-  
-  const handleCopy = () => {
-    navigator.clipboard.writeText(String(question.question + '\n- ' + question.options.join('\n- ')))
-    setCopyEnabled(false)
-    setTimeout(() => {
-      setCopyEnabled(true)
-    }, 1500)
-  }
 
   return (
     <div className='my-16'>
       <div className='flex flex-row justify-between items-center mb-8'>
         <h3 className='text-lg font-bold'>{id} - <RichText inline>{question.question}</RichText><span className='text-red-500'>*</span></h3>
-        {/* Show copy button if AI condition and question type is option (this should probably be moved to the OptionQuestion component) */}
-        {(state.chatEnabled && state.condition === 'ai' && question.type === 'option') && <Tooltip className="p-2" content="Copy question and options to clipboard">
-          <Button
-            className='ml-8'
-            color='default' 
-            variant='faded'
-            disableRipple='true'
-            isDisabled={!copyEnabled}
-            children={
-              <i className={`bi ${copyEnabled ? 'bi-copy text-stone-500' : 'bi-clipboard-check text-emerald-700'} text-xl`}></i>
-            }
-            onClick={handleCopy}
-            isIconOnly
-          >
-          </Button>
-        </Tooltip>}
       </div>
       {/* Display error if validation rules breached */}
       {fieldState.error && <p className='text-red-500 mb-2 ml-2'>{fieldState.error.message}</p>}

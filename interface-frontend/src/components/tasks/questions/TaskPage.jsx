@@ -1,11 +1,126 @@
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { store } from '../../../scripts/store'
-import { Button, ScrollShadow, Tabs, Tab } from '@nextui-org/react'
+import { Button, ScrollShadow, Tabs, Tab, Tooltip } from '@nextui-org/react'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
 import RichText from './RichText'
 
+const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n\nRelevant information:\n{tabText}\n\n{copyText}'
+
+const parsePageList = (value) => {
+  const pages = new Set()
+
+  String(value)
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .forEach((part) => {
+      const rangeMatch = part.match(/^(\d+)\s*-\s*(\d+)$/)
+
+      if (rangeMatch) {
+        const start = parseInt(rangeMatch[1], 10)
+        const end = parseInt(rangeMatch[2], 10)
+        for (let page = Math.min(start, end); page <= Math.max(start, end); page++) {
+          pages.add(page)
+        }
+        return
+      }
+
+      const page = parseInt(part, 10)
+      if (!Number.isNaN(page)) {
+        pages.add(page)
+      }
+    })
+
+  return pages
+}
+
+const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
+
+const copyButtonPages = parsePageList(import.meta.env.VITE_COPY_BUTTON_PAGES || '')
+const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
+
+const contentItemToText = (item) => {
+  if (!item) return ''
+  if (['paragraph', 'h2', 'h3'].includes(item.type)) return item.text || ''
+  if (['ul', 'ol'].includes(item.type)) {
+    return (item.items || []).map((listItem, index) => {
+      const marker = item.type === 'ol' ? `${index + 1}.` : '-'
+      return `${marker} ${listItem}`
+    }).join('\n')
+  }
+  if (['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type)) {
+    const options = item.options?.length ? `\n${item.options.map((option, index) => `${String.fromCharCode(65 + index)}. ${option}`).join('\n')}` : ''
+    return `${item.question || ''}${options}`
+  }
+  return ''
+}
+
+const tabToText = (tab) => (tab?.content || [])
+  .map(contentItemToText)
+  .filter(Boolean)
+  .join('\n\n')
+
+const getQuestionText = (items) => items
+  .filter((item) => ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type))
+  .map((item) => item.question)
+  .filter(Boolean)
+  .join('\n\n')
+
+const getOptionsText = (items) => items
+  .filter((item) => item.type === 'option' && item.options?.length)
+  .map((item) => item.options.map((option, index) => `${String.fromCharCode(65 + index)}. ${option}`).join('\n'))
+  .join('\n\n')
+
+const buildCopyText = ({ template, pageTitle, tab, pageTabs, exerciseItems }) => {
+  const tabText = tabToText(tab)
+  const copyText = tab.copyText || ''
+  const allCopyText = pageTabs
+    .map((pageTab) => pageTab.copyText)
+    .filter(Boolean)
+    .join('\n\n')
+  const exerciseText = exerciseItems.map(contentItemToText).filter(Boolean).join('\n\n')
+  const allTabsText = pageTabs
+    .map((pageTab) => `${pageTab.title}\n${tabToText(pageTab)}`)
+    .join('\n\n')
+
+  return template
+    .replaceAll('{title}', pageTitle)
+    .replaceAll('{tabTitle}', tab.title)
+    .replaceAll('{tabText}', tabText)
+    .replaceAll('{exerciseText}', exerciseText)
+    .replaceAll('{allTabsText}', allTabsText)
+    .replaceAll('{copyText}', copyText)
+    .replaceAll('{allCopyText}', allCopyText)
+    .replaceAll('{questionText}', getQuestionText(exerciseItems))
+    .replaceAll('{optionsText}', getOptionsText(exerciseItems))
+}
+
+const TabCopyButton = ({ text }) => {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  return (
+    <Tooltip className="p-2" content={copied ? 'Copied' : 'Copy to clipboard'}>
+      <Button
+        className='mb-4'
+        color='default'
+        variant='faded'
+        disableRipple='true'
+        onClick={handleCopy}
+        isIconOnly
+      >
+        <i className={`bi ${copied ? 'bi-clipboard-check text-emerald-700' : 'bi-copy text-stone-500'} text-xl`}></i>
+      </Button>
+    </Tooltip>
+  )
+}
 
 const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
   const [submitError, setSubmitError] = useState('')
@@ -26,6 +141,10 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
   const exerciseItems = pageTabs.find(
     (tab) => tab.title.toLowerCase() === 'exercise'
   )?.content || pageTabs[0].content
+
+  const shouldShowCopyButton = ctxStore.state.chatEnabled &&
+    ctxStore.state.condition === 'ai' &&
+    copyButtonPages.has(sourceIndex)
 
   const onSubmit = (pageResponses) => {    
     const mappedResponses = {}
@@ -122,13 +241,41 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
             {pageTabs.map((tab) => (
               <Tab key={tab.title} title={tab.title}>
                 <div className="pt-6">
+                  {shouldShowCopyButton && (
+                    <div className='flex w-full justify-end'>
+                      <TabCopyButton
+                        text={buildCopyText({
+                          template: copyTemplate,
+                          pageTitle: title,
+                          tab,
+                          pageTabs,
+                          exerciseItems
+                        })}
+                      />
+                    </div>
+                  )}
                   {tab.content.map(renderContentItem)}
                 </div>
               </Tab>
             ))}
           </Tabs>
         ) : (
-          pageTabs[0].content.map(renderContentItem)
+          <>
+            {shouldShowCopyButton && (
+              <div className='flex w-full justify-end'>
+                <TabCopyButton
+                  text={buildCopyText({
+                    template: copyTemplate,
+                    pageTitle: title,
+                    tab: pageTabs[0],
+                    pageTabs,
+                    exerciseItems
+                  })}
+                />
+              </div>
+            )}
+            {pageTabs[0].content.map(renderContentItem)}
+          </>
   )}
 </ScrollShadow>
       </div>

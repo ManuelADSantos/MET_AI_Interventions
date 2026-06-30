@@ -222,6 +222,19 @@ const mergeConsecutiveMarkdownTables = (items) => {
   }, [])
 }
 
+const extractCopyBlocks = (rawContent) => {
+  const copyBlocks = []
+  const content = String(rawContent).replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
+    copyBlocks.push(copyText.trim())
+    return ''
+  })
+
+  return {
+    content,
+    copyText: copyBlocks.join('\n\n')
+  }
+}
+
 const parseTabs = (rawPageContent) => {
   if (!rawPageContent.includes(':::tab')) {
     return undefined
@@ -232,14 +245,16 @@ const parseTabs = (rawPageContent) => {
   return tabParts.map((part) => {
     const firstLineBreak = part.indexOf('\n')
     const title = part.slice(0, firstLineBreak).trim()
-    const body = part
-      .slice(firstLineBreak)
+    const body = part.slice(firstLineBreak)
+    const parsedCopyBlocks = extractCopyBlocks(body)
+    const visibleBody = parsedCopyBlocks.content
       .replace(/:::\s*$/, '')
       .trim()
 
     return {
       title,
-      content: parseContentItems(body)
+      content: parseContentItems(visibleBody),
+      copyText: parsedCopyBlocks.copyText
     }
   })
 }
@@ -278,18 +293,21 @@ const loadTasks = (tasks) => {
         const pageTitle = rs.split('\n')[0].trim()
 
         const tabs = parseTabs(rs)
+        const parsedPageCopyBlocks = extractCopyBlocks(rs)
         const pageContent = tabs
           ? tabs.find((tab) => tab.title.toLowerCase() === 'exercise')?.content || tabs[0].content
-          : parseContentItems(rs)
+          : parseContentItems(parsedPageCopyBlocks.content)
 
         return {
           sourceIndex: pageIndex,
           title: pageTitle,
+          copyText: parsedPageCopyBlocks.copyText,
           content: pageContent,
           tabs: tabs || [
             {
               title: 'Exercise',
-              content: pageContent
+              content: pageContent,
+              copyText: parsedPageCopyBlocks.copyText
             }
           ]
         }
