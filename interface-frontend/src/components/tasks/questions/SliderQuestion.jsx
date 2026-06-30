@@ -32,7 +32,7 @@ const SliderQuestion = ({id, question, field}) => {
         value={sliderValue}
         onChange={handleMoveSlider}
         inputRef={field.ref}
-        showTooltip={true}
+        showTooltip={false}
       />
       <span>{question.maxLabel}</span>
     </div>
