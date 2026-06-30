@@ -20,7 +20,7 @@ providers:
 models:
   - provider: openai
     name: gpt-5.4-mini
-    reasoning_effort: low
+    reasoning_effort: none
   #- provider: google
   #  name: gemini-3-flash-preview
   #  reasoning_effort: minimal
