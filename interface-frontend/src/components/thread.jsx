@@ -111,7 +111,7 @@ const ThreadRoot = ({ isEmpty }) => {
             <ThreadScrollToBottom />
             <Composer />
             <p className="text-center text-xs text-[#5d5d5d]">
-              ChatGPT can make mistakes. Check important info.
+              AI can make mistakes. Check important info.
             </p>
             <AuiIf condition={(s) => isNewChatView(s) && s.composer.isEmpty}>
               <ThreadSuggestions />
@@ -200,7 +200,7 @@ const ThreadWelcome = () => {
       className="aui-thread-welcome-root mb-6 flex flex-col items-center px-4 text-center">
       <h1
         className="aui-thread-welcome-message-inner fade-in slide-in-from-bottom-1 animate-in fill-mode-both text-3xl font-semibold duration-200">
-        Where should we begin?
+        Ready when you are.
       </h1>
     </div>
   );

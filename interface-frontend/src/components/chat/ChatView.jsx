@@ -130,7 +130,7 @@ const ChatView = ({ sourceIndex }) => {
     <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       {ctxStore.state.chatEnabled && (
         <div className='flex justify-center items-center w-full bg-[#fafafa] py-3'>
-          <Chip color='success' variant='dot'>ChatGPT</Chip>
+          <Chip color='success' variant='dot'>AI Assistant</Chip>
         </div>
       )}
       <div className='min-h-0 w-full flex-1'>
