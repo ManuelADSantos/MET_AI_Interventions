@@ -279,10 +279,10 @@ const shuffle = (items) => {
  * - a standalone `%% RANDOMIZE_SECTIONS` line shuffles all marked sections
  *   amongst themselves (unmarked content, e.g. an intro, stays in place)
  */
-const loadTasks = (tasks) => {
+const loadTasks = (tasks, { randomize = true } = {}) => {
   try {
     const lines = String(tasks).split('\n')
-    const randomizeSections = lines.some((l) => l.trim() === '%% RANDOMIZE_SECTIONS')
+    const randomizeSections = randomize && lines.some((l) => l.trim() === '%% RANDOMIZE_SECTIONS')
     const source = lines.filter((l) => l.trim() !== '%% RANDOMIZE_SECTIONS').join('\n')
 
     // Identify sections (%%)
@@ -293,7 +293,7 @@ const loadTasks = (tasks) => {
 
     for (const section of rawSections) {
       const header = section.split(/(?<!#)#{1}(?!#)/)[0]
-      const isRandom = header.includes('RANDOMIZE')
+      const isRandom = randomize && header.includes('RANDOMIZE')
       const isSection = isRandom || header.includes('SECTION')
 
       // Identify pages (#)

@@ -5,6 +5,7 @@ base_url: https://api.openai.com/v1    # Optional: Custom API base URL (e.g., fo
 
 # Study Settings
 condition: ai                      # 'ai' or 'no-ai'
+randomize_tasks: true              # Shuffle tasks within sections and sections amongst themselves
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
 

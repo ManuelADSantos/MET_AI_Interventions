@@ -17,10 +17,12 @@ import aiStudyInfoFile from '/public/examples/ai_studyinfo_example.md?raw'
 import noAiTaskFile from '/public/no-ai_tasks.md?raw'
 import noAiStudyInfoFile from '/public/examples/no-ai_studyinfo_example.md?raw'
 
-const aiTasks = loadTasks(aiTaskFile)
-const aiStudyInfo = loadTasks(aiStudyInfoFile)
-const noAiTasks = loadTasks(noAiTaskFile)
-const noAiStudyInfo = loadTasks(noAiStudyInfoFile)
+const randomize = import.meta.env.VITE_RANDOMIZE_TASKS !== 'false'
+const opts = { randomize }
+const aiTasks = loadTasks(aiTaskFile, opts)
+const aiStudyInfo = loadTasks(aiStudyInfoFile, opts)
+const noAiTasks = loadTasks(noAiTaskFile, opts)
+const noAiStudyInfo = loadTasks(noAiStudyInfoFile, opts)
 
 const condition = import.meta.env.VITE_PCTP_CONDITION || 'no-ai'
 

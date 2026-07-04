@@ -77,6 +77,5 @@ Desktop.ini
 customizations/tasks/img/*
 
 # Model evaluation outputs
-evaluation/evaluation/runs/*
-
+evaluation/runs/*
 evaluation/*.txt
