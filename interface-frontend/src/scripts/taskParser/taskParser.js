@@ -349,9 +349,7 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
       markedIndices.forEach((sectionIndex, k) => { sections[sectionIndex] = shuffledMarked[k] })
     }
 
-    // Convert to JSON and back as a final "validation" step
-    const pagesAsJSON = JSON.stringify(sections.flatMap((s) => s.pages))
-    return JSON.parse(pagesAsJSON)
+    return sections.flatMap((s) => s.pages)
 
   } catch (e) {
     console.log(e)

@@ -92,8 +92,7 @@ try:
     sys.path.insert(0, "/app")
     import db
     db._run("DELETE FROM participants WHERE participant_id = %s", (PID,))
-    db._redis.delete(f"participated:{PID}")
-    print("  removed test row from Postgres and Redis")
+    print("  removed test row from Postgres")
 except Exception:
     print(f"  skipped (not inside backend container) - stray row: {PID}")
 

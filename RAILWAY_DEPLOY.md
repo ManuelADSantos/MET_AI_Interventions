@@ -7,7 +7,6 @@ New project on [railway.app](https://railway.app) from your GitHub repo.
 ## 2. Add plugins
 
 - **Postgres** — provides `DATABASE_URL`
-- **Redis** — provides `REDIS_URL`
 
 ## 3. Add two services
 
@@ -26,7 +25,10 @@ Both use root directory `/` (build context is the repo root).
 | `EXPORT_TOKEN` | Secret string for data export |
 | `COMPLETION_CODE` | e.g. `COMPLETE` |
 | `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` |
-| `REDIS_URL` | `${{Redis.REDIS_URL}}` |
+| `DB_POOL_MAX` | `10` |
+| `WEB_CONCURRENCY` | `2` |
+| `WEB_THREADS` | `64` |
+| `WEB_TIMEOUT` | `180` |
 
 `PORT` and `RAILWAY_ENVIRONMENT` are set automatically by Railway.
 

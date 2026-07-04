@@ -1,5 +1,3 @@
-import React from 'react'
-
 const LikertQuestion = ({ id, question, field }) => {
   const options = [...Array(question.max - question.min + 1).keys()].map((k) => k + question.min)
   

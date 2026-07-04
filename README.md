@@ -235,14 +235,13 @@ The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), 
 
 ## Architecture
 
-Four containers, orchestrated by `docker-compose.yml`:
+Three containers, orchestrated by `docker-compose.yml`:
 
 | Container | Role |
 |-----------|------|
 | `frontend` | React + Vite study interface (port 5173) |
 | `backend` | Flask API: chat proxy, scoring, data persistence (port 5001) |
 | `db` | Postgres — all participant data |
-| `redis` | Cache for participation checks |
 
 ## Deploying to Railway
 
@@ -250,7 +249,7 @@ See [RAILWAY_DEPLOY.md](RAILWAY_DEPLOY.md) for full setup instructions.
 
 ## Simulating Runs (Mock Data)
 
-Populate Postgres and Redis with mock participant data for testing:
+Populate Postgres with mock participant data for testing:
 
 ```bash
 docker compose exec backend python /tests/simulate_runs.py              # 10 runs, mixed conditions
@@ -258,14 +257,14 @@ docker compose exec backend python /tests/simulate_runs.py --runs 20    # 20 run
 docker compose exec backend python /tests/simulate_runs.py --condition ai  # ai-only
 ```
 
-View results in DataGrip (`localhost:5432`, user/pass/db: `study`) or RedisInsight (`http://localhost:8001`).
+View results in DataGrip (`localhost:5432`, user/pass/db: `study`).
 
 Clean up: `docker compose exec db psql -U study -c "DELETE FROM participants WHERE participant_id LIKE '__sim_%'"`
 
 ## Tests
 
 See [tests/README.md](tests/README.md) — endpoint tests, task parser tests, and a
-concurrency stress test (`python3 tests/stress_test.py --users 20`, stdlib only).
+concurrency stress test (`python3 tests/stress_test.py --users 100`, stdlib only).
 
 ## Project Structure
 
@@ -273,7 +272,7 @@ concurrency stress test (`python3 tests/stress_test.py --users 20`, stdlib only)
 AI_study/
 ├── study.config.example.yml      # Config template (copy to study.config.yml)
 ├── study.config.yml              # Your configuration (created during setup, gitignored)
-├── docker-compose.yml            # Docker orchestration (frontend, backend, db, redis)
+├── docker-compose.yml            # Docker orchestration (frontend, backend, db)
 ├── customizations/               # Student workspace for editing
 │   ├── tasks/                    # Task + study info markdown files
 │   └── correct_answers.py        # Answer key for scoring
@@ -281,7 +280,7 @@ AI_study/
 ├── interface-backend/            # Flask backend
 │   ├── Dockerfile
 │   ├── app.py
-│   ├── db.py                     # Postgres + Redis persistence
+│   ├── db.py                     # Postgres persistence
 │   ├── chat_helpers.py
 │   ├── config_loader.py
 │   └── requirements.txt

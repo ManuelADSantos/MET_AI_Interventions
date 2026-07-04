@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { store } from '../../scripts/store'
 import TaskPage from './questions/TaskPage'
 import DonePage from './DonePage'

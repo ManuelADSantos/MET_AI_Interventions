@@ -1,4 +1,3 @@
-import React from 'react'
 import LikertQuestion from './LikertQuestion'
 import OptionQuestion from './OptionQuestion'
 import SliderQuestion from './SliderQuestion'
@@ -65,7 +64,7 @@ const getValidationRules = (question) => {
     },
     'option': {
       validate: {
-        isValidOption: (v) => question.options.filter((o) => o.toLowerCase() === 'other').length > 0 ? true : (question.options.includes(v) || 'Please select one')
+        isValidOption: (v) => question.options.some((o) => o.toLowerCase() === 'other') ? true : (question.options.includes(v) || 'Please select one')
       },
       maxLength: {value: 5001, message: 'Maximum 5001 characters.'}
     }

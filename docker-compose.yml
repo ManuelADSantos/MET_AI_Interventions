@@ -19,8 +19,8 @@ services:
     build:
       context: .
       dockerfile: interface-backend/Dockerfile
-    # Dev override with hot-reload; the image default (gunicorn) is what Railway runs
-    command: flask run --host=0.0.0.0 --port=5001 --debug
+    # Dev uses gunicorn too, so local stress tests resemble Railway; --reload keeps hot-reload
+    command: gunicorn --reload --workers 2 --threads 64 --timeout 180 --bind 0.0.0.0:5001 app:app
     ports:
       - "5001:5001"
     volumes:
@@ -31,18 +31,9 @@ services:
     environment:
       - FLASK_APP=app.py
       - DATABASE_URL=postgresql://study:study@db:5432/study
-      - REDIS_URL=redis://redis:6379/0
     depends_on:
       db:
         condition: service_healthy
-      redis:
-        condition: service_started
-
-  redis:
-    # ponytail: redis-stack for local dev (RedisInsight at :8001); Railway uses plain redis:7-alpine
-    image: redis/redis-stack:latest
-    ports:
-      - "8001:8001"
 
   db:
     image: postgres:16-alpine

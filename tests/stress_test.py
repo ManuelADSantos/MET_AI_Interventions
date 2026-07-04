@@ -2,7 +2,7 @@
 Stress test: N concurrent simulated participants hitting the backend.
 Stdlib only - runs from the host or inside the backend container.
 
-    python3 tests/stress_test.py --users 20
+    python3 tests/stress_test.py --users 100
     python3 tests/stress_test.py --users 50 --url https://your-backend.up.railway.app
     python3 tests/stress_test.py --users 5 --chat        # also hits /chat/stream (costs API tokens!)
 
@@ -22,7 +22,7 @@ import uuid
 from concurrent.futures import ThreadPoolExecutor
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--users", type=int, default=20, help="number of concurrent participants")
+parser.add_argument("--users", type=int, default=100, help="number of concurrent participants")
 parser.add_argument("--url", default="http://localhost:5001", help="backend base URL")
 parser.add_argument("--chat", action="store_true", help="also stream one chat completion per user (costs API tokens)")
 args = parser.parse_args()

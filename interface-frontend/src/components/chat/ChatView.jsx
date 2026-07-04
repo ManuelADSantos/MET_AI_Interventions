@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef } from 'react'
+import { useContext, useMemo, useRef } from 'react'
 import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime } from '@assistant-ui/react'
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'

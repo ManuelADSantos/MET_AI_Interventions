@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { store } from '../../../scripts/store'
 import { Button, ScrollShadow, Tabs, Tab, Tooltip } from '@nextui-org/react'

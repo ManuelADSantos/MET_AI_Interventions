@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Slider } from '@nextui-org/react'
 
 const SliderQuestion = ({id, question, field}) => {

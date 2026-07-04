@@ -1,5 +1,5 @@
 """
-Simulate N participant runs, populating Postgres and Redis with mock data.
+Simulate N participant runs, populating Postgres with mock data.
 Stdlib only — runs from host or inside the backend container.
 
     docker compose exec backend python /tests/simulate_runs.py
@@ -133,6 +133,5 @@ for i in range(args.runs):
 print(f"\nDone: {ok} saved, {fail} failed.")
 if ok:
     print("View in Postgres:  docker compose exec db psql -U study -c \"SELECT participant_id, condition, data->'correctAnswers' AS score FROM participants WHERE participant_id LIKE '__sim_%'\"")
-    print("View in Redis:     open http://localhost:8001 (RedisInsight)")
     print("Clean up:          docker compose exec db psql -U study -c \"DELETE FROM participants WHERE participant_id LIKE '__sim_%'\"")
 sys.exit(1 if fail else 0)

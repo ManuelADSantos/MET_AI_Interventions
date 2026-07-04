@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Input } from '@nextui-org/react'
 import RichText from './RichText'
 
@@ -7,6 +7,8 @@ const optionRadioStyle = 'mr-4 appearance-none box-border border-2 border-stone-
 const OptionQuestion = ({ id, question, field }) => {
   const [other, setOther] = useState('')
   const [otherSelected, setOtherSelected] = useState(false)
+  const options = question.options.filter((o) => o.toLowerCase() !== 'other')
+  const hasOther = question.options.some((o) => o.toLowerCase() === 'other')
 
   const handleOtherInput = (e) => {
     setOther(e.target.value)
@@ -25,7 +27,7 @@ const OptionQuestion = ({ id, question, field }) => {
     <div className='my-4'>
       <fieldset style={{border: 'none', }} name={id} {...field}>
         {/* Render all other options first */}
-        {question.options.filter((o) => o.toLowerCase() !== 'other').map((o, i) => 
+        {options.map((o, i) =>
           <div key={i} className='mb-2 flex flex-row justify-start items-center'>
             <input 
               className={optionRadioStyle}
@@ -39,7 +41,7 @@ const OptionQuestion = ({ id, question, field }) => {
           </div>
         )}
         {/* If applicable, render "other" option */}
-        {question.options.filter((o) => o.toLowerCase() === 'other').length > 0
+        {hasOther
           && <div key='other' className='flex flex-row justify-start items-center'>
             <input 
               className={optionRadioStyle} 
@@ -54,7 +56,7 @@ const OptionQuestion = ({ id, question, field }) => {
         }
       </fieldset>
       {/* Render the "other" input field OUTSIDE of the radio fieldset to prevent changing it from impacting the currently selected value (i.e. so that changing the "other" while option B is selected does not affect B being selected) */}
-      {question.options.filter((o) => o.toLowerCase() === 'other').length > 0
+      {hasOther
         && <Input 
             className='w-4/6 ml-12 mt2' 
             variant='bordered' 

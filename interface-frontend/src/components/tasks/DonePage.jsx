@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { store } from '../../scripts/store'
 import { saveToDatabase } from '../../scripts/dbService'
 import { Button, Spinner } from '@nextui-org/react'

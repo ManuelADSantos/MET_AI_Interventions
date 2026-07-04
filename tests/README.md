@@ -9,8 +9,8 @@ docker compose exec backend python /tests/test_endpoints.py
 # Task parser randomization tests
 docker compose exec frontend node /tests/test_taskparser.mjs
 
-# Stress test: 20 concurrent participants (runs from host, stdlib only)
-python3 tests/stress_test.py --users 20
+# Stress test: 100 concurrent participants (runs from host, stdlib only)
+python3 tests/stress_test.py --users 100
 
 # Stress test against Railway
 python3 tests/stress_test.py --users 50 --url https://your-backend.up.railway.app

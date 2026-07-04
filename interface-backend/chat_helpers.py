@@ -21,7 +21,7 @@ def format_messages(messages):
                 { 'type': 'image_url', 'image_url': { 'url': str(m['image']), 'detail': 'low' }}
             ]
         }
-        if 'image' in m.keys() else
+        if 'image' in m else
         {
             'role': str(m['role']),
             'content': str(m['content'])
@@ -36,9 +36,7 @@ def get_completion(messages):
             messages = format_messages(messages)
         )
 
-        full_res = completion.model_dump()
-
-        return full_res
+        return completion.model_dump()
     except Exception as e:
         raise RuntimeError('Error while fulfilling GPT request:', str(e))
 
