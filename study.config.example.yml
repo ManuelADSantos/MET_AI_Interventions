@@ -8,7 +8,6 @@ condition: ai                      # 'ai' or 'no-ai'
 randomize_tasks: true              # Shuffle tasks within sections and sections amongst themselves
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
-
 # Chat Availability
 chat_enabled_from_page: 1          # First page with chat (0-indexed)
 chat_enabled_until_page: 99        # Last page with chat
