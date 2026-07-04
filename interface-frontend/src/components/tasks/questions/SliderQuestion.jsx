@@ -26,7 +26,7 @@ const SliderQuestion = ({id, question, field}) => {
         inputRef={field.ref}
         showTooltip={false}
         classNames={{
-          filler: activated ? '' : '!bg-transparent'
+          filler: 'hidden'
         }}
       />
       <span>{question.maxLabel}</span>
