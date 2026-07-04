@@ -37,7 +37,7 @@
    - Navigate to this project's root in command prompt and run:
      
    ```bash
-   docker-compose up
+   docker-compose up --force-recreate
    ```
 
 5. **Access the study**
@@ -46,7 +46,7 @@
 
 6. **Stop the application**
    - Press `Ctrl+C` in the terminal where docker-compose is running
-   - Or run: `docker-compose down`
+   - Or run: `docker compose down -v --rmi local`
 
 ## Customizing Your Study
 
@@ -246,15 +246,7 @@ Four containers, orchestrated by `docker-compose.yml`:
 
 ## Deploying to Railway
 
-1. Create a Railway project and add the **Postgres** and **Redis** plugins.
-2. Add two services from this repo, each with **root directory `/`**:
-   - Backend: Dockerfile path `interface-backend/Dockerfile`. Set env vars:
-     `OPENAI_API_KEY`, `GPT_MODEL`, `BASE_URL`, `COMPLETION_CODE`, `COMPLETION_URL`,
-     `EXPORT_TOKEN`, plus the `DATABASE_URL` and `REDIS_URL` references from the plugins.
-   - Frontend: Dockerfile path `interface-frontend/Dockerfile`. Set the `VITE_*` env vars
-     (see `entrypoint.sh` for the full list) with `VITE_PROXY_URL` pointing at the backend's public URL.
-3. Railway sets `PORT` and `RAILWAY_ENVIRONMENT` automatically — the frontend serves a
-   production build, the backend runs gunicorn. Health check path for the backend: `/health`.
+See [RAILWAY_DEPLOY.md](RAILWAY_DEPLOY.md) for full setup instructions.
 
 ## Tests
 
