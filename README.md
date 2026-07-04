@@ -205,9 +205,10 @@ The JSON file can be:
 - Make sure you've saved the file after editing
 
 ### Changes not appearing
-- Most changes hot-reload automatically
-- If not, restart with: `docker-compose down` then `docker-compose up`
-- For changes to `study.config.yml`, restart is always required
+- **Frontend source** (`interface-frontend/src/`): Hot-reloads instantly via Vite HMR — no rebuild needed.
+- **Task files** (`customizations/tasks/`): Also hot-reloaded (mounted into the container).
+- **`study.config.yml`**: Requires a restart (`docker-compose down && docker-compose up`).
+- **`package.json` or `Dockerfile` changes**: Require a rebuild (`docker-compose up --build`).
 
 ### "Cannot connect to backend" or "Failed to save data"
 - Check that both containers are running: `docker-compose ps`
