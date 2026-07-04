@@ -42,9 +42,15 @@ Both use root directory `/` (build context is the repo root).
 | `VITE_PCTP_CONDITION` | `ai` or `no-ai` |
 | `VITE_CHAT_ENABLED_BEGIN` | `1` |
 | `VITE_CHAT_ENABLED_END` | `99` |
+| `VITE_ALLOW_IMAGES` | `false` |
 | `VITE_DEV_MODE` | `false` |
+| `VITE_SYSTEM_PROMPT` | Your system prompt |
 | `VITE_ATTN_CHECK_PAGE` | Page number or `-1` to disable |
 | `VITE_ATTN_CHECK_RES` | Comma-separated correct answers |
+| `VITE_COPY_BUTTON_PAGES` | `1-99` |
+| `VITE_COPY_BUTTON_TEMPLATE` | `{copyText}` |
+| `VITE_RANDOMIZE_TASKS` | `true` |
+| `VITE_REQUIRE_AI_PROMPT` | `true` |
 
 The entrypoint detects `$RAILWAY_ENVIRONMENT` and builds a production bundle automatically. No `study.config.yml` needed.
 

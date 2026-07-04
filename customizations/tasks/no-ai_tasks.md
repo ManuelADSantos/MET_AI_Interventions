@@ -59,7 +59,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -74,7 +74,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -89,7 +89,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 # 
 
@@ -105,7 +105,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -120,7 +120,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 # 
 
@@ -135,7 +135,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 # 
 
@@ -150,7 +150,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 # 
 
@@ -165,7 +165,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -180,7 +180,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -195,7 +195,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -210,7 +210,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -225,7 +225,7 @@
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -242,7 +242,7 @@ The author of this argument implies that
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 # 
 
@@ -259,7 +259,7 @@ This argument would be strengthened most by
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -276,7 +276,7 @@ Without contradicting his or her own statements, the author of the above stateme
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -291,7 +291,7 @@ Without contradicting his or her own statements, the author of the above stateme
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -306,7 +306,7 @@ Without contradicting his or her own statements, the author of the above stateme
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -321,7 +321,7 @@ Without contradicting his or her own statements, the author of the above stateme
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 #
 
@@ -336,7 +336,7 @@ Without contradicting his or her own statements, the author of the above stateme
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 # 
 
@@ -351,7 +351,7 @@ Without contradicting his or her own statements, the author of the above stateme
 
 > How confident are you that your response is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 %%
 

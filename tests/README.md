@@ -13,7 +13,7 @@ docker compose exec frontend node /tests/test_taskparser.mjs
 python3 tests/stress_test.py --users 100
 
 # Stress test against Railway
-python3 tests/stress_test.py --users 50 --url https://your-backend.up.railway.app
+python3 tests/stress_test.py --users 100 --url https://your-backend.up.railway.app
 
 # Include LLM streaming in the stress test (costs API tokens)
 python3 tests/stress_test.py --users 5 --chat

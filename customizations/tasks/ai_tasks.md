@@ -34,7 +34,7 @@
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements regarding the student assistants is or are correct?
@@ -118,7 +118,7 @@ The following student assistants are available for the event:
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements for planning when considering all requirements is or are correct?
@@ -175,7 +175,7 @@ Which of the following statements for planning when considering all requirements
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about managing the information points for planning when considering all requirements is or are correct?
@@ -232,7 +232,7 @@ Which of the following statements about managing the information points for plan
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::tab Context — "Future Days"
 
@@ -281,7 +281,7 @@ Which of the following statements about managing the information points for plan
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::tab Context — "Future Days"
 
@@ -330,7 +330,7 @@ Which of the following statements about managing the information points for plan
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::tab Context — "Future Days"
 
@@ -383,7 +383,7 @@ Which of the following statements about managing the information points for plan
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the possible working times is or are correct?
@@ -448,7 +448,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the effects of certain working times is or are correct?
@@ -496,7 +496,7 @@ Which of the following statements about the effects of certain working times is 
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about possible cooperation is or are correct?
@@ -544,7 +544,7 @@ Which of the following statements about possible cooperation is or are correct?
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 It is assumed — only for this exercise — that Jacob is off for a whole week. Which of the following statements is or are correct in this case?
@@ -592,7 +592,7 @@ It is assumed — only for this exercise — that Jacob is off for a whole week.
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?
@@ -640,7 +640,7 @@ Which of the following statements about the consulting in the fields of cost cut
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 It is assumed — only for this exercise — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?
@@ -692,7 +692,7 @@ It is assumed — only for this exercise — that the resource planning has gone
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the sequence of the processes is or are correct?
@@ -763,7 +763,7 @@ In the following exercises it is to be assumed that the renovation must be finis
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the allocation of the individual craftsmen is or are correct?
@@ -814,7 +814,7 @@ Which of the following statements about the allocation of the individual craftsm
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the time needed for the renovation work is or are correct?
@@ -865,7 +865,7 @@ Which of the following statements about the time needed for the renovation work 
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the effects of possible delays is or are correct?
@@ -916,7 +916,7 @@ Which of the following statements about the effects of possible delays is or are
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about possible timings is or are correct?
@@ -967,7 +967,7 @@ Which of the following statements about possible timings is or are correct?
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements about the simultaneous performance of work processes is or are correct?
@@ -1022,7 +1022,7 @@ Which of the following statements about the simultaneous performance of work pro
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements is/are true?
@@ -1097,7 +1097,7 @@ Brackets indicate alternative use.
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements is/are true?
@@ -1145,7 +1145,7 @@ Which of the following statements is/are true?
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements is/are true?
@@ -1193,7 +1193,7 @@ Which of the following statements is/are true?
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements is/are true?
@@ -1241,7 +1241,7 @@ Which of the following statements is/are true?
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Which of the following statements is/are true?
@@ -1289,7 +1289,7 @@ Which of the following statements is/are true?
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Suppose Mr Bello has to go to Paris urgently and is absent for a week. Which of the following statements is or are true for that week?
@@ -1337,7 +1337,7 @@ Suppose Mr Bello has to go to Paris urgently and is absent for a week. Which of 
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain; randomDefault
+    $slider; 0; 100; Unsure; Certain
 
 :::copy
 Let us assume that Mr Wuff, one of the founders of the dog school, would also like to do a stint as a trainer on Sundays. Mr Bello is back from Paris. Which of the following statements is or are true for this week?

@@ -32,19 +32,19 @@
    - Add your OpenAI API key 
    - Customize other settings as needed (see Configuration section below)
 
-4. **Start the application**
+3. **Start the application**
    - Open Docker Desktop app on your computer
    - Navigate to this project's root in command prompt and run:
      
    ```bash
-   docker-compose up --force-recreate
+   docker compose up --force-recreate
    ```
 
-5. **Access the study**
+4. **Access the study**
    - After the app is up and running, open your browser to http://localhost:5173
    - The study interface will load automatically
 
-6. **Stop the application**
+5. **Stop the application**
    - Press `Ctrl+C` in the terminal where docker-compose is running
    - Or run: `docker compose down -v --rmi local`
 
@@ -82,6 +82,22 @@ Task files use a markdown-based format. See `customizations/tasks/ai_tasks.md` f
 > Rate on a scale:
 
     $slider; 0; 100; Low label; High label
+
+> Put visible task content and context in tabs:
+
+:::tab Exercise
+> Exercise text here.
+:::
+
+:::tab Context
+> Context text here.
+:::
+
+> Add text copied by the tab copy button:
+
+:::copy
+Text to copy into the AI chat.
+:::
 
 > How much do you agree?
 
@@ -126,6 +142,8 @@ Task files use a markdown-based format. See `customizations/tasks/ai_tasks.md` f
 - `$number` creates a number input
 - `$text` creates a single-line text input
 - `$textarea` creates a multi-line text area
+- `:::tab Title` ... `:::` creates a tab on the current page
+- `:::copy` ... `:::` adds copy-button text without displaying it as page content
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
 - `%% SECTION` ... `%%` marks a block as a section but keeps its page order
 - A standalone `%% RANDOMIZE_SECTIONS` line anywhere in the file shuffles all marked
@@ -140,20 +158,24 @@ Task files use a markdown-based format. See `customizations/tasks/ai_tasks.md` f
 # API Settings
 openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
 gpt_model: gpt-4-turbo            # Model to use
-gpt_max_tokens: 1000               # Max response length
+base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
 # Study Settings
 condition: ai                      # 'ai' or 'no-ai'
+randomize_tasks: true              # Shuffle tasks within sections
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
 # Chat Availability
 chat_enabled_from_page: 1          # First page with chat (0-indexed)
 chat_enabled_until_page: 99        # Last page with chat
 allow_image_attachments: false     # Enable image uploads
+require_ai_prompt: true            # Require one AI prompt before continuing
+copy_button_pages: 1-99            # Pages where tabs show the copy button
+copy_button_template: "{copyText}" # Copy-button template text
 
 # Attention Check
 attention_check_page: 1            # Page number (-1 to disable)
-attention_check_answers: Answer1,Answer2  # Correct answers (comma-separated)
+attention_check_answers: Logical reasoning,The best choice  # Correct answers
 
 # Development
 dev_mode: true                     # Skip participant ID validation
@@ -161,6 +183,9 @@ dev_mode: true                     # Skip participant ID validation
 # Completion
 completion_code: COMPLETE          # Code shown at end
 completion_url: ""                 # Redirect URL (optional)
+
+# Data export
+export_token: ""                   # Set a secret to enable GET /export?token=<secret>
 ```
 
 ## Viewing Collected Data
