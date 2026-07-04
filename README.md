@@ -17,7 +17,7 @@
 
    ```bash
    git clone <repository-url> 
-   cd RMEP_studyProject_InteractiveAI
+   cd MET_AI_Interventions
    ```
    - Alternatively download as zip and unzip the project
 
@@ -45,7 +45,7 @@
    - The study interface will load automatically
 
 5. **Stop the application**
-   - Press `Ctrl+C` in the terminal where docker-compose is running
+   - Press `Ctrl+C` in the terminal where Docker Compose is running
    - Or run: `docker compose down -v --rmi local`
 
 ## Customizing Your Study
@@ -233,7 +233,7 @@ The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), 
   netstat -ano | findstr :5001
   taskkill /PID <PID> /F
   ```
-- Or stop any running Docker containers first: `docker-compose down`
+- Or stop any running Docker containers first: `docker compose down`
 
 ### "API key is not set"
 - Open `study.config.yml` and set your OpenAI API key
@@ -242,11 +242,11 @@ The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), 
 ### Changes not appearing
 - **Frontend source** (`interface-frontend/src/`): Hot-reloads instantly via Vite HMR — no rebuild needed.
 - **Task files** (`customizations/tasks/`): Also hot-reloaded (mounted into the container).
-- **`study.config.yml`**: Requires a restart (`docker-compose down && docker-compose up`).
-- **`package.json` or `Dockerfile` changes**: Require a rebuild (`docker-compose up --build`).
+- **`study.config.yml`**: Requires a restart (`docker compose down && docker compose up`).
+- **`package.json` or `Dockerfile` changes**: Require a rebuild (`docker compose up --build`).
 
 ### "Cannot connect to backend" or "Failed to save data"
-- Check that both containers are running: `docker-compose ps`
+- Check that both containers are running: `docker compose ps`
 - Backend should be at http://localhost:5001
 - Frontend should be at http://localhost:5173
 - If accessing from another device on the network, open port 5001 in Windows Firewall (run as Administrator):
