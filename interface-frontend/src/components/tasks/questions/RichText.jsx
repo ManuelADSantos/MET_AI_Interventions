@@ -60,7 +60,4 @@ const RichText = ({ children, inline = false }) => {
   )
 }
 
-const renderFormattedText = (text) => <RichText inline>{text}</RichText>
-
-export { renderFormattedText }
 export default RichText

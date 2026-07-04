@@ -3,7 +3,7 @@ import { store } from "./scripts/store"
 import { checkParticipation } from "./scripts/dbService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
-import { Button, Card, CardBody, Input, CardHeader, Divider, Spinner} from '@nextui-org/react'
+import { Button, Card, CardBody, Input, CardHeader, Spinner} from '@nextui-org/react'
 
 const App = ({ condition, tasks }) => {
   const [idGiven, setIdGiven] = useState(false)

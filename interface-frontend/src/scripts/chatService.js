@@ -7,35 +7,6 @@ const SYSTEM_PROMPT = import.meta.env.VITE_SYSTEM_PROMPT || ''
  * @param {Array} messages The list of chat messages so far. Should include at least one message (prompt from user).
  * @returns The full API response containing the chat completion
  */
-const requestChatResponse = async (messages, signal) => {
-  try {
-    const messagesToSend = messages.filter((m) => ['user', 'assistant'].includes(m.role))
-    if (SYSTEM_PROMPT) {
-      messagesToSend.unshift({ role: 'system', content: SYSTEM_PROMPT })
-    }
-    const res = await fetch(`${baseURL}/chat`, {
-      method: 'POST',
-      signal,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messages: messagesToSend
-      })
-    })
-
-    const parsed = await res.json()
-
-    if (parsed.error) {
-      throw new Error(parsed.error)
-    }
-
-    return parsed.response
-  } catch (e) {
-    return { error: e.message }
-  }
-}
-
 const requestChatResponseStream = async function* (messages, signal) {
   const messagesToSend = messages.filter((m) => ['user', 'assistant'].includes(m.role))
   if (SYSTEM_PROMPT) {
@@ -96,4 +67,4 @@ const requestChatResponseStream = async function* (messages, signal) {
   }
 }
 
-export { requestChatResponse, requestChatResponseStream }
+export { requestChatResponseStream }
