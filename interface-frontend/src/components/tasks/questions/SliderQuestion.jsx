@@ -4,6 +4,7 @@ import { Slider } from '@nextui-org/react'
 const SliderQuestion = ({id, question, field}) => {
   const [activated, setActivated] = useState(false)
   const midpoint = (question.max + question.min) / 2
+  const [sliderValue, setSliderValue] = useState(midpoint)
 
   return (
     <div className='flex flex-row justify-center items-center mx-16'>
@@ -17,17 +18,16 @@ const SliderQuestion = ({id, question, field}) => {
         label=''
         minValue={question.min}
         maxValue={question.max}
-        defaultValue={midpoint}
+        value={sliderValue}
+        fillOffset={sliderValue}
         hideThumb={!activated}
         onChange={(value) => {
+          setSliderValue(value)
           if (!activated) setActivated(true)
           field.onChange(value)
         }}
         inputRef={field.ref}
         showTooltip={false}
-        classNames={{
-          filler: 'hidden'
-        }}
       />
       <span>{question.maxLabel}</span>
     </div>
