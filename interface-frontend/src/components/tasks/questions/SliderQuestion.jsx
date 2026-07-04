@@ -2,37 +2,32 @@ import React, { useState } from 'react'
 import { Slider } from '@nextui-org/react'
 
 const SliderQuestion = ({id, question, field}) => {
-  /**
-   * If a 5th parameter "randomDefault" is included, pick a random initial value within the range.
-   * Otherwise, default to midpoint.
-   * */ 
-  const [sliderValue, setSliderValue] = useState(question.additionalParams[0] === 'randomDefault' 
-    ? Math.floor(Math.random() * (question.max - question.min + 1)) + question.min
-    : (question.max + question.min) / 2
-  )
-
-  const handleMoveSlider = (value) => {
-    setSliderValue(value)
-    field.onChange(value)
-  }
+  const [activated, setActivated] = useState(false)
+  const midpoint = (question.max + question.min) / 2
 
   return (
     <div className='flex flex-row justify-center items-center mx-16'>
       <span>{question.minLabel}</span>
-      <Slider 
-        id={id} 
+      <Slider
+        id={id}
         name={id}
         className='mx-8'
         step={1}
-        fillOffset={sliderValue}
         color='foreground'
         label=''
         minValue={question.min}
         maxValue={question.max}
-        value={sliderValue}
-        onChange={handleMoveSlider}
+        defaultValue={midpoint}
+        hideThumb={!activated}
+        onChange={(value) => {
+          if (!activated) setActivated(true)
+          field.onChange(value)
+        }}
         inputRef={field.ref}
         showTooltip={false}
+        classNames={{
+          filler: activated ? '' : '!bg-transparent'
+        }}
       />
       <span>{question.maxLabel}</span>
     </div>

@@ -40,6 +40,7 @@ const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 
 const copyButtonPages = parsePageList(import.meta.env.VITE_COPY_BUTTON_PAGES || '')
 const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
+const requireAiPrompt = import.meta.env.VITE_REQUIRE_AI_PROMPT !== 'false'
 
 const contentItemToText = (item) => {
   if (!item) return ''
@@ -75,7 +76,8 @@ const getOptionsText = (items) => items
 
 const buildCopyText = ({ template, pageTitle, tab, pageTabs, exerciseItems }) => {
   const tabText = tabToText(tab)
-  const copyText = tab.copyText || ''
+  // ponytail: fall back to visible tab text when no :::copy block exists
+  const copyText = tab.copyText || tabText
   const allCopyText = pageTabs
     .map((pageTab) => pageTab.copyText)
     .filter(Boolean)
@@ -278,15 +280,15 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
           {submitError}
         </p>
         {/* Display instruction to use chat if not used on this page yet */}
-        <p className={`text-emerald-500 font-bold -mr-16 ${(ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
+        <p className={`text-emerald-500 font-bold -mr-16 ${(requireAiPrompt && ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
           <i className='bi bi-info-circle text-xl mr-2'></i>
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
-        <Button 
-          className={(ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''} 
-          isDisabled={ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage} 
-          color='primary' 
+        <Button
+          className={(requireAiPrompt && ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
+          isDisabled={requireAiPrompt && ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage}
+          color='primary'
           type='submit'
         >
           Next

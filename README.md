@@ -248,6 +248,20 @@ Four containers, orchestrated by `docker-compose.yml`:
 
 See [RAILWAY_DEPLOY.md](RAILWAY_DEPLOY.md) for full setup instructions.
 
+## Simulating Runs (Mock Data)
+
+Populate Postgres and Redis with mock participant data for testing:
+
+```bash
+docker compose exec backend python /tests/simulate_runs.py              # 10 runs, mixed conditions
+docker compose exec backend python /tests/simulate_runs.py --runs 20    # 20 runs
+docker compose exec backend python /tests/simulate_runs.py --condition ai  # ai-only
+```
+
+View results in DataGrip (`localhost:5432`, user/pass/db: `study`) or RedisInsight (`http://localhost:8001`).
+
+Clean up: `docker compose exec db psql -U study -c "DELETE FROM participants WHERE participant_id LIKE '__sim_%'"`
+
 ## Tests
 
 See [tests/README.md](tests/README.md) — endpoint tests, task parser tests, and a
