@@ -12,6 +12,9 @@ study.config.yml
 # Participant data
 study_data.json
 
+# Docker bind-mount artifact (real file lives in customizations/)
+interface-backend/correct_answers.py
+
 # Environment files (legacy, if they exist)
 .env
 .env.local

@@ -1,21 +1,14 @@
 #!/bin/sh
 
-# Read study.config.yml and generate Vite .env file
-# This script runs at container startup
+# Generate Vite .env from study.config.yml when mounted (local docker-compose).
+# On Railway there is no config file: set VITE_* variables on the service instead.
 
 CONFIG_FILE="/study.config.yml"
 
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "ERROR: study.config.yml not found at $CONFIG_FILE"
-    exit 1
-fi
+if [ -f "$CONFIG_FILE" ]; then
+    echo "Generating .env file from study.config.yml..."
 
-# Parse YAML and generate .env file
-# Uses simple grep/sed pattern matching for basic YAML parsing
-
-echo "Generating .env file from study.config.yml..."
-
-cat > /app/.env << EOF
+    cat > /app/.env << EOF
 VITE_PROXY_URL=$(grep '^backend_url:' $CONFIG_FILE | sed 's/backend_url: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
 VITE_CHAT_ENABLED_BEGIN=$(grep '^chat_enabled_from_page:' $CONFIG_FILE | sed 's/chat_enabled_from_page: *//;s/  *#.*//;s/ *$//')
 VITE_CHAT_ENABLED_END=$(grep '^chat_enabled_until_page:' $CONFIG_FILE | sed 's/chat_enabled_until_page: *//;s/  *#.*//;s/ *$//')
@@ -29,9 +22,18 @@ VITE_COPY_BUTTON_PAGES=$(grep '^copy_button_pages:' $CONFIG_FILE | sed 's/copy_b
 VITE_COPY_BUTTON_TEMPLATE=$(grep '^copy_button_template:' $CONFIG_FILE | sed 's/copy_button_template: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
 EOF
 
-echo ".env file generated successfully:"
-cat /app/.env
+    echo ".env file generated successfully:"
+    cat /app/.env
+else
+    echo "No study.config.yml found - using VITE_* environment variables as provided."
+fi
 
-# Start Vite dev server with host 0.0.0.0 to allow external connections
-echo "Starting Vite dev server..."
-npm run dev -- --host 0.0.0.0
+PORT="${PORT:-5173}"
+
+if [ -n "$RAILWAY_ENVIRONMENT" ]; then
+    echo "Railway detected: building static bundle..."
+    npm run build && exec npm run preview -- --host 0.0.0.0 --port "$PORT"
+else
+    echo "Starting Vite dev server..."
+    exec npm run dev -- --host 0.0.0.0 --port "$PORT"
+fi

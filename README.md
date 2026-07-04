@@ -127,6 +127,9 @@ Task files use a markdown-based format. See `customizations/tasks/ai_tasks.md` f
 - `$text` creates a single-line text input
 - `$textarea` creates a multi-line text area
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
+- `%% SECTION` ... `%%` marks a block as a section but keeps its page order
+- A standalone `%% RANDOMIZE_SECTIONS` line anywhere in the file shuffles all marked
+  sections amongst themselves (unmarked content, e.g. an intro, stays in place)
 - Question inputs must be indented with 4 spaces
 
 ## Configuration Reference
@@ -162,23 +165,30 @@ completion_url: ""                 # Redirect URL (optional)
 
 ## Viewing Collected Data
 
-Participant data is saved to `study_data.json` in the project root directory. Each entry includes:
+Participant data is saved to Postgres (the `db` container). Each record includes:
 
 - `participantId`: Unique participant identifier
 - `condition`: Which condition they were in ('ai' or 'no-ai')
 - `tasks`: All their survey responses
 - `messages`: Chat conversation history (if applicable)
-- `correctAnswers`: Number of correct answers
-- `totalQuestions`: Total number of questions
-- `answerResults`: Detailed results for each question
+- `correctAnswers`, `totalQuestions`, `answerResults`: Scoring details
 - `savedAt`: Timestamp of submission
 
-### Analyzing Data
+### Exporting Data
 
-The JSON file can be:
-- Opened in Excel/Google Sheets (import JSON)
-- Analyzed with Python pandas: `pd.read_json('study_data.json')`
-- Analyzed with R: `jsonlite::fromJSON('study_data.json')`
+Set `export_token` in `study.config.yml` (or the `EXPORT_TOKEN` env var on Railway), then:
+
+```bash
+curl "http://localhost:5001/export?token=YOUR_TOKEN" > study_data.json
+```
+
+Or query Postgres directly:
+
+```bash
+docker compose exec db psql -U study -c "SELECT data FROM participants"
+```
+
+The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), or imported into Excel.
 
 ## Troubleshooting
 
@@ -223,51 +233,33 @@ The JSON file can be:
 - Check your API key is correct in `study.config.yml`
 - Check the model name is correct (e.g., 'gpt-4-turbo')
 
-## Running Without Docker
+## Architecture
 
-If you prefer not to use Docker:
+Four containers, orchestrated by `docker-compose.yml`:
 
-1. **Install dependencies**
-   - Python 3.10 or higher
-   - Node.js 18 or higher
+| Container | Role |
+|-----------|------|
+| `frontend` | React + Vite study interface (port 5173) |
+| `backend` | Flask API: chat proxy, scoring, data persistence (port 5001) |
+| `db` | Postgres — all participant data |
+| `redis` | Cache for participation checks |
 
-2. **Copy task files to frontend**
-   ```bash
-   cp customizations/tasks/*.md interface-frontend/public/
-   cp -r customizations/tasks/examples interface-frontend/public/
-   ```
+## Deploying to Railway
 
-3. **Backend setup**
-   ```bash
-   cd interface-backend
-   pip install -r requirements.txt
-   flask run
-   ```
+1. Create a Railway project and add the **Postgres** and **Redis** plugins.
+2. Add two services from this repo, each with **root directory `/`**:
+   - Backend: Dockerfile path `interface-backend/Dockerfile`. Set env vars:
+     `OPENAI_API_KEY`, `GPT_MODEL`, `BASE_URL`, `COMPLETION_CODE`, `COMPLETION_URL`,
+     `EXPORT_TOKEN`, plus the `DATABASE_URL` and `REDIS_URL` references from the plugins.
+   - Frontend: Dockerfile path `interface-frontend/Dockerfile`. Set the `VITE_*` env vars
+     (see `entrypoint.sh` for the full list) with `VITE_PROXY_URL` pointing at the backend's public URL.
+3. Railway sets `PORT` and `RAILWAY_ENVIRONMENT` automatically — the frontend serves a
+   production build, the backend runs gunicorn. Health check path for the backend: `/health`.
 
-4. **Frontend setup** (in a new terminal)
-   - Create `interface-frontend/.env` with the values from `study.config.yml`:
-     ```
-     VITE_PROXY_URL=http://localhost:5001
-     VITE_PCTP_CONDITION=ai
-     VITE_CHAT_ENABLED_BEGIN=1
-     VITE_CHAT_ENABLED_END=99
-     VITE_ALLOW_IMAGES=false
-     VITE_ATTN_CHECK_PAGE=1
-     VITE_ATTN_CHECK_RES=Logical reasoning,The best choice
-     VITE_DEV_MODE=true
-     VITE_SYSTEM_PROMPT=You are a helpful logical reasoning assistant.
-     ```
-   - Then run:
-     ```bash
-     cd interface-frontend
-     npm install
-     npm run dev
-     ```
+## Tests
 
-5. **Access the study**
-   - Open browser to http://localhost:5173
-
-Note: You'll need **two terminals** running simultaneously (one for backend, one for frontend).
+See [tests/README.md](tests/README.md) — endpoint tests, task parser tests, and a
+concurrency stress test (`python3 tests/stress_test.py --users 20`, stdlib only).
 
 ## Project Structure
 
@@ -275,18 +267,15 @@ Note: You'll need **two terminals** running simultaneously (one for backend, one
 AI_study/
 ├── study.config.example.yml      # Config template (copy to study.config.yml)
 ├── study.config.yml              # Your configuration (created during setup, gitignored)
-├── study_data.json               # Collected participant data (created during setup, gitignored)
-├── docker-compose.yml            # Docker orchestration
+├── docker-compose.yml            # Docker orchestration (frontend, backend, db, redis)
 ├── customizations/               # Student workspace for editing
-│   ├── tasks/
-│   │   ├── ai_tasks.md          # AI condition task file
-│   │   ├── no-ai_tasks.md       # Control condition task file
-│   │   ├── ai_studyinfo_example.md
-│   │   └── no-ai_studyinfo_example.md
+│   ├── tasks/                    # Task + study info markdown files
 │   └── correct_answers.py        # Answer key for scoring
+├── tests/                        # Endpoint, parser and stress tests
 ├── interface-backend/            # Flask backend
 │   ├── Dockerfile
 │   ├── app.py
+│   ├── db.py                     # Postgres + Redis persistence
 │   ├── chat_helpers.py
 │   ├── config_loader.py
 │   └── requirements.txt
@@ -296,7 +285,6 @@ AI_study/
     ├── package.json
     ├── vite.config.js
     └── src/
-        └── components/
 ```
 
 ## Security Notes

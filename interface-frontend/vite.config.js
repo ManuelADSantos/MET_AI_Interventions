@@ -21,5 +21,9 @@ export default defineConfig({
       usePolling: true, // Required for hot-reload on Windows Docker volumes
       interval: 1000
     }
+  },
+  preview: {
+    host: '0.0.0.0',
+    allowedHosts: true // Railway serves under a generated domain
   }
 })

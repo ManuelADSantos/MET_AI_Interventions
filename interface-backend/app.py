@@ -1,25 +1,26 @@
 import os
 import json
-from datetime import datetime
 from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 from chat_helpers import get_completion, stream_completion
 from correct_answers import right_choices
 from config_loader import load_config
-import logging
-from logging.config import dictConfig
-
-DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'study_data.json')
+import db
 
 config = load_config()
-front_url = config.get('frontend_url', 'http://localhost:5173')
 prolific_code = config.get('completion_code', 'COMPLETE')
 prolific_url = config.get('completion_url', '')
+
+db.init()
 
 app = Flask(__name__)
 
 CORS(app, origins = '*')
 
+
+@app.route('/health')
+def health():
+    return {'status': 'ok'}, 200
 
 @app.route('/chat', methods = ['POST'])
 def send_message():
@@ -67,18 +68,6 @@ def evaluate_answers(tasks):
                     correct += 1
     return correct, results
 
-def load_local_data():
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r') as f:
-            content = f.read().strip()
-            if content:
-                return json.loads(content)
-    return []
-
-def save_local_data(data):
-    with open(DATA_FILE, 'w') as f:
-        json.dump(data, f, indent=2)
-
 @app.route('/save', methods = ['POST'])
 def save_data():
     try:
@@ -87,21 +76,17 @@ def save_data():
         correct_count, answer_results = evaluate_answers(req['tasks'])
         total_questions = len(right_choices)
 
-        # Save to local JSON file
-        newDataRecord = {
+        record = {
             'participantId': req['participantId'],
             'messages': req['messages'],
             'tasks': req['tasks'],
             'condition': req['condition'],
             'correctAnswers': correct_count,
             'totalQuestions': total_questions,
-            'answerResults': answer_results,
-            'savedAt': datetime.now().isoformat()
+            'answerResults': answer_results
         }
 
-        data = load_local_data()
-        data.append(newDataRecord)
-        save_local_data(data)
+        db.save_participant(req['participantId'], req['condition'], record)
 
         return {
             'message': 'OK',
@@ -119,12 +104,17 @@ def check_participation():
         req = request.get_json()
         pid = str(req['id'])
 
-        # Check local JSON file instead of MongoDB
-        data = load_local_data()
-        pid_exists = any(record.get('participantId') == pid for record in data)
-        if pid_exists:
+        if db.has_participated(pid):
             return {'participated': True}, 302
 
         return {'participated': False}, 204
     except Exception as e:
         return {'error': str(e)}, 500
+
+@app.route('/export')
+def export_data():
+    # Set export_token in study.config.yml (or EXPORT_TOKEN env var) to enable this endpoint
+    token = os.environ.get('EXPORT_TOKEN') or config.get('export_token')
+    if not token or request.args.get('token') != token:
+        return {'error': 'unauthorized'}, 403
+    return {'participants': db.fetch_all()}, 200

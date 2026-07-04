@@ -1,0 +1,7 @@
+# Build context is the repo root for both Dockerfiles
+**/node_modules
+.git
+study.config.yml
+study_data.json
+**/__pycache__
+**/.env

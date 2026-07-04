@@ -73,13 +73,22 @@ const ChatView = ({ sourceIndex }) => {
 
       let finalResponse
       let replyContent = ''
+      let reasoningContent = ''
+
+      const buildParts = () => [
+        ...(reasoningContent ? [{ type: 'reasoning', text: reasoningContent }] : []),
+        ...(replyContent ? [{ type: 'text', text: replyContent }] : [])
+      ]
 
       for await (const event of requestChatResponseStream(backendMessages, abortSignal)) {
+        if (event.type === 'reasoning') {
+          reasoningContent = event.reasoning || `${reasoningContent}${event.delta || ''}`
+          yield { content: buildParts() }
+        }
+
         if (event.type === 'delta') {
           replyContent = event.content || `${replyContent}${event.delta || ''}`
-          yield {
-            content: [{ type: 'text', text: replyContent }]
-          }
+          yield { content: buildParts() }
         }
 
         if (event.type === 'done') {
@@ -115,7 +124,7 @@ const ChatView = ({ sourceIndex }) => {
       currentStore.dispatch({ type: 'TOGGLE_CHAT_USED', payload: { value: true } })
 
       yield {
-        content: [{ type: 'text', text: replyContent }]
+        content: buildParts()
       }
     }
   }), [])

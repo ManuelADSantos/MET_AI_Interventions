@@ -51,6 +51,7 @@ def stream_completion(messages):
         )
 
         content = ''
+        reasoning = ''
         response_meta = {}
         finish_reason = None
 
@@ -65,9 +66,20 @@ def stream_completion(messages):
 
             choice = chunk.choices[0] if chunk.choices else None
             delta = choice.delta.content if choice and choice.delta else None
+            delta_data = chunk_data['choices'][0].get('delta') or {} if chunk_data.get('choices') else {}
+            # Reasoning models expose thinking as reasoning_content (DeepSeek/Qwen) or reasoning (OpenRouter)
+            reasoning_delta = delta_data.get('reasoning_content') or delta_data.get('reasoning')
 
             if choice and choice.finish_reason:
                 finish_reason = choice.finish_reason
+
+            if reasoning_delta:
+                reasoning += reasoning_delta
+                yield {
+                    'type': 'reasoning',
+                    'delta': reasoning_delta,
+                    'reasoning': reasoning
+                }
 
             if delta:
                 content += delta
@@ -90,7 +102,8 @@ def stream_completion(messages):
                         'index': 0,
                         'message': {
                             'role': 'assistant',
-                            'content': content
+                            'content': content,
+                            **({'reasoning': reasoning} if reasoning else {})
                         },
                         'finish_reason': finish_reason or 'stop'
                     }

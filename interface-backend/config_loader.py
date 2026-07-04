@@ -11,8 +11,14 @@ def load_config():
     config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'study.config.yml')
 
     if not os.path.exists(config_path):
+        # No config file (e.g. Railway) — fall back to environment variables
+        env_keys = ('openai_api_key', 'gpt_model', 'base_url', 'completion_code',
+                    'completion_url', 'frontend_url', 'export_token')
+        config = {k: os.environ[k.upper()] for k in env_keys if os.environ.get(k.upper())}
+        if config.get('openai_api_key'):
+            return config
         print(f"ERROR: Configuration file not found at {config_path}")
-        print("Please create study.config.yml in the project root directory.")
+        print("Create study.config.yml in the project root, or set OPENAI_API_KEY etc. as environment variables.")
         sys.exit(1)
 
     try:

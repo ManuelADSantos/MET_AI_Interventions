@@ -1,16 +1,15 @@
+# Build context is the repo root (see docker-compose.yml / Railway service settings)
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
+COPY interface-backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+COPY interface-backend/ .
+COPY customizations/correct_answers.py ./correct_answers.py
 
-# Expose Flask port
 EXPOSE 5001
 
-# Run Flask in development mode with host 0.0.0.0 to allow external connections
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5001", "--debug"]
+# Railway sets PORT; docker-compose overrides this with flask --debug for hot-reload
+CMD gunicorn --workers ${WEB_CONCURRENCY:-2} --threads 8 --timeout 120 --bind 0.0.0.0:${PORT:-5001} app:app

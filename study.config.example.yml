@@ -26,3 +26,6 @@ dev_mode: true                     # Skip participant ID validation
 completion_code: COMPLETE          # Code shown at end
 completion_url: ""                 # Redirect URL (optional)
 use_assistant_ui: true
+
+# Data export
+export_token: ""                   # Set a secret to enable GET /export?token=<secret>; empty disables it

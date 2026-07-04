@@ -1,48 +1,59 @@
-version: '3.8'
-
 services:
-  backend:
-    build:
-      context: ./interface-backend
-      dockerfile: Dockerfile
-    ports:
-      - "5001:5001"
-    volumes:
-      # Mount config file (read-only)
-      - ./study.config.yml:/study.config.yml:ro
-      # Mount customizations for hot-reload
-      - ./customizations/correct_answers.py:/app/correct_answers.py
-      # Mount data file for persistence (must exist on host)
-      - ./study_data.json:/app/study_data.json
-      # Mount source code for hot-reload (development)
-      - ./interface-backend:/app
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=development
-    networks:
-      - ai-study-network
-
   frontend:
     build:
-      context: ./interface-frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: interface-frontend/Dockerfile
     ports:
       - "5173:5173"
     volumes:
-      # Mount config file (read-only)
       - ./study.config.yml:/study.config.yml:ro
-      # Mount task files into public directory for hot-reload
       - ./customizations/tasks:/app/public:ro
-      # Mount source code for hot-reload (development)
       - ./interface-frontend/src:/app/src
       - ./interface-frontend/vite.config.js:/app/vite.config.js
-      # Exclude node_modules from volume mount (use container's version)
+      - ./tests:/tests:ro
       - /app/node_modules
     depends_on:
       - backend
-    networks:
-      - ai-study-network
 
-networks:
-  ai-study-network:
-    driver: bridge
+  backend:
+    build:
+      context: .
+      dockerfile: interface-backend/Dockerfile
+    # Dev override with hot-reload; the image default (gunicorn) is what Railway runs
+    command: flask run --host=0.0.0.0 --port=5001 --debug
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./study.config.yml:/study.config.yml:ro
+      - ./customizations/correct_answers.py:/app/correct_answers.py
+      - ./interface-backend:/app
+      - ./tests:/tests:ro
+    environment:
+      - FLASK_APP=app.py
+      - DATABASE_URL=postgresql://study:study@db:5432/study
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  redis:
+    image: redis:7-alpine
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=study
+      - POSTGRES_PASSWORD=study
+      - POSTGRES_DB=study
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U study"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  pgdata:

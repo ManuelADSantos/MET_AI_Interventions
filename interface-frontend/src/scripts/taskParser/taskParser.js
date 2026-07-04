@@ -260,20 +260,41 @@ const parseTabs = (rawPageContent) => {
 }
 
 
+const shuffle = (items) => {
+  const shuffled = [...items]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
 /** Load & parse tasks
  * @param tasks Raw text to parse tasks from.
  * @returns The parsed list of tasks as a JS array.
+ *
+ * Randomization directives:
+ * - `%% RANDOMIZE ... %%` shuffles the pages inside that section
+ * - `%% SECTION ... %%` keeps page order but marks the block as a section
+ * - a standalone `%% RANDOMIZE_SECTIONS` line shuffles all marked sections
+ *   amongst themselves (unmarked content, e.g. an intro, stays in place)
  */
 const loadTasks = (tasks) => {
   try {
+    const lines = String(tasks).split('\n')
+    const randomizeSections = lines.some((l) => l.trim() === '%% RANDOMIZE_SECTIONS')
+    const source = lines.filter((l) => l.trim() !== '%% RANDOMIZE_SECTIONS').join('\n')
+
     // Identify sections (%%)
-    const rawSections = tasks.split('%%').filter((rs) => rs.length !== 0)
+    const rawSections = source.split('%%').filter((rs) => rs.length !== 0)
 
     const sections = []
     let pagesSoFar = 0 // Keep track of pages added so far (used to calculate source-based page index below)
-    
+
     for (const section of rawSections) {
-      const isRandom = section.split(/(?<!#)#{1}(?!#)/)[0].includes('RANDOMIZE')
+      const header = section.split(/(?<!#)#{1}(?!#)/)[0]
+      const isRandom = header.includes('RANDOMIZE')
+      const isSection = isRandom || header.includes('SECTION')
 
       // Identify pages (#)
       const rawPages = section.split(/(?<!#)#{1}(?!#)/).slice(1)
@@ -315,23 +336,21 @@ const loadTasks = (tasks) => {
 
       pagesSoFar += pages.length // Add the number of pages parsed to the count
 
-      if (isRandom) {
-        // Shuffle page order if the section has been designated as randomized
-        const shuffledPages = []
-        while (pages.length > 0) {
-          // Take a random element from the page array and add it to the shuffled array, repeat until no pages are left
-          shuffledPages.push(pages.splice(Math.floor(Math.random() * (pages.length)), 1)[0])
-        }
-        sections.push(shuffledPages)
-      } else {
-        // Otherwise just return the standard page order
-        sections.push(pages)
-      }
+      sections.push({
+        pages: isRandom ? shuffle(pages) : pages,
+        isSection
+      })
+    }
+
+    // Shuffle marked sections amongst themselves, leaving unmarked blocks (intro etc.) in place
+    if (randomizeSections) {
+      const markedIndices = sections.map((s, i) => (s.isSection ? i : -1)).filter((i) => i >= 0)
+      const shuffledMarked = shuffle(markedIndices.map((i) => sections[i]))
+      markedIndices.forEach((sectionIndex, k) => { sections[sectionIndex] = shuffledMarked[k] })
     }
 
     // Convert to JSON and back as a final "validation" step
-    // sections is an array of arrays of objects so we'll use flat() to reduce the hierarchy into an array of objects
-    const pagesAsJSON = JSON.stringify(sections.flat())
+    const pagesAsJSON = JSON.stringify(sections.flatMap((s) => s.pages))
     return JSON.parse(pagesAsJSON)
 
   } catch (e) {
