@@ -25,7 +25,9 @@ def _run(query, params=(), fetch=False):
 
 
 def init():
-    _run('''CREATE TABLE IF NOT EXISTS participants (
+    # ponytail: parallel gunicorn workers can race on Postgres type creation during first boot
+    _run('''SELECT pg_advisory_xact_lock(2026070501);
+            CREATE TABLE IF NOT EXISTS participants (
                 participant_id TEXT PRIMARY KEY,
                 condition TEXT,
                 data JSONB NOT NULL,
