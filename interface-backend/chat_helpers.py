@@ -4,6 +4,7 @@ from config_loader import load_config
 config = load_config()
 oai_key = config['openai_api_key']
 gpt_model = config['gpt_model']
+reasoning_effort = config.get('reasoning_effort')
 
 api_base_url = config.get('base_url')
 
@@ -11,6 +12,7 @@ client_kwargs = {'api_key': oai_key}
 if api_base_url:
     client_kwargs['base_url'] = api_base_url
 gpt_client = OpenAI(**client_kwargs)
+request_options = {'reasoning_effort': str(reasoning_effort)} if reasoning_effort else {}
 
 def format_messages(messages):
     return [
@@ -33,7 +35,8 @@ def get_completion(messages):
     try:
         completion = gpt_client.chat.completions.create(
             model = str(gpt_model),
-            messages = format_messages(messages)
+            messages = format_messages(messages),
+            **request_options
         )
 
         return completion.model_dump()
@@ -45,7 +48,8 @@ def stream_completion(messages):
         stream = gpt_client.chat.completions.create(
             model = str(gpt_model),
             messages = format_messages(messages),
-            stream = True
+            stream = True,
+            **request_options
         )
 
         content = ''
