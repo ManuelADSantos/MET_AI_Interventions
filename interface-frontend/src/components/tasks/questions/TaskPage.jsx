@@ -111,7 +111,7 @@ const TabCopyButton = ({ text }) => {
   return (
     <Tooltip className="p-2" content={copied ? 'Copied' : 'Copy to clipboard'}>
       <Button
-        className='mb-4'
+        className='shrink-0'
         color='default'
         variant='faded'
         disableRipple='true'
@@ -247,25 +247,27 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
       {/* Display page contents */}
       <div className='flex flex-1 flex-col justify-start items-start w-full overflow-auto'>
         <h1 className='text-4xl font-bold mb-4'><RichText inline>{title}</RichText></h1>
-        {hasMultipleTabs && (
-          <Tabs
-            aria-label="Task tabs"
-            selectedKey={selectedTabKey}
-            onSelectionChange={(key) => setSelectedTabKey(String(key))}
-            variant="underlined"
-            className='mb-4'
-            classNames={{
-              panel: 'hidden'
-            }}
-          >
-            {pageTabs.map((tab) => (
-              <Tab key={tab.title} title={tab.title} />
-            ))}
-          </Tabs>
-        )}
-        <ScrollShadow className='pb-4 w-full'>
-          {shouldShowCopyButton && (
-            <div className='flex w-full justify-end'>
+        {(hasMultipleTabs || shouldShowCopyButton) && (
+          <div className='mb-4 flex w-full items-center justify-between gap-4'>
+            {hasMultipleTabs ? (
+              <Tabs
+                aria-label="Task tabs"
+                selectedKey={selectedTabKey}
+                onSelectionChange={(key) => setSelectedTabKey(String(key))}
+                variant="underlined"
+                className='min-w-0 flex-1'
+                classNames={{
+                  panel: 'hidden'
+                }}
+              >
+                {pageTabs.map((tab) => (
+                  <Tab key={tab.title} title={tab.title} />
+                ))}
+              </Tabs>
+            ) : (
+              <div />
+            )}
+            {shouldShowCopyButton && (
               <TabCopyButton
                 text={buildCopyText({
                   template: copyTemplate,
@@ -275,8 +277,10 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
                   exerciseItems
                 })}
               />
-            </div>
-          )}
+            )}
+          </div>
+        )}
+        <ScrollShadow className='pb-4 w-full'>
           {selectedTab.content.map(renderContentItem)}
         </ScrollShadow>
       </div>

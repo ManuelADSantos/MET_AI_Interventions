@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Input } from '@nextui-org/react'
 import RichText from './RichText'
 
-const optionRadioStyle = 'mr-4 appearance-none box-border border-2 border-stone-300 shadow-inner w-8 h-8 min-w-8 min-h-8 max-w-8 max-h-8 rounded-full checked:border-stone-700 checked:shadow-xl checked:border-8 checked:box-border'
+const optionRadioStyle = 'mr-2 appearance-none box-border border-2 border-stone-300 shadow-inner w-8 h-8 min-w-8 min-h-8 max-w-8 max-h-8 rounded-full checked:border-stone-700 checked:shadow-xl checked:border-8 checked:box-border'
 
 const OptionQuestion = ({ id, question, field }) => {
   const options = useMemo(
@@ -42,7 +42,7 @@ const OptionQuestion = ({ id, question, field }) => {
       <fieldset style={{border: 'none', }} name={id} {...field}>
         {/* Render all other options first */}
         {options.map((o, i) =>
-          <div key={i} className='mb-2 flex flex-row justify-start items-center'>
+          <div key={i} className='mb-3 flex flex-row justify-start items-center'>
             <input 
               className={optionRadioStyle}
               type='radio' 

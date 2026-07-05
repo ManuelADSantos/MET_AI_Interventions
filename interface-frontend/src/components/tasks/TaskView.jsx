@@ -18,7 +18,7 @@ const TaskView = ({ tasks }) => {
   }
 
   return (
-    <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen p-16 bg-stone-100 shadow-2xl'>
+    <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen p-10 bg-stone-100'>
       {state.taskIndex < tasks.length
         ? <TaskPage 
             key={state.taskIndex}
