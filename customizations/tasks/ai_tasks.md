@@ -2,7 +2,8 @@
 
 :::tab Instruction
 
-> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into several scenarios, each describing an event or situation that needs to be organized. There are multiple questions per scenario. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
+
+> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into several scenarios, each describing an event or situation that needs to be organized. There are **four scenarios with three questions each**. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
 >
 > To complete these tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
 >

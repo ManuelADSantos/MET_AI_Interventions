@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react'
+import { useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { store } from '../../../scripts/store'
-import { Button, ScrollShadow, Tabs, Tab, Tooltip } from '@nextui-org/react'
+import { Button, Tabs, Tab, Tooltip } from '@nextui-org/react'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
 import RichText from './RichText'
@@ -141,10 +141,28 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
   const hasMultipleTabs = pageTabs.length > 1
   const [selectedTabKey, setSelectedTabKey] = useState(pageTabs[0].title)
   const selectedTab = pageTabs.find((tab) => tab.title === selectedTabKey) || pageTabs[0]
+  const scrollContainerRef = useRef(null)
+  const tabScrollPositionsRef = useRef({})
 
   const exerciseItems = pageTabs.find(
     (tab) => tab.title.toLowerCase() === 'exercise'
   )?.content || pageTabs[0].content
+
+  useLayoutEffect(() => {
+    const scrollContainer = scrollContainerRef.current
+    if (!scrollContainer) return
+
+    const savedScrollTop = tabScrollPositionsRef.current[selectedTabKey] ?? 0
+    scrollContainer.scrollTop = savedScrollTop
+  }, [selectedTabKey])
+
+  const handleTabSelectionChange = (key) => {
+    const nextKey = String(key)
+    if (scrollContainerRef.current) {
+      tabScrollPositionsRef.current[selectedTabKey] = scrollContainerRef.current.scrollTop
+    }
+    setSelectedTabKey(nextKey)
+  }
 
   const shouldShowCopyButton = ctxStore.state.chatEnabled &&
     ctxStore.state.condition === 'ai' &&
@@ -253,7 +271,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
               <Tabs
                 aria-label="Task tabs"
                 selectedKey={selectedTabKey}
-                onSelectionChange={(key) => setSelectedTabKey(String(key))}
+                onSelectionChange={handleTabSelectionChange}
                 variant="underlined"
                 className='min-w-0 flex-1'
                 classNames={{
@@ -280,9 +298,9 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
             )}
           </div>
         )}
-        <ScrollShadow className='pb-4 w-full'>
+        <div ref={scrollContainerRef} className='w-full flex-1 overflow-y-auto pb-4'>
           {selectedTab.content.map(renderContentItem)}
-        </ScrollShadow>
+        </div>
       </div>
       {/* Display contextual info + submit button */}
       <div className='w-full flex flex-row justify-between items-center mt-4'>
