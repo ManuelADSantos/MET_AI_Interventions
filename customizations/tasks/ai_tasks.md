@@ -1,16 +1,30 @@
 # Introduction
 
-> In this task, you're going to be answering a set of 25 questions about logical reasoning. You will use ChatGPT as we are especially interested in your abilities to use AI to solve these problems.
+:::tab Instruction
 
-> You will be presented with brief passages or statements and will be required to evaluate their reasoning or determine what inferences you can logically draw from the passage. In each case, select the best answer choice, even though more than one choice may present a possible answer. Please use a computer for optimal experience.
+> Thank you for participating in this study.
+>
+> In this study, you will answer **12 questions** about planning and organizing. There are several scenarios describing and event or situation that needs to be organized, with multiple tasks for each. Your goal is to determine whether specific statements are true or false based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before evaluating whether the given statements can be satisfied.
+>
+> To complete these tasks, you will work together with an AI assistant, which is displayed on the right side of your screen. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for each task**.
+>
+> For each question, select the **best answer**, even if more than one option appears plausible.
+>
+> Please use a **desktop computer or laptop** for the best experience. Smartphones and tablets are not supported.
+>
+> *How to use the interface*: Each task contains two tabs at the top of the screen. The first tab contains the question you need to answer, while the second tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. Once you have submitted a question, you will move on to the next one. **You cannot return to previous questions.**
+>
+> **What subject will you be answering questions about?**
 
-> What subject are you going to be answering questions about?
+    $option; Creative Writing; Planning and Organizing; Mathematics
 
-    $option; Logical reasoning; Creative writing; Grammar
+> **Please click on the second tab above. Which letter is displayed there?**
 
-> Which answer choice should you select?
+    $option; A; B; C; D
 
-    $option; The best choice; The longest choice; All of the choices that are correct
+:::tab Second Tab
+
+> The letter is: **C**
 
 %% RANDOMIZE_SECTIONS
 

@@ -1,14 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Input } from '@nextui-org/react'
 import RichText from './RichText'
 
 const optionRadioStyle = 'mr-4 appearance-none box-border border-2 border-stone-300 shadow-inner w-8 h-8 min-w-8 min-h-8 max-w-8 max-h-8 rounded-full checked:border-stone-700 checked:shadow-xl checked:border-8 checked:box-border'
 
 const OptionQuestion = ({ id, question, field }) => {
-  const [other, setOther] = useState('')
-  const [otherSelected, setOtherSelected] = useState(false)
-  const options = question.options.filter((o) => o.toLowerCase() !== 'other')
+  const options = useMemo(
+    () => question.options.filter((o) => o.toLowerCase() !== 'other'),
+    [question.options]
+  )
   const hasOther = question.options.some((o) => o.toLowerCase() === 'other')
+  const fieldValue = field.value ?? ''
+  const isOtherValue = hasOther && fieldValue !== '' && !options.includes(fieldValue)
+  const [other, setOther] = useState(isOtherValue ? fieldValue : '')
+  const [otherSelected, setOtherSelected] = useState(isOtherValue)
+
+  useEffect(() => {
+    const nextValue = field.value ?? ''
+    const nextIsOther = hasOther && nextValue !== '' && !options.includes(nextValue)
+    setOtherSelected(nextIsOther)
+    if (nextIsOther) {
+      setOther(nextValue)
+    }
+  }, [field.value, hasOther, options])
 
   const handleOtherInput = (e) => {
     setOther(e.target.value)
@@ -35,7 +49,8 @@ const OptionQuestion = ({ id, question, field }) => {
               name={id} 
               id={`${id}_${i}`} 
               value={o} 
-              onClick={(e) => handleSelectOption(e.target.value, false)}
+              checked={fieldValue === o}
+              onChange={(e) => handleSelectOption(e.target.value, false)}
             />
             <label htmlFor={`${id}_${i}`}><RichText inline>{o}</RichText></label>
           </div>
@@ -49,7 +64,8 @@ const OptionQuestion = ({ id, question, field }) => {
               name={id} 
               id={`${id}_other`}
               value={other}
-              onClick={() => handleSelectOption(other, true)}
+              checked={otherSelected}
+              onChange={() => handleSelectOption(other, true)}
             />
             <label htmlFor={`${id}_other`}>Other:</label>
           </div>
@@ -62,6 +78,7 @@ const OptionQuestion = ({ id, question, field }) => {
             variant='bordered' 
             type="text" 
             placeholder='Please specify' 
+            value={other}
             onChange={handleOtherInput} 
             isRequired={otherSelected}
           />

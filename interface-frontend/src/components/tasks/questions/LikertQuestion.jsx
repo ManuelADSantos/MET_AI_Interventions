@@ -13,7 +13,8 @@ const LikertQuestion = ({ id, question, field }) => {
               name={id} 
               id={`${id}_${o}`} 
               value={o} 
-              onClick={field.onChange}
+              checked={String(field.value) === String(o)}
+              onChange={field.onChange}
             />
             <label htmlFor={`${id}_${o}`}>{o}</label>
           </div>

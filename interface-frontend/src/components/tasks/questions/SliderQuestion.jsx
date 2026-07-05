@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import { Slider } from '@nextui-org/react'
 
 const SliderQuestion = ({id, question, field}) => {
-  const [activated, setActivated] = useState(false)
   const midpoint = (question.max + question.min) / 2
-  const [sliderValue, setSliderValue] = useState(midpoint)
+  const hasValue = field.value !== undefined && field.value !== null && field.value !== ''
+  const sliderValue = hasValue ? Number(field.value) : midpoint
 
   return (
     <div className='flex flex-row justify-center items-center mx-16'>
@@ -20,10 +19,8 @@ const SliderQuestion = ({id, question, field}) => {
         maxValue={question.max}
         value={sliderValue}
         fillOffset={sliderValue}
-        hideThumb={!activated}
+        hideThumb={!hasValue}
         onChange={(value) => {
-          setSliderValue(value)
-          if (!activated) setActivated(true)
           field.onChange(value)
         }}
         inputRef={field.ref}
