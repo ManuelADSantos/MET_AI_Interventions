@@ -93,6 +93,9 @@ const ChatView = ({ sourceIndex }) => {
 
         if (event.type === 'done') {
           finalResponse = event.response
+          const message = finalResponse?.choices?.[0]?.message
+          reasoningContent = reasoningContent || message?.reasoning || ''
+          replyContent = replyContent || message?.content || ''
         }
       }
 

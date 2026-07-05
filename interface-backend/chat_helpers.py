@@ -12,7 +12,10 @@ client_kwargs = {'api_key': oai_key}
 if api_base_url:
     client_kwargs['base_url'] = api_base_url
 gpt_client = OpenAI(**client_kwargs)
-request_options = {'reasoning_effort': reasoning_effort} if reasoning_effort and reasoning_effort not in ('none', 'off') else {}
+reasoning_enabled = reasoning_effort and reasoning_effort not in ('none', 'off')
+use_responses_api = reasoning_enabled and (not api_base_url or 'api.openai.com' in api_base_url)
+chat_request_options = {'reasoning_effort': reasoning_effort} if reasoning_enabled and not use_responses_api else {}
+responses_request_options = {'reasoning': {'effort': reasoning_effort, 'summary': 'auto'}} if use_responses_api else {}
 
 def format_messages(messages):
     return [
@@ -31,12 +34,76 @@ def format_messages(messages):
         for m in messages
     ]
 
+def format_responses_input(messages):
+    return [
+        {
+            'role': str(m['role']),
+            'content': [
+                { 'type': 'input_text', 'text': str(m['content']) },
+                { 'type': 'input_image', 'image_url': str(m['image']), 'detail': 'low' }
+            ]
+        }
+        if 'image' in m else
+        {
+            'role': str(m['role']),
+            'content': str(m['content'])
+        }
+        for m in messages
+    ]
+
+def response_reasoning(response_data):
+    return '\n'.join(
+        summary.get('text', '')
+        for item in response_data.get('output', [])
+        if item.get('type') == 'reasoning'
+        for summary in item.get('summary', [])
+    ).strip()
+
+def response_text(response_data):
+    return ''.join(
+        part.get('text', '')
+        for item in response_data.get('output', [])
+        if item.get('type') == 'message'
+        for part in item.get('content', [])
+        if part.get('type') == 'output_text'
+    )
+
+def as_chat_response(response = None, content = None, reasoning = None):
+    response_data = response.model_dump() if response else {}
+    content = content if content is not None else getattr(response, 'output_text', '') or response_text(response_data)
+    reasoning = reasoning if reasoning is not None else response_reasoning(response_data)
+    return {
+        'id': response_data.get('id'),
+        'object': 'chat.completion',
+        'created': response_data.get('created_at'),
+        'model': response_data.get('model') or str(gpt_model),
+        'choices': [
+            {
+                'index': 0,
+                'message': {
+                    'role': 'assistant',
+                    'content': content,
+                    **({'reasoning': reasoning} if reasoning else {})
+                },
+                'finish_reason': response_data.get('status') or 'stop'
+            }
+        ],
+        'usage': response_data.get('usage')
+    }
+
 def get_completion(messages):
     try:
+        if use_responses_api:
+            return as_chat_response(gpt_client.responses.create(
+                model = str(gpt_model),
+                input = format_responses_input(messages),
+                **responses_request_options
+            ))
+
         completion = gpt_client.chat.completions.create(
             model = str(gpt_model),
             messages = format_messages(messages),
-            **request_options
+            **chat_request_options
         )
 
         return completion.model_dump()
@@ -45,11 +112,52 @@ def get_completion(messages):
 
 def stream_completion(messages):
     try:
+        if use_responses_api:
+            stream = gpt_client.responses.create(
+                model = str(gpt_model),
+                input = format_responses_input(messages),
+                stream = True,
+                **responses_request_options
+            )
+
+            content = ''
+            reasoning = ''
+            final_response = None
+
+            for event in stream:
+                event_data = event.model_dump()
+                event_type = event_data.get('type')
+
+                if event_type in ('response.reasoning_summary_text.delta', 'response.reasoning_text.delta'):
+                    reasoning += event_data.get('delta') or ''
+                    yield {
+                        'type': 'reasoning',
+                        'delta': event_data.get('delta') or '',
+                        'reasoning': reasoning
+                    }
+
+                if event_type == 'response.output_text.delta':
+                    content += event_data.get('delta') or ''
+                    yield {
+                        'type': 'delta',
+                        'delta': event_data.get('delta') or '',
+                        'content': content
+                    }
+
+                if event_type == 'response.completed':
+                    final_response = event.response
+
+            yield {
+                'type': 'done',
+                'response': as_chat_response(final_response, content, reasoning or None)
+            }
+            return
+
         stream = gpt_client.chat.completions.create(
             model = str(gpt_model),
             messages = format_messages(messages),
             stream = True,
-            **request_options
+            **chat_request_options
         )
 
         content = ''
