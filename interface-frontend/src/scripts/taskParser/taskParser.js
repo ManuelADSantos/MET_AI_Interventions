@@ -224,14 +224,18 @@ const mergeConsecutiveMarkdownTables = (items) => {
 
 const extractCopyBlocks = (rawContent) => {
   const copyBlocks = []
-  const content = String(rawContent).replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
+  const copyDisabled = /^\s*:::(copy-disabled|no-copy)\s*$/m.test(String(rawContent))
+  const content = String(rawContent)
+    .replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
     copyBlocks.push(copyText.trim())
     return ''
-  })
+    })
+    .replace(/^\s*:::(copy-disabled|no-copy)\s*$/gm, '')
 
   return {
     content,
-    copyText: copyBlocks.join('\n\n')
+    copyText: copyBlocks.join('\n\n'),
+    copyDisabled
   }
 }
 
@@ -254,7 +258,8 @@ const parseTabs = (rawPageContent) => {
     return {
       title,
       content: parseContentItems(visibleBody),
-      copyText: parsedCopyBlocks.copyText
+      copyText: parsedCopyBlocks.copyText,
+      copyDisabled: parsedCopyBlocks.copyDisabled
     }
   })
 }
@@ -323,12 +328,14 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
           sourceIndex: pageIndex,
           title: pageTitle,
           copyText: parsedPageCopyBlocks.copyText,
+          copyDisabled: parsedPageCopyBlocks.copyDisabled,
           content: pageContent,
           tabs: tabs || [
             {
               title: 'Exercise',
               content: pageContent,
-              copyText: parsedPageCopyBlocks.copyText
+              copyText: parsedPageCopyBlocks.copyText,
+              copyDisabled: parsedPageCopyBlocks.copyDisabled
             }
           ]
         }

@@ -41,6 +41,9 @@ const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 const copyButtonPages = parsePageList(import.meta.env.VITE_COPY_BUTTON_PAGES || '')
 const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
 const requireAiPrompt = import.meta.env.VITE_REQUIRE_AI_PROMPT !== 'false'
+const requireAiPromptPagesConfig = import.meta.env.VITE_REQUIRE_AI_PROMPT_PAGES || ''
+const requireAiPromptPages = parsePageList(requireAiPromptPagesConfig)
+const hasRequireAiPromptPages = requireAiPromptPagesConfig.trim().length > 0
 
 const contentItemToText = (item) => {
   if (!item) return ''
@@ -166,7 +169,12 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
 
   const shouldShowCopyButton = ctxStore.state.chatEnabled &&
     ctxStore.state.condition === 'ai' &&
-    copyButtonPages.has(sourceIndex)
+    copyButtonPages.has(sourceIndex) &&
+    !selectedTab.copyDisabled
+
+  const shouldRequireAiPrompt = requireAiPrompt &&
+    ctxStore.state.chatEnabled &&
+    (!hasRequireAiPromptPages || requireAiPromptPages.has(sourceIndex))
 
   const onSubmit = (pageResponses) => {    
     const mappedResponses = {}
@@ -310,14 +318,14 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
           {submitError}
         </p>
         {/* Display instruction to use chat if not used on this page yet */}
-        <p className={`text-emerald-500 font-bold -mr-16 ${(requireAiPrompt && ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
+        <p className={`text-emerald-500 font-bold -mr-16 ${(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
           <i className='bi bi-info-circle text-xl mr-2'></i>
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
         <Button
-          className={(requireAiPrompt && ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
-          isDisabled={requireAiPrompt && ctxStore.state.chatEnabled && !ctxStore.state.chatUsedOnPage}
+          className={(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
+          isDisabled={shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage}
           color='primary'
           type='submit'
         >

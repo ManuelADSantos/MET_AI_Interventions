@@ -2,17 +2,18 @@
 
 :::tab Instruction
 
-
-> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into several scenarios, each describing an event or situation that needs to be organized. There are **four scenarios with three questions each**. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
+> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **four scenarios**, with **three questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
 >
-> To complete these tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
+> To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Feel free to familiarize yourself with the assistant before you begin. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
 >
-> For each question, select the **best answer**, even if more than one option appears plausible.
+> For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
 >
 > Please use a **desktop computer or laptop** for the best experience. **Smartphones and tablets are not supported.**
 >
-> *How to use the interface:* Each question consists of two tabs at the top of the screen. The **Question** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. Once you have submitted an answer, you will proceed to the next question. **You cannot return to previous questions.**
-
+> Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
+>
+> Before continuing, please answer the following questions to confirm that you have read the instructions.
+>
 > **What subject will you be answering questions about?**
 
     $option; Creative Writing; Planning and Organizing; Mathematics
@@ -23,19 +24,21 @@
 
 :::tab Second Tab
 
-> The letter is: **C**
+> The letter you are looking for is: **C**
+
+> Head back to the instruction tab.
 
 %% RANDOMIZE_SECTIONS
 
 %% RANDOMIZE
 
-# "Future Days"
+# Future Days (1/12)
 
 :::tab Exercise
 
 > **Which of the following statements regarding the student assistants is or are correct?**
 
-> 1. FUTURE DAYS 0 All time capacity of the student assistants is used in consideration of their preferences.
+> 1. All time capacity of the student assistants is used in consideration of their preferences.
 > 2. There are five student assistants who can be deployed on all three days.
 > Please indicate your answer.
 
@@ -57,7 +60,7 @@ Which of the following statements regarding the student assistants is or are cor
 
 :::
 
-:::tab Context — "Future Days"
+:::tab Scenario — Future Days
 
 > Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
 
@@ -113,7 +116,7 @@ The following student assistants are available for the event:
  | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
 :::
 
-# "Future Days"
+# Future Days (2/12)
 
 :::tab Exercise
 
@@ -197,7 +200,7 @@ The following student assistants are available for the event:
  | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
 :::
 
-# "Future Days"
+# Future Days (3/12)
 
 :::tab Exercise
 
