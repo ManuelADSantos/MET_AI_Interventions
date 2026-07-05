@@ -21,7 +21,7 @@ Both use root directory `/` (build context is the repo root).
 |---|---|
 | `OPENAI_API_KEY` | Your API key |
 | `GPT_MODEL` | e.g. `gpt-4-turbo` |
-| `REASONING_EFFORT` | Optional: `low`, `medium`, or `high` |
+| `REASONING_EFFORT` | Optional: `none`, `low`, `medium`, `high`, or `xhigh` |
 | `BASE_URL` | e.g. `https://api.openai.com/v1` |
 | `EXPORT_TOKEN` | Secret string for data export |
 | `COMPLETION_CODE` | e.g. `COMPLETE` |

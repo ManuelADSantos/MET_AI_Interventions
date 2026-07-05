@@ -158,7 +158,7 @@ Text to copy into the AI chat.
 # API Settings
 openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
 gpt_model: gpt-4-turbo            # Model to use
-reasoning_effort: ""              # Optional: low, medium, or high for reasoning models
+reasoning_effort: none            # Optional: none, low, medium, high, or xhigh for reasoning models
 base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
 # Study Settings

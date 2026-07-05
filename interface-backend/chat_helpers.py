@@ -4,7 +4,7 @@ from config_loader import load_config
 config = load_config()
 oai_key = config['openai_api_key']
 gpt_model = config['gpt_model']
-reasoning_effort = config.get('reasoning_effort')
+reasoning_effort = str(config.get('reasoning_effort') or '').strip().lower()
 
 api_base_url = config.get('base_url')
 
@@ -12,7 +12,7 @@ client_kwargs = {'api_key': oai_key}
 if api_base_url:
     client_kwargs['base_url'] = api_base_url
 gpt_client = OpenAI(**client_kwargs)
-request_options = {'reasoning_effort': str(reasoning_effort)} if reasoning_effort else {}
+request_options = {'reasoning_effort': reasoning_effort} if reasoning_effort and reasoning_effort not in ('none', 'off') else {}
 
 def format_messages(messages):
     return [
