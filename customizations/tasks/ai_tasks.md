@@ -2,6 +2,8 @@
 
 :::tab Instruction
 
+> ## Welcome!
+>
 > In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **four scenarios**, with **three questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
 >
 > To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Feel free to familiarize yourself with the assistant before you begin. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
@@ -10,11 +12,13 @@
 >
 > Please use a **desktop computer or laptop** for the best experience. **Smartphones and tablets are not supported.**
 >
+> ## How to use
+>
 > Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
 >
 > Before continuing, please answer the following questions to confirm that you have read the instructions.
 >
-> **What subject will you be answering questions about?**
+> **What type of tasks will you be working on?**
 
     $option; Creative Writing; Planning and Organizing; Mathematics
 

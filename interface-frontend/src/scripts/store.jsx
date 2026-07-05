@@ -37,8 +37,6 @@ const StateProvider = ({ children }) => {
         const updatedRes = {
           ts: resToUpdate['ts'],
           displayIndex: state.taskIndex,
-          title: action.payload.title,
-          pageText: action.payload.pageText,
           responses: action.payload.responses
         }
         return {...state, tasks: {...state.tasks, [action.payload.index]: updatedRes}}

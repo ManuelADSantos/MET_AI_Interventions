@@ -223,8 +223,6 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
       type: 'UPDATE_RESPONSES',
       payload: {
         index: sourceIndex,
-        title,
-        pageText: tabToText(pageTabs[0]),
         responses: mappedResponses
       }
     })
