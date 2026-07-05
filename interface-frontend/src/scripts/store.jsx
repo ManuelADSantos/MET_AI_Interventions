@@ -34,7 +34,13 @@ const StateProvider = ({ children }) => {
         return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false, chatUsedOnPage: false}
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
-        const updatedRes = {ts: resToUpdate['ts'], displayIndex: state.taskIndex, responses: action.payload.responses}
+        const updatedRes = {
+          ts: resToUpdate['ts'],
+          displayIndex: state.taskIndex,
+          title: action.payload.title,
+          pageText: action.payload.pageText,
+          responses: action.payload.responses
+        }
         return {...state, tasks: {...state.tasks, [action.payload.index]: updatedRes}}
       case 'UPDATE_TASK_TIMESTAMP':
         const resToStamp = state.tasks[action.payload.index] || {ts: undefined, responses: {}}

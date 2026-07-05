@@ -193,7 +193,15 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
       }
     }
 
-    ctxStore.dispatch({ type: 'UPDATE_RESPONSES', payload: {index: sourceIndex, responses: mappedResponses}})
+    ctxStore.dispatch({
+      type: 'UPDATE_RESPONSES',
+      payload: {
+        index: sourceIndex,
+        title,
+        pageText: tabToText(pageTabs[0]),
+        responses: mappedResponses
+      }
+    })
     next()
   }
 
