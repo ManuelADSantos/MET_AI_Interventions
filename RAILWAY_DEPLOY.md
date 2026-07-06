@@ -33,6 +33,27 @@ Both use root directory `/` (build context is the repo root).
 
 `PORT` and `RAILWAY_ENVIRONMENT` are set automatically by Railway.
 
+<details><summary>Raw editor JSON</summary>
+
+```json
+{
+  "OPENAI_API_KEY": "sk-YOUR_KEY_HERE",
+  "GPT_MODEL": "gpt-5.4-mini",
+  "REASONING_EFFORT": "none",
+  "BASE_URL": "https://api.openai.com/v1",
+  "EXPORT_TOKEN": "",
+  "COMPLETION_CODE": "COMPLETE",
+  "COMPLETION_URL": "",
+  "DATABASE_URL": "${{Postgres.DATABASE_URL}}",
+  "DB_POOL_MAX": "10",
+  "WEB_CONCURRENCY": "2",
+  "WEB_THREADS": "64",
+  "WEB_TIMEOUT": "180"
+}
+```
+
+</details>
+
 ### Frontend
 
 - Dockerfile path: `interface-frontend/Dockerfile`
@@ -52,6 +73,29 @@ Both use root directory `/` (build context is the repo root).
 | `VITE_COPY_BUTTON_TEMPLATE` | `{copyText}` |
 | `VITE_RANDOMIZE_TASKS` | `true` |
 | `VITE_REQUIRE_AI_PROMPT` | `true` |
+
+<details><summary>Raw editor JSON</summary>
+
+```json
+{
+  "VITE_PROXY_URL": "https://your-backend.up.railway.app",
+  "VITE_PCTP_CONDITION": "ai",
+  "VITE_CHAT_ENABLED_BEGIN": "1",
+  "VITE_CHAT_ENABLED_END": "99",
+  "VITE_ALLOW_IMAGES": "false",
+  "VITE_DEV_MODE": "false",
+  "VITE_SYSTEM_PROMPT": "You are a helpful logical reasoning assistant",
+  "VITE_ATTN_CHECK_PAGE": "1",
+  "VITE_ATTN_CHECK_RES": "Planning and Organizing,C",
+  "VITE_COPY_BUTTON_PAGES": "1-99",
+  "VITE_COPY_BUTTON_TEMPLATE": "{copyText}",
+  "VITE_RANDOMIZE_TASKS": "true",
+  "VITE_REQUIRE_AI_PROMPT": "true",
+  "VITE_REQUIRE_AI_PROMPT_PAGES": "3-99"
+}
+```
+
+</details>
 
 The entrypoint detects `$RAILWAY_ENVIRONMENT` and builds a production bundle automatically. No `study.config.yml` needed.
 
