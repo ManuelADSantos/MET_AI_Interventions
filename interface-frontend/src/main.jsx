@@ -23,7 +23,9 @@ const aiStudyInfo = loadTasks(aiStudyInfoFile, opts)
 const noAiTasks = loadTasks(noAiTaskFile, opts)
 const noAiStudyInfo = loadTasks(noAiStudyInfoFile, opts)
 
-const condition = import.meta.env.VITE_PCTP_CONDITION || 'no-ai'
+// ponytail: URL ?condition=no_ai overrides config; normalize underscore to hyphen
+const urlCondition = new URLSearchParams(window.location.search).get('condition')?.replace('_', '-')
+const condition = urlCondition || import.meta.env.VITE_PCTP_CONDITION || 'no-ai'
 
 const tasksPerCondition = {
   'ai': [...aiStudyInfo, ...aiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})],

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { store } from '../../scripts/store'
 import { saveToDatabase } from '../../scripts/dbService'
 import { Button, Spinner } from '@nextui-org/react'
@@ -20,11 +20,14 @@ const DonePage = () => {
     setSaveSuccess(undefined)
     setIsSaving(true)
     try {
+      const params = new URLSearchParams(window.location.search)
       const res = await saveToDatabase({
         participantId: state.participantId,
         condition: state.condition,
         messages: state.messages,
-        tasks: state.tasks
+        tasks: state.tasks,
+        studyId: params.get('STUDY_ID') || '',
+        sessionId: params.get('SESSION_ID') || ''
       })
 
       if (res.error) {

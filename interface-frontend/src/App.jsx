@@ -1,47 +1,50 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { store } from "./scripts/store"
 import { checkParticipation } from "./scripts/dbService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
 import { Button, Card, CardBody, Input, CardHeader } from '@nextui-org/react'
 
+const urlParams = new URLSearchParams(window.location.search)
+const urlPid = urlParams.get('PROLIFIC_PID')
+
 const App = ({ condition, tasks }) => {
   const [idGiven, setIdGiven] = useState(false)
   const [idError, setIdError] = useState('')
   const ctxStore = useContext(store)
 
-  const handleIdSubmit = async (e) => {
-    e.preventDefault()
-
-    /* Don't require ID if configured in .env */
+  const submitId = async (pid) => {
     if (import.meta.env.VITE_DEV_MODE === 'true') {
-      ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: e.target[0].value}})
-      ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition: condition}})
+      ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: pid}})
+      ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
       ctxStore.dispatch({type: 'NEXT_TASK'})
       setIdGiven(true)
       return
     }
 
-    /* ID should be pretty long to discourage participants from submitting whatever / partial IDs  */
-    if (e.target[0].value.trim().length < 16) {
-      setIdGiven(false)
+    if (pid.trim().length < 16) {
       setIdError('Please enter your Prolific ID.')
       return
     }
 
-    /* Check whether the ID has already been registered in the database */
-    const res = await checkParticipation(e.target[0].value)
-
-    /* If there's no errors, allow proceeding */
+    const res = await checkParticipation(pid)
     if (!res.error) {
-      ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: e.target[0].value}})
-      ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition: condition}})
+      ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: pid}})
+      ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
       ctxStore.dispatch({type: 'NEXT_TASK'})
       setIdGiven(true)
     } else {
-      setIdGiven(false)
       setIdError(res.error)
     }
+  }
+
+  useEffect(() => {
+    if (urlPid) submitId(urlPid)
+  }, [])
+
+  const handleIdSubmit = (e) => {
+    e.preventDefault()
+    submitId(e.target[0].value)
   }
 
   return (

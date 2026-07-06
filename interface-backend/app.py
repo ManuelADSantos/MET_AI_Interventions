@@ -81,6 +81,8 @@ def save_data():
             'messages': req['messages'],
             'tasks': req['tasks'],
             'condition': req['condition'],
+            'studyId': req.get('studyId', ''),
+            'sessionId': req.get('sessionId', ''),
             'correctAnswers': correct_count,
             'totalQuestions': total_questions,
             'answerResults': answer_results
