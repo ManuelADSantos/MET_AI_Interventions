@@ -1,0 +1,337 @@
+# Task File Reference
+
+This file documents all syntax supported by the task markdown parser.
+
+---
+
+## Structure
+
+```
+# Page Title              ← top-level heading = new page
+> Block quote content      ← content block (paragraph, question text, etc.)
+```
+
+Each `#` heading starts a new page. Everything under it until the next `#` belongs to that page. Content inside `> ` block quotes is rendered as styled text.
+
+---
+
+## Question Types
+
+Questions are defined with a `$type` directive indented with 4 spaces, placed after a `> ` content block. Append `?` to the type to make it optional (all questions are required by default).
+
+### `$option` — Multiple choice
+
+```markdown
+> Pick one:
+
+    $option; Choice A; Choice B; Choice C
+```
+
+Omit choices for Yes/No default:
+
+```markdown
+> Do you agree?
+
+    $option
+```
+
+Add `Other` as a choice to allow free-text input:
+
+```markdown
+> Your field?
+
+    $option; Engineering; Science; Other
+```
+
+### `$text` — Short text input
+
+```markdown
+> Describe briefly:
+
+    $text
+```
+
+Validated: 2–200 characters.
+
+### `$textarea` — Long text input
+
+```markdown
+> Explain your reasoning:
+
+    $textarea
+```
+
+Validated: 2–400 characters.
+
+### `$number` — Numeric input
+
+```markdown
+> How many do you expect?
+
+    $number
+```
+
+Validated: integer, 0–999.
+
+### `$slider` — Continuous slider
+
+```markdown
+> Rate your confidence:
+
+    $slider; 0; 100; Not confident; Very confident
+```
+
+Format: `$slider; min; max; minLabel; maxLabel`
+
+Defaults to 1–10 with "min"/"max" labels if parameters are omitted.
+
+### `$likert` — Radio scale
+
+```markdown
+> How difficult was this?
+
+    $likert; 1; 10; Very easy; Very difficult
+```
+
+Format: `$likert; min; max; minLabel; maxLabel`
+
+Same parameter format as `$slider`. Renders as discrete radio buttons instead of a slider.
+
+---
+
+## Content Types
+
+These are non-question elements rendered as static content.
+
+### Headings
+
+```markdown
+> ## Subheading
+```
+
+Subheadings inside `>` blocks become styled headers (`##` = h3, `###` = h4, etc.).
+
+### Images
+
+```markdown
+> ![alt text](image_url.png)
+```
+
+### Lists
+
+```markdown
+> - Item one
+> - Item two
+> - Item three
+```
+
+Ordered lists also supported:
+
+```markdown
+> 1. First
+> 2. Second
+```
+
+### Tables
+
+Standard markdown tables are supported:
+
+```markdown
+> | Column A | Column B |
+> |----------|----------|
+> | value 1  | value 2  |
+```
+
+### Paragraphs
+
+Any `>` block without a `$` directive renders as a paragraph. Supports **bold**, *italic*, and other inline markdown.
+
+---
+
+## Tabs
+
+Split a page into tabs with `:::tab Title`:
+
+```markdown
+# Page Title
+
+:::tab Exercise
+
+> Question goes here
+
+    $option; A; B; C
+
+:::tab Scenario
+
+> Background info for the participant
+```
+
+The tab named **Exercise** (case-insensitive) is used as the main question content. If no tab is named "Exercise", the first tab is used.
+
+---
+
+## Copy Blocks
+
+Define text that can be copied to the AI chat via the copy button:
+
+```markdown
+:::tab Scenario
+
+:::copy
+This text will be available via the copy button.
+It can span multiple lines.
+:::
+
+> Visible content here
+```
+
+To disable the copy button on a specific tab:
+
+```markdown
+:::tab Instructions
+
+:::no-copy
+
+> This tab won't show a copy button.
+```
+
+`:::copy-disabled` also works.
+
+---
+
+## Sections & Randomization
+
+### `%% RANDOMIZE`
+
+Shuffles all pages inside a section:
+
+```markdown
+%% RANDOMIZE
+
+# Question 1
+> ...
+
+# Question 2
+> ...
+
+%%
+```
+
+### `%% SECTION`
+
+Marks a block as a section (preserves page order within):
+
+```markdown
+%% SECTION
+
+# Q1
+> ...
+
+# Q2
+> ...
+
+%%
+```
+
+### `%% RANDOMIZE_SECTIONS`
+
+Place on its own line (outside any section) to shuffle the order of all `SECTION` and `RANDOMIZE` blocks amongst themselves. Unmarked content (e.g., an intro page) stays in place.
+
+```markdown
+# Introduction
+> Welcome text
+
+%% RANDOMIZE_SECTIONS
+
+%% RANDOMIZE
+# Block A - Q1
+> ...
+# Block A - Q2
+> ...
+%%
+
+%% RANDOMIZE
+# Block B - Q1
+> ...
+# Block B - Q2
+> ...
+%%
+```
+
+---
+
+## Full Example
+
+```markdown
+# Welcome
+
+> Welcome to this study. Please read carefully.
+
+> Do you consent to participate?
+
+    $option; Yes, I agree
+
+%% RANDOMIZE_SECTIONS
+
+%% RANDOMIZE
+
+# Task 1 (1/2)
+
+:::tab Exercise
+
+> **Is the following statement true?**
+
+    $option; True; False
+
+> How confident are you?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::tab Scenario
+
+:::copy
+The event runs from 9am to 5pm with a 1-hour lunch break.
+:::
+
+> The event runs from 9am to 5pm with a 1-hour lunch break.
+
+# Task 1 (2/2)
+
+:::tab Exercise
+
+> Describe your reasoning:
+
+    $textarea
+
+:::tab Context
+
+> Same scenario as before.
+
+%%
+
+%% RANDOMIZE
+
+# Task 2 (1/2)
+
+:::tab Exercise
+
+> Rate the difficulty:
+
+    $likert; 1; 10; Very easy; Very difficult
+
+:::tab Scenario
+
+> Some other scenario text.
+
+%%
+
+# Final
+
+> How many questions do you think you got right?
+
+    $number
+
+> Any feedback?
+
+    $text?
+```

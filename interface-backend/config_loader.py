@@ -1,7 +1,9 @@
+import functools
 import os
 import yaml
 import sys
 
+@functools.cache
 def load_config():
     """
     Load and validate the study configuration from study.config.yml

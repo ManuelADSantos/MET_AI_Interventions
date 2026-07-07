@@ -17,39 +17,17 @@ use_responses_api = reasoning_enabled and (not api_base_url or 'api.openai.com' 
 chat_request_options = {'reasoning_effort': reasoning_effort} if reasoning_enabled and not use_responses_api else {}
 responses_request_options = {'reasoning': {'effort': reasoning_effort, 'summary': 'auto'}} if use_responses_api else {}
 
-def format_messages(messages):
-    return [
-        {
-            'role': str(m['role']),
-            'content': [
-                { 'type': 'text', 'text': str(m['content']) },
-                { 'type': 'image_url', 'image_url': { 'url': str(m['image']), 'detail': 'low' }}
-            ]
-        }
-        if 'image' in m else
-        {
-            'role': str(m['role']),
-            'content': str(m['content'])
-        }
-        for m in messages
-    ]
-
-def format_responses_input(messages):
-    return [
-        {
-            'role': str(m['role']),
-            'content': [
-                { 'type': 'input_text', 'text': str(m['content']) },
-                { 'type': 'input_image', 'image_url': str(m['image']), 'detail': 'low' }
-            ]
-        }
-        if 'image' in m else
-        {
-            'role': str(m['role']),
-            'content': str(m['content'])
-        }
-        for m in messages
-    ]
+# ponytail: consolidated from format_messages + format_responses_input
+def _format_input(messages, responses_api=False):
+    def _msg(m):
+        if 'image' not in m:
+            return {'role': str(m['role']), 'content': str(m['content'])}
+        txt_t = 'input_text' if responses_api else 'text'
+        url = str(m['image'])
+        img = ({'type': 'input_image', 'image_url': url, 'detail': 'low'} if responses_api
+               else {'type': 'image_url', 'image_url': {'url': url, 'detail': 'low'}})
+        return {'role': str(m['role']), 'content': [{'type': txt_t, 'text': str(m['content'])}, img]}
+    return [_msg(m) for m in messages]
 
 def response_reasoning(response_data):
     return '\n'.join(
@@ -96,13 +74,13 @@ def get_completion(messages):
         if use_responses_api:
             return as_chat_response(gpt_client.responses.create(
                 model = str(gpt_model),
-                input = format_responses_input(messages),
+                input = _format_input(messages, responses_api=True),
                 **responses_request_options
             ))
 
         completion = gpt_client.chat.completions.create(
             model = str(gpt_model),
-            messages = format_messages(messages),
+            messages = _format_input(messages),
             **chat_request_options
         )
 
@@ -115,7 +93,7 @@ def stream_completion(messages):
         if use_responses_api:
             stream = gpt_client.responses.create(
                 model = str(gpt_model),
-                input = format_responses_input(messages),
+                input = _format_input(messages, responses_api=True),
                 stream = True,
                 **responses_request_options
             )
@@ -155,7 +133,7 @@ def stream_completion(messages):
 
         stream = gpt_client.chat.completions.create(
             model = str(gpt_model),
-            messages = format_messages(messages),
+            messages = _format_input(messages),
             stream = True,
             **chat_request_options
         )
