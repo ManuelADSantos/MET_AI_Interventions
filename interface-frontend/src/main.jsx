@@ -12,9 +12,9 @@ import './index.css'
  * 3. Use .env configuration to determine which condition to show
  */
 import aiTaskFile from '/public/ai_tasks.md?raw'
-import aiStudyInfoFile from '/public/examples/ai_studyinfo_example.md?raw'
-import noAiTaskFile from '/public/no-ai_tasks.md?raw'
-import noAiStudyInfoFile from '/public/examples/no-ai_studyinfo_example.md?raw'
+import aiStudyInfoFile from '/public/study_info/ai_studyinfo.md?raw'
+import noAiTaskFile from '/public/no_ai_tasks.md?raw'
+import noAiStudyInfoFile from '/public/study_info/no_ai_studyinfo.md?raw'
 
 const randomize = import.meta.env.VITE_RANDOMIZE_TASKS !== 'false'
 const opts = { randomize }
