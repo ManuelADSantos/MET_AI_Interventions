@@ -2,11 +2,7 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "interface-backend/Dockerfile",
-    "watchPatterns": [
-      "/interface-backend/**",
-      "/customizations/correct_answers.py"
-    ]
+    "dockerfilePath": "interface-backend/Dockerfile"
   },
   "deploy": {
     "healthcheckPath": "/health",
