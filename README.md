@@ -57,7 +57,7 @@ All customization is done by editing files on your computer. Changes take effect
 | Survey questions & instructions | `customizations/tasks/ai_tasks.md` or `no-ai_tasks.md` | Uses taskParser markdown format (see below) |
 | Study info / consent page | `customizations/tasks/*_studyinfo_example.md` | First page participants see |
 | Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
-| GPT model (gpt-4o, etc.) | `study.config.yml` → `gpt_model` | Change which OpenAI model to use |
+| GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
 | Experimental condition | `study.config.yml` → `condition` | Switch between 'ai' and 'no-ai' |
 | Which pages show chat | `study.config.yml` → `chat_enabled_from/until_page` | Control chat availability |
@@ -67,7 +67,7 @@ All customization is done by editing files on your computer. Changes take effect
 
 ### Task File Format
 
-Task files use a markdown-based format. See `customizations/tasks/ai_tasks.md` for a full working example.
+Task files use a markdown-based format. See [`customizations/tasks/examples.md`](customizations/tasks/examples.md) for a full reference, or `customizations/tasks/ai_tasks.md` for a working example.
 
 ```markdown
 # Page Title
@@ -157,7 +157,7 @@ Text to copy into the AI chat.
 ```yaml
 # API Settings
 openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
-gpt_model: gpt-4-turbo            # Model to use
+gpt_model: gpt-5.4-mini            # Model to use
 reasoning_effort: none            # Optional: none, low, medium, high, or xhigh for reasoning models
 base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
@@ -171,6 +171,7 @@ chat_enabled_from_page: 1          # First page with chat (0-indexed)
 chat_enabled_until_page: 99        # Last page with chat
 allow_image_attachments: false     # Enable image uploads
 require_ai_prompt: true            # Require one AI prompt before continuing
+require_ai_prompt_pages: 3-99     # Pages where the AI prompt is required
 copy_button_pages: 1-99            # Pages where tabs show the copy button
 copy_button_template: "{copyText}" # Copy-button template text
 
@@ -257,7 +258,7 @@ The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), 
 
 ### OpenAI API errors
 - Check your API key is correct in `study.config.yml`
-- Check the model name is correct (e.g., 'gpt-4-turbo')
+- Check the model name is correct (e.g., `gpt-5.4-mini`)
 
 ## Architecture
 
