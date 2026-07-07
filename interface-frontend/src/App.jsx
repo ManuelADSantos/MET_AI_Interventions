@@ -71,11 +71,11 @@ const App = ({ condition, tasks }) => {
       : <>
         <div className='flex flex-1 flex-row h-screen'>
           <TaskView tasks={tasks} />
-          <ChatView sourceIndex={
-            tasks[ctxStore.state.taskIndex] 
-            ? tasks[ctxStore.state.taskIndex].sourceIndex 
+          {condition !== 'no-ai' && <ChatView sourceIndex={
+            tasks[ctxStore.state.taskIndex]
+            ? tasks[ctxStore.state.taskIndex].sourceIndex
             : tasks[ctxStore.state.taskIndex - 1].sourceIndex
-          } />
+          } />}
         </div>
       </>
       }
