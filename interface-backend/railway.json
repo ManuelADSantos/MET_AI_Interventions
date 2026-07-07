@@ -7,6 +7,6 @@
   "deploy": {
     "startCommand": "gunicorn --reload --workers 2 --threads 64 --timeout 180 --bind 0.0.0.0:5001 app:app",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 20
+    "healthcheckTimeout": 120
   }
 }
