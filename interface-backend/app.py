@@ -28,10 +28,9 @@ _RATE_WINDOW = 300  # 5 minutes
 def _rate_limit_chat():
     if not request.path.startswith('/chat'):
         return
-    # Behind Railway's proxy remote_addr is a rotating proxy IP; the real client
-    # is the LAST X-Forwarded-For entry (appended by the trusted edge, not spoofable)
-    xff = request.headers.get('X-Forwarded-For')
-    ip = xff.split(',')[-1].strip() if xff else request.remote_addr
+    # Behind Railway's proxy remote_addr and the last X-Forwarded-For entry are rotating
+    # edge IPs; X-Real-Ip is the stable client address set by the edge itself
+    ip = request.headers.get('X-Real-Ip') or request.remote_addr
     now = time.time()
     hits = _rate[ip] = [t for t in _rate[ip] if now - t < _RATE_WINDOW]
     if len(hits) >= _RATE_LIMIT:
@@ -41,10 +40,7 @@ def _rate_limit_chat():
 
 @app.route('/health')
 def health():
-    # TEMP: echo forwarding headers to debug rate-limit client-IP detection
-    fwd = {k: v for k, v in request.headers.items()
-           if k.lower() in ('x-forwarded-for', 'x-real-ip', 'x-envoy-external-address')}
-    return {'status': 'ok', 'fwd': fwd, 'remote_addr': request.remote_addr}, 200
+    return {'status': 'ok'}, 200
 
 @app.route('/chat', methods = ['POST'])
 def send_message():
