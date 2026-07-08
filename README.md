@@ -61,7 +61,6 @@ All customization is done by editing files on your computer. Changes take effect
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
 | Experimental condition | `study.config.yml` → `condition` | Switch between 'ai' and 'no-ai' |
 | Which pages show chat | `study.config.yml` → `chat_enabled_from/until_page` | Control chat availability |
-| Attention check settings | `study.config.yml` → `attention_check_*` | Configure attention checks |
 | Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
 | UI components (advanced) | `interface-frontend/src/components/` | React components with hot-reload |
 
@@ -137,11 +136,12 @@ Text to copy into the AI chat.
 - `##` creates a section heading within a page
 - `> text` displays paragraph text to the participant
 - `$option; A; B; C` creates radio buttons (semicolon-separated choices)
-- `$slider; min; max; lowLabel; highLabel` creates a slider
+- `$slider; min; max; lowLabel; highLabel` creates a slider (append `; tooltip` or `; tooltip%` to show the selected value)
 - `$likert; min; max; lowLabel; highLabel` creates a Likert scale
-- `$number` creates a number input
+- `$number` creates a number input (optionally `$number; min; max`, defaults 0–999)
 - `$text` creates a single-line text input
 - `$textarea` creates a multi-line text area
+- Append `?` to any type (e.g. `$text?`) to make the question optional
 - `:::tab Title` ... `:::` creates a tab on the current page
 - `:::copy` ... `:::` adds copy-button text without displaying it as page content
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
@@ -174,10 +174,6 @@ require_ai_prompt: true            # Require one AI prompt before continuing
 require_ai_prompt_pages: 3-99     # Pages where the AI prompt is required
 copy_button_pages: 1-99            # Pages where tabs show the copy button
 copy_button_template: "{copyText}" # Copy-button template text
-
-# Attention Check
-attention_check_page: 1            # Page number (-1 to disable)
-attention_check_answers: Logical reasoning,The best choice  # Correct answers
 
 # Development
 dev_mode: true                     # Skip participant ID validation

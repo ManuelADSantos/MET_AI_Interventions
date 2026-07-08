@@ -13,12 +13,18 @@ const App = ({ condition, tasks }) => {
   const [idError, setIdError] = useState('')
   const ctxStore = useContext(store)
 
+  const startStudy = (pid) => {
+    ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: pid}})
+    ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
+    // Stamp the first page's entry time; later pages are stamped on navigation in TaskView
+    ctxStore.dispatch({type: 'UPDATE_TASK_TIMESTAMP', payload: {index: tasks[0].sourceIndex, ts: Date.now()}})
+    ctxStore.dispatch({type: 'NEXT_TASK'})
+    setIdGiven(true)
+  }
+
   const submitId = async (pid) => {
     if (import.meta.env.VITE_DEV_MODE === 'true') {
-      ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: pid}})
-      ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
-      ctxStore.dispatch({type: 'NEXT_TASK'})
-      setIdGiven(true)
+      startStudy(pid)
       return
     }
 
@@ -29,10 +35,7 @@ const App = ({ condition, tasks }) => {
 
     const res = await checkParticipation(pid)
     if (!res.error) {
-      ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: pid}})
-      ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
-      ctxStore.dispatch({type: 'NEXT_TASK'})
-      setIdGiven(true)
+      startStudy(pid)
     } else {
       setIdError(res.error)
     }

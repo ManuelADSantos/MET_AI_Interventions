@@ -71,7 +71,13 @@ Validated: 2–400 characters.
     $number
 ```
 
-Validated: integer, 0–999.
+Validated: integer, 0–999 by default. Custom bounds:
+
+```markdown
+> Pick a number between 5 and 42:
+
+    $number; 5; 42
+```
 
 ### `$slider` — Continuous slider
 
@@ -84,6 +90,14 @@ Validated: integer, 0–999.
 Format: `$slider; min; max; minLabel; maxLabel`
 
 Defaults to 1–10 with "min"/"max" labels if parameters are omitted.
+
+Append `tooltip` as an extra parameter to show the selected value while dragging, or `tooltip%` to add a percent sign:
+
+```markdown
+> What percentage of tasks will you finish?
+
+    $slider; 0; 100; None; All; tooltip%
+```
 
 ### `$likert` — Radio scale
 

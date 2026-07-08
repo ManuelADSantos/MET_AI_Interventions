@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Input } from '@nextui-org/react'
 import RichText from './RichText'
 
@@ -15,15 +15,9 @@ const OptionQuestion = ({ id, question, field }) => {
   const [other, setOther] = useState(isOtherValue ? fieldValue : '')
   const [otherSelected, setOtherSelected] = useState(isOtherValue)
 
-  useEffect(() => {
-    const nextValue = field.value ?? ''
-    const nextIsOther = hasOther && nextValue !== '' && !options.includes(nextValue)
-    setOtherSelected(nextIsOther)
-    if (nextIsOther) {
-      setOther(nextValue)
-    }
-  }, [field.value, hasOther, options])
-
+  /* No effect syncing otherSelected from field.value: selecting "Other" with an empty
+   * text box sets the form value to '', which is indistinguishable from "nothing selected"
+   * and used to deselect the radio. Local state is the source of truth instead. */
   const handleOtherInput = (e) => {
     setOther(e.target.value)
     /* Only change the currently selected form value if the other option has been selected */

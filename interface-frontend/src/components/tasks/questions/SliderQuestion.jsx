@@ -4,6 +4,8 @@ const SliderQuestion = ({id, question, field}) => {
   const midpoint = (question.max + question.min) / 2
   const hasValue = field.value !== undefined && field.value !== null && field.value !== ''
   const sliderValue = hasValue ? Number(field.value) : midpoint
+  // Enabled via `$slider; min; max; low; high; tooltip` (or `tooltip%` for a percent suffix)
+  const tooltipParam = (question.additionalParams || []).find((p) => /^tooltip%?$/.test(p))
 
   return (
     <div className='flex flex-row justify-center items-center mx-16'>
@@ -11,7 +13,7 @@ const SliderQuestion = ({id, question, field}) => {
       <Slider
         id={id}
         name={id}
-        className='mx-8'
+        className='mx-8 max-w-md'
         step={1}
         color='foreground'
         label=''
@@ -24,7 +26,8 @@ const SliderQuestion = ({id, question, field}) => {
           field.onChange(value)
         }}
         inputRef={field.ref}
-        showTooltip={false}
+        showTooltip={!!tooltipParam}
+        tooltipValueFormatOptions={tooltipParam === 'tooltip%' ? { style: 'unit', unit: 'percent' } : undefined}
       />
       <span>{question.maxLabel}</span>
     </div>

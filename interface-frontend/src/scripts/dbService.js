@@ -33,14 +33,14 @@ const checkParticipation = async (id) => {
       body: JSON.stringify({id: String(id)})
     })
 
-    switch (res.status) {
-      case 302:
-        return {'error': 'Participation with given ID already registered.'}
-      case 204:
-        return {}
-      default:
-        throw new Error('Something went wrong. Please try again.')
+    if (!res.ok) {
+      throw new Error('Something went wrong. Please try again.')
     }
+
+    const body = await res.json()
+    return body.participated
+      ? {'error': 'Participation with given ID already registered.'}
+      : {}
   } catch (e) {
     return {'error': e.message}
   }

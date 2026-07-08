@@ -75,6 +75,21 @@ const parseContentItems = (rawContent) => {
       }
     }
 
+    if (questionType === 'number') {
+      const params = rq.split('$')[1].trim().split(';').slice(1).map((p) => p.trim())
+      const num = (v, fallback) => {
+        const n = parseInt(v)
+        return Number.isNaN(n) ? fallback : n
+      }
+      return {
+        question: questionText,
+        type: questionType,
+        required: isRequired,
+        min: num(params[0], 0),
+        max: num(params[1], 999)
+      }
+    }
+
     return {
       question: questionText,
       type: questionType,

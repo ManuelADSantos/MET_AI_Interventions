@@ -18,9 +18,6 @@ require_ai_prompt_pages: 3-99
 copy_button_pages: 2-99            # 0-indexed source pages where each tab should show a copy button, e.g. 1-5 or 1,3,4
 copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
 
-# Attention Check
-attention_check_page: 1            # Page number (-1 to disable)
-attention_check_answers: Planning and Organizing,C
 
 # Development
 dev_mode: true                     # Skip participant ID validation

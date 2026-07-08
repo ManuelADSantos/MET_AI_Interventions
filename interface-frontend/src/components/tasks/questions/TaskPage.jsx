@@ -201,24 +201,8 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
       })
     }
 
-    /* A pretty crude attention check. Just blocks progress until correct. */
-    if (taskIndex === parseInt(import.meta.env.VITE_ATTN_CHECK_PAGE)) {
-      const pass = []
-      const correct = import.meta.env.VITE_ATTN_CHECK_RES.split(',')
-      pageResponses[taskIndex].forEach((r) => {
-        if (correct.includes(r)) {
-          pass.push(true)
-        } else {
-          pass.push(false)
-        }
-      })
-
-      if (pass.includes(false)) {
-        setSubmitError('Looks like you were not quite paying attention. Please try again.')
-        return
-      }
-    }
-
+    /* Attention checks no longer block progression: answers are recorded like any other
+     * response and checked offline during analysis. */
     ctxStore.dispatch({
       type: 'UPDATE_RESPONSES',
       payload: {

@@ -68,8 +68,9 @@ def test(name, condition, detail=""):
 print(f"Testing against: {BACKEND_URL}\n")
 
 print("1. Unknown ID is not a participant...")
-status, _ = post_json("/check_participation", {"id": PID})
-test("check_participation returns 204", status == 204, f"got {status}")
+status, body = post_json("/check_participation", {"id": PID})
+test("check_participation returns 200 + participated=false",
+     status == 200 and body.get("participated") is False, f"got {status} {body}")
 
 print("\n2. POST /save ...")
 status, body = post_json("/save", PAYLOAD)
@@ -80,8 +81,9 @@ test("correct answers == 2", body.get("correctAnswers") == 2, f"got {body.get('c
 test("total questions == 20", body.get("totalQuestions") == 20, f"got {body.get('totalQuestions')}")
 
 print("\n3. Saved ID is now a participant...")
-status, _ = post_json("/check_participation", {"id": PID})
-test("check_participation returns 302", status == 302, f"got {status}")
+status, body = post_json("/check_participation", {"id": PID})
+test("check_participation returns 200 + participated=true",
+     status == 200 and body.get("participated") is True, f"got {status} {body}")
 
 print("\n4. Re-save is a safe upsert (retry scenario)...")
 status, _ = post_json("/save", PAYLOAD)

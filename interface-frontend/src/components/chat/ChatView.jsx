@@ -45,6 +45,7 @@ const ChatView = ({ sourceIndex }) => {
   const ctxStore = useContext(store)
   const ctxStoreRef = useRef(ctxStore)
   const sourceIndexRef = useRef(sourceIndex)
+  const lastUserMessageIdRef = useRef(undefined)
 
   ctxStoreRef.current = ctxStore
   sourceIndexRef.current = sourceIndex
@@ -62,13 +63,20 @@ const ChatView = ({ sourceIndex }) => {
         .filter((message) => ['user', 'assistant'].includes(message.role))
         .map(toBackendMessage)
 
+      /* Regenerating reruns the SAME user message (same id); a fresh prompt has a new id.
+       * Only fresh prompts may unlock page progression below. */
+      const newestUiUserMessage = [...messages].reverse().find((message) => message.role === 'user')
+      const isNewPrompt = newestUiUserMessage?.id !== lastUserMessageIdRef.current
+      lastUserMessageIdRef.current = newestUiUserMessage?.id
+
       const newestUserMessage = [...backendMessages].reverse().find((message) => message.role === 'user')
       const prompt = {
         role: 'user',
         content: newestUserMessage?.content || '',
         image: newestUserMessage?.image,
         ts: Date.now(),
-        task: currentSourceIndex
+        task: currentSourceIndex,
+        ...(isNewPrompt ? {} : { regenerated: true })
       }
 
       let finalResponse
@@ -124,7 +132,12 @@ const ChatView = ({ sourceIndex }) => {
         }
       })
 
-      currentStore.dispatch({ type: 'TOGGLE_CHAT_USED', payload: { value: true } })
+      /* Unlock progression only for a fresh prompt AND only if the participant is still on
+       * the page where generation started — finishing (or regenerating) after they moved on
+       * must not unlock the page they haven't prompted on yet. */
+      if (isNewPrompt && sourceIndexRef.current === currentSourceIndex) {
+        currentStore.dispatch({ type: 'TOGGLE_CHAT_USED', payload: { value: true } })
+      }
 
       yield {
         content: buildParts()

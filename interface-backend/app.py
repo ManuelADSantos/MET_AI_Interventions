@@ -127,10 +127,8 @@ def check_participation():
         req = request.get_json()
         pid = str(req['id'])
 
-        if db.has_participated(pid):
-            return {'participated': True}, 302
-
-        return {'participated': False}, 204
+        # Plain 200 + JSON body: 302/204 confused fetch/proxies and broke ID validation
+        return {'participated': db.has_participated(pid)}, 200
     except Exception as e:
         return {'error': str(e)}, 500
 

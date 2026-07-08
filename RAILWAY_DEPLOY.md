@@ -106,8 +106,6 @@ Click **"Raw Editor"** and paste:
   "VITE_ALLOW_IMAGES": "false",
   "VITE_DEV_MODE": "false",
   "VITE_SYSTEM_PROMPT": "You are a helpful logical reasoning assistant",
-  "VITE_ATTN_CHECK_PAGE": "1",
-  "VITE_ATTN_CHECK_RES": "Planning and Organizing,C",
   "VITE_COPY_BUTTON_PAGES": "1-99",
   "VITE_COPY_BUTTON_TEMPLATE": "{copyText}",
   "VITE_RANDOMIZE_TASKS": "true",
@@ -125,8 +123,6 @@ Click **"Raw Editor"** and paste:
 | `VITE_ALLOW_IMAGES` | `true` or `false` — allow image attachments in chat |
 | `VITE_DEV_MODE` | `false` for production. `true` skips Prolific ID validation |
 | `VITE_SYSTEM_PROMPT` | The system prompt that defines AI behavior |
-| `VITE_ATTN_CHECK_PAGE` | Page number for the attention check (`-1` to disable) |
-| `VITE_ATTN_CHECK_RES` | Comma-separated correct answers for the attention check |
 | `VITE_COPY_BUTTON_PAGES` | Page range where tabs show a copy-to-clipboard button (e.g. `1-99` or `2,4,6`) |
 | `VITE_COPY_BUTTON_TEMPLATE` | Template for copied text. Placeholders: `{copyText}`, `{title}`, `{tabTitle}`, `{tabText}`, `{exerciseText}`, `{allTabsText}`, `{allCopyText}`, `{questionText}`, `{optionsText}` |
 | `VITE_RANDOMIZE_TASKS` | `true` or `false` — shuffle task order |

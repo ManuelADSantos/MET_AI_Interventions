@@ -63,4 +63,32 @@ for (let i = 0; i < 20; i++) {
   assert.ok(lastA < firstB, 'sections must not move without the directive')
 }
 
+// Question directives: optional '?', number min/max, slider tooltip param
+const qMd = `# Q
+
+> Optional feedback:
+
+    $textarea?
+
+> Count:
+
+    $number; 5; 42
+
+> Just a number:
+
+    $number
+
+> Rate:
+
+    $slider; 0; 100; Low; High; tooltip%
+`
+const qItems = loadTasks(qMd)[0].content
+const [optional, bounded, plainNumber, slider] = qItems.filter((c) => c.type !== 'paragraph')
+assert.strictEqual(optional.required, false, 'trailing ? must mark question optional')
+assert.strictEqual(optional.type, 'textarea')
+assert.strictEqual(bounded.required, true)
+assert.deepStrictEqual([bounded.min, bounded.max], [5, 42], 'number must take custom min/max')
+assert.deepStrictEqual([plainNumber.min, plainNumber.max], [0, 999], 'number defaults to 0-999')
+assert.deepStrictEqual(slider.additionalParams, ['tooltip%'], 'extra slider params must be preserved')
+
 console.log('All taskParser randomization tests passed.')
