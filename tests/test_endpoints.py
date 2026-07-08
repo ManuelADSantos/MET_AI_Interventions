@@ -38,11 +38,14 @@ PAYLOAD = {
 passed = failed = 0
 
 
-def post_json(path, data):
+def post_json(path, data, token=None):
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     req = urllib.request.Request(
         f"{BACKEND_URL}{path}",
         data=json.dumps(data).encode(),
-        headers={"Content-Type": "application/json"})
+        headers=headers)
     try:
         resp = urllib.request.urlopen(req)
         body = resp.read().decode()
@@ -89,12 +92,30 @@ print("\n4. Re-save is a safe upsert (retry scenario)...")
 status, _ = post_json("/save", PAYLOAD)
 test("second save returns 201", status == 201, f"got {status}")
 
-print("\n5. Cleanup...")
+print("\n5. Chat requires a session token...")
+status, _ = post_json("/chat", {"messages": [{"role": "user", "content": "hi"}]})
+test("no token returns 401", status == 401, f"got {status}")
+status, _ = post_json("/chat", {"messages": [{"role": "user", "content": "hi"}]}, token="bogus")
+test("bogus token returns 401", status == 401, f"got {status}")
+
+print("\n6. Token minting...")
+status, body = post_json("/token", {"id": PID, "condition": "ai"})
+test("mint returns 200 + token", status == 200 and body.get("token"), f"got {status} {body}")
+status, _ = post_json("/token", {"id": "", "condition": "ai"})
+test("empty id returns 400", status == 400, f"got {status}")
+
+print("\n7. Oversized chat request is rejected...")
+status, _ = post_json("/chat", {"messages": [{"role": "user", "content": "x" * 300_000}]},
+                      token=body.get("token"))
+test("oversized returns 413", status == 413, f"got {status}")
+
+print("\n8. Cleanup...")
 try:
     sys.path.insert(0, "/app")
     import db
     db._run("DELETE FROM participants WHERE participant_id = %s", (PID,))
-    print("  removed test row from Postgres")
+    db._run("DELETE FROM sessions WHERE participant_id = %s", (PID,))
+    print("  removed test rows from Postgres")
 except Exception:
     print(f"  skipped (not inside backend container) - stray row: {PID}")
 

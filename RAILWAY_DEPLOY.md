@@ -76,6 +76,7 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
 | `WEB_THREADS` | Threads per worker. `64` handles concurrent chat streams |
 | `WEB_TIMEOUT` | Request timeout in seconds. `180` accommodates slow model responses |
 | `ALLOWED_ORIGIN` | **Recommended.** The frontend's public Railway URL. Locks CORS to only your frontend — prevents other websites from calling your backend. Omit to allow all origins (fine for local dev) |
+| `CHAT_MESSAGE_CAP` | Max chat calls per participant (default `300`). Bounds OpenAI spend per session token |
 | `AUTOPROCTOR_API_KEY` | API key from [autoproctor.co](https://www.autoproctor.co). Leave empty to disable proctoring |
 | `AUTOPROCTOR_TEST_LABEL` | The test label/ID from your AutoProctor dashboard. Required if `AUTOPROCTOR_API_KEY` is set |
 

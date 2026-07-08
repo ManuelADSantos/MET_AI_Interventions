@@ -25,21 +25,52 @@ CORS(app, origins=os.environ.get('ALLOWED_ORIGIN', '*'))
 
 # ponytail: per-worker in-memory rate limit, Redis/DB if cross-worker sharing needed
 _rate = defaultdict(list)
-_RATE_LIMIT = 30
 _RATE_WINDOW = 300  # 5 minutes
+_RATE_LIMITS = {'/chat': 30, '/token': 10, '/save': 10}  # per IP per window
 
 @app.before_request
-def _rate_limit_chat():
-    if not request.path.startswith('/chat'):
+def _rate_limit():
+    for prefix, limit in _RATE_LIMITS.items():
+        if request.path.startswith(prefix):
+            break
+    else:
         return
     # Behind Railway's proxy remote_addr and the last X-Forwarded-For entry are rotating
     # edge IPs; X-Real-Ip is the stable client address set by the edge itself
     ip = request.headers.get('X-Real-Ip') or request.remote_addr
     now = time.time()
-    hits = _rate[ip] = [t for t in _rate[ip] if now - t < _RATE_WINDOW]
-    if len(hits) >= _RATE_LIMIT:
+    hits = _rate[(ip, prefix)] = [t for t in _rate[(ip, prefix)] if now - t < _RATE_WINDOW]
+    if len(hits) >= limit:
         return {'error': 'rate limit exceeded'}, 429
     hits.append(now)
+
+
+# Blocks context-stuffing abuse; roomy enough for a full-study transcript plus an image or two
+_MAX_CHAT_CHARS = 200_000
+
+def _chat_denied(req):
+    """Bearer-token auth + size cap for the chat endpoints. Returns an error response or None."""
+    auth = request.headers.get('Authorization', '')
+    if not auth.startswith('Bearer ') or not db.consume_chat(auth[7:]):
+        return {'error': 'invalid or exhausted session token'}, 401
+    messages = req.get('messages') or []
+    size = sum(len(str(m.get('content', ''))) + len(str(m.get('image', ''))) for m in messages)
+    if len(messages) > 200 or size > _MAX_CHAT_CHARS:
+        return {'error': 'request too large'}, 413
+    return None
+
+
+@app.route('/token', methods=['POST'])
+def issue_token():
+    try:
+        req = request.get_json()
+        pid = str(req.get('id', '')).strip()[:128]
+        condition = str(req.get('condition', '')).strip()[:32]
+        if not pid or not condition:
+            return {'error': 'missing id or condition'}, 400
+        return {'token': db.issue_token(pid, condition)}, 200
+    except Exception as e:
+        return {'error': str(e)}, 500
 
 
 @app.route('/health')
@@ -50,6 +81,9 @@ def health():
 def send_message():
     try:
         req = request.get_json()
+        denied = _chat_denied(req)
+        if denied:
+            return denied
         messages = req['messages']
 
         result = get_completion(messages)
@@ -60,6 +94,9 @@ def send_message():
 @app.route('/chat/stream', methods = ['POST'])
 def stream_message():
     req = request.get_json()
+    denied = _chat_denied(req)
+    if denied:
+        return denied
     messages = req['messages']
 
     def generate():
@@ -100,11 +137,15 @@ def save_data():
         correct_count, answer_results = evaluate_answers(req['tasks'])
         total_questions = len(right_choices)
 
+        # The condition registered at session start wins over the client-sent one,
+        # so editing the URL/payload mid-study can't switch a participant's condition
+        condition = db.get_session_condition(req['participantId']) or req['condition']
+
         record = {
             'participantId': req['participantId'],
             'messages': req['messages'],
             'tasks': req['tasks'],
-            'condition': req['condition'],
+            'condition': condition,
             'studyId': req.get('studyId', ''),
             'sessionId': req.get('sessionId', ''),
             'correctAnswers': correct_count,
@@ -112,7 +153,7 @@ def save_data():
             'answerResults': answer_results
         }
 
-        db.save_participant(req['participantId'], req['condition'], record)
+        db.save_participant(req['participantId'], condition, record)
 
         return {
             'message': 'OK',
