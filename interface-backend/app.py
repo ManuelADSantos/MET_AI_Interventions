@@ -41,7 +41,10 @@ def _rate_limit_chat():
 
 @app.route('/health')
 def health():
-    return {'status': 'ok'}, 200
+    # TEMP: echo forwarding headers to debug rate-limit client-IP detection
+    fwd = {k: v for k, v in request.headers.items()
+           if k.lower() in ('x-forwarded-for', 'x-real-ip', 'x-envoy-external-address')}
+    return {'status': 'ok', 'fwd': fwd, 'remote_addr': request.remote_addr}, 200
 
 @app.route('/chat', methods = ['POST'])
 def send_message():
