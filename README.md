@@ -186,6 +186,35 @@ completion_url: ""                 # Redirect URL (optional)
 export_token: ""                   # Set a secret to enable GET /export?token=<secret>
 ```
 
+## Adding Conditions
+
+The platform ships with two conditions: `ai` (chat panel visible) and `no-ai` (questionnaire only). To add a new condition (e.g. `ai-limited`):
+
+1. **Create task files** in `customizations/tasks/`:
+   - `ai-limited_tasks.md` — the survey/task pages
+   - `study_info/ai-limited_studyinfo.md` — consent / intro pages
+
+2. **Register the condition** in `interface-frontend/src/main.jsx`:
+   ```javascript
+   import aiLimitedTaskFile from '/public/ai-limited_tasks.md?raw'
+   import aiLimitedStudyInfoFile from '/public/study_info/ai-limited_studyinfo.md?raw'
+
+   const aiLimitedTasks = loadTasks(aiLimitedTaskFile, opts)
+   const aiLimitedStudyInfo = loadTasks(aiLimitedStudyInfoFile, opts)
+   ```
+   Then add it to the `tasksPerCondition` map:
+   ```javascript
+   const tasksPerCondition = {
+     'ai': [...aiStudyInfo, ...aiTasks.map(...)],
+     'no-ai': [...noAiStudyInfo, ...noAiTasks.map(...)],
+     'ai-limited': [...aiLimitedStudyInfo, ...aiLimitedTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiLimitedStudyInfo.length }})]
+   }
+   ```
+
+3. **Set the condition** via `VITE_PCTP_CONDITION=ai-limited` (env var or `study.config.yml` → `condition`), or per-participant via URL: `?condition=ai-limited`
+
+**Chat visibility rule:** the chat panel appears for every condition except `no-ai`. If your new condition should hide the chat, update the check in `interface-frontend/src/App.jsx` (line with `condition !== 'no-ai'`).
+
 ## Viewing Collected Data
 
 Participant data is saved to Postgres (the `db` container). Each record includes:
