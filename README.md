@@ -215,6 +215,18 @@ The platform ships with two conditions: `ai` (chat panel visible) and `no-ai` (q
 
 **Chat visibility rule:** the chat panel appears for every condition except `no-ai`. If your new condition should hide the chat, update the check in `interface-frontend/src/App.jsx` (line with `condition !== 'no-ai'`).
 
+## AutoProctor Integration (Optional)
+
+To enable browser-based proctoring via [AutoProctor](https://www.autoproctor.co):
+
+1. Set `use_autoproctor: true` in `study.config.yml` (or `VITE_USE_AUTOPROCTOR=true` on Railway)
+2. Set `AUTOPROCTOR_API_KEY` and `AUTOPROCTOR_TEST_LABEL` on the **backend** (env vars or Railway variables)
+3. Share the Prolific URL as usual — participants will see a consent flow, then be redirected to AutoProctor which opens the study in a proctored iframe
+
+The consent flow shows your study info pages, then AutoProctor-specific disclosure (screen monitoring, tab switching, single-monitor requirement). Inside the proctored iframe, participants enter their Prolific ID to sync their session and begin the study.
+
+No code changes needed — the routing is automatic when `VITE_USE_AUTOPROCTOR` is `true`. When `false` (default), the existing PID-entry flow works unchanged.
+
 ## Viewing Collected Data
 
 Participant data is saved to Postgres (the `db` container). Each record includes:

@@ -55,7 +55,9 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
   "WEB_CONCURRENCY": "2",
   "WEB_THREADS": "64",
   "WEB_TIMEOUT": "180",
-  "ALLOWED_ORIGIN": "https://your-frontend-xyz.up.railway.app"
+  "ALLOWED_ORIGIN": "https://your-frontend-xyz.up.railway.app",
+  "AUTOPROCTOR_API_KEY": "",
+  "AUTOPROCTOR_TEST_LABEL": ""
 }
 ```
 
@@ -74,6 +76,8 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
 | `WEB_THREADS` | Threads per worker. `64` handles concurrent chat streams |
 | `WEB_TIMEOUT` | Request timeout in seconds. `180` accommodates slow model responses |
 | `ALLOWED_ORIGIN` | **Recommended.** The frontend's public Railway URL. Locks CORS to only your frontend — prevents other websites from calling your backend. Omit to allow all origins (fine for local dev) |
+| `AUTOPROCTOR_API_KEY` | API key from [autoproctor.co](https://www.autoproctor.co). Leave empty to disable proctoring |
+| `AUTOPROCTOR_TEST_LABEL` | The test label/ID from your AutoProctor dashboard. Required if `AUTOPROCTOR_API_KEY` is set |
 
 `PORT` and `RAILWAY_ENVIRONMENT` are injected automatically by Railway — do not set them.
 
@@ -110,7 +114,8 @@ Click **"Raw Editor"** and paste:
   "VITE_COPY_BUTTON_TEMPLATE": "{copyText}",
   "VITE_RANDOMIZE_TASKS": "true",
   "VITE_REQUIRE_AI_PROMPT": "true",
-  "VITE_REQUIRE_AI_PROMPT_PAGES": "3-99"
+  "VITE_REQUIRE_AI_PROMPT_PAGES": "3-99",
+  "VITE_USE_AUTOPROCTOR": "false"
 }
 ```
 
@@ -128,6 +133,7 @@ Click **"Raw Editor"** and paste:
 | `VITE_RANDOMIZE_TASKS` | `true` or `false` — shuffle task order |
 | `VITE_REQUIRE_AI_PROMPT` | `true` to require participants to prompt the AI at least once per question |
 | `VITE_REQUIRE_AI_PROMPT_PAGES` | Page range where the AI prompt requirement applies (e.g. `3-99`) |
+| `VITE_USE_AUTOPROCTOR` | `true` to enable AutoProctor proctoring (requires `AUTOPROCTOR_API_KEY` + `AUTOPROCTOR_TEST_LABEL` on the backend). Default `false` |
 
 ### Networking tab
 

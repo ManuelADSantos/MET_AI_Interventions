@@ -19,6 +19,9 @@ copy_button_pages: 2-99            # 0-indexed source pages where each tab shoul
 copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
 
 
+# Proctoring (optional)
+use_autoproctor: false             # Enable AutoProctor proctoring (requires AUTOPROCTOR_API_KEY + AUTOPROCTOR_TEST_LABEL env vars on the backend)
+
 # Development
 dev_mode: true                     # Skip participant ID validation
 

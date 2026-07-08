@@ -1,13 +1,17 @@
 import os
 import json
 import time
+import logging
 from collections import defaultdict
 from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
+import httpx
 from chat_helpers import get_completion, stream_completion
 from correct_answers import right_choices
 from config_loader import load_config
 import db
+
+log = logging.getLogger(__name__)
 
 config = load_config()
 prolific_code = config.get('completion_code', 'COMPLETE')
@@ -138,3 +142,66 @@ def export_data():
     if not token or request.args.get('token') != token:
         return {'error': 'unauthorized'}, 403
     return {'participants': db.fetch_all()}, 200
+
+
+# ── AutoProctor launch ───────────────────────────────────────────────
+
+@app.route('/api/launch/consent', methods=['POST'])
+def launch_consent():
+    """Register participant session and return a unique AutoProctor URL."""
+    try:
+        req = request.get_json()
+        pid = str(req.get('prolificPid', '')).strip()
+        condition = str(req.get('condition', '')).strip()
+
+        if not pid or not condition:
+            return {'error': 'Missing prolificPid or condition'}, 400
+
+        if db.has_participated(pid):
+            return {'error': 'Participation with given ID already registered.'}, 409
+
+        api_key = os.getenv('AUTOPROCTOR_API_KEY')
+        test_label = os.getenv('AUTOPROCTOR_TEST_LABEL')
+        if not api_key or not test_label:
+            log.error("[launch_consent] AUTOPROCTOR_API_KEY or AUTOPROCTOR_TEST_LABEL not set")
+            return {'error': 'Proctoring service is not configured on the server'}, 500
+
+        db.create_session(pid, condition)
+
+        pseudo_email = f"{pid}@prolific.study"
+        with httpx.Client(timeout=15.0) as client:
+            resp = client.post(
+                f"https://www.autoproctor.co/api/v2/tests/{test_label}/generate-unique-urls/",
+                headers={"Content-Type": "application/json", "X-API-Key": api_key},
+                json={"emails": [pseudo_email], "loginNotRequired": True},
+            )
+
+        if resp.status_code != 200:
+            log.error("[launch_consent] AutoProctor error %s: %s", resp.status_code, resp.text)
+            return {'error': 'Failed to generate proctoring link'}, 502
+
+        urls = resp.json().get('urls', [])
+        if not urls:
+            return {'error': 'No URL returned from proctoring service'}, 502
+
+        return {'autoproctor_url': urls[0]}, 200
+
+    except httpx.RequestError as e:
+        log.error("[launch_consent] AutoProctor unreachable: %s", e)
+        return {'error': 'Proctoring service unreachable'}, 503
+    except Exception as e:
+        log.exception("[launch_consent] Error: %s", e)
+        return {'error': str(e)}, 500
+
+
+@app.route('/api/launch/session/<pid>', methods=['GET'])
+def get_session_state(pid):
+    """Return the stored condition for a participant (used by SyncPage inside AutoProctor)."""
+    try:
+        condition = db.get_session_condition(pid)
+        if not condition:
+            return {'error': 'Participant not found'}, 404
+        return {'condition': condition}, 200
+    except Exception as e:
+        log.exception("[get_session_state] Error: %s", e)
+        return {'error': str(e)}, 500

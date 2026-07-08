@@ -8,7 +8,7 @@ import { Button, Card, CardBody, Input, CardHeader } from '@nextui-org/react'
 const urlParams = new URLSearchParams(window.location.search)
 const urlPid = urlParams.get('PROLIFIC_PID')
 
-const App = ({ condition, tasks }) => {
+const App = ({ condition, tasks, directStartPid }) => {
   const [idGiven, setIdGiven] = useState(false)
   const [idError, setIdError] = useState('')
   const ctxStore = useContext(store)
@@ -42,6 +42,7 @@ const App = ({ condition, tasks }) => {
   }
 
   useEffect(() => {
+    if (directStartPid) { startStudy(directStartPid); return }
     if (urlPid) submitId(urlPid)
   }, [])
 

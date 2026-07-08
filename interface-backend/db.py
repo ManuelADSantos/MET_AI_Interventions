@@ -31,7 +31,11 @@ def init():
                 participant_id TEXT PRIMARY KEY,
                 condition TEXT,
                 data JSONB NOT NULL,
-                saved_at TIMESTAMPTZ NOT NULL DEFAULT now())''')
+                saved_at TIMESTAMPTZ NOT NULL DEFAULT now());
+            CREATE TABLE IF NOT EXISTS sessions (
+                participant_id TEXT PRIMARY KEY,
+                condition TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT now())''')
 
 
 def save_participant(pid, condition, record):
@@ -45,6 +49,19 @@ def save_participant(pid, condition, record):
 
 def has_participated(pid):
     return bool(_run('SELECT 1 FROM participants WHERE participant_id = %s', (pid,), fetch=True))
+
+
+def create_session(pid, condition):
+    _run('''INSERT INTO sessions (participant_id, condition)
+            VALUES (%s, %s)
+            ON CONFLICT (participant_id)
+            DO UPDATE SET condition = EXCLUDED.condition''',
+         (pid, condition))
+
+
+def get_session_condition(pid):
+    rows = _run('SELECT condition FROM sessions WHERE participant_id = %s', (pid,), fetch=True)
+    return rows[0][0] if rows else None
 
 
 def fetch_all():

@@ -21,6 +21,7 @@ VITE_COPY_BUTTON_TEMPLATE=$(grep '^copy_button_template:' $CONFIG_FILE | sed 's/
 VITE_RANDOMIZE_TASKS=$(grep '^randomize_tasks:' $CONFIG_FILE | sed 's/randomize_tasks: *//;s/  *#.*//;s/ *$//')
 VITE_REQUIRE_AI_PROMPT=$(grep '^require_ai_prompt:' $CONFIG_FILE | sed 's/require_ai_prompt: *//;s/  *#.*//;s/ *$//')
 VITE_REQUIRE_AI_PROMPT_PAGES=$(grep '^require_ai_prompt_pages:' $CONFIG_FILE | sed 's/require_ai_prompt_pages: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
+VITE_USE_AUTOPROCTOR=$(grep '^use_autoproctor:' $CONFIG_FILE | sed 's/use_autoproctor: *//;s/  *#.*//;s/ *$//')
 EOF
 
     echo ".env file generated successfully:"
