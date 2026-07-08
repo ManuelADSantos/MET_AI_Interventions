@@ -28,7 +28,10 @@ _RATE_WINDOW = 300  # 5 minutes
 def _rate_limit_chat():
     if not request.path.startswith('/chat'):
         return
-    ip = request.remote_addr
+    # Behind Railway's proxy remote_addr is a rotating proxy IP; the real client
+    # is the LAST X-Forwarded-For entry (appended by the trusted edge, not spoofable)
+    xff = request.headers.get('X-Forwarded-For')
+    ip = xff.split(',')[-1].strip() if xff else request.remote_addr
     now = time.time()
     hits = _rate[ip] = [t for t in _rate[ip] if now - t < _RATE_WINDOW]
     if len(hits) >= _RATE_LIMIT:
