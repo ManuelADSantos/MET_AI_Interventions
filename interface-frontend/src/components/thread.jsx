@@ -3,6 +3,13 @@ import {
   UserMessageAttachments,
 } from "@/components/attachment";
 import { MarkdownText } from "@/components/markdown-text";
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningRoot,
+  ReasoningText,
+  ReasoningTrigger,
+} from "@/components/reasoning";
 import { TooltipIconButton } from "@/components/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -284,6 +291,8 @@ const MessageError = () => {
 };
 
 const AssistantMessage = () => {
+  const { ReasoningGroup } = useContext(ThreadComponentsContext);
+
   // reserves space for action bar and compensates with `-mb` for consistent msg spacing
   // keeps hovered action bar from shifting layout (autohide doesn't support absolute positioning well)
   // for pt-[n] use -mb-[n + 6] & min-h-[n + 6] to preserve compensation
@@ -299,11 +308,31 @@ const AssistantMessage = () => {
         // [contain-intrinsic-size:auto_24px] fixes issue #4104, don't change without checking for regressions
         className="px-2 leading-relaxed text-[#0d0d0d] wrap-break-word [contain-intrinsic-size:auto_24px] [content-visibility:auto]">
         <MessagePrimitive.GroupedParts
-          groupBy={groupPartByType({})}>
-          {({ part }) => {
+          groupBy={groupPartByType({
+            reasoning: ["group-chainOfThought", "group-reasoning"],
+          })}>
+          {({ part, children }) => {
             switch (part.type) {
+              case "group-chainOfThought":
+                return <div data-slot="aui_chain-of-thought">{children}</div>;
+              case "group-reasoning": {
+                if (ReasoningGroup) {
+                  return (<ReasoningGroup group={part}>{children}</ReasoningGroup>);
+                }
+                const running = part.status.type === "running";
+                return (
+                  <ReasoningRoot streaming={running}>
+                    <ReasoningTrigger active={running} />
+                    <ReasoningContent aria-busy={running}>
+                      <ReasoningText>{children}</ReasoningText>
+                    </ReasoningContent>
+                  </ReasoningRoot>
+                );
+              }
               case "text":
                 return <MarkdownText />;
+              case "reasoning":
+                return <Reasoning {...part} />;
               case "data":
                 return part.dataRendererUI;
               case "indicator":
