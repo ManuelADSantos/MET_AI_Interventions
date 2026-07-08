@@ -54,7 +54,8 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
   "DB_POOL_MAX": "10",
   "WEB_CONCURRENCY": "2",
   "WEB_THREADS": "64",
-  "WEB_TIMEOUT": "180"
+  "WEB_TIMEOUT": "180",
+  "ALLOWED_ORIGIN": "https://your-frontend-xyz.up.railway.app"
 }
 ```
 
@@ -72,6 +73,7 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
 | `WEB_CONCURRENCY` | Number of Gunicorn worker processes. `2` is fine for most studies |
 | `WEB_THREADS` | Threads per worker. `64` handles concurrent chat streams |
 | `WEB_TIMEOUT` | Request timeout in seconds. `180` accommodates slow model responses |
+| `ALLOWED_ORIGIN` | **Recommended.** The frontend's public Railway URL. Locks CORS to only your frontend — prevents other websites from calling your backend. Omit to allow all origins (fine for local dev) |
 
 `PORT` and `RAILWAY_ENVIRONMENT` are injected automatically by Railway — do not set them.
 

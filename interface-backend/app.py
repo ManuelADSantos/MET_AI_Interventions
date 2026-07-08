@@ -1,5 +1,7 @@
 import os
 import json
+import time
+from collections import defaultdict
 from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 from chat_helpers import get_completion, stream_completion
@@ -15,7 +17,23 @@ db.init()
 
 app = Flask(__name__)
 
-CORS(app, origins = '*')
+CORS(app, origins=os.environ.get('ALLOWED_ORIGIN', '*'))
+
+# ponytail: per-worker in-memory rate limit, Redis/DB if cross-worker sharing needed
+_rate = defaultdict(list)
+_RATE_LIMIT = 30
+_RATE_WINDOW = 300  # 5 minutes
+
+@app.before_request
+def _rate_limit_chat():
+    if not request.path.startswith('/chat'):
+        return
+    ip = request.remote_addr
+    now = time.time()
+    hits = _rate[ip] = [t for t in _rate[ip] if now - t < _RATE_WINDOW]
+    if len(hits) >= _RATE_LIMIT:
+        return {'error': 'rate limit exceeded'}, 429
+    hits.append(now)
 
 
 @app.route('/health')
