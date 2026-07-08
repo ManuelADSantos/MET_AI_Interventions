@@ -1,4 +1,5 @@
 import os
+import secrets
 import threading
 import psycopg2
 from psycopg2.pool import ThreadedConnectionPool
@@ -35,7 +36,9 @@ def init():
             CREATE TABLE IF NOT EXISTS sessions (
                 participant_id TEXT PRIMARY KEY,
                 condition TEXT NOT NULL,
-                created_at TIMESTAMPTZ NOT NULL DEFAULT now())''')
+                created_at TIMESTAMPTZ NOT NULL DEFAULT now());
+            ALTER TABLE sessions ADD COLUMN IF NOT EXISTS token TEXT;
+            ALTER TABLE sessions ADD COLUMN IF NOT EXISTS chat_count INT NOT NULL DEFAULT 0''')
 
 
 def save_participant(pid, condition, record):
@@ -57,6 +60,27 @@ def create_session(pid, condition):
             ON CONFLICT (participant_id)
             DO UPDATE SET condition = EXCLUDED.condition''',
          (pid, condition))
+
+
+# Hard per-participant ceiling on chat calls: bounds OpenAI spend even if a token leaks
+CHAT_CAP = int(os.environ.get('CHAT_MESSAGE_CAP', '300'))
+
+
+def issue_token(pid, condition):
+    token = secrets.token_urlsafe(32)
+    _run('''INSERT INTO sessions (participant_id, condition, token)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (participant_id)
+            DO UPDATE SET condition = EXCLUDED.condition, token = EXCLUDED.token''',
+         (pid, condition, token))
+    return token
+
+
+def consume_chat(token):
+    # ponytail: one atomic UPDATE is both the auth check and the spend counter
+    return bool(_run('''UPDATE sessions SET chat_count = chat_count + 1
+                        WHERE token = %s AND chat_count < %s RETURNING 1''',
+                     (token, CHAT_CAP), fetch=True))
 
 
 def get_session_condition(pid):

@@ -30,6 +30,10 @@ const urlParams = new URLSearchParams(window.location.search)
 const urlCondition = urlParams.get('condition')?.replace('_', '-')
 const condition = urlCondition || import.meta.env.VITE_PCTP_CONDITION || 'no-ai'
 
+// Strip Prolific params from the address bar so participants can't read or tweak them
+// mid-study (App.jsx captured them at import time, before this line runs)
+if (window.location.search) window.history.replaceState(null, '', window.location.pathname)
+
 const useAutoProctor = import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
 const isIframe = window.self !== window.top
 

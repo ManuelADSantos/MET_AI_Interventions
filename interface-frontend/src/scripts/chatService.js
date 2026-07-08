@@ -2,6 +2,25 @@ const baseURL = import.meta.env.VITE_PROXY_URL || `http://${window.location.host
 const SYSTEM_PROMPT = import.meta.env.VITE_SYSTEM_PROMPT || ''
 
 /**
+ * Mint a per-participant chat token from the backend and cache it in sessionStorage.
+ * Reads the pid/condition stored by App.jsx at study start.
+ */
+const mintChatToken = async () => {
+  const res = await fetch(`${baseURL}/token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: sessionStorage.getItem('pid'),
+      condition: sessionStorage.getItem('condition')
+    })
+  })
+  if (!res.ok) throw new Error(`Token request failed with status ${res.status}`)
+  const token = (await res.json()).token
+  sessionStorage.setItem('chatToken', token)
+  return token
+}
+
+/**
  * Request a chat completion based on a list of messages from oldest to newest
  *
  * @param {Array} messages The list of chat messages so far. Should include at least one message (prompt from user).
@@ -13,16 +32,23 @@ const requestChatResponseStream = async function* (messages, signal) {
     messagesToSend.unshift({ role: 'system', content: SYSTEM_PROMPT })
   }
 
-  const res = await fetch(`${baseURL}/chat/stream`, {
+  const send = (token) => fetch(`${baseURL}/chat/stream`, {
     method: 'POST',
     signal,
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
       messages: messagesToSend
     })
   })
+
+  let res = await send(sessionStorage.getItem('chatToken') || await mintChatToken())
+  if (res.status === 401) {
+    // Token unknown to the server (e.g. backend redeploy) — re-mint once and retry
+    res = await send(await mintChatToken())
+  }
 
   if (!res.ok || !res.body) {
     let errorMessage = `Streaming request failed with status ${res.status}`
@@ -67,4 +93,4 @@ const requestChatResponseStream = async function* (messages, signal) {
   }
 }
 
-export { requestChatResponseStream }
+export { requestChatResponseStream, mintChatToken }

@@ -362,6 +362,8 @@ AI_study/
 - The `.gitignore` file is configured to prevent accidental commits
 - Keep your OpenAI API key secret
 - For production deployment, use environment variables instead of the config file
+- `/chat` requires a per-participant bearer token (minted via `POST /token` at study start) and is capped at `CHAT_MESSAGE_CAP` calls per participant, plus per-IP rate limits on `/chat`, `/token` and `/save`
+- Prolific URL parameters are stripped from the address bar on load; the condition saved with the data is the one registered server-side at study start, not the client-sent one
 
 ## Support
 

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { store } from "./scripts/store"
 import { checkParticipation } from "./scripts/dbService"
+import { mintChatToken } from "./scripts/chatService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
 import { Button, Card, CardBody, Input, CardHeader } from '@nextui-org/react'
@@ -14,6 +15,11 @@ const App = ({ condition, tasks, directStartPid }) => {
   const ctxStore = useContext(store)
 
   const startStudy = (pid) => {
+    // Registers the session server-side (binds pid→condition) and warms the chat token;
+    // chatService re-mints on demand if this fails
+    sessionStorage.setItem('pid', pid)
+    sessionStorage.setItem('condition', condition)
+    mintChatToken().catch(() => {})
     ctxStore.dispatch({type: 'UPDATE_ID', payload: {id: pid}})
     ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
     // Stamp the first page's entry time; later pages are stamped on navigation in TaskView
