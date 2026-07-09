@@ -37,10 +37,10 @@ if (window.location.search) window.history.replaceState(null, '', window.locatio
 const useAutoProctor = import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
 const isIframe = window.self !== window.top
 
-const tasksPerCondition = {
-  'ai': [...aiStudyInfo, ...aiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})],
-  'no-ai': [...noAiStudyInfo, ...noAiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})]
-}
+// Any condition other than 'no-ai' (e.g. 'ai_reliability') uses the 'ai' task set.
+const tasks = condition === 'no-ai'
+  ? [...noAiStudyInfo, ...noAiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})]
+  : [...aiStudyInfo, ...aiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})]
 
 function Main() {
   // Inside AutoProctor iframe → SyncPage login
@@ -59,7 +59,7 @@ function Main() {
   }
 
   // Normal flow (no AutoProctor or dev mode)
-  return <App condition={condition} tasks={tasksPerCondition[condition]} />
+  return <App condition={condition} tasks={tasks} />
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

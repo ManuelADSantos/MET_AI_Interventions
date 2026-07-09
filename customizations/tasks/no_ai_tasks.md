@@ -444,6 +444,7 @@ Without contradicting his or her own statements, the author of the above stateme
     Rather not say
 
 > What is your profession?
+~ e.g., health care worker, student, researcher ...
 
     $text
 

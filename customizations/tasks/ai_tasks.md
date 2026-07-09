@@ -42,11 +42,12 @@
 >
 > ### General Questions
 
-> What is your age (in years)?
+> What is your age?
+~in years
 
     $number?; 18; 99
 
-> Please select the gender that you best identify with
+> Please select the gender that you best identify with.
 
     $option?;
     Female;
@@ -194,23 +195,28 @@ The following student assistants are available for the event:
 
 > We would like to ask you a few questions regarding your expectations and self-assessment when now working with AI on the planning and organizing tasks.
 
-> Using the AI, how many of the 12 planning problems do you think you would solve correctly? Please enter a number out of 12.
+> Using the AI, how many of the 12 planning problems do you think you would solve correctly? 
+~Please enter a number out of 12.
 
     $number?; 0; 12
 
-> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly? Please enter a number out of 12.
+> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly? 
+~ Please enter a number out of 12.
 
     $number?; 0; 12
 
-> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly? Please enter a number out of 12.
+> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly? 
+~Please enter a number out of 12.
 
     $number?; 0; 12
 
-> Compared to other participants, how would you rate your general planning and organizing ability? (Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.)
+> Compared to other participants, how would you rate your general planning and organizing ability?
+~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems. 
+> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
+~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems. 
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
 
@@ -1077,11 +1083,13 @@ The following should be taken into account when setting up the stalls:
 
 > ### Final Self-Assessment
 
-> Using the AI, how many of the 12 problems do you think you have solved correctly? Please enter a number out of 12.
+> Using the AI, how many of the 12 problems do you think you have solved correctly? 
+~Please enter a number out of 12.
 
     $number; 0; 12
 
-> Without AI use, how many of the 12 problems do you think you would have solved correctly? Please enter a number out of 12.
+> Without AI use, how many of the 12 problems do you think you would have solved correctly? 
+~Please enter a number out of 12.
 
     $number; 0; 12
 
@@ -1089,16 +1097,19 @@ The following should be taken into account when setting up the stalls:
 
     $number
 
-> On its own, how many of the 12 problems do you think the AI would have solved correctly? Please enter a number out of 12.
+> On its own, how many of the 12 problems do you think the AI would have solved correctly? 
+~Please enter a number out of 12.
 
     $number; 0; 12
 
-> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI? Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
+> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI? 
+~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
     $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
+> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
+~Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
 
     $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
@@ -1108,7 +1119,6 @@ The following should be taken into account when setting up the stalls:
 > I usually double-checked AI-generated answers before relying on them.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
-
 
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 
@@ -1120,7 +1130,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please rate your experience with the AI interface on the following scales.**
+> **Please rate your experience with the AI system on the following scales.**
 
 > obstructive - supportive
 
@@ -1156,7 +1166,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please indicate how strongly you agree or disagree with each statement regarding the AI interface.**
+> **Please indicate how strongly you agree or disagree with each statement regarding the AI system.**
 
 > I think that I would like to use this system frequently.
 
@@ -1186,7 +1196,7 @@ The following should be taken into account when setting up the stalls:
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
-> If you are reading this, select the highest possible value (5/Strongly agree) on this item.
+> If you are reading this, select the highest possible value (Strongly agree) on this item.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
@@ -1229,6 +1239,44 @@ The following should be taken into account when setting up the stalls:
 > I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.
 
     $likert; 1; 5; Very uncharacteristic; Very characteristic
+
+# Post-Questionnaire
+
+# Trust in the AI System
+
+> **Please indicate how much you agree or disagree with each statement about the AI system used in this study.**
+
+> I am confident in the AI system. I feel that it works well.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> The outputs of the AI system are very predictable.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> The AI system is very reliable. I can count on it to be correct all the time.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> I feel safe that when I rely on the AI system I will get the right answers.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> The AI system is efficient in that it works very quickly.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> I am wary of the AI system.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> The AI system can perform the task better than a novice human user.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
+
+> I like using the system for decision making.
+
+    $likert; 1; 5; I disagree strongly; I agree strongly
 
 # Post-Questionnaire
 
