@@ -25,6 +25,8 @@ const QuestionWrapper = ({ id, question, formControl }) => {
       <div className='flex flex-row justify-between items-center mb-4'>
         <h3 className='text-lg font-bold'>{id} - <RichText inline>{question.question}</RichText>{required && <span className='text-red-500'>*</span>}</h3>
       </div>
+      {/* Optional helper text shown beneath the question title */}
+      {question.subtitle && <p className='text-sm text-default-500 -mt-3 mb-3'>{question.subtitle}</p>}
       {/* Display error if validation rules breached */}
       {fieldState.error && <p className='text-red-500 mb-2 ml-2'>{fieldState.error.message}</p>}
       {/* Render the appropriate component based on question type */}

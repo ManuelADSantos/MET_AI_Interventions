@@ -56,6 +56,7 @@
     Other
 
 > What is your profession?
+~ e.g., health care worker, student, ...
 
     $text?
 

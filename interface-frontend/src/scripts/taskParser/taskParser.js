@@ -30,6 +30,15 @@ const parseContentItems = (rawContent) => {
       }
     }
 
+    // A line starting with `~` between the question text and the `$type` directive is an
+    // optional subtitle/helper line, shown beneath the question title. Stripped out here so
+    // it doesn't get treated as part of the question text or the `$type` params.
+    const subtitleMatch = rq.match(/^\s*~\s?(.+)$/m)
+    const subtitle = subtitleMatch ? subtitleMatch[1].trim() : undefined
+    if (subtitleMatch) {
+      rq = rq.replace(subtitleMatch[0], '')
+    }
+
     const questionText = rq.split('$')[0].trim()
     const rawType = rq.split('$')[1].trim().split(';')[0].trim()
     const isRequired = !rawType.endsWith('?')
@@ -43,6 +52,7 @@ const parseContentItems = (rawContent) => {
           question: questionText,
           type: questionType,
           required: isRequired,
+          subtitle,
           min: 1,
           max: 10,
           minLabel: 'min',
@@ -56,6 +66,7 @@ const parseContentItems = (rawContent) => {
         question: questionText,
         type: questionType,
         required: isRequired,
+        subtitle,
         min: parseInt(params[0].trim()),
         max: parseInt(params[1].trim()),
         minLabel: params[2].trim(),
@@ -69,6 +80,7 @@ const parseContentItems = (rawContent) => {
         question: questionText,
         type: questionType,
         required: isRequired,
+        subtitle,
         options: rq.split('$')[1].trim().split(';').length > 1
           ? rq.split('$')[1].trim().split(';').slice(1).map((o) => o.trim())
           : ['Yes', 'No']
@@ -85,6 +97,7 @@ const parseContentItems = (rawContent) => {
         question: questionText,
         type: questionType,
         required: isRequired,
+        subtitle,
         min: num(params[0], 0),
         max: num(params[1], 999)
       }
@@ -93,7 +106,8 @@ const parseContentItems = (rawContent) => {
     return {
       question: questionText,
       type: questionType,
-      required: isRequired
+      required: isRequired,
+      subtitle
     }
   })
 

@@ -111,6 +111,19 @@ Format: `$likert; min; max; minLabel; maxLabel`
 
 Same parameter format as `$slider`. Renders as discrete radio buttons instead of a slider.
 
+### Subtitles
+
+Add a helper line beneath a question's title by placing a `~` line between the question text and the `$type` directive:
+
+```markdown
+> What is your profession?
+~ e.g., health care worker, student, researcher ...
+
+    $text?
+```
+
+Works with any question type. The subtitle is not included in the question text and does not count towards validation.
+
 ---
 
 ## Content Types
