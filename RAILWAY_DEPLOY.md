@@ -56,6 +56,7 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
   "WEB_THREADS": "64",
   "WEB_TIMEOUT": "180",
   "ALLOWED_ORIGIN": "https://your-frontend-xyz.up.railway.app",
+  "CHAT_MESSAGE_CAP": "300",
   "AUTOPROCTOR_API_KEY": "",
   "AUTOPROCTOR_TEST_LABEL": ""
 }
