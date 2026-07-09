@@ -59,7 +59,7 @@ All customization is done by editing files on your computer. Changes take effect
 | Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
 | GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
-| Experimental condition | `study.config.yml` → `condition` | Switch between 'ai' and 'no-ai' |
+| Experimental condition | `study.config.yml` → `condition` | Any condition name matching a `*_tasks.md` file |
 | Which pages show chat | `study.config.yml` → `chat_enabled_from/until_page` | Control chat availability |
 | Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
 | UI components (advanced) | `interface-frontend/src/components/` | React components with hot-reload |
@@ -188,32 +188,17 @@ export_token: ""                   # Set a secret to enable GET /export?token=<s
 
 ## Adding Conditions
 
-The platform ships with two conditions: `ai` (chat panel visible) and `no-ai` (questionnaire only). To add a new condition (e.g. `ai-limited`):
+Conditions are auto-discovered from `customizations/tasks/` — no code changes needed. To add a condition (e.g. `ai-limited`):
 
 1. **Create task files** in `customizations/tasks/`:
    - `ai-limited_tasks.md` — the survey/task pages
-   - `study_info/ai-limited_studyinfo.md` — consent / intro pages
+   - `study_info/ai-limited_studyinfo.md` — consent / intro pages (optional)
 
-2. **Register the condition** in `interface-frontend/src/main.jsx`:
-   ```javascript
-   import aiLimitedTaskFile from '/public/ai-limited_tasks.md?raw'
-   import aiLimitedStudyInfoFile from '/public/study_info/ai-limited_studyinfo.md?raw'
+2. **Set the condition** via `VITE_PCTP_CONDITION=ai-limited` (env var or `study.config.yml` → `condition`), or per-participant via URL: `?condition=ai-limited`
 
-   const aiLimitedTasks = loadTasks(aiLimitedTaskFile, opts)
-   const aiLimitedStudyInfo = loadTasks(aiLimitedStudyInfoFile, opts)
-   ```
-   Then add it to the `tasksPerCondition` map:
-   ```javascript
-   const tasksPerCondition = {
-     'ai': [...aiStudyInfo, ...aiTasks.map(...)],
-     'no-ai': [...noAiStudyInfo, ...noAiTasks.map(...)],
-     'ai-limited': [...aiLimitedStudyInfo, ...aiLimitedTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiLimitedStudyInfo.length }})]
-   }
-   ```
+Underscores in the filename become hyphens in the condition name (`no_ai_tasks.md` → condition `no-ai`).
 
-3. **Set the condition** via `VITE_PCTP_CONDITION=ai-limited` (env var or `study.config.yml` → `condition`), or per-participant via URL: `?condition=ai-limited`
-
-**Chat visibility rule:** the chat panel appears for every condition except `no-ai`. If your new condition should hide the chat, update the check in `interface-frontend/src/App.jsx` (line with `condition !== 'no-ai'`).
+**Chat visibility rule:** the chat panel appears for every condition except `no-ai`. If your new condition should hide the chat, update the `condition !== 'no-ai'` checks in `interface-frontend/src/App.jsx` and `src/scripts/store.jsx`.
 
 ## AutoProctor Integration (Optional)
 
@@ -232,7 +217,7 @@ No code changes needed — the routing is automatic when `VITE_USE_AUTOPROCTOR` 
 Participant data is saved to Postgres (the `db` container). Each record includes:
 
 - `participantId`: Unique participant identifier
-- `condition`: Which condition they were in ('ai' or 'no-ai')
+- `condition`: Which condition they were in (e.g. `ai`, `no-ai`, or any custom condition)
 - `tasks`: All their survey responses
 - `messages`: Chat conversation history (if applicable)
 - `correctAnswers`, `totalQuestions`, `answerResults`: Scoring details
@@ -362,7 +347,7 @@ AI_study/
 - The `.gitignore` file is configured to prevent accidental commits
 - Keep your OpenAI API key secret
 - For production deployment, use environment variables instead of the config file
-- `/chat` requires a per-participant bearer token (minted via `POST /token` at study start) and is capped at `CHAT_MESSAGE_CAP` calls per participant, plus per-IP rate limits on `/chat`, `/token` and `/save`
+- `/chat/stream` requires a per-participant bearer token (minted via `POST /token` at study start) and is capped at `CHAT_MESSAGE_CAP` calls per participant, plus per-IP rate limits on `/chat`, `/token` and `/save`
 - Prolific URL parameters are stripped from the address bar on load; the condition saved with the data is the one registered server-side at study start, not the client-sent one
 
 ## Support

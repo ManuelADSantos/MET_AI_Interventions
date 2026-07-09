@@ -3,7 +3,7 @@
 All stdlib-only, no installs needed. Start the stack first: `docker compose up`.
 
 ```bash
-# Endpoint tests (save / participation / upsert) - cleans up after itself
+# Endpoint tests (save, auth, token minting, rate/size limits) - cleans up after itself
 docker compose exec backend python /tests/test_endpoints.py
 
 # Task parser randomization tests

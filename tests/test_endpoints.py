@@ -93,9 +93,9 @@ status, _ = post_json("/save", PAYLOAD)
 test("second save returns 201", status == 201, f"got {status}")
 
 print("\n5. Chat requires a session token...")
-status, _ = post_json("/chat", {"messages": [{"role": "user", "content": "hi"}]})
+status, _ = post_json("/chat/stream", {"messages": [{"role": "user", "content": "hi"}]})
 test("no token returns 401", status == 401, f"got {status}")
-status, _ = post_json("/chat", {"messages": [{"role": "user", "content": "hi"}]}, token="bogus")
+status, _ = post_json("/chat/stream", {"messages": [{"role": "user", "content": "hi"}]}, token="bogus")
 test("bogus token returns 401", status == 401, f"got {status}")
 
 print("\n6. Token minting...")
@@ -105,7 +105,7 @@ status, _ = post_json("/token", {"id": "", "condition": "ai"})
 test("empty id returns 400", status == 400, f"got {status}")
 
 print("\n7. Oversized chat request is rejected...")
-status, _ = post_json("/chat", {"messages": [{"role": "user", "content": "x" * 300_000}]},
+status, _ = post_json("/chat/stream", {"messages": [{"role": "user", "content": "x" * 300_000}]},
                       token=body.get("token"))
 test("oversized returns 413", status == 413, f"got {status}")
 

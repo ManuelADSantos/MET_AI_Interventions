@@ -127,7 +127,7 @@ const TabCopyButton = ({ text }) => {
   )
 }
 
-const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
+const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast }) => {
   const [submitError, setSubmitError] = useState('')
   const ctxStore = useContext(store)
   const { handleSubmit, control } = useForm({
@@ -168,11 +168,13 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next }) => {
   }
 
   const shouldShowCopyButton = ctxStore.state.chatEnabled &&
-    ctxStore.state.condition === 'ai' &&
+    ctxStore.state.condition !== 'no-ai' &&
     copyButtonPages.has(sourceIndex) &&
     !selectedTab.copyDisabled
 
+  // The last page's Next completes the study — never gate it behind an AI prompt
   const shouldRequireAiPrompt = requireAiPrompt &&
+    !isLast &&
     ctxStore.state.chatEnabled &&
     (!hasRequireAiPromptPages || requireAiPromptPages.has(sourceIndex))
 

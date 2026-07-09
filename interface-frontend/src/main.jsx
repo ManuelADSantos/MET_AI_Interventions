@@ -8,22 +8,23 @@ import loadTasks from './scripts/taskParser/taskParser'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './index.css'
 
-/** Condition setup
- * 1. Load info documents & surveys from the public/ directory
- * 2. Run taskParser to convert these to JSON
- * 3. Use .env configuration to determine which condition to show
+/** Condition setup — plug and play:
+ * drop `<name>_tasks.md` (+ optional `study_info/<name>_studyinfo.md`) into
+ * customizations/tasks/ and the condition "<name>" exists (underscores in the
+ * filename become hyphens in the condition, e.g. no_ai -> no-ai). No code changes.
  */
-import aiTaskFile from '/public/ai_tasks.md?raw'
-import aiStudyInfoFile from '/public/study_info/ai_studyinfo.md?raw'
-import noAiTaskFile from '/public/no_ai_tasks.md?raw'
-import noAiStudyInfoFile from '/public/study_info/no_ai_studyinfo.md?raw'
+const taskFiles = import.meta.glob('/public/*_tasks.md', { query: '?raw', import: 'default', eager: true })
+const infoFiles = import.meta.glob('/public/study_info/*_studyinfo.md', { query: '?raw', import: 'default', eager: true })
 
 const randomize = import.meta.env.VITE_RANDOMIZE_TASKS !== 'false'
 const opts = { randomize }
-const aiTasks = loadTasks(aiTaskFile, opts)
-const aiStudyInfo = loadTasks(aiStudyInfoFile, opts)
-const noAiTasks = loadTasks(noAiTaskFile, opts)
-const noAiStudyInfo = loadTasks(noAiStudyInfoFile, opts)
+
+const tasksPerCondition = Object.fromEntries(Object.entries(taskFiles).map(([path, raw]) => {
+  const name = path.slice('/public/'.length, -'_tasks.md'.length)
+  const info = loadTasks(infoFiles[`/public/study_info/${name}_studyinfo.md`] || '', opts) || []
+  const tasks = loadTasks(raw, opts) || []
+  return [name.replace(/_/g, '-'), [...info, ...tasks.map((p) => ({ ...p, sourceIndex: p.sourceIndex + info.length }))]]
+}))
 
 const urlParams = new URLSearchParams(window.location.search)
 // ponytail: URL ?condition=no_ai overrides config; normalize underscore to hyphen
@@ -36,11 +37,6 @@ if (window.location.search) window.history.replaceState(null, '', window.locatio
 
 const useAutoProctor = import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
 const isIframe = window.self !== window.top
-
-// Any condition other than 'no-ai' (e.g. 'ai_reliability') uses the 'ai' task set.
-const tasks = condition === 'no-ai'
-  ? [...noAiStudyInfo, ...noAiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})]
-  : [...aiStudyInfo, ...aiTasks.map((p) => {return { ...p, sourceIndex: p.sourceIndex + aiStudyInfo.length }})]
 
 function Main() {
   // Inside AutoProctor iframe → SyncPage login
@@ -59,7 +55,7 @@ function Main() {
   }
 
   // Normal flow (no AutoProctor or dev mode)
-  return <App condition={condition} tasks={tasks} />
+  return <App condition={condition} tasks={tasksPerCondition[condition]} />
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

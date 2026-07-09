@@ -6,7 +6,7 @@ from collections import defaultdict
 from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 import httpx
-from chat_helpers import get_completion, stream_completion
+from chat_helpers import stream_completion
 from correct_answers import right_choices
 from config_loader import load_config
 import db
@@ -76,20 +76,6 @@ def issue_token():
 @app.route('/health')
 def health():
     return {'status': 'ok'}, 200
-
-@app.route('/chat', methods = ['POST'])
-def send_message():
-    try:
-        req = request.get_json()
-        denied = _chat_denied(req)
-        if denied:
-            return denied
-        messages = req['messages']
-
-        result = get_completion(messages)
-        return {'response': result}, 200
-    except Exception as e:
-        return {'error': str(e)}, 500
 
 @app.route('/chat/stream', methods = ['POST'])
 def stream_message():

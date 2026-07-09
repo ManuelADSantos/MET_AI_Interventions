@@ -28,7 +28,8 @@ const StateProvider = ({ children }) => {
       case 'TOGGLE_CHAT_USED':
         return {...state, chatUsedOnPage: action.payload.value}
       case 'NEXT_TASK':
-        if (state.condition === 'ai' && state.taskIndex + 1 >= chatEnabledIndex && state.taskIndex + 1 <= chatDisabledIndex) {
+        // Chat exists for every condition except no-ai (same rule as App.jsx/TaskPage)
+        if (state.condition !== 'no-ai' && state.taskIndex + 1 >= chatEnabledIndex && state.taskIndex + 1 <= chatDisabledIndex) {
           return {...state, taskIndex: state.taskIndex + 1, chatEnabled: true, chatUsedOnPage: false}
         } 
         return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false, chatUsedOnPage: false}

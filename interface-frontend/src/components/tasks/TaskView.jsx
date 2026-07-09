@@ -26,8 +26,9 @@ const TaskView = ({ tasks }) => {
             items={tasks[state.taskIndex].content}
             tabs={tasks[state.taskIndex].tabs}
             taskIndex={state.taskIndex}
-            sourceIndex={tasks[state.taskIndex].sourceIndex} 
-            next={handleNextPage} 
+            sourceIndex={tasks[state.taskIndex].sourceIndex}
+            isLast={state.taskIndex === tasks.length - 1}
+            next={handleNextPage}
           />
         : <DonePage />
       }

@@ -69,25 +69,6 @@ def as_chat_response(response = None, content = None, reasoning = None):
         'usage': response_data.get('usage')
     }
 
-def get_completion(messages):
-    try:
-        if use_responses_api:
-            return as_chat_response(gpt_client.responses.create(
-                model = str(gpt_model),
-                input = _format_input(messages, responses_api=True),
-                **responses_request_options
-            ))
-
-        completion = gpt_client.chat.completions.create(
-            model = str(gpt_model),
-            messages = _format_input(messages),
-            **chat_request_options
-        )
-
-        return completion.model_dump()
-    except Exception as e:
-        raise RuntimeError('Error while fulfilling GPT request:', str(e))
-
 def stream_completion(messages):
     try:
         if use_responses_api:
