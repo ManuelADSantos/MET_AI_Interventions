@@ -6,7 +6,7 @@
 >
 > In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **three scenarios**, with **four questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
 >
-> To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Feel free to familiarize yourself with the assistant before you begin. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
+> To complete the tasks, you will work on your own.
 >
 > For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
 >
@@ -36,7 +36,7 @@
 
 # Pre-Questionnaire
 
-> Before starting the tasks, we would like to ask you a few questions about your demographics, expectations and self-assessment when working on these tasks with AI support.
+> Before starting the tasks, we would like to ask you a few questions about your demographics, expectations and self-assessment.
 
 > What is your age?
 
@@ -182,30 +182,15 @@ The following student assistants are available for the event:
 
 # Self Assessment
 
-> Now that you have familiarized yourself with the task type, we would like to ask you a few questions about your expectations and self-assessment about working with AI on the planning and organizing tasks before the main study begins.
+> Now that you have familiarized yourself with the task type, we would like to ask you a few questions about your expectations and self-assessment on the planning and organizing tasks before the main study begins.
 
-> Using the AI, how many of the 12 planning problems do you think you will solve correctly?
-~Please enter a number out of 12.
-
-    $number?; 0; 12
-
-> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly?
-~ Please enter a number out of 12.
-
-    $number?; 0; 12
-
-> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly?
+> How many of the 12 planning problems do you think you will solve correctly?
 ~Please enter a number out of 12.
 
     $number?; 0; 12
 
 > Compared to other participants, how would you rate your general planning and organizing ability?
 ~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
-
-    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
-
-> Compared to other AI systems, how would you estimate this AI system planning and organizing ability?
-~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems.
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
 
@@ -1102,12 +1087,7 @@ The following should be taken into account when setting up the stalls:
 
 # Self-Assessment
 
-> Using the AI, how many of the 12 problems do you think you have solved correctly?
-~Please enter a number out of 12.
-
-    $number; 0; 12
-
-> Without AI use, how many of the 12 problems do you think you would have solved correctly?
+> How many of the 12 problems do you think you have solved correctly?
 ~Please enter a number out of 12.
 
     $number; 0; 12
@@ -1116,118 +1096,20 @@ The following should be taken into account when setting up the stalls:
 
     $number
 
-> On its own, how many of the 12 problems do you think the AI would have solved correctly?
-~Please enter a number out of 12.
-
-    $number; 0; 12
-
-> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI?
+> Compared to other participants in this study, how would you rate your general planning & organizing ability?
 ~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
     $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability?
-~Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
-
-    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
-
 # Post-Questionnaire
-
-> I usually double-checked AI-generated answers before relying on them.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 
     $textarea?
 
-> If you have any further comments about your interaction with the AI, please share them here.
+> If you have any further comments about the study, please share them here.
 
     $textarea?
-
-# Post-Questionnaire
-
-> **Please rate your experience with the AI system on the following scales.**
-
-> 
-
-    $likert; 1; 7; obstructive; supportive
-
->
-
-    $likert; 1; 7; complicated; easy
-
->
-
-    $likert; 1; 7; inefficient; efficient
-
->
-
-    $likert; 1; 7; confusing; clear
-
->
-
-    $likert; 1; 7; boring; exciting
-
->
-
-    $likert; 1; 7; not interesting; interesting
-
->
-
-    $likert; 1; 7; conventional; inventive
-
->
-
-    $likert; 1; 7; usual; leading edge
-
-# Post-Questionnaire
-
-> **Please indicate how strongly you agree or disagree with each statement regarding the AI system.**
-
-> I think that I would like to use this system frequently.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I found the system unnecessarily complex.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I thought the system was easy to use.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I think that I would need the support of a technical person to be able to use this system.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I found the various functions in this system were well integrated.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I thought there was too much inconsistency in this system.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I would imagine that most people would learn to use this system very quickly.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> If you are reading this, select the highest possible value (Strongly agree) on this item.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I found the system very cumbersome to use.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I felt very confident using the system.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
-
-> I needed to learn a lot of things before I could get going with this system.
-
-    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 # Post-Questionnaire
 
@@ -1256,42 +1138,6 @@ The following should be taken into account when setting up the stalls:
 > I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.
 
     $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
-
-# Post-Questionnaire
-
-> **Please indicate how much you agree or disagree with each statement about the AI system used in this study.**
-
-> I am confident in the AI system. I feel that it works well.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> The outputs of the AI system are very predictable.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> The AI system is very reliable. I can count on it to be correct all the time.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> I feel safe that when I rely on the AI system I will get the right answers.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> The AI system is efficient in that it works very quickly.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> I am wary of the AI system.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> The AI system can perform the task better than a novice human user.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
-
-> I like using the system for decision making.
-
-    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 # Post-Questionnaire
 
