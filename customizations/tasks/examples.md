@@ -43,6 +43,21 @@ Add `Other` as a choice to allow free-text input:
     $option; Engineering; Science; Other
 ```
 
+Any option ending with `*` also triggers a free-text input, using the text before `*` as the label. Append a custom placeholder after `*`:
+
+```markdown
+> What is your gender?
+
+    $option?;
+    Woman;
+    Man;
+    Non-binary;
+    Prefer not to disclose;
+    Prefer to self-describe*Please describe your gender
+```
+
+If no placeholder is given after `*`, the input shows empty. Both `Other` and `*` patterns can coexist across different questions.
+
 ### `$text` — Short text input
 
 ```markdown
@@ -120,6 +135,12 @@ To label individual radio points, append text labels after the fourth parameter:
 ```
 
 Labels map left-to-right to each radio button. If fewer labels are given than points, remaining points show their numeric value.
+
+```markdown
+> How often do you use AI?
+
+    $likert; 1; 5; ; ; Never; Rarely; Sometimes; Often; Always
+```
 
 ### Subtitles
 

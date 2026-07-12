@@ -135,7 +135,7 @@ Text to copy into the AI chat.
 - `#` starts a new page (with optional title)
 - `##` creates a section heading within a page
 - `> text` displays paragraph text to the participant
-- `$option; A; B; C` creates radio buttons (semicolon-separated choices)
+- `$option; A; B; C` creates radio buttons (semicolon-separated; `Other` or a `*`-suffixed option opens a text field)
 - `$slider; min; max; lowLabel; highLabel` creates a slider (append `; tooltip` or `; tooltip%` to show the selected value)
 - `$likert; min; max; lowLabel; highLabel` creates a Likert scale
 - `$number` creates a number input (optionally `$number; min; max`, defaults 0–999)
@@ -176,7 +176,7 @@ copy_button_pages: 1-99            # Pages where tabs show the copy button
 copy_button_template: "{copyText}" # Copy-button template text
 
 # Development
-dev_mode: true                     # Skip participant ID validation
+dev_mode: true                     # Dev mode: skip ID validation, free page navigation, optional fields
 
 # Completion
 completion_code: COMPLETE          # Code shown at end

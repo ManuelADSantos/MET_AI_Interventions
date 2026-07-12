@@ -1071,16 +1071,13 @@ The following should be taken into account when setting up the stalls:
 %%
 
 %%
+# Congratulations
+
+> You have finished all the tasks! 
+
+> Before we conclude and you can receive your reward, we would like to ask you a few final questions regarding your experience.
+
 # Post-Questionnaire
-
-> ### Congratulations! 
->You have finished all the tasks. Before we conclude the study and you can receive your reward, we would like to ask you a few final questions regarding your experience.
->
-> Please click _Next_ to continue.
-
-# Post-Questionnaire
-
-> ### Final Self-Assessment
 
 > Using the AI, how many of the 12 problems do you think you have solved correctly? 
 ~Please enter a number out of 12.
@@ -1119,6 +1116,10 @@ The following should be taken into account when setting up the stalls:
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
+> How often do you use AI?
+
+    $likert; 1; 5; ; ; Never; Rarely; Sometimes; Often; Always
+
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 
     $textarea?
@@ -1131,35 +1132,35 @@ The following should be taken into account when setting up the stalls:
 
 > **Please rate your experience with the AI system on the following scales.**
 
-> obstructive - supportive
+>  
 
     $likert; 1; 7; obstructive; supportive
 
-> complicated - easy
+> 
 
     $likert; 1; 7; complicated; easy
 
-> inefficient - efficient
+> 
 
     $likert; 1; 7; inefficient; efficient
 
-> confusing - clear
+> 
 
     $likert; 1; 7; confusing; clear
 
-> boring - exciting
+> 
 
     $likert; 1; 7; boring; exciting
 
-> not interesting - interesting
+> 
 
     $likert; 1; 7; not interesting; interesting
 
-> conventional - inventive
+> 
 
     $likert; 1; 7; conventional; inventive
 
-> usual - leading edge
+> 
 
     $likert; 1; 7; usual; leading edge
 
@@ -1241,8 +1242,6 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-# Trust in the AI System
-
 > **Please indicate how much you agree or disagree with each statement about the AI system used in this study.**
 
 > I am confident in the AI system. I feel that it works well.
@@ -1276,6 +1275,7 @@ The following should be taken into account when setting up the stalls:
 > I like using the system for decision making.
 
     $likert; 1; 5; I disagree strongly; I agree strongly
+
 
 # Post-Questionnaire
 
