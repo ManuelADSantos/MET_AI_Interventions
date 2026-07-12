@@ -5,11 +5,15 @@ import RichText from './RichText'
 const optionRadioStyle = 'mr-2 appearance-none box-border border-2 border-stone-300 shadow-inner w-8 h-8 min-w-8 min-h-8 max-w-8 max-h-8 rounded-full checked:border-stone-700 checked:shadow-xl checked:border-8 checked:box-border'
 
 const OptionQuestion = ({ id, question, field }) => {
+  // ponytail: option ending with '*' or '*placeholder' or named 'other' triggers a free-text input
+  const otherRaw = question.options.find((o) => o.toLowerCase() === 'other' || /\*/.test(o))
+  const hasOther = !!otherRaw
+  const otherLabel = otherRaw?.includes('*') ? otherRaw.split('*')[0] : 'Other'
+  const otherPlaceholder = otherRaw?.includes('*') ? (otherRaw.split('*')[1] || 'Please specify') : 'Please specify'
   const options = useMemo(
-    () => question.options.filter((o) => o.toLowerCase() !== 'other'),
+    () => question.options.filter((o) => o !== otherRaw),
     [question.options]
   )
-  const hasOther = question.options.some((o) => o.toLowerCase() === 'other')
   const fieldValue = field.value ?? ''
   const isOtherValue = hasOther && fieldValue !== '' && !options.includes(fieldValue)
   const [other, setOther] = useState(isOtherValue ? fieldValue : '')
@@ -61,20 +65,20 @@ const OptionQuestion = ({ id, question, field }) => {
               checked={otherSelected}
               onChange={() => handleSelectOption(other, true)}
             />
-            <label htmlFor={`${id}_other`}>Other:</label>
+            <label htmlFor={`${id}_other`}>{otherLabel}:</label>
           </div>
         }
       </fieldset>
-      {/* Render the "other" input field OUTSIDE of the radio fieldset to prevent changing it from impacting the currently selected value (i.e. so that changing the "other" while option B is selected does not affect B being selected) */}
-      {hasOther
-        && <Input 
-            className='w-4/6 ml-12 mt2' 
-            variant='bordered' 
-            type="text" 
-            placeholder='Please specify' 
+      {/* Only show text input when the "other" radio is selected */}
+      {hasOther && otherSelected
+        && <Input
+            className='w-4/6 ml-12 mt-2'
+            variant='bordered'
+            type="text"
+            placeholder={otherPlaceholder}
             value={other}
-            onChange={handleOtherInput} 
-            isRequired={otherSelected}
+            onChange={handleOtherInput}
+            isRequired
           />
       }
     </div>

@@ -5,8 +5,11 @@ import { Input, Textarea } from '@nextui-org/react'
 import { useController } from 'react-hook-form'
 import RichText from './RichText'
 
+const devMode = import.meta.env.VITE_DEV_MODE === 'true'
+
 const QuestionWrapper = ({ id, question, formControl }) => {
-  const required = question.required !== false
+  // ponytail: dev mode makes all fields optional for easy navigation
+  const required = !devMode && question.required !== false
   const { field, fieldState } = useController({
     control: formControl,
     name: id,
@@ -63,7 +66,7 @@ const validateAnswer = (v, question) => {
     case 'likert':
       return (v >= question.min && v <= question.max) || 'Invalid value'
     case 'option':
-      return question.options.some((o) => o.toLowerCase() === 'other')
+      return question.options.some((o) => o.toLowerCase() === 'other' || o.includes('*'))
         ? true
         : (question.options.includes(v) || 'Please select one')
     default:

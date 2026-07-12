@@ -1,36 +1,16 @@
-# Introduction
+# Task Introduction
 
-:::tab Instruction
+> In this task, you're going to be answering a set of 20 questions about logical reasoning.
 
-## Welcome!
+> You will be presented with brief passages or statements and will be required to evaluate their reasoning or determine what inferences you can logically draw from the passage. In each case, select the best answer choice, even though more than one choice may present a possible answer. Please use a computer for optimal experience.
 
-> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **four scenarios**, with **three questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
+> What subject are you going to be answering questions about?
 
-> To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Feel free to familiarize yourself with the assistant before you begin. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
+    $option; Logical reasoning; Creative writing; Grammar
 
-> For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
->
-> Please use a **desktop computer or laptop** for the best experience. **Smartphones and tablets are not supported.**
+> Which answer choice should you select?
 
-## How to use
-
-> Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
-
-> Before continuing, please answer the following questions to confirm that you have read the instructions.
-
-> **What type of tasks will you be working on?**
-
-    $option; Creative Writing; Planning and Organizing; Mathematics
-
-> **Please click on the second tab above. Which letter is displayed there?**
-
-    $option; A; B; C; D
-
-:::tab Second Tab
-
-> The letter you are looking for is **C**
-
-> Head back to the instruction tab.
+    $option; The best choice; The longest choice; All of the choices that are correct
 
 # Self Assessment
 
@@ -59,6 +39,10 @@
 > How difficult is solving logical reasoning problems for the average participant?
 
     $likert; 1; 10; Very easy; Very difficult
+
+# Task Instructions
+
+> In this task, you're going to be answering a set of 20 questions about logical reasoning.
 
 %% RANDOMIZE
 
@@ -411,14 +395,14 @@ Without contradicting his or her own statements, the author of the above stateme
 
     $number
 
-> Please select the gender you identify with
+> What is your gender?
 
-    $option;
-    Female;
-    Male;
+    $option?;
+    Woman;
+    Man;
     Non-binary;
-    Rather not say;
-    Other
+    Prefer not to disclose;
+    Prefer to self-describe*
 
 > What is the highest level of school you have completed or the highest degree you have received?
 

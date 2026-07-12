@@ -30,7 +30,7 @@
 
 :::tab Second Tab
 
-> The letter you are looking for is **C**
+> The letter you are looking for is: **C**
 
 > Head back to the instruction tab.
 
@@ -1120,7 +1120,35 @@ The following should be taken into account when setting up the stalls:
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
+> I paid attention to the reliability information.
+
+    $likert; 1; 5; Strongly disagree; Strongly agree
+
+> The reliability information shown in this study changed how I interacted with the AI.
+
+    $likert; 1; 5; Strongly disagree; Strongly agree
+
+> The reliability information helped me evaluate the AI’s answer more carefully.
+
+    $likert; 1; 5; Strongly disagree; Strongly agree
+
+> The reliability information made me less likely to accept the AI’s answer without checking it.
+
+    $likert; 1; 5; Strongly disagree; Strongly agree
+
+> The reliability information made the task feel more mentally demanding.
+
+    $likert; 1; 5; Strongly disagree; Strongly agree
+
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
+
+    $textarea?
+
+> How, if at all, did the reliability information change the way you interacted with the AI?
+
+    $textarea?
+
+> How, if at all, did you use the reliability information when deciding whether to rely on the AI?
 
     $textarea?
 
@@ -1241,8 +1269,6 @@ The following should be taken into account when setting up the stalls:
     $likert; 1; 5; Very uncharacteristic; Very characteristic
 
 # Post-Questionnaire
-
-# Trust in the AI System
 
 > **Please indicate how much you agree or disagree with each statement about the AI system used in this study.**
 

@@ -172,8 +172,10 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast }) 
     copyButtonPages.has(sourceIndex) &&
     !selectedTab.copyDisabled
 
+  // ponytail: dev mode lifts all restrictions
+  const isDevMode = import.meta.env.VITE_DEV_MODE === 'true'
   // The last page's Next completes the study — never gate it behind an AI prompt
-  const shouldRequireAiPrompt = requireAiPrompt &&
+  const shouldRequireAiPrompt = !isDevMode && requireAiPrompt &&
     !isLast &&
     ctxStore.state.chatEnabled &&
     (!hasRequireAiPromptPages || requireAiPromptPages.has(sourceIndex))

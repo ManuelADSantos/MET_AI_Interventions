@@ -3,6 +3,8 @@ import { store } from '../../scripts/store'
 import TaskPage from './questions/TaskPage'
 import DonePage from './DonePage'
 
+const devMode = import.meta.env.VITE_DEV_MODE === 'true'
+
 const TaskView = ({ tasks }) => {
   const {dispatch, state} = useContext(store)
 
@@ -25,8 +27,14 @@ const TaskView = ({ tasks }) => {
               <div className='w-full bg-stone-200 rounded-full h-1.5'>
                 <div className='bg-stone-500 h-1.5 rounded-full transition-all duration-300' style={{ width: `${((state.taskIndex + 1) / tasks.length) * 100}%` }} />
               </div>
-              {/* <p className='text-xs text-stone-400 mt-1 text-right'>{state.taskIndex + 1} / {tasks.length}</p> */}
-              <p className='text-xs text-stone-400 mt-1 text-right'> </p>
+              {devMode
+                ? <div className='flex justify-between items-center mt-1'>
+                    <button className='text-xs text-blue-500 underline' disabled={state.taskIndex <= 0} onClick={() => dispatch({ type: 'SET_TASK_INDEX', payload: state.taskIndex - 1 })}>← Back</button>
+                    <p className='text-xs text-blue-500'>[DEV] {state.taskIndex + 1} / {tasks.length}</p>
+                    <button className='text-xs text-blue-500 underline' disabled={state.taskIndex >= tasks.length - 1} onClick={() => dispatch({ type: 'SET_TASK_INDEX', payload: state.taskIndex + 1 })}>Skip →</button>
+                  </div>
+                : <p className='text-xs text-stone-400 mt-1 text-right'> </p>
+              }
             </div>
             <TaskPage
               key={state.taskIndex}

@@ -1,0 +1,496 @@
+
+{ "randomizeStrategyOrder": true,
+  "tasks": {
+   "7": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 80,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          }
+        ],
+        "pool": [
+          {
+            "title": "tracking people, roles, days, and properties consistently",
+            "description": "Make a small list or table and check that names, roles, days, and properties are not mixed up."
+          },
+          {
+            "title": "distinguishing what must be true from what could be true",
+            "description": "Ask whether the statement must always be true, or whether another valid plan could make it false."
+          },
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "8": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 45,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          }
+        ],
+        "pool": [
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "tracking people, roles, days, and properties consistently",
+            "description": "Make a small list or table and check that names, roles, days, and properties are not mixed up."
+          },
+          {
+            "title": "distinguishing what must be true from what could be true",
+            "description": "Ask whether the statement must always be true, or whether another valid plan could make it false."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "9": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 55,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          }
+        ],
+        "pool": [
+          {
+            "title": "tracking people, roles, days, and properties consistently",
+            "description": "Make a small list or table and check that names, roles, days, and properties are not mixed up."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          },
+          {
+            "title": "distinguishing what must be true from what could be true",
+            "description": "Ask whether the statement must always be true, or whether another valid plan could make it false."
+          },
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "10": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 35,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          }
+        ],
+        "pool": [
+          {
+            "title": "distinguishing what must be true from what could be true",
+            "description": "Ask whether the statement must always be true, or whether another valid plan could make it false."
+          },
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "tracking people, roles, days, and properties consistently",
+            "description": "Make a small list or table and check that names, roles, days, and properties are not mixed up."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "11": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 85,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking that options are valid before comparing them",
+            "description": "First check whether each option satisfies the constraints; only then compare costs or outcomes."
+          }
+        ],
+        "pool": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "12": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 35,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking that options are valid before comparing them",
+            "description": "First check whether each option satisfies the constraints; only then compare costs or outcomes."
+          }
+        ],
+        "pool": [
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          },
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "13": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 55,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking that options are valid before comparing them",
+            "description": "First check whether each option satisfies the constraints; only then compare costs or outcomes."
+          }
+        ],
+        "pool": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "14": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 30,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 7 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "checking that options are valid before comparing them",
+            "description": "First check whether each option satisfies the constraints; only then compare costs or outcomes."
+          }
+        ],
+        "pool": [
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          },
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "15": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 85,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "tracing the sequence step by step",
+            "description": "Write down the order of steps and check whether each step can start when the AI says it can."
+          }
+        ],
+        "pool": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          },
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "16": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 65,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "tracing the sequence step by step",
+            "description": "Write down the order of steps and check whether each step can start when the AI says it can."
+          }
+        ],
+        "pool": [
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking limits, exceptions, and only-if conditions",
+            "description": "Look for words like “only,” “must,” “not,” “at most,” or “exactly,” because they can change the answer."
+          },
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "17": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 76,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "tracing the sequence step by step",
+            "description": "Write down the order of steps and check whether each step can start when the AI says it can."
+          }
+        ],
+        "pool": [
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    },
+    "18": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 60,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "tracing the sequence step by step",
+            "description": "Write down the order of steps and check whether each step can start when the AI says it can."
+          }
+        ],
+        "pool": [
+          {
+            "title": "recalculating key quantities",
+            "description": "Recalculate important counts, times, costs, or percentages yourself."
+          },
+          {
+            "title": "checking for unstated assumptions",
+            "description": "Check whether the AI assumed something that is not explicitly stated in the scenario."
+          },
+          {
+            "title": "checking whether all constraints hold together",
+            "description": "Go back to the scenario and check whether the AI’s answer satisfies every condition at the same time."
+          },
+          {
+            "title": "looking for a valid counterexample",
+            "description": "Try to find one valid schedule or plan that would make the statement false."
+          },
+          {
+            "title": "verifying the intermediate steps",
+            "description": "Check the AI’s intermediate reasoning steps, not only whether the final answer sounds plausible."
+          }
+        ],
+        "poolSampleSize": 2
+      }
+    }
+  }}

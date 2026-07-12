@@ -52,9 +52,9 @@ const App = ({ condition, tasks, directStartPid }) => {
     if (urlPid) submitId(urlPid)
   }, [])
 
-  // ponytail: warn on accidental page close/refresh once the study has started
+  // ponytail: warn on accidental page close/refresh once the study has started (skip in dev mode)
   useEffect(() => {
-    if (!idGiven) return
+    if (!idGiven || import.meta.env.VITE_DEV_MODE === 'true') return
     const handler = (e) => { e.preventDefault(); e.returnValue = '' }
     window.addEventListener('beforeunload', handler)
     return () => window.removeEventListener('beforeunload', handler)

@@ -31,8 +31,11 @@ const StateProvider = ({ children }) => {
         // Chat exists for every condition except no-ai (same rule as App.jsx/TaskPage)
         if (state.condition !== 'no-ai' && state.taskIndex + 1 >= chatEnabledIndex && state.taskIndex + 1 <= chatDisabledIndex) {
           return {...state, taskIndex: state.taskIndex + 1, chatEnabled: true, chatUsedOnPage: false}
-        } 
+        }
         return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false, chatUsedOnPage: false}
+      // ponytail: dev-mode only — free navigation
+      case 'SET_TASK_INDEX':
+        return {...state, taskIndex: action.payload, chatUsedOnPage: false}
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {

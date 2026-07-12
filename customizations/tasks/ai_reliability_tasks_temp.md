@@ -10,9 +10,7 @@
 >
 > For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
 >
-> Please use a **desktop computer or laptop** for the best experience. Smartphones and tablets are not supported.
->
-> ***Please do not refresh your browser tab at any point while participating in the study, or all your progress will be lost!***
+> Please use a **desktop computer or laptop** for the best experience. **Smartphones and tablets are not supported.**
 >
 > ## How to use
 >
@@ -30,87 +28,36 @@
 
 :::tab Second Tab
 
-> The letter you are looking for is **C**
+> The letter you are looking for is: **C**
 
 > Head back to the instruction tab.
 
 # Pre-Questionnaire
 
-> ## Before we begin ...
->
-> Before starting the tasks, we would like to ask you a few questions about your demographics, expectations and self-assessment when working on these tasks with AI support.
->
-> ### General Questions
+> Click _Next_
 
-> What is your age?
-~in years
+# Pre-Questionnaire
 
-    $number?; 18; 99
-
-> What is your gender?
-
-    $option?;
-    Woman;
-    Man;
-    Non-binary;
-    Prefer not to disclose;
-    Prefer to self-describe*
-
-> What is your profession?
-
-    $text?
-
-> Estimate your fluency in the English language
-
-    $option?;
-    Native English speaker;
-    Fully fluent;
-    Conversationally fluent;
-    I understand basic English;
-    Rather not say
-
-> What is the highest level of school you have completed or the highest degree you have received?
-
-    $option?;
-    Basic education / Middle school;
-    Upper secondary school / High school;
-    Vocational college degree;
-    Lower tertiary education degree (Bachelor's level);
-    Higher tertiary education degree (Master's level);
-    Doctoral degree
-
-> How often do you use AI assistants?
-
-    $option?;
-    Multiple Times a Day;
-    Daily;
-    A Few Times a Week;
-    Once a Week;
-    A Few Times a Month;
-    Rarely;
-    Never
+> Click _Next_
 
 # Trial
 
-> ## Next: Trial Task
+> ## Next: Trial Tasks
 >
-> You will now complete **one trial task** to familiarize yourself with the task type and interface before starting the main test.
+> You will now complete **2 trial tasks** to familiarize yourself with the task type and interface before starting the main test.
 >
-> This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance.
+> These trial tasks are for practice only. You do not need to perform well on them, and your answers will not be used to evaluate your performance.
 >
 > Click on _Next_ to continue.
 
-# Trial: Future Days
+# Trial: Office Move
 
 :::tab Exercise
 
-> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements.
-> ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
+> **Which of the following statements about the office move is or are correct?**
 
-> **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
-
-> 1. The same student assistants can be deployed at the information points on Thursday and Friday.
-> 2. The same student assistants can be deployed at the information points on Thursday and Saturday.
+> 1. Alex can move the desk on Monday.
+> 2. Blake can move the desk on Monday.
 
 > Please indicate your answer.
 
@@ -125,101 +72,59 @@
     $slider; 0; 100; Unsure; Certain
 
 :::copy
-Which of the following statements about managing the information points for planning when considering all requirements is or are correct?
+Which of the following statements about the office move is or are correct?
 
-1. The same student assistants can be deployed at the information points on Thursday and Friday.
-2. The same student assistants can be deployed at the information points on Thursday and Saturday.
-
+1. Alex can move the desk on Monday.
+2. Blake can move the desk on Monday.
 :::
 
 :::tab Scenario
 
-> Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
-
-> One of the tasks is to plan when which student assistant will be employed where during the Future Days event. The preferences of the student assistants are to be considered.
-
-> Student assistants are required in two areas: the lobby and the event level, for the following tasks:
-
-> 1. **Management of two information points and the registration desk in the lobby:**
->   One student assistant each is to be scheduled for a full day for the information points and the registration desk.
-
-> 2. **Operation of the technical systems in the rooms at event level:**
->   Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
-
-> The two student assistants Jonah and Peter have already been scheduled, who are already part of the organising committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
-
-> The following student assistants are available for the event:
-
-> | ID | Name | Gender | Description |
-> |---|---|---|---|
-> | A | Alex | m | can work on all three days, would like to work once at event level, once at the registration desk and once - but not on Saturday - at the information point, has superficial knowledge of the event technology |
-> | D | Daria | f | cannot work on Saturday, only wants to be included at the event level and has an excellent knowledge of the event technology |
-> | L | Lara | f | would like to work on one of the weekdays (Thursday or Friday) and on Saturday, has no knowledge of the event technology |
-> | M | Michael | m | can work on all three days, would like to work at event level on Friday, has superficial knowledge of the event technology |
-> | R | Roberto | m | would like to work on two occasions, but not on two subsequent days, has excellent knowledge of the event technology |
-> | S | Sonia | f | can work on all three days, does not want to work together with Alex in the same area (lobby or event level), has an excellent knowledge of the event technology |
-> | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
+> A small office needs to move one desk. The desk must be moved on Monday.
+>
+> Alex is available on Monday. Blake is available on Tuesday.
 
 :::copy
-Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
+A small office needs to move one desk. The desk must be moved on Monday.
 
-One of the tasks is to plan when which student assistant will be employed where during the Future Days event. The preferences of the student assistants are to be considered.
-
-Student assistants are required in two areas: the lobby and the event level, for the following tasks:
-
-1. **Management of two information points and the registration desk in the lobby.**
-One student assistant each is to be scheduled for a full day for the information points and the registration desk.
-
-2. **Operation of the technical systems in the rooms at event level:**
-Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
-
-The two student assistants Jonah and Peter have already been scheduled, who are already part of the organising committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
-
-The following student assistants are available for the event:
-
- | ID | Name | Gender | Description |
- |---|---|---|---|
- | A | Alex | m | can work on all three days, would like to work once at event level, once at the registration desk and once - but not on Saturday - at the information point, has superficial knowledge of the event technology |
- | D | Daria | f | cannot work on Saturday, only wants to be included at the event level and has an excellent knowledge of the event technology |
- | L | Lara | f | would like to work on one of the weekdays (Thursday or Friday) and on Saturday, has no knowledge of the event technology |
- | M | Michael | m | can work on all three days, would like to work at event level on Friday, has superficial knowledge of the event technology |
- | R | Roberto | m | would like to work on two occasions, but not on two subsequent days, has excellent knowledge of the event technology |
- | S | Sonia | f | can work on all three days, does not want to work together with Alex in the same area (lobby or event level), has an excellent knowledge of the event technology |
- | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
+Alex is available on Monday. Blake is available on Tuesday.
 :::
 
-# Pre-Questionnaire
+# Trial: Workshop Setup
 
-> ### Self-Assessment
-> Now that you have familiarized yourself with the task type, we would like to ask you a few final questions about your expectations and self-assessment before the main study begins.
+:::tab Exercise
 
-> We would like to ask you a few questions regarding your expectations and self-assessment when now working with AI on the planning and organizing tasks.
+> **Which of the following statements about the workshop setup is or are correct?**
 
-> Using the AI, how many of the 12 planning problems do you think you would solve correctly? 
-~Please enter a number out of 12.
+> 1. The projector can be set up before the chairs.
+> 2. The chairs must be set up before the projector.
 
-    $number?; 0; 12
+> Please indicate your answer.
 
-> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly? 
-~ Please enter a number out of 12.
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
 
-    $number?; 0; 12
+> How confident are you that your answer is correct?
 
-> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly? 
-~Please enter a number out of 12.
+    $slider; 0; 100; Unsure; Certain
 
-    $number?; 0; 12
+:::copy
+Which of the following statements about the workshop setup is or are correct?
 
-> Compared to other participants, how would you rate your general planning and organizing ability?
-~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
+1. The projector can be set up before the chairs.
+2. The chairs must be set up before the projector.
+:::
 
-    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
+:::tab Scenario
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
-~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems. 
+> A workshop room needs to be prepared. The chairs must be placed first, and the projector can only be set up after the chairs are ready.
 
-    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
-
+:::copy
+A workshop room needs to be prepared. The chairs must be placed first, and the projector can only be set up after the chairs are ready.
+:::
 
 # Main Tasks
 
@@ -1083,54 +988,52 @@ The following should be taken into account when setting up the stalls:
 
 > ### Final Self-Assessment
 
-> Using the AI, how many of the 12 problems do you think you have solved correctly? 
-~Please enter a number out of 12.
-
-    $number; 0; 12
-
-> Without AI use, how many of the 12 problems do you think you would have solved correctly? 
-~Please enter a number out of 12.
-
-    $number; 0; 12
-
-> If you are reading this, enter the number 5 on this item.
+> Using the AI, how many of the 12 problems do you think are solved correctly? Please enter a number out of 12.
 
     $number
 
-> On its own, how many of the 12 problems do you think the AI would have solved correctly? 
-~Please enter a number out of 12.
+> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI? Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
-    $number; 0; 12
-
-> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI? 
-~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
-
-    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
+    $slider; 0; 100; Better than 0%; Better than 100%
 
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
-~Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
+> Without AI use, how many of the 12 problems do you think you would have solved correctly? Please enter a number out of 12.
 
-    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
+    $number
 
+> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
+
+    $slider; 0; 100; Better than 0%; Better than 100%
+
+> On its own, how many of the 12 problems do you think the AI would have solved correctly? Please enter a number out of 12.
+
+    $number
 
 # Post-Questionnaire
 
-> I usually double-checked AI-generated answers before relying on them.
+> Did the reliability information shown in this study change how you interacted with the AI?
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 7; Changed not at all; Changed very much
 
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 
-    $textarea?
+    $textarea
+
+> How, if at all, did the reliability information change the way you interacted with the AI?
+
+    $textarea
+
+> How, if at all, did you use the reliability information when deciding whether to rely on the AI?
+
+    $textarea
 
 > If you have any further comments about your interaction with the AI, please share them here.
 
-    $textarea?
+    $textarea
 
 # Post-Questionnaire
 
-> **Please rate your experience with the AI system on the following scales.**
+> **Please rate your experience with the AI interface on the following scales.**
 
 > obstructive - supportive
 
@@ -1166,7 +1069,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please indicate how strongly you agree or disagree with each statement regarding the AI system.**
+> **Please indicate how strongly you agree or disagree with each statement regarding the AI interface.**
 
 > I think that I would like to use this system frequently.
 
@@ -1193,10 +1096,6 @@ The following should be taken into account when setting up the stalls:
     $likert; 1; 5; Strongly disagree; Strongly agree
 
 > I would imagine that most people would learn to use this system very quickly.
-
-    $likert; 1; 5; Strongly disagree; Strongly agree
-
-> If you are reading this, select the highest possible value (Strongly agree) on this item.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
@@ -1242,66 +1141,34 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-# Trust in the AI System
-
-> **Please indicate how much you agree or disagree with each statement about the AI system used in this study.**
-
-> I am confident in the AI system. I feel that it works well.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> The outputs of the AI system are very predictable.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> The AI system is very reliable. I can count on it to be correct all the time.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> I feel safe that when I rely on the AI system I will get the right answers.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> The AI system is efficient in that it works very quickly.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> I am wary of the AI system.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> The AI system can perform the task better than a novice human user.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-> I like using the system for decision making.
-
-    $likert; 1; 5; I disagree strongly; I agree strongly
-
-# Post-Questionnaire
-
 > **Please answer the following questions about the main tasks you just completed.**
 
 > How mentally demanding was this task?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high
 
 > How physically demanding was this task?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high
 
 > How hurried or rushed was the pace of the task?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high
 
 > How successful were you in accomplishing what you were asked to do?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high
 
 > How hard did you have to work to accomplish your level of performance?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high
+
+> If you are reading this question, choose option C
+
+    $option; A; B; C; D
 
 > How insecure, discouraged, irritated, stressed, and annoyed were you?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high
+
+
