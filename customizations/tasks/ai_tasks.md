@@ -10,7 +10,7 @@
 >
 > For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
 >
-> Please use a **desktop computer or laptop** for the best experience. Smartphones and tablets are not supported.
+> Use a **desktop computer or laptop** for the best experience. Smartphones and tablets are not supported.
 >
 > ***Please do not refresh your browser tab at any point while participating in the study, or all your progress will be lost!***
 >
@@ -127,23 +127,23 @@ Which of the following statements about managing the information points for plan
 
 > Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
 
-> One of the tasks is to plan when which student assistant will be employed where during the Future Days event. The preferences of the student assistants are to be considered.
+> One of the tasks is to plan when and where each student assistant will be employed during the Future Days event. The preferences of the student assistants are to be considered.
 
 > Student assistants are required in two areas: the lobby and the event level, for the following tasks:
 
 > 1. **Management of two information points and the registration desk in the lobby:**
-> One student assistant each is to be scheduled for a full day for the information points and the registration desk.
+> Two student assistants are to be scheduled for a full day for the information points and the registration desk, one in each.
 
 > 1. **Operation of the technical systems in the rooms at event level:**
 > Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
 
-> The two student assistants Jonah and Peter have already been scheduled, who are already part of the organizing committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
+> The two student assistants Jonah and Peter, who are already part of the organizing committee, have already been scheduled: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
 
 > The following student assistants are available for the event:
 
 > | ID | Name | Gender | Description |
 > |---|---|---|---|
-> | A | Alex | m | can work on all three days, would like to work once at event level, once at the registration desk and once - but not on Saturday - at the information point, has superficial knowledge of the event technology |
+> | A | Alex | m | can work on all three days, would like to work once at event level, once at the registration desk and once - but not on Saturday - at the information point; has superficial knowledge of the event technology |
 > | D | Daria | f | cannot work on Saturday, only wants to be included at the event level and has an excellent knowledge of the event technology |
 > | L | Lara | f | would like to work on one of the weekdays (Thursday or Friday) and on Saturday, has no knowledge of the event technology |
 > | M | Michael | m | can work on all three days, would like to work at event level on Friday, has superficial knowledge of the event technology |
@@ -180,15 +180,11 @@ The following student assistants are available for the event:
 
 :::
 
-# Pre-Questionnaire
+# Self Assessment
 
-> ### Self-Assessment
->
-> Now that you have familiarized yourself with the task type, we would like to ask you a few final questions about your expectations and self-assessment before the main study begins.
+> Now that you have familiarized yourself with the task type, we would like to ask you a few questions about your expectations and self-assessment about working with AI on the planning and organizing tasks before the main study begins.
 
-> We would like to ask you a few questions regarding your expectations and self-assessment when now working with AI on the planning and organizing tasks.
-
-> Using the AI, how many of the 12 planning problems do you think you would solve correctly?
+> Using the AI, how many of the 12 planning problems do you think you will solve correctly?
 ~Please enter a number out of 12.
 
     $number?; 0; 12
@@ -208,22 +204,19 @@ The following student assistants are available for the event:
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability?
+> Compared to other AI systems, how would you estimate this AI system planning and organizing ability?
 ~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems.
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
 
 # Main Tasks
 
-> ## Next: Main Questions
->
 > You will now begin the main part of the study.
->
+
 > This section consists of **12 questions**. The questions are grouped into **three scenarios**, with **four questions per scenario**.
->
+
 > The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question.
->
-> Please click *Next* to continue.
+
 
 %% RANDOMIZE_SECTIONS
 
@@ -264,12 +257,14 @@ Which of the following statements about the effects of certain working times is 
 
 > The six consultants want to work for YPC at the following times:
 
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
 
 > These capacities are to be fully utilized.
 
@@ -282,12 +277,14 @@ Six students in the Master's degree course of Economics have founded the student
 
 The six consultants want to work for YPC at the following times:
 
-- Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-- Tom: Wednesday mornings and afternoons
-- Jacob: one and a half consecutive days per week
-- Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-- Ben: two afternoons per week, but not on consecutive days
-- Sara: Monday afternoons and Thursday mornings
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
 
 These capacities are to be fully utilized.
 
@@ -331,12 +328,14 @@ Which of the following statements about possible cooperation is or are correct?
 
 > The six consultants want to work for YPC at the following times:
 
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
 
 > These capacities are to be fully utilized.
 
@@ -349,12 +348,14 @@ Six students in the Master's degree course of Economics have founded the student
 
 The six consultants want to work for YPC at the following times:
 
-- Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-- Tom: Wednesday mornings and afternoons
-- Jacob: one and a half consecutive days per week
-- Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-- Ben: two afternoons per week, but not on consecutive days
-- Sara: Monday afternoons and Thursday mornings
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
 
 These capacities are to be fully utilized.
 
@@ -398,12 +399,14 @@ Which of the following statements about the consulting in the fields of cost cut
 
 > The six consultants want to work for YPC at the following times:
 
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
 
 > These capacities are to be fully utilized.
 
@@ -416,12 +419,14 @@ Six students in the Master's degree course of Economics have founded the student
 
 The six consultants want to work for YPC at the following times:
 
-- Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-- Tom: Wednesday mornings and afternoons
-- Jacob: one and a half consecutive days per week
-- Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-- Ben: two afternoons per week, but not on consecutive days
-- Sara: Monday afternoons and Thursday mornings
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
 
 These capacities are to be fully utilized.
 
@@ -465,12 +470,14 @@ Suppose — for this question only — that the resource planning has gone compl
 
 > The six consultants want to work for YPC at the following times:
 
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
 
 > These capacities are to be fully utilized.
 
@@ -483,12 +490,14 @@ Six students in the Master's degree course of Economics have founded the student
 
 The six consultants want to work for YPC at the following times:
 
-- Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-- Tom: Wednesday mornings and afternoons
-- Jacob: one and a half consecutive days per week
-- Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-- Ben: two afternoons per week, but not on consecutive days
-- Sara: Monday afternoons and Thursday mornings
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
 
 These capacities are to be fully utilized.
 
