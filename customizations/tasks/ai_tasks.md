@@ -1299,12 +1299,8 @@ The following should be taken into account when setting up the stalls:
 
 > How hard did you have to work to accomplish your level of performance?
 
-    $slider; 0; 20; Very low; Very high; tooltip
+    $slider; 1; 20; Very low; Very high; tooltip
 
 > How insecure, discouraged, irritated, stressed, and annoyed were you?
 
-    $slider; 0; 20; Very low; Very high
-
-> How confident are you that your answer is correct?
-
-    $slider; 0; 100; Unsure; Certain
+    $slider; 1; 20; Very low; Very high; tooltip

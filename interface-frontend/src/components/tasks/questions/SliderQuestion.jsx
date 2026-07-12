@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Slider } from '@nextui-org/react'
 
 const SliderQuestion = ({id, question, field}) => {
-  const midpoint = (question.max + question.min) / 2
+  const midpoint = Math.round((question.max + question.min) / 2)
   // ponytail: track real user interaction, not mount-triggered onChange
   const touched = useRef(false)
   const hasValue = touched.current || (field.value !== undefined && field.value !== null && field.value !== '')
