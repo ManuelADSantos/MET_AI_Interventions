@@ -9,7 +9,7 @@ const OptionQuestion = ({ id, question, field }) => {
   const otherRaw = question.options.find((o) => o.toLowerCase() === 'other' || /\*/.test(o))
   const hasOther = !!otherRaw
   const otherLabel = otherRaw?.includes('*') ? otherRaw.split('*')[0] : 'Other'
-  const otherPlaceholder = otherRaw?.includes('*') ? (otherRaw.split('*')[1] || 'Please specify') : 'Please specify'
+  const otherPlaceholder = otherRaw?.includes('*') ? (otherRaw.split('*')[1] || '') : ''
   const options = useMemo(
     () => question.options.filter((o) => o !== otherRaw),
     [question.options]
