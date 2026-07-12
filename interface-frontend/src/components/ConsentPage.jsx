@@ -2,8 +2,8 @@ import { useState, useMemo } from 'react'
 import { Button, Card, CardBody, Checkbox } from '@nextui-org/react'
 import loadTasks from '../scripts/taskParser/taskParser'
 
-import aiStudyInfoFile from '/public/study_info/ai_studyinfo.md?raw'
-import noAiStudyInfoFile from '/public/study_info/no_ai_studyinfo.md?raw'
+// ponytail: auto-discover study info files by condition name
+const studyInfoFiles = import.meta.glob('/public/study_info/*_studyinfo.md', { query: '?raw', import: 'default', eager: true })
 
 const baseURL = import.meta.env.VITE_PROXY_URL || ''
 
@@ -65,7 +65,8 @@ export default function ConsentPage({ prolificPid, prolificStudyId, prolificSess
   const [error, setError] = useState('')
 
   const allSteps = useMemo(() => {
-    const raw = condition === 'no-ai' ? noAiStudyInfoFile : aiStudyInfoFile
+    const key = `/public/study_info/${condition.replace(/-/g, '_')}_studyinfo.md`
+    const raw = studyInfoFiles[key] || ''
     const parsed = loadTasks(raw)
 
     const briefingSteps = parsed.map(page => ({

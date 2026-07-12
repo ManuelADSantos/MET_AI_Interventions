@@ -54,7 +54,7 @@ All customization is done by editing files on your computer. Changes take effect
 
 | What to Change | File to Edit | Notes |
 |----------------|--------------|-------|
-| Survey questions & instructions | `customizations/tasks/ai_tasks.md` or `no-ai_tasks.md` | Uses taskParser markdown format (see below) |
+| Survey questions & instructions | `customizations/tasks/<condition>_tasks.md` | Uses taskParser markdown format (see below) |
 | Study info / consent page | `customizations/tasks/*_studyinfo_example.md` | First page participants see |
 | Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
 | GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
@@ -162,7 +162,7 @@ reasoning_effort: none            # Optional: none, low, medium, high, or xhigh 
 base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
 # Study Settings
-condition: ai                      # 'ai' or 'no-ai'
+condition: ai                      # Any condition name matching a *_tasks.md file
 randomize_tasks: true              # Shuffle tasks within sections
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
@@ -188,17 +188,35 @@ export_token: ""                   # Set a secret to enable GET /export?token=<s
 
 ## Adding Conditions
 
-Conditions are auto-discovered from `customizations/tasks/` — no code changes needed. To add a condition (e.g. `ai-limited`):
+Conditions are auto-discovered from `customizations/tasks/` — no code changes needed.
 
-1. **Create task files** in `customizations/tasks/`:
-   - `ai-limited_tasks.md` — the survey/task pages
-   - `study_info/ai-limited_studyinfo.md` — consent / intro pages (optional)
+### Steps
 
-2. **Set the condition** via `VITE_PCTP_CONDITION=ai-limited` (env var or `study.config.yml` → `condition`), or per-participant via URL: `?condition=ai-limited`
+1. **Create a task file** in `customizations/tasks/`:
+   - `<name>_tasks.md` — the survey/task pages (required)
+   - `study_info/<name>_studyinfo.md` — consent / intro pages (optional)
 
-Underscores in the filename become hyphens in the condition name (`no_ai_tasks.md` → condition `no-ai`).
+2. **Set the condition** via `study.config.yml` → `condition: <name>`, env var `VITE_PCTP_CONDITION=<name>`, or per-participant URL: `?condition=<name>`
 
-**Chat visibility rule:** the chat panel appears for every condition except `no-ai`. If your new condition should hide the chat, update the `condition !== 'no-ai'` checks in `interface-frontend/src/App.jsx` and `src/scripts/store.jsx`.
+### Naming conventions
+
+- Underscores in the filename become hyphens in the condition name (`no_ai_tasks.md` → condition `no-ai`)
+- **Chat visibility:** conditions starting with `no-` hide the chat panel; all others show it (see `conditionHasChat()` in `src/scripts/conditions.js`)
+
+### Example
+
+To add a condition called `ai-limited`:
+
+```
+customizations/tasks/ai_limited_tasks.md              # task pages (required)
+customizations/tasks/study_info/ai_limited_studyinfo.md  # consent pages (optional)
+```
+
+Set `condition: ai-limited` in `study.config.yml` and restart. The chat panel will appear (name doesn't start with `no-`).
+
+### Condition-specific UI components
+
+If a condition needs custom visual elements (e.g. confidence cards, reliability warnings), keep the logic self-contained. See `src/scripts/conditions.js` for the central condition registry. Load condition-specific config (JSON, etc.) via `import.meta.glob` rather than hardcoded imports, and guard rendering on the condition name so other conditions are unaffected.
 
 ## AutoProctor Integration (Optional)
 

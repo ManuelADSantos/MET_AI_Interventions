@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { store } from "./scripts/store"
+import { conditionHasChat } from "./scripts/conditions"
 import { checkParticipation } from "./scripts/dbService"
 import { mintChatToken } from "./scripts/chatService"
 import TaskView from './components/tasks/TaskView'
@@ -89,7 +90,7 @@ const App = ({ condition, tasks, directStartPid }) => {
       : <>
         <div className='flex flex-1 flex-row h-screen'>
           <TaskView tasks={tasks} />
-          {condition !== 'no-ai' && <ChatView sourceIndex={
+          {conditionHasChat(condition) && <ChatView sourceIndex={
             tasks[ctxStore.state.taskIndex]
             ? tasks[ctxStore.state.taskIndex].sourceIndex
             : tasks[ctxStore.state.taskIndex - 1].sourceIndex

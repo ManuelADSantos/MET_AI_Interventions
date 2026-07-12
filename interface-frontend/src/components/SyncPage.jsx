@@ -1,15 +1,9 @@
 import { useState } from 'react'
 import { Button, Card, CardBody, Input } from '@nextui-org/react'
 import App from '../App'
-import loadTasks from '../scripts/taskParser/taskParser'
-
-import aiTaskFile from '/public/ai_tasks.md?raw'
-import noAiTaskFile from '/public/no_ai_tasks.md?raw'
+import { tasksPerCondition } from '../scripts/conditions'
 
 const baseURL = import.meta.env.VITE_PROXY_URL || ''
-const opts = { randomize: import.meta.env.VITE_RANDOMIZE_TASKS !== 'false' }
-const aiTasks = loadTasks(aiTaskFile, opts)
-const noAiTasks = loadTasks(noAiTaskFile, opts)
 
 export default function SyncPage() {
   const [pid, setPid] = useState('')
@@ -49,8 +43,7 @@ export default function SyncPage() {
 
   // ponytail: study_info was shown in ConsentPage; skip it inside the iframe
   if (condition) {
-    const tasks = condition === 'no-ai' ? noAiTasks : aiTasks
-    return <App condition={condition} tasks={tasks} directStartPid={pid.trim()} />
+    return <App condition={condition} tasks={tasksPerCondition[condition]} directStartPid={pid.trim()} />
   }
 
   return (

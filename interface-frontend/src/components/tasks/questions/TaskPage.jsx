@@ -5,6 +5,7 @@ import { Button, Tabs, Tab, Tooltip } from '@nextui-org/react'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
 import RichText from './RichText'
+import { conditionHasChat } from '../../../scripts/conditions'
 
 const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n\nRelevant information:\n{tabText}\n\n{copyText}'
 
@@ -168,7 +169,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast }) 
   }
 
   const shouldShowCopyButton = ctxStore.state.chatEnabled &&
-    ctxStore.state.condition !== 'no-ai' &&
+    conditionHasChat(ctxStore.state.condition) &&
     copyButtonPages.has(sourceIndex) &&
     !selectedTab.copyDisabled
 
