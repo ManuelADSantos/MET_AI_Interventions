@@ -2,7 +2,7 @@
 
 :::tab Instruction
 
-> ## Welcome!
+> ## Welcome
 >
 > In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **three scenarios**, with **four questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
 >
@@ -37,8 +37,6 @@
 # Pre-Questionnaire
 
 > Before starting the tasks, we would like to ask you a few questions about your demographics, expectations and self-assessment when working on these tasks with AI support.
->
-> ### General Questions
 
 > What is your age?
 
@@ -90,16 +88,14 @@
 # Trial Task
 
 > You will now complete **one trial task** to familiarize yourself with the task type and interface before starting the main test.
->
+
 > This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance.
->
-> Click on _Next_ to continue.
 
 # Trial: Future Days
 
 :::tab Exercise
 
-> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements.
+> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you might first have to come up with an ideal schedule before being able to verify the statements.
 > ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
@@ -136,12 +132,12 @@ Which of the following statements about managing the information points for plan
 > Student assistants are required in two areas: the lobby and the event level, for the following tasks:
 
 > 1. **Management of two information points and the registration desk in the lobby:**
->   One student assistant each is to be scheduled for a full day for the information points and the registration desk.
+> One student assistant each is to be scheduled for a full day for the information points and the registration desk.
 
-> 2. **Operation of the technical systems in the rooms at event level:**
->   Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
+> 1. **Operation of the technical systems in the rooms at event level:**
+> Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
 
-> The two student assistants Jonah and Peter have already been scheduled, who are already part of the organising committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
+> The two student assistants Jonah and Peter have already been scheduled, who are already part of the organizing committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
 
 > The following student assistants are available for the event:
 
@@ -168,7 +164,7 @@ One student assistant each is to be scheduled for a full day for the information
 2. **Operation of the technical systems in the rooms at event level:**
 Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
 
-The two student assistants Jonah and Peter have already been scheduled, who are already part of the organising committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
+The two student assistants Jonah and Peter have already been scheduled, who are already part of the organizing committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
 
 The following student assistants are available for the event:
 
@@ -181,26 +177,28 @@ The following student assistants are available for the event:
  | R | Roberto | m | would like to work on two occasions, but not on two subsequent days, has excellent knowledge of the event technology |
  | S | Sonia | f | can work on all three days, does not want to work together with Alex in the same area (lobby or event level), has an excellent knowledge of the event technology |
  | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
+
 :::
 
 # Pre-Questionnaire
 
 > ### Self-Assessment
+>
 > Now that you have familiarized yourself with the task type, we would like to ask you a few final questions about your expectations and self-assessment before the main study begins.
 
 > We would like to ask you a few questions regarding your expectations and self-assessment when now working with AI on the planning and organizing tasks.
 
-> Using the AI, how many of the 12 planning problems do you think you would solve correctly? 
+> Using the AI, how many of the 12 planning problems do you think you would solve correctly?
 ~Please enter a number out of 12.
 
     $number?; 0; 12
 
-> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly? 
+> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly?
 ~ Please enter a number out of 12.
 
     $number?; 0; 12
 
-> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly? 
+> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly?
 ~Please enter a number out of 12.
 
     $number?; 0; 12
@@ -210,11 +208,10 @@ The following student assistants are available for the event:
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
 
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
-~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems. 
+> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability?
+~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems.
 
     $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
-
 
 # Main Tasks
 
@@ -222,11 +219,11 @@ The following student assistants are available for the event:
 >
 > You will now begin the main part of the study.
 >
-> This section consists of **12 questions**. The questions are grouped into **three scenarios**, with **four questions per scenario**. 
+> This section consists of **12 questions**. The questions are grouped into **three scenarios**, with **four questions per scenario**.
 >
 > The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question.
 >
-> Please click _Next_ to continue.
+> Please click *Next* to continue.
 
 %% RANDOMIZE_SECTIONS
 
@@ -258,6 +255,7 @@ Which of the following statements about the effects of certain working times is 
 
 1. If Emily, Jacob, and Lara work on Tuesdays, only two consultants will be available on Thursday mornings.
 2. If two consultants are to be available on Wednesday mornings and afternoons respectively, this will not be possible on a Friday in one and the same week.
+
 :::
 
 :::tab Scenario
@@ -273,7 +271,7 @@ Which of the following statements about the effects of certain working times is 
 > - Ben: two afternoons per week, but not on consecutive days
 > - Sara: Monday afternoons and Thursday mornings
 
-> These capacities are to be fully utilised.
+> These capacities are to be fully utilized.
 
 > Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -291,7 +289,7 @@ The six consultants want to work for YPC at the following times:
 - Ben: two afternoons per week, but not on consecutive days
 - Sara: Monday afternoons and Thursday mornings
 
-These capacities are to be fully utilised.
+These capacities are to be fully utilized.
 
 Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -324,6 +322,7 @@ Which of the following statements about possible cooperation is or are correct?
 
 1. If in one and the same week Ben works on Tuesday afternoon and Jacob on Thursday the whole day, there will be no one in that week to accompany Tom to an appointment if necessary.
 2. If in one and the same week a client wants to book two half-days of that week with the same consultants respectively, there will be three consultant tandems that could meet this requirement.
+
 :::
 
 :::tab Scenario
@@ -339,7 +338,7 @@ Which of the following statements about possible cooperation is or are correct?
 > - Ben: two afternoons per week, but not on consecutive days
 > - Sara: Monday afternoons and Thursday mornings
 
-> These capacities are to be fully utilised.
+> These capacities are to be fully utilized.
 
 > Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -357,7 +356,7 @@ The six consultants want to work for YPC at the following times:
 - Ben: two afternoons per week, but not on consecutive days
 - Sara: Monday afternoons and Thursday mornings
 
-These capacities are to be fully utilised.
+These capacities are to be fully utilized.
 
 Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -390,6 +389,7 @@ Which of the following statements about the consulting in the fields of cost cut
 
 1. If each day of the working week is to be staffed with consultants in the mornings and afternoons, personnel consulting may only be offered on a maximum of three days.
 2. If not every day of the working week needs to be staffed, both cost cutting consulting and personnel consulting can be offered on four days of the week.
+
 :::
 
 :::tab Scenario
@@ -405,7 +405,7 @@ Which of the following statements about the consulting in the fields of cost cut
 > - Ben: two afternoons per week, but not on consecutive days
 > - Sara: Monday afternoons and Thursday mornings
 
-> These capacities are to be fully utilised.
+> These capacities are to be fully utilized.
 
 > Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -423,7 +423,7 @@ The six consultants want to work for YPC at the following times:
 - Ben: two afternoons per week, but not on consecutive days
 - Sara: Monday afternoons and Thursday mornings
 
-These capacities are to be fully utilised.
+These capacities are to be fully utilized.
 
 Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -456,6 +456,7 @@ Suppose — for this question only — that the resource planning has gone compl
 
 1. Up to four half-days per week may remain unstaffed.
 2. Up to three half-days per week can be respectively staffed with three consultants.
+
 :::
 
 :::tab Scenario
@@ -471,7 +472,7 @@ Suppose — for this question only — that the resource planning has gone compl
 > - Ben: two afternoons per week, but not on consecutive days
 > - Sara: Monday afternoons and Thursday mornings
 
-> These capacities are to be fully utilised.
+> These capacities are to be fully utilized.
 
 > Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -489,7 +490,7 @@ The six consultants want to work for YPC at the following times:
 - Ben: two afternoons per week, but not on consecutive days
 - Sara: Monday afternoons and Thursday mornings
 
-These capacities are to be fully utilised.
+These capacities are to be fully utilized.
 
 Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
 
@@ -526,11 +527,12 @@ Which of the following statements is or are correct?
 
 1. No trainer is available without restrictions this weekend.
 2. The same number of trainers are available for each topic.
+
 :::
 
 :::tab Scenario
 
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 > You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -550,7 +552,7 @@ Which of the following statements is or are correct?
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 :::copy
-The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -568,6 +570,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
 | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
 :::
 
 # Scenario: Incentive Car Racing
@@ -596,11 +599,12 @@ Which of the following statements is or are correct?
 
 1. You cannot offer the topic of security at your Incentive Weekend.
 2. You cannot book Haschke von Hunstein as a trainer at all.
+
 :::
 
 :::tab Scenario
 
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 > You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -620,7 +624,7 @@ Which of the following statements is or are correct?
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 :::copy
-The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -638,6 +642,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
 | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
 :::
 
 # Scenario: Incentive Car Racing
@@ -666,11 +671,12 @@ Which of the following statements is or are correct?
 
 1. Unfortunately, you cannot avoid hiring even the most expensive coach.
 2. The cheapest option is to hire the same 3 coaches for Saturday and Sunday.
+
 :::
 
 :::tab Scenario
 
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 > You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -690,7 +696,7 @@ Which of the following statements is or are correct?
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 :::copy
-The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -708,6 +714,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
 | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
 :::
 
 # Scenario: Incentive Car Racing
@@ -716,7 +723,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 > **Which of the following statements is or are correct?**
 
-> 1. The question of which topic you can implement most favourably depends on the difference in the fees of two trainers.
+> 1. The question of which topic you can implement most favorably depends on the difference in the fees of two trainers.
 > 2. The difference in the trainers' fees on the basis of which you choose the theme is 500 euros for the incentive.
 
 > Please indicate your answer.
@@ -734,13 +741,14 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::copy
 Which of the following statements is or are correct?
 
-1. The question of which topic you can implement most favourably depends on the difference in the fees of two trainers.
+1. The question of which topic you can implement most favorably depends on the difference in the fees of two trainers.
 2. The difference in the trainers' fees on the basis of which you choose the theme is 500 euros for the incentive.
+
 :::
 
 :::tab Scenario
 
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 > You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -760,7 +768,7 @@ Which of the following statements is or are correct?
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 :::copy
-The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
 You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
 
@@ -778,6 +786,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
 | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
 :::
 
 %%
@@ -810,13 +819,14 @@ Which of the following statements about the beginning and end of the reconstruct
 
 1. The helpers can start the third of the five set-up activities before 4.30 pm.
 2. In any case, the complete set-up is not finished until more than three hours after it has started.
+
 :::
 
 :::tab Scenario
 
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 >
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
@@ -834,9 +844,9 @@ Which of the following statements about the beginning and end of the reconstruct
 > | Set-up time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 
-Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
@@ -852,6 +862,7 @@ The following should be taken into account when setting up the stalls:
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
+
 :::
 
 # Scenario: Graduation Party
@@ -880,13 +891,14 @@ Which of the following statements about payment of helpers is or are correct?
 
 1. If the most efficient schedule is followed, 19 drink vouchers will be issued per helper.
 2. If the helpers gave up their breaks, a total of 18 vouchers could be saved.
+
 :::
 
 :::tab Scenario
 
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 >
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
@@ -904,9 +916,9 @@ Which of the following statements about payment of helpers is or are correct?
 > | Set-up time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 
-Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
@@ -922,6 +934,7 @@ The following should be taken into account when setting up the stalls:
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
+
 :::
 
 # Scenario: Graduation Party
@@ -950,13 +963,14 @@ Suppose — for this question only — that you have an additional team of ten h
 
 1. If you want to avoid unnecessary breaks in the workflow when using two teams, the first team must start work at 4 pm and the second team exactly 1.5 hours later.
 2. There is no change in the time required when using two teams of helpers compared to only one team.
+
 :::
 
 :::tab Scenario
 
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 >
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
@@ -974,9 +988,9 @@ Suppose — for this question only — that you have an additional team of ten h
 > | Set-up time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 
-Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
@@ -992,6 +1006,7 @@ The following should be taken into account when setting up the stalls:
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
+
 :::
 
 # Scenario: Graduation Party
@@ -1020,13 +1035,14 @@ Suppose — for this question only — that you have an additional team of ten h
 
 1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
 2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
+
 :::
 
 :::tab Scenario
 
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 >
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
@@ -1044,9 +1060,9 @@ Suppose — for this question only — that you have an additional team of ten h
 > | Set-up time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
 
-Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
@@ -1062,25 +1078,27 @@ The following should be taken into account when setting up the stalls:
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
+
 :::
 
 %%
 
 %%
+
 # Congratulations
 
-> You have finished all the tasks! 
+> You have finished all the tasks!
 
 > Before we conclude and you can receive your reward, we would like to ask you a few final questions regarding your experience.
 
 # Post-Questionnaire
 
-> Using the AI, how many of the 12 problems do you think you have solved correctly? 
+> Using the AI, how many of the 12 problems do you think you have solved correctly?
 ~Please enter a number out of 12.
 
     $number; 0; 12
 
-> Without AI use, how many of the 12 problems do you think you would have solved correctly? 
+> Without AI use, how many of the 12 problems do you think you would have solved correctly?
 ~Please enter a number out of 12.
 
     $number; 0; 12
@@ -1089,22 +1107,20 @@ The following should be taken into account when setting up the stalls:
 
     $number
 
-> On its own, how many of the 12 problems do you think the AI would have solved correctly? 
+> On its own, how many of the 12 problems do you think the AI would have solved correctly?
 ~Please enter a number out of 12.
 
     $number; 0; 12
 
-> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI? 
+> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI?
 ~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
     $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
-
-> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
+> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability?
 ~Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
 
     $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
-
 
 # Post-Questionnaire
 
@@ -1124,35 +1140,35 @@ The following should be taken into account when setting up the stalls:
 
 > **Please rate your experience with the AI system on the following scales.**
 
->  
+> 
 
     $likert; 1; 7; obstructive; supportive
 
-> 
+>
 
     $likert; 1; 7; complicated; easy
 
-> 
+>
 
     $likert; 1; 7; inefficient; efficient
 
-> 
+>
 
     $likert; 1; 7; confusing; clear
 
-> 
+>
 
     $likert; 1; 7; boring; exciting
 
-> 
+>
 
     $likert; 1; 7; not interesting; interesting
 
-> 
+>
 
     $likert; 1; 7; conventional; inventive
 
-> 
+>
 
     $likert; 1; 7; usual; leading edge
 
@@ -1267,7 +1283,6 @@ The following should be taken into account when setting up the stalls:
 > I like using the system for decision making.
 
     $likert; 1; 5; I disagree strongly; I agree strongly
-
 
 # Post-Questionnaire
 
