@@ -808,8 +808,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 > **Which of the following statements about the beginning and end of the reconstruction measures is or are correct?**
 
-> 1. The helpers can start the third of the five set-up activities before 4.30 pm.
-> 2. In any case, the complete set-up is not finished until more than three hours after it has started.
+> 1. The helpers can start the third of the five setup activities before 4.30 pm.
+> 2. In any case, the complete setup is not finished until more than three hours after it has started.
 
 > Please indicate your answer.
 
@@ -826,51 +826,51 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::copy
 Which of the following statements about the beginning and end of the reconstruction measures is or are correct?
 
-1. The helpers can start the third of the five set-up activities before 4.30 pm.
-2. In any case, the complete set-up is not finished until more than three hours after it has started.
+1. The helpers can start the third of the five setup activities before 4.30 pm.
+2. In any case, the complete setup is not finished until more than three hours after it has started.
 
 :::
 
 :::tab Scenario
 
-> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 >
 > Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 > 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 > 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 > 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+> 6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 >
 > | | Beer Cheers | Cocktails Rumba | Nice kebab |
 > |---|---|---|---|
 > | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
+> | setup time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 
 Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
-1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 
 | | Beer Cheers | Cocktails Rumba | Nice kebab |
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
-| Set-up time | 25 min | 20 min | 45 min |
+| setup time | 25 min | 20 min | 45 min |
 
 :::
 
@@ -905,44 +905,44 @@ Which of the following statements about payment of helpers is or are correct?
 
 :::tab Scenario
 
-> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 >
 > Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 > 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 > 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 > 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+> 6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 >
 > | | Beer Cheers | Cocktails Rumba | Nice kebab |
 > |---|---|---|---|
 > | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
+> | setup time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 
 Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
-1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 
 | | Beer Cheers | Cocktails Rumba | Nice kebab |
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
-| Set-up time | 25 min | 20 min | 45 min |
+| setup time | 25 min | 20 min | 45 min |
 
 :::
 
@@ -977,44 +977,44 @@ Suppose — for this question only — that you have an additional team of ten h
 
 :::tab Scenario
 
-> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 >
 > Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 > 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 > 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 > 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+> 6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 >
 > | | Beer Cheers | Cocktails Rumba | Nice kebab |
 > |---|---|---|---|
 > | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
+> | setup time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 
 Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
-1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 
 | | Beer Cheers | Cocktails Rumba | Nice kebab |
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
-| Set-up time | 25 min | 20 min | 45 min |
+| setup time | 25 min | 20 min | 45 min |
 
 :::
 
@@ -1024,7 +1024,7 @@ The following should be taken into account when setting up the stalls:
 
 > **Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?**
 
-> 1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
+> 1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete setup with the help of the second team.
 > 2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
 
 > Please indicate your answer.
@@ -1042,51 +1042,51 @@ The following should be taken into account when setting up the stalls:
 :::copy
 Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?
 
-1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
+1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete setup with the help of the second team.
 2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
 
 :::
 
 :::tab Scenario
 
-> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 >
 > Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 >
 > The following should be taken into account when setting up the stalls:
 >
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 > 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 > 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 > 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+> 6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 >
 > | | Beer Cheers | Cocktails Rumba | Nice kebab |
 > |---|---|---|---|
 > | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
+> | setup time | 25 min | 20 min | 45 min |
 
 :::copy
-A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the setup of food and drink stands as well as the music system.
 
 Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
 
 The following should be taken into account when setting up the stalls:
 
-1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+1. The party starts at 7 pm. The setup must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single setup they are entitled to a 5 min (paid) break (unless it is the last setup for the complete event).
 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+6. You must make the setup as cost-effective as possible. It is therefore best to plan the entire setup process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the setup time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
 
 | | Beer Cheers | Cocktails Rumba | Nice kebab |
 |---|---|---|---|
 | Duration of the journey | 20 min | 20 min | 15 min |
-| Set-up time | 25 min | 20 min | 45 min |
+| setup time | 25 min | 20 min | 45 min |
 
 :::
 
