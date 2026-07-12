@@ -47,14 +47,14 @@
 
     $number?; 18; 99
 
-> Please select the gender that you best identify with.
+> What is your gender?
 
     $option?;
-    Female;
-    Male;
+    Woman;
+    Man;
     Non-binary;
-    Rather not say;
-    Other
+    Prefer not to disclose;
+    Prefer to self-describe
 
 > What is your profession?
 
