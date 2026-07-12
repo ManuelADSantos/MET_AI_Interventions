@@ -34,8 +34,10 @@ const StateProvider = ({ children }) => {
         }
         return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false, chatUsedOnPage: false}
       // ponytail: dev-mode only — free navigation
-      case 'SET_TASK_INDEX':
-        return {...state, taskIndex: action.payload, chatUsedOnPage: false}
+      case 'SET_TASK_INDEX': {
+        const chatOn = state.condition !== 'no-ai' && action.payload >= chatEnabledIndex && action.payload <= chatDisabledIndex
+        return {...state, taskIndex: action.payload, chatEnabled: chatOn, chatUsedOnPage: false}
+      }
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {

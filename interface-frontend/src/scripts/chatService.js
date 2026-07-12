@@ -6,15 +6,16 @@ const SYSTEM_PROMPT = import.meta.env.VITE_SYSTEM_PROMPT || ''
  * Reads the pid/condition stored by App.jsx at study start.
  */
 const mintChatToken = async () => {
+  const payload = { id: sessionStorage.getItem('pid'), condition: sessionStorage.getItem('condition') }
   const res = await fetch(`${baseURL}/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id: sessionStorage.getItem('pid'),
-      condition: sessionStorage.getItem('condition')
-    })
+    body: JSON.stringify(payload)
   })
-  if (!res.ok) throw new Error(`Token request failed with status ${res.status}`)
+  if (!res.ok) {
+    console.error('[mintChatToken] 400 payload:', payload, 'url:', `${baseURL}/token`)
+    throw new Error(`Token request failed with status ${res.status}`)
+  }
   const token = (await res.json()).token
   sessionStorage.setItem('chatToken', token)
   return token

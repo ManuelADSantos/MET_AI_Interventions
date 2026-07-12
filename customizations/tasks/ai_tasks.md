@@ -36,8 +36,6 @@
 
 # Pre-Questionnaire
 
-> ## Before we begin ...
->
 > Before starting the tasks, we would like to ask you a few questions about your demographics, expectations and self-assessment when working on these tasks with AI support.
 >
 > ### General Questions
@@ -89,10 +87,8 @@
     Rarely;
     Never
 
-# Trial
+# Trial Task
 
-> ## Next: Trial Task
->
 > You will now complete **one trial task** to familiarize yourself with the task type and interface before starting the main test.
 >
 > This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance.
@@ -1115,10 +1111,6 @@ The following should be taken into account when setting up the stalls:
 > I usually double-checked AI-generated answers before relying on them.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
-
-> How often do you use AI?
-
-    $likert; 1; 5; ; ; Never; Rarely; Sometimes; Often; Always
 
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 

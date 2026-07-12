@@ -255,9 +255,9 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast }) 
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, showSubmitError)} className='flex flex-1 flex-col justify-between items-start w-full h-full' autoComplete='off'>
+    <form onSubmit={handleSubmit(onSubmit, showSubmitError)} className='flex flex-1 flex-col justify-between items-start w-full min-h-0' autoComplete='off'>
       {/* Display page contents */}
-      <div className='flex flex-1 flex-col justify-start items-start w-full overflow-auto'>
+      <div className='flex flex-1 flex-col justify-start items-start w-full min-h-0 overflow-auto'>
         <h1 className='text-4xl font-bold mb-4'><RichText inline>{title}</RichText></h1>
         {(hasMultipleTabs || shouldShowCopyButton) && (
           <div className='mb-4 flex w-full items-center justify-between gap-4'>
