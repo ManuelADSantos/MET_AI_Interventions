@@ -111,6 +111,16 @@ Format: `$likert; min; max; minLabel; maxLabel`
 
 Same parameter format as `$slider`. Renders as discrete radio buttons instead of a slider.
 
+To label individual radio points, append text labels after the fourth parameter:
+
+```markdown
+> How often do you use AI?
+
+    $likert; 1; 5; Never; Always; Never; Rarely; Sometimes; Often; Always
+```
+
+Labels map left-to-right to each radio button. If fewer labels are given than points, remaining points show their numeric value.
+
 ### Subtitles
 
 Add a helper line beneath a question's title by placing a `~` line between the question text and the `$type` directive:

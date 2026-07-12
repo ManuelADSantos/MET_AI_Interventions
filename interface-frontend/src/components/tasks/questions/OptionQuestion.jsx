@@ -33,7 +33,7 @@ const OptionQuestion = ({ id, question, field }) => {
 
   return (
     <div className='my-4'>
-      <fieldset style={{border: 'none', }} name={id} {...field}>
+      <fieldset style={{border: 'none'}} name={id}>
         {/* Render all other options first */}
         {options.map((o, i) =>
           <div key={i} className='mb-3 flex flex-row justify-start items-center'>

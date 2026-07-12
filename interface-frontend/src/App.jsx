@@ -52,6 +52,14 @@ const App = ({ condition, tasks, directStartPid }) => {
     if (urlPid) submitId(urlPid)
   }, [])
 
+  // ponytail: warn on accidental page close/refresh once the study has started
+  useEffect(() => {
+    if (!idGiven) return
+    const handler = (e) => { e.preventDefault(); e.returnValue = '' }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [idGiven])
+
   const handleIdSubmit = (e) => {
     e.preventDefault()
     submitId(e.target[0].value)

@@ -5,7 +5,7 @@ import DonePage from './DonePage'
 
 const TaskView = ({ tasks }) => {
   const {dispatch, state} = useContext(store)
-  
+
   const handleNextPage = () => {
     let nextTaskSourceIndex = tasks[state.taskIndex].sourceIndex + 1
 
@@ -20,16 +20,24 @@ const TaskView = ({ tasks }) => {
   return (
     <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen p-10 bg-stone-100'>
       {state.taskIndex < tasks.length
-        ? <TaskPage 
-            key={state.taskIndex}
-            title={tasks[state.taskIndex].title}
-            items={tasks[state.taskIndex].content}
-            tabs={tasks[state.taskIndex].tabs}
-            taskIndex={state.taskIndex}
-            sourceIndex={tasks[state.taskIndex].sourceIndex}
-            isLast={state.taskIndex === tasks.length - 1}
-            next={handleNextPage}
-          />
+        ? <>
+            <div className='w-full mb-2'>
+              <div className='w-full bg-stone-200 rounded-full h-1.5'>
+                <div className='bg-stone-500 h-1.5 rounded-full transition-all duration-300' style={{ width: `${((state.taskIndex + 1) / tasks.length) * 100}%` }} />
+              </div>
+              <p className='text-xs text-stone-400 mt-1 text-right'>{state.taskIndex + 1} / {tasks.length}</p>
+            </div>
+            <TaskPage
+              key={state.taskIndex}
+              title={tasks[state.taskIndex].title}
+              items={tasks[state.taskIndex].content}
+              tabs={tasks[state.taskIndex].tabs}
+              taskIndex={state.taskIndex}
+              sourceIndex={tasks[state.taskIndex].sourceIndex}
+              isLast={state.taskIndex === tasks.length - 1}
+              next={handleNextPage}
+            />
+          </>
         : <DonePage />
       }
     </div>
