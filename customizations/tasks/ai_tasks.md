@@ -1096,11 +1096,11 @@ The following should be taken into account when setting up the stalls:
 
 # Congratulations
 
-> You have finished all the tasks!
+> **You have finished all the tasks!**
 
 > Before we conclude and you can receive your reward, we would like to ask you a few final questions regarding your experience.
 
-# Post-Questionnaire
+# Self-Assessment
 
 > Using the AI, how many of the 12 problems do you think you have solved correctly?
 ~Please enter a number out of 12.
@@ -1135,7 +1135,7 @@ The following should be taken into account when setting up the stalls:
 
 > I usually double-checked AI-generated answers before relying on them.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 
@@ -1187,75 +1187,75 @@ The following should be taken into account when setting up the stalls:
 
 > I think that I would like to use this system frequently.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I found the system unnecessarily complex.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I thought the system was easy to use.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I think that I would need the support of a technical person to be able to use this system.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I found the various functions in this system were well integrated.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I thought there was too much inconsistency in this system.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I would imagine that most people would learn to use this system very quickly.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > If you are reading this, select the highest possible value (Strongly agree) on this item.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I found the system very cumbersome to use.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I felt very confident using the system.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 > I needed to learn a lot of things before I could get going with this system.
 
-    $likert; 1; 5; Strongly disagree; Strongly agree
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
 
 # Post-Questionnaire
 
 > **For each sentence below, please select how uncharacteristic or characteristic this is for you personally.**
 
-> I would prefer complex to simple problems.
+> I would prefer complex problems to simple problems.
 
-    $likert; 1; 5; Very uncharacteristic; Very characteristic
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
 
 > I like to have the responsibility of handling a situation that requires a lot of thinking.
 
-    $likert; 1; 5; Very uncharacteristic; Very characteristic
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
 
 > Thinking is not my idea of fun.
 
-    $likert; 1; 5; Very uncharacteristic; Very characteristic
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
 
 > I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.
 
-    $likert; 1; 5; Very uncharacteristic; Very characteristic
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
 
 > I really enjoy a task that involves coming up with new solutions to problems.
 
-    $likert; 1; 5; Very uncharacteristic; Very characteristic
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
 
 > I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.
 
-    $likert; 1; 5; Very uncharacteristic; Very characteristic
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
 
 # Post-Questionnaire
 
@@ -1263,35 +1263,35 @@ The following should be taken into account when setting up the stalls:
 
 > I am confident in the AI system. I feel that it works well.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > The outputs of the AI system are very predictable.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > The AI system is very reliable. I can count on it to be correct all the time.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > I feel safe that when I rely on the AI system I will get the right answers.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > The AI system is efficient in that it works very quickly.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > I am wary of the AI system.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > The AI system can perform the task better than a novice human user.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 > I like using the system for decision making.
 
-    $likert; 1; 5; I disagree strongly; I agree strongly
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
 
 # Post-Questionnaire
 
