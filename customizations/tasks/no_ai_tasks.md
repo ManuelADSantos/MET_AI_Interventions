@@ -1,399 +1,46 @@
-# Task Introduction
+# Introduction
 
-> In this task, you're going to be answering a set of 20 questions about logical reasoning.
+:::tab Instruction
 
-> You will be presented with brief passages or statements and will be required to evaluate their reasoning or determine what inferences you can logically draw from the passage. In each case, select the best answer choice, even though more than one choice may present a possible answer. Please use a computer for optimal experience.
+> ## Welcome
+>
+> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **three scenarios**, with **four questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
+>
+> To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Feel free to familiarize yourself with the assistant before you begin. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
+>
+> For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
+>
+> Use a **desktop computer or laptop** for the best experience. Smartphones and tablets are not supported.
+>
+> ***Please do not refresh your browser tab at any point while participating in the study, or all your progress will be lost!***
+>
+> ## How to use
+>
+> Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
+>
+> Before continuing, please answer the following questions to confirm that you have read the instructions.
+>
+> **What type of tasks will you be working on?**
 
-> What subject are you going to be answering questions about?
+    $option; Creative Writing; Planning and Organizing; Mathematics
 
-    $option; Logical reasoning; Creative writing; Grammar
+> **Please click on the second tab above. Which letter is displayed there?**
 
-> Which answer choice should you select?
+    $option; A; B; C; D
 
-    $option; The best choice; The longest choice; All of the choices that are correct
+:::tab Second Tab
 
-# Self Assessment
+> The letter you are looking for is **C**
 
-> Before answering the 20 logical reasoning questions, please respond to the following:
+> Head back to the instruction tab.
 
-## Task Ability
+# Pre-Questionnaire
 
-> Compared to other participants in this study, how would you rate your general logical reasoning ability? Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you will perform better than half of the participants.
+> Before starting the tasks, we would like to ask you a few questions about your demographics, expectations and self-assessment when working on these tasks with AI support.
 
-    $slider; 0; 100; Better than 0%; Better than 100%
+> What is your age?
 
-> You're about to solve a set of 20 logical reasoning problems. How many of the 20 logical reasoning problems do you think you will solve correctly?
-
-    $number
-
-## General Ability
-
-> Compared to other participants in this study, how well do you think you will do? Marking 90% means you will do better than 90% of participants, marking 10% means you will do better than only 10%, and marking 50% means that you will perform better than half of the participants.
-
-    $slider; 0; 100; Better than 0%; Better than 100%
-
-> How difficult is solving logical reasoning problems for you?
-
-    $likert; 1; 10; Very easy; Very difficult
-
-> How difficult is solving logical reasoning problems for the average participant?
-
-    $likert; 1; 10; Very easy; Very difficult
-
-# Task Instructions
-
-> In this task, you're going to be answering a set of 20 questions about logical reasoning.
-
-%% RANDOMIZE
-
-#
-
-> Life imitates art. Which of the following, if true, most strongly supports the previous statement?
-
-    $option;
-    Soon after the advent of color television, white shirts became less popular as dressy attire for men, and pastel-colored shirts began to sell well.;
-    When Warren Beatty filmed Reds, he tried to suggest not only the chaos of the Russian Revolution but also its relationship to the present.;
-    The number of professional ballet companies has increased over the last five years, but the number of dance majors has decreased.;
-    Truman Capote wrote In Cold Blood as a result of a series of brutal slayings by two crazed killers.;
-    On Tuesday, the business section of the newspaper had predicted the drop in interest rates that occurred on Friday.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> On average, federal workers receive salaries 35.5 percent higher than private-sector salaries. For instance, federal workers in California average USD 19,206 a year, 25 percent higher than the average pay in the private sector, which is USD 15,365. This information would best support which of the following opinions?
-
-    $option;
-    The private sector is being paid fairly.;
-    Federal jobs are more secure than private-sector jobs.;
-    Private-sector salaries in California are above average.;
-    Public-sector work is more difficult than private-sector work.;
-    Federal pay is out of line.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> No high jumper entered the track meet unless he or she was a track club member. No track club member both entered the meet and was a high jumper. Which of the following conclusions can be correctly drawn from the two previous sentences?
-
-    $option;
-    No one but high jumpers entered the meet.;
-    Only track club members entered the meet.;
-    Some track club members entered the meet.;
-    No track club members entered the meet.;
-    No high jumper entered the meet.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-# 
-
-> About 33% of American men between 25 and 50 are overweight. Research has shown that in most cases men between 25 and 50 who are overweight are more subject to heart disease than men who are not overweight. Which of the following is the most logical conclusion to this argument?
-
-    $option;
-    Therefore, if 33% of the American men between 25 and 50 were to lose weight, they would reduce their risk of heart disease.;
-    Therefore, 33% of the American men between 25 and 50 should lose weight.;
-    Therefore, if the overweight men between 25 and 50 were to lose weight, their risk of heart disease would be reduced.;
-    Therefore, if 33% of American men were to lose weight, they would reduce their risk of heart disease.;
-    Therefore, if the men between 25 and 50 who are overweight were to lose weight, they would reduce their risk of heart disease by 33%.
-
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> All computer geniuses are also brilliant mathematicians. Therefore, some computer geniuses don’t require calculators for simple multiplication facts. Which of the following is the least necessary assumption for the previous conclusion to be logically correct?
-
-    $option;
-    Only computer geniuses are also brilliant mathematicians.;
-    All computer geniuses who require calculators for simple multiplication facts are brilliant mathematicians.;
-    Some brilliant mathematicians require calculators for simple multiplication facts.;
-    All brilliant mathematicians don’t require calculators for simple multiplication facts.;
-    Some brilliant mathematicians don’t require calculators for simple multiplication facts.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-# 
-
-> A researcher has concluded that women are just as capable as men in math but that their skills are not developed because society expects them to develop other and more diverse abilities. Which of the following is a basic assumption of the researcher?
-
-    $option;
-    Ability in math is less important than ability in more diverse subjects.;
-    Ability in math is more important than ability in more diverse subjects.;
-    Women tend to conform to social expectations.;
-    Women might be more capable than men in math.;
-    Women and men should be equally capable in math.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-# 
-
-> Jonathan Swift said, “Laws are like cobwebs which may catch small flies but let wasps and hornets break through.” Jonathan Swift would most likely believe that
-
-    $option;
-    small crimes should not be prosecuted;
-    laws do not stop people from committing crimes;
-    pesticides should be used to deter large insects;
-    the powerful can often avoid serious criminal sentences;
-    prosecutors should be tough on criminals
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-# 
-
-> When Mom cooks, we all eat a delicious dinner. But Mom didn’t cook today, so we won’t be eating a delicious dinner. Which of the following is logically most similar to the previous argument?
-
-    $option;
-    When the dog has fleas, he always scratches. But the dog doesn’t have fleas, so he won’t be scratching.;
-    When a person is fortunate, he or she has great good luck. So a fortunate person will always be lucky.;
-    When food is cooked, it always burns. But our food isn’t burned, so therefore it wasn’t cooked.;
-    When silverware is used at the dining table, we usually have guests. Today we have guests, so we are using the silverware.;
-    When a university finishes admitting entering students, the freshman class is complete. Since the freshman class is not complete, the university has not finished admitting entering students.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> Without sign ordinances, everyone with the price of a can of spray paint can suddenly decide to publicly create their own personal Picassos, and soon the entire town would start to look like something out of Alice in Wonderland. Therefore we need sign ordinances. All of the following are assumptions underlying the previous argument EXCEPT
-
-    $option;
-    the town looking like Alice in Wonderland is undesirable;
-    sign ordinances are rarely, if ever effective;
-    no other effective means of deterring graffiti presently exist;
-    spray paint can be used to create graffiti;
-    sign ordinances are effective
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> When Louis Pasteur said, “Chance favors the prepared mind,” the famous French scientist most nearly meant
-
-    $option;
-    being prepared will be favorable to those who take chances;
-    happenstance will be more beneficial to those who are prepared;
-    we all have a chance to be prepared;
-    pasteurization was a chance that Pasteur prepared for;
-    take a chance only if you’re prepared
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> All acts have consequences. Given this fact, we may wish to play it safe by never doing anything. The speaker implies that
-
-    $option;
-    doing nothing has lesser consequences;
-    not doing anything is not an act;
-    all acts have consequences;
-    we may prefer to live safely;
-    consequentiality is not safe
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> Voltaire once said, “Common sense is not so common.” Which of the following most nearly parallels Voltaire’s statement?
-
-    $option;
-    Truth serum cannot contain the truth.;
-    God must have loved the common man - he certainly made enough of them.;
-    The common good is not necessarily best for everyone.;
-    Jumbo shrimp may not actually be very big.;
-    Good people may not necessarily have good sense.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> It has been proven that the “lie detector” can be fooled. If one is truly aware that one is lying, when in fact one is, then the “lie detector” is worthless. 
-
-The author of this argument implies that
-
-    $option;
-    the lie detector is sometimes worthless;
-    the lie detector is a useless device;
-    no one can fool the lie detector all of the time;
-    a good liar can fool the device;
-    a lie detector is often inaccurate
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-# 
-
-> It has been proven that the “lie detector” can be fooled. If one is truly aware that one is lying, when in fact one is, then the “lie detector” is worthless. 
-
-This argument would be strengthened most by
-
-    $option;
-    claiming that ordinary, unbiased people are the best “lie detectors”;
-    demonstrating that one’s awareness of truth or falsity is always undetectable;
-    citing evidence that there are other means of measuring truth which are consistently less reliable than the lie detector;
-    showing that the “truth” of any statement always relies on a subjective assessment;
-    citing the number of cases in which the lie detector mistook falsehood for truth
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> It has been proven that the “lie detector” can be fooled. If one is truly aware that one is lying, when in fact one is, then the “lie detector” is worthless. 
-
-Without contradicting his or her own statements, the author of the above statement might present which of the following arguments as a strong point in favor of the lie detector?
-
-    $option;
-    Circumstantial evidence might be more useful in a criminal case than is personal testimony.;
-    The methodology used by investigative critics of the lie detector is itself highly flawed.;
-    People are never “truly unaware” that they are lying.;
-    The very threat of a lie-detector test has led to a significant number of criminals to confess.;
-    Law-enforcement agencies have purchased too many detectors to abandon them now.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> English automobiles leak oil. All sportscars need some repair every month. Since the vehicle I recently purchased leaks oil and needs repair every month, I must have purchased an English sportscar. Which of the following, if true, would logically weaken the previous conclusion?
-
-    $option;
-    Not all English sedans leak oil.;
-    American sportscars never need repair.;
-    Danish automobiles also leak oil.;
-    Some sportscars need repair every two weeks.;
-    Only English sportscars need repair every month.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> By appropriating bailout money for the depressed housing industry, Congress is opening the door to a flood of special relief programs for other recession-affected businesses. The author’s attitude toward the Congress’ action is probably
-
-    $option;
-    neutral;
-    irate;
-    disapproving;
-    confused;
-    happy
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> We have been warned that if we stop watering our lawn, then not only will our grass die and our trees turn brown, but also the gophers will find the dry, hard soil a stimulus for ravaging whatever vegetation happens to survive. Therefore, we have decided to continue to water our lawn. All of the following can be reasonably inferred as goals of the author except
-
-    $option;
-    water conservation;
-    the gophers not ravaging remaining vegetation;
-    the trees not turning brown;
-    the grass is not dying;
-    the soil not becoming dry and hard
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-#
-
-> According to a recent study by the National Academy of Public Administration, postal patrons are regularly affronted by out-of-order stamp vending machines, branch post office lobbies locked at night, and twenty-nine cent letters that take as long to get there as thirteen-cent letters did a decade ago. Which of the following, if true, would weaken the implication of one of the author’s observations?
-
-    $option;
-    As a public corporation, the Postal Service has increased its capital assets by USD 3 billion.;
-    Late-night vandalism has plagued post offices nationwide.;
-    Postage rates rose over a hundred percent from 1983 to 1993, but the cost of first class mail is still cheaper in the US than anywhere else.;
-    Most out-of-order vending machines are located in run-down neighborhoods.;
-    Ten years ago, most letters reached their destination within twenty-four hours.
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-# 
-
-> If I do not get at least a B on the final exam, I will definitely fail my geology course. From the previous statement, it most logically follows that if I do get a B on the final exam in geology, I then
-
-    $option;
-    will probably pass the course;
-    may or may not pass the course;
-    will definitely not pass the course;
-    will probably not pass the course;
-    will definitely pass the course
-
-> How confident are you that your response is correct?
-
-    $slider; 0; 100; Unsure; Certain
-
-%%
-
-# Post-study Self-assessment
-
-## Task Ability
-
-> Compared to other participants in this study, how would you rate your general logical reasoning ability? Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
-
-    $slider; 0; 100; Better than 0%; Better than 100%
-
-> How many of the 20 logical reasoning problems you just completed do you think you answered solve correctly?
-
-    $number
-
-## General Ability
-
-> Compared to other participants in this study, how well do you think you performed? Marking 90% means you did better than 90% of participants, marking 10% means you did better than only 10%, and marking 50% means that you performed better than half of the participants.
-
-    $slider; 0; 100; Better than 0%; Better than 100%
-
-> How difficult was solving these logical reasoning problems for you?
-
-    $likert; 1; 10; Very easy; Very difficult
-
-> How difficult was solving these logical reasoning problems for the average participant?
-
-    $likert; 1; 10; Very easy; Very difficult
-
-#
-
-> Would you have liked to use conversational AI (e.g. ChatGPT) to solve the logical problems?
-
-    $option; Yes; No
-
-# Demographic Questionnaire
-
-> Please answer a few additional questions about your demographics and educational background.
-
-> How old are you?
-
-    $number
+    $number?; 18; 99
 
 > What is your gender?
 
@@ -404,9 +51,22 @@ Without contradicting his or her own statements, the author of the above stateme
     Prefer not to disclose;
     Prefer to self-describe*
 
+> What is your profession?
+
+    $text?
+
+> Estimate your fluency in the English language
+
+    $option?;
+    Native speaker;
+    Fully fluent;
+    Conversationally fluent;
+    I understand basic English;
+    Rather not say
+
 > What is the highest level of school you have completed or the highest degree you have received?
 
-    $option;
+    $option?;
     Basic education / Middle school;
     Upper secondary school / High school;
     Vocational college degree;
@@ -414,26 +74,1249 @@ Without contradicting his or her own statements, the author of the above stateme
     Higher tertiary education degree (Master's level);
     Doctoral degree
 
-> Please select the number of semesters of university you have completed.
+> How often do you use AI assistants?
+
+    $option?;
+    Multiple Times a Day;
+    Daily;
+    A Few Times a Week;
+    Once a Week;
+    A Few Times a Month;
+    Rarely;
+    Never
+
+# Trial Task
+
+> You will now complete **one trial task** to familiarize yourself with the task type and interface before starting the main test.
+
+> This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance.
+
+# Trial: Future Days
+
+:::tab Exercise
+
+> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you might first have to come up with an ideal schedule before being able to verify the statements.
+> ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
+
+> **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
+
+> 1. The same student assistants can be deployed at the information points on Thursday and Friday.
+> 2. The same student assistants can be deployed at the information points on Thursday and Saturday.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements about managing the information points for planning when considering all requirements is or are correct?
+
+1. The same student assistants can be deployed at the information points on Thursday and Friday.
+2. The same student assistants can be deployed at the information points on Thursday and Saturday.
+
+:::
+
+:::tab Scenario
+
+> Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
+
+> One of the tasks is to plan when and where each student assistant will be employed during the Future Days event. The preferences of the student assistants are to be considered.
+
+> Student assistants are required in two areas: the lobby and the event level, for the following tasks:
+
+> 1. **Management of two information points and the registration desk in the lobby:**
+> Two student assistants are to be scheduled for a full day for the information points and the registration desk, one in each.
+
+> 1. **Operation of the technical systems in the rooms at event level:**
+> Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
+
+> The two student assistants Jonah and Peter, who are already part of the organizing committee, have already been scheduled: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
+
+> The following student assistants are available for the event:
+
+> | ID | Name | Gender | Description |
+> |---|---|---|---|
+> | A | Alex | m | can work on all three days, would like to work once at event level, once at the registration desk and once - but not on Saturday - at the information point; has superficial knowledge of the event technology |
+> | D | Daria | f | cannot work on Saturday, only wants to be included at the event level and has an excellent knowledge of the event technology |
+> | L | Lara | f | would like to work on one of the weekdays (Thursday or Friday) and on Saturday, has no knowledge of the event technology |
+> | M | Michael | m | can work on all three days, would like to work at event level on Friday, has superficial knowledge of the event technology |
+> | R | Roberto | m | would like to work on two occasions, but not on two subsequent days, has excellent knowledge of the event technology |
+> | S | Sonia | f | can work on all three days, does not want to work together with Alex in the same area (lobby or event level), has an excellent knowledge of the event technology |
+> | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
+
+:::copy
+Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
+
+One of the tasks is to plan when which student assistant will be employed where during the Future Days event. The preferences of the student assistants are to be considered.
+
+Student assistants are required in two areas: the lobby and the event level, for the following tasks:
+
+1. **Management of two information points and the registration desk in the lobby.**
+One student assistant each is to be scheduled for a full day for the information points and the registration desk.
+
+2. **Operation of the technical systems in the rooms at event level:**
+Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
+
+The two student assistants Jonah and Peter have already been scheduled, who are already part of the organizing committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
+
+The following student assistants are available for the event:
+
+ | ID | Name | Gender | Description |
+ |---|---|---|---|
+ | A | Alex | m | can work on all three days, would like to work once at event level, once at the registration desk and once - but not on Saturday - at the information point, has superficial knowledge of the event technology |
+ | D | Daria | f | cannot work on Saturday, only wants to be included at the event level and has an excellent knowledge of the event technology |
+ | L | Lara | f | would like to work on one of the weekdays (Thursday or Friday) and on Saturday, has no knowledge of the event technology |
+ | M | Michael | m | can work on all three days, would like to work at event level on Friday, has superficial knowledge of the event technology |
+ | R | Roberto | m | would like to work on two occasions, but not on two subsequent days, has excellent knowledge of the event technology |
+ | S | Sonia | f | can work on all three days, does not want to work together with Alex in the same area (lobby or event level), has an excellent knowledge of the event technology |
+ | T | Theresa | f | can only work on Friday, does not want to work at one of the information points, has a superficial knowledge of the event technology |
+
+:::
+
+# Self Assessment
+
+> Now that you have familiarized yourself with the task type, we would like to ask you a few questions about your expectations and self-assessment about working with AI on the planning and organizing tasks before the main study begins.
+
+> Using the AI, how many of the 12 planning problems do you think you will solve correctly?
+~Please enter a number out of 12.
+
+    $number?; 0; 12
+
+> Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly?
+~ Please enter a number out of 12.
+
+    $number?; 0; 12
+
+> On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly?
+~Please enter a number out of 12.
+
+    $number?; 0; 12
+
+> Compared to other participants, how would you rate your general planning and organizing ability?
+~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
+
+    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
+
+> Compared to other AI systems, how would you estimate this AI system planning and organizing ability?
+~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems.
+
+    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
+
+# Main Tasks
+
+> You will now begin the main part of the study.
+
+> This section consists of **12 questions**. The questions are grouped into **three scenarios**, with **four questions per scenario**.
+
+> The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question.
+
+
+%% RANDOMIZE_SECTIONS
+
+%% RANDOMIZE
+
+# Scenario: Young Professionals Consulting
+
+:::tab Exercise
+
+> **Which of the following statements about the effects of certain working times is or are correct?**
+
+> 1. If Emily, Jacob, and Lara work on Tuesdays, only two consultants will be available on Thursday mornings.
+> 2. If two consultants are to be available on Wednesday mornings and afternoons respectively, this will not be possible on a Friday in one and the same week.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements about the effects of certain working times is or are correct?
+
+1. If Emily, Jacob, and Lara work on Tuesdays, only two consultants will be available on Thursday mornings.
+2. If two consultants are to be available on Wednesday mornings and afternoons respectively, this will not be possible on a Friday in one and the same week.
+
+:::
+
+:::tab Scenario
+
+> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+> The six consultants want to work for YPC at the following times:
+
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
+
+> These capacities are to be fully utilized.
+
+> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+
+:::copy
+Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+The six consultants want to work for YPC at the following times:
+
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
+
+These capacities are to be fully utilized.
+
+Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+:::
+
+# Scenario: Young Professionals Consulting
+
+:::tab Exercise
+
+> **Which of the following statements about possible cooperation is or are correct?**
+
+> 1. If in one and the same week Ben works on Tuesday afternoon and Jacob on Thursday the whole day, there will be no one in that week to accompany Tom to an appointment if necessary.
+> 2. If in one and the same week a client wants to book two half-days of that week with the same consultants respectively, there will be three consultant tandems that could meet this requirement.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements about possible cooperation is or are correct?
+
+1. If in one and the same week Ben works on Tuesday afternoon and Jacob on Thursday the whole day, there will be no one in that week to accompany Tom to an appointment if necessary.
+2. If in one and the same week a client wants to book two half-days of that week with the same consultants respectively, there will be three consultant tandems that could meet this requirement.
+
+:::
+
+:::tab Scenario
+
+> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+> The six consultants want to work for YPC at the following times:
+
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
+
+> These capacities are to be fully utilized.
+
+> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+
+:::copy
+Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+The six consultants want to work for YPC at the following times:
+
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
+
+These capacities are to be fully utilized.
+
+Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+:::
+
+# Scenario: Young Professionals Consulting
+
+:::tab Exercise
+
+> **Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?**
+
+> 1. If each day of the working week is to be staffed with consultants in the mornings and afternoons, personnel consulting may only be offered on a maximum of three days.
+> 2. If not every day of the working week needs to be staffed, both cost cutting consulting and personnel consulting can be offered on four days of the week.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?
+
+1. If each day of the working week is to be staffed with consultants in the mornings and afternoons, personnel consulting may only be offered on a maximum of three days.
+2. If not every day of the working week needs to be staffed, both cost cutting consulting and personnel consulting can be offered on four days of the week.
+
+:::
+
+:::tab Scenario
+
+> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+> The six consultants want to work for YPC at the following times:
+
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
+
+> These capacities are to be fully utilized.
+
+> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+
+:::copy
+Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+The six consultants want to work for YPC at the following times:
+
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
+
+These capacities are to be fully utilized.
+
+Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+:::
+
+# Scenario: Young Professionals Consulting
+
+:::tab Exercise
+
+> **Suppose — for this question only — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?**
+
+> 1. Up to four half-days per week may remain unstaffed.
+> 2. Up to three half-days per week can be respectively staffed with three consultants.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain; tooltip
+
+:::copy
+Suppose — for this question only — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?
+
+1. Up to four half-days per week may remain unstaffed.
+2. Up to three half-days per week can be respectively staffed with three consultants.
+
+:::
+
+:::tab Scenario
+
+> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+> The six consultants want to work for YPC at the following times:
+
+> | Name | Availability |
+> |---|---|
+> | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+> | Tom | Wednesday mornings and afternoons |
+> | Jacob | one and a half consecutive days per week |
+> | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+> | Ben | two afternoons per week, but not on consecutive days |
+> | Sara | Monday afternoons and Thursday mornings |
+
+> These capacities are to be fully utilized.
+
+> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+
+:::copy
+Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
+
+The six consultants want to work for YPC at the following times:
+
+ | Name | Availability |
+ |---|---|
+ | Emily | either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons |
+ | Tom | Wednesday mornings and afternoons |
+ | Jacob | one and a half consecutive days per week |
+ | Lara | only in the morning, either Mondays and Tuesdays or Thursdays and Fridays |
+ | Ben | two afternoons per week, but not on consecutive days |
+ | Sara | Monday afternoons and Thursday mornings |
+
+These capacities are to be fully utilized.
+
+Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
+
+If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
+:::
+
+%%
+
+%% RANDOMIZE
+
+# Scenario: Incentive Car Racing
+
+:::tab Exercise
+
+> **Which of the following statements is or are correct?**
+
+> 1. No trainer is available without restrictions this weekend.
+> 2. The same number of trainers are available for each topic.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements is or are correct?
+
+1. No trainer is available without restrictions this weekend.
+2. The same number of trainers are available for each topic.
+
+:::
+
+:::tab Scenario
+
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+> On these terms, you have a total of 10 trainers at your disposal:
+
+> | Trainer | Themes | Availability | Cost |
+> |---|---|---|---:|
+> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::copy
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+On these terms, you have a total of 10 trainers at your disposal:
+
+| Trainer | Themes | Availability | Cost |
+|---|---|---|---:|
+| Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+| Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+| Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+| Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+| Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+| Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+| Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+| Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+| Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+| Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::
+
+# Scenario: Incentive Car Racing
+
+:::tab Exercise
+
+> **Which of the following statements is or are correct?**
+
+> 1. You cannot offer the topic of security at your Incentive Weekend.
+> 2. You cannot book Haschke von Hunstein as a trainer at all.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements is or are correct?
+
+1. You cannot offer the topic of security at your Incentive Weekend.
+2. You cannot book Haschke von Hunstein as a trainer at all.
+
+:::
+
+:::tab Scenario
+
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+> On these terms, you have a total of 10 trainers at your disposal:
+
+> | Trainer | Themes | Availability | Cost |
+> |---|---|---|---:|
+> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::copy
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+On these terms, you have a total of 10 trainers at your disposal:
+
+| Trainer | Themes | Availability | Cost |
+|---|---|---|---:|
+| Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+| Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+| Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+| Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+| Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+| Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+| Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+| Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+| Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+| Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::
+
+# Scenario: Incentive Car Racing
+
+:::tab Exercise
+
+> **Which of the following statements is or are correct?**
+
+> 1. Unfortunately, you cannot avoid hiring even the most expensive coach.
+> 2. The cheapest option is to hire the same 3 coaches for Saturday and Sunday.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements is or are correct?
+
+1. Unfortunately, you cannot avoid hiring even the most expensive coach.
+2. The cheapest option is to hire the same 3 coaches for Saturday and Sunday.
+
+:::
+
+:::tab Scenario
+
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+> On these terms, you have a total of 10 trainers at your disposal:
+
+> | Trainer | Themes | Availability | Cost |
+> |---|---|---|---:|
+> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::copy
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+On these terms, you have a total of 10 trainers at your disposal:
+
+| Trainer | Themes | Availability | Cost |
+|---|---|---|---:|
+| Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+| Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+| Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+| Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+| Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+| Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+| Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+| Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+| Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+| Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::
+
+# Scenario: Incentive Car Racing
+
+:::tab Exercise
+
+> **Which of the following statements is or are correct?**
+
+> 1. The question of which topic you can implement most favorably depends on the difference in the fees of two trainers.
+> 2. The difference in the trainers' fees on the basis of which you choose the theme is 500 euros for the incentive.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements is or are correct?
+
+1. The question of which topic you can implement most favorably depends on the difference in the fees of two trainers.
+2. The difference in the trainers' fees on the basis of which you choose the theme is 500 euros for the incentive.
+
+:::
+
+:::tab Scenario
+
+> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+> On these terms, you have a total of 10 trainers at your disposal:
+
+> | Trainer | Themes | Availability | Cost |
+> |---|---|---|---:|
+> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::copy
+The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organize a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
+
+You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
+
+On these terms, you have a total of 10 trainers at your disposal:
+
+| Trainer | Themes | Availability | Cost |
+|---|---|---|---:|
+| Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
+| Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
+| Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
+| Didier Drifter | security, fun | available only Sun | 500 Euro per day |
+| Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
+| Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
+| Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
+| Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
+| Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
+| Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
+
+:::
+
+%%
+
+%% RANDOMIZE
+
+# Scenario: Graduation Party
+
+:::tab Exercise
+
+> **Which of the following statements about the beginning and end of the reconstruction measures is or are correct?**
+
+> 1. The helpers can start the third of the five set-up activities before 4.30 pm.
+> 2. In any case, the complete set-up is not finished until more than three hours after it has started.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements about the beginning and end of the reconstruction measures is or are correct?
+
+1. The helpers can start the third of the five set-up activities before 4.30 pm.
+2. In any case, the complete set-up is not finished until more than three hours after it has started.
+
+:::
+
+:::tab Scenario
+
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+>
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+>
+> The following should be taken into account when setting up the stalls:
+>
+> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+>
+> | | Beer Cheers | Cocktails Rumba | Nice kebab |
+> |---|---|---|---|
+> | Duration of the journey | 20 min | 20 min | 15 min |
+> | Set-up time | 25 min | 20 min | 45 min |
+
+:::copy
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+
+The following should be taken into account when setting up the stalls:
+
+1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+
+| | Beer Cheers | Cocktails Rumba | Nice kebab |
+|---|---|---|---|
+| Duration of the journey | 20 min | 20 min | 15 min |
+| Set-up time | 25 min | 20 min | 45 min |
+
+:::
+
+# Scenario: Graduation Party
+
+:::tab Exercise
+
+> **Which of the following statements about payment of helpers is or are correct?**
+
+> 1. If the most efficient schedule is followed, 19 drink vouchers will be issued per helper.
+> 2. If the helpers gave up their breaks, a total of 18 vouchers could be saved.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Which of the following statements about payment of helpers is or are correct?
+
+1. If the most efficient schedule is followed, 19 drink vouchers will be issued per helper.
+2. If the helpers gave up their breaks, a total of 18 vouchers could be saved.
+
+:::
+
+:::tab Scenario
+
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+>
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+>
+> The following should be taken into account when setting up the stalls:
+>
+> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+>
+> | | Beer Cheers | Cocktails Rumba | Nice kebab |
+> |---|---|---|---|
+> | Duration of the journey | 20 min | 20 min | 15 min |
+> | Set-up time | 25 min | 20 min | 45 min |
+
+:::copy
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+
+The following should be taken into account when setting up the stalls:
+
+1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+
+| | Beer Cheers | Cocktails Rumba | Nice kebab |
+|---|---|---|---|
+| Duration of the journey | 20 min | 20 min | 15 min |
+| Set-up time | 25 min | 20 min | 45 min |
+
+:::
+
+# Scenario: Graduation Party
+
+:::tab Exercise
+
+> **Suppose — for this question only — that you have an additional team of ten helpers working in parallel with the first team. Which of the following statements is or are correct?**
+
+> 1. If you want to avoid unnecessary breaks in the workflow when using two teams, the first team must start work at 4 pm and the second team exactly 1.5 hours later.
+> 2. There is no change in the time required when using two teams of helpers compared to only one team.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Suppose — for this question only — that you have an additional team of ten helpers working in parallel with the first team. Which of the following statements is or are correct?
+
+1. If you want to avoid unnecessary breaks in the workflow when using two teams, the first team must start work at 4 pm and the second team exactly 1.5 hours later.
+2. There is no change in the time required when using two teams of helpers compared to only one team.
+
+:::
+
+:::tab Scenario
+
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+>
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+>
+> The following should be taken into account when setting up the stalls:
+>
+> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+>
+> | | Beer Cheers | Cocktails Rumba | Nice kebab |
+> |---|---|---|---|
+> | Duration of the journey | 20 min | 20 min | 15 min |
+> | Set-up time | 25 min | 20 min | 45 min |
+
+:::copy
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+
+The following should be taken into account when setting up the stalls:
+
+1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+
+| | Beer Cheers | Cocktails Rumba | Nice kebab |
+|---|---|---|---|
+| Duration of the journey | 20 min | 20 min | 15 min |
+| Set-up time | 25 min | 20 min | 45 min |
+
+:::
+
+# Scenario: Graduation Party
+
+:::tab Exercise
+
+> **Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?**
+
+> 1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
+> 2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
+
+> Please indicate your answer.
+
+    $option;
+    Only statement 1 is correct.;
+    Only statement 2 is correct.;
+    Both statements are correct.;
+    Neither of the two statements is correct.
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
+
+:::copy
+Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?
+
+1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
+2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
+
+:::
+
+:::tab Scenario
+
+> A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+>
+> Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+>
+> The following should be taken into account when setting up the stalls:
+>
+> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+>
+> | | Beer Cheers | Cocktails Rumba | Nice kebab |
+> |---|---|---|---|
+> | Duration of the journey | 20 min | 20 min | 15 min |
+> | Set-up time | 25 min | 20 min | 45 min |
+
+:::copy
+A graduating class organizes their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organization of the set-up of food and drink stands as well as the music system.
+
+Two beverage distributors and a mobile kebab stand have made favorable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
+
+The following should be taken into account when setting up the stalls:
+
+1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
+2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
+3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
+4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
+5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
+6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
+7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
+
+| | Beer Cheers | Cocktails Rumba | Nice kebab |
+|---|---|---|---|
+| Duration of the journey | 20 min | 20 min | 15 min |
+| Set-up time | 25 min | 20 min | 45 min |
+
+:::
+
+%%
+
+%%
+
+# Congratulations
+
+> **You have finished all the tasks!**
+
+> Before we conclude and you can receive your reward, we would like to ask you a few final questions regarding your experience.
+
+# Self-Assessment
+
+> Using the AI, how many of the 12 problems do you think you have solved correctly?
+~Please enter a number out of 12.
+
+    $number; 0; 12
+
+> Without AI use, how many of the 12 problems do you think you would have solved correctly?
+~Please enter a number out of 12.
+
+    $number; 0; 12
+
+> If you are reading this, enter the number 5 on this item.
 
     $number
 
-> Estimate your fluency in the English language
+> On its own, how many of the 12 problems do you think the AI would have solved correctly?
+~Please enter a number out of 12.
 
-    $option;
-    Native English speaker;
-    Fully fluent;
-    Conversationally fluent;
-    I understand basic English;
-    Rather not say
+    $number; 0; 12
 
-> What is your profession?
-~ e.g., health care worker, student, researcher ...
+> Compared to other participants in this study, how would you rate your general planning & organizing ability when using the help of AI?
+~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
-    $text
+    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
-> Have you ever studied for or taken the LSAT (American Law School Admissions Test)?
+> Compared to other AI systems, how would you estimate the AI system's planning and organizing ability?
+~Marking 90% means it performed better than 90% of other systems, marking 10% means it performed better than only 10%, and marking 50% means that the AI system performed better than half of other AI systems.
 
-    $option;
-    Yes;
-    No
+    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
+
+# Post-Questionnaire
+
+> I usually double-checked AI-generated answers before relying on them.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
+
+    $textarea?
+
+> If you have any further comments about your interaction with the AI, please share them here.
+
+    $textarea?
+
+# Post-Questionnaire
+
+> **Please rate your experience with the AI system on the following scales.**
+
+> 
+
+    $likert; 1; 7; obstructive; supportive
+
+>
+
+    $likert; 1; 7; complicated; easy
+
+>
+
+    $likert; 1; 7; inefficient; efficient
+
+>
+
+    $likert; 1; 7; confusing; clear
+
+>
+
+    $likert; 1; 7; boring; exciting
+
+>
+
+    $likert; 1; 7; not interesting; interesting
+
+>
+
+    $likert; 1; 7; conventional; inventive
+
+>
+
+    $likert; 1; 7; usual; leading edge
+
+# Post-Questionnaire
+
+> **Please indicate how strongly you agree or disagree with each statement regarding the AI system.**
+
+> I think that I would like to use this system frequently.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I found the system unnecessarily complex.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I thought the system was easy to use.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I think that I would need the support of a technical person to be able to use this system.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I found the various functions in this system were well integrated.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I thought there was too much inconsistency in this system.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I would imagine that most people would learn to use this system very quickly.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> If you are reading this, select the highest possible value (Strongly agree) on this item.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I found the system very cumbersome to use.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I felt very confident using the system.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+> I needed to learn a lot of things before I could get going with this system.
+
+    $likert; 1; 5; ; ; Strongly disagree; Disagree; Neutral; Agree; Strongly agree
+
+# Post-Questionnaire
+
+> **For each sentence below, please select how uncharacteristic or characteristic this is for you personally.**
+
+> I would prefer complex problems to simple problems.
+
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
+
+> I like to have the responsibility of handling a situation that requires a lot of thinking.
+
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
+
+> Thinking is not my idea of fun.
+
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
+
+> I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.
+
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
+
+> I really enjoy a task that involves coming up with new solutions to problems.
+
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
+
+> I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.
+
+    $likert; 1; 5; ; ; Very uncharacteristic; Somewhat uncharacteristic; Neutral; Somewhat characteristic; Very characteristic
+
+# Post-Questionnaire
+
+> **Please indicate how much you agree or disagree with each statement about the AI system used in this study.**
+
+> I am confident in the AI system. I feel that it works well.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> The outputs of the AI system are very predictable.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> The AI system is very reliable. I can count on it to be correct all the time.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> I feel safe that when I rely on the AI system I will get the right answers.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> The AI system is efficient in that it works very quickly.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> I am wary of the AI system.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> The AI system can perform the task better than a novice human user.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+> I like using the system for decision making.
+
+    $likert; 1; 5; ; ; I strongly disagree; I disagree; I am neutral; I agree; I strongly agree
+
+# Post-Questionnaire
+
+> **Please answer the following questions about the main tasks you just completed.**
+
+> How mentally demanding was this task?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How physically demanding was this task?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How hurried or rushed was the pace of the task?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How successful were you in accomplishing what you were asked to do?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How hard did you have to work to accomplish your level of performance?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How insecure, discouraged, irritated, stressed, and annoyed were you?
+
+    $slider; 1; 20; Very low; Very high; tooltip
