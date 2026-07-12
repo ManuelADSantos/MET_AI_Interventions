@@ -1,8 +1,11 @@
+import { useRef } from 'react'
 import { Slider } from '@nextui-org/react'
 
 const SliderQuestion = ({id, question, field}) => {
   const midpoint = (question.max + question.min) / 2
-  const hasValue = field.value !== undefined && field.value !== null && field.value !== ''
+  // ponytail: track real user interaction, not mount-triggered onChange
+  const touched = useRef(false)
+  const hasValue = touched.current || (field.value !== undefined && field.value !== null && field.value !== '')
   const sliderValue = hasValue ? Number(field.value) : midpoint
   // Enabled via `$slider; min; max; low; high; tooltip` (or `tooltip%` for a percent suffix)
   const tooltipParam = (question.additionalParams || []).find((p) => /^tooltip%?$/.test(p))
@@ -22,6 +25,7 @@ const SliderQuestion = ({id, question, field}) => {
         value={sliderValue}
         fillOffset={sliderValue}
         onChange={(value) => {
+          touched.current = true
           field.onChange(value)
         }}
         inputRef={field.ref}

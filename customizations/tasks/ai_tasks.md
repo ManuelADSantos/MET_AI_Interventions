@@ -43,7 +43,6 @@
 > ### General Questions
 
 > What is your age?
-~in years
 
     $number?; 18; 99
 
@@ -63,7 +62,7 @@
 > Estimate your fluency in the English language
 
     $option?;
-    Native English speaker;
+    Native speaker;
     Fully fluent;
     Conversationally fluent;
     I understand basic English;
@@ -454,7 +453,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 > How confident are you that your answer is correct?
 
-    $slider; 0; 100; Unsure; Certain
+    $slider; 0; 100; Unsure; Certain; tooltip
 
 :::copy
 Suppose — for this question only — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?
@@ -1300,8 +1299,12 @@ The following should be taken into account when setting up the stalls:
 
 > How hard did you have to work to accomplish your level of performance?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 0; 20; Very low; Very high; tooltip
 
 > How insecure, discouraged, irritated, stressed, and annoyed were you?
 
-    $slider; 1; 20; Very low; Very high; tooltip
+    $slider; 0; 20; Very low; Very high
+
+> How confident are you that your answer is correct?
+
+    $slider; 0; 100; Unsure; Certain
