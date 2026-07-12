@@ -25,7 +25,8 @@ const TaskView = ({ tasks }) => {
               <div className='w-full bg-stone-200 rounded-full h-1.5'>
                 <div className='bg-stone-500 h-1.5 rounded-full transition-all duration-300' style={{ width: `${((state.taskIndex + 1) / tasks.length) * 100}%` }} />
               </div>
-              <p className='text-xs text-stone-400 mt-1 text-right'>{state.taskIndex + 1} / {tasks.length}</p>
+              {/* <p className='text-xs text-stone-400 mt-1 text-right'>{state.taskIndex + 1} / {tasks.length}</p> */}
+              <p className='text-xs text-stone-400 mt-1 text-right'> </p>
             </div>
             <TaskPage
               key={state.taskIndex}

@@ -30,7 +30,7 @@
 
 :::tab Second Tab
 
-> The letter you are looking for is: **C**
+> The letter you are looking for is **C**
 
 > Head back to the instruction tab.
 
