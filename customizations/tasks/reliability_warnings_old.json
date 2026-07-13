@@ -13,15 +13,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
-            "description": ""
-          },
-          {
             "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
             "title": "... tracking people, roles, days, and properties through a table or list to make sure nothing is mixed up.",
+            "description": ""
+          },
+          {
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           }
         ],
@@ -40,16 +40,17 @@
       "strategies": {
         "heading": "Before relying on the AI, consider...",
         "fixed": [
+
+          {
+            "title": "... tracking people, roles, days, and properties through a small table or list to make sure nothing is mixed up.",
+            "description": ""
+          },
           {
             "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
             "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
-            "description": ""
-          },
-          {
-            "title": "... tracking people, roles, days, and properties through a small table or list to make sure nothing is mixed up.",
             "description": ""
           }
         ],
@@ -73,11 +74,11 @@
             "description": ""
           },
           {
-            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           },
           {
-            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           }
         ],
@@ -101,11 +102,11 @@
             "description": ""
           },
           {
-            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           },
           {
-            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           }
         ],
@@ -125,11 +126,11 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking that options are valid before comparing them.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           },
           {
@@ -153,15 +154,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
+            "title": "... checking that options are valid before comparing them.",
+            "description": ""
+          },
+          {
             "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           },
           {
             "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
-            "description": ""
-          },
-          {
-            "title": "... checking that options are valid before comparing them.",
             "description": ""
           }
         ],
@@ -185,11 +186,11 @@
             "description": ""
           },
           {
-            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           },
           {
-            "title": "... checking that options are valid before comparing them.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           }
         ],
@@ -209,11 +210,11 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... recalculating important counts, times, costs, or percentages yourself.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           },
           {
-            "title": "... checking that options are valid before comparing them.",
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           },
           {
@@ -237,15 +238,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
-            "description": ""
-          },
-          {
             "title": "... tracing the sequence step by step.",
             "description": ""
           },
           {
             "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           }
         ],
@@ -265,15 +266,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
-            "description": ""
-          },
-          {
             "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           },
           {
             "title": "... tracing the sequence step by step.",
+            "description": ""
+          },
+          {
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
             "description": ""
           }
         ],
@@ -297,11 +298,11 @@
             "description": ""
           },
           {
-            "title": "... trying to find one valid alternative schedule or plan that would make the statement false.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "title": "... trying to find one valid alternative schedule or plan that would make the statement false.",
             "description": ""
           }
         ],
@@ -321,15 +322,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
+            "description": ""
+          },
+          {
             "title": "... checking whether the AI assumed something that is not explicitly stated in the scenario.",
             "description": ""
           },
           {
             "title": "... tracing the sequence step by step.",
-            "description": ""
-          },
-          {
-            "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           }
         ],
