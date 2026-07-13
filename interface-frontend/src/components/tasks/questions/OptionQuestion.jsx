@@ -25,7 +25,7 @@ const OptionQuestion = ({ id, question, field, multi }) => {
   // --- Multi-select (checkbox) helpers ---
   const selected = multi ? (Array.isArray(fieldValue) ? fieldValue : []) : null
   const [otherMulti, setOtherMulti] = useState('')
-  const otherCheckedMulti = multi && hasOther && selected.some((v) => !options.includes(v) && v !== '')
+  const [otherCheckedMulti, setOtherCheckedMulti] = useState(false)
 
   const toggleCheckbox = (value) => {
     const next = selected.includes(value) ? selected.filter((v) => v !== value) : [...selected, value]
@@ -34,9 +34,11 @@ const OptionQuestion = ({ id, question, field, multi }) => {
 
   const toggleOtherCheckbox = () => {
     if (otherCheckedMulti) {
+      setOtherCheckedMulti(false)
       field.onChange(selected.filter((v) => options.includes(v)))
     } else {
-      field.onChange([...selected.filter((v) => options.includes(v)), otherMulti || ''])
+      setOtherCheckedMulti(true)
+      field.onChange([...selected.filter((v) => options.includes(v)), otherMulti])
     }
   }
 
