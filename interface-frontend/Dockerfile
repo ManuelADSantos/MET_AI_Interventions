@@ -13,7 +13,7 @@ COPY interface-frontend/entrypoint.sh /entrypoint.sh
 RUN dos2unix /entrypoint.sh && chmod +x /entrypoint.sh
 
 COPY interface-frontend/ .
-COPY customizations/tasks/ ./public/
+COPY customizations/tasks/ ./customizations/
 
 EXPOSE 5173
 

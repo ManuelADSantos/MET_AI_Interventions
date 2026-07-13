@@ -29,7 +29,7 @@ const TaskView = ({ tasks }) => {
               {devMode
                 ? <>
                     <input type='range' className='w-full accent-blue-500 h-1.5 cursor-pointer' min={0} max={tasks.length - 1} value={state.taskIndex} onChange={(e) => { const i = Number(e.target.value); dispatch({ type: 'SET_TASK_INDEX', payload: { index: i, chatEnabled: conditionHasChat(state.condition) && tasks[i]?.chatEnabled } }) }} />
-                    <p className='text-xs text-blue-500 text-center mt-1'>[DEV] {state.taskIndex + 1} / {tasks.length}</p>
+                    <p className='text-xs text-blue-500 text-center mt-1'>[DEV] {state.taskIndex + 1} / {tasks.length} — {state.condition}</p>
                   </>
                 : <>
                     <div className='w-full bg-stone-200 rounded-full h-1.5'>

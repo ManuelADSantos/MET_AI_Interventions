@@ -47,14 +47,14 @@
 
     $number; 18; 99
 
-> Please select the gender that you best identify with.
+> What is your gender?
 
     $option;
-    Female;
-    Male;
+    Woman;
+    Man;
     Non-binary;
-    Rather not say;
-    Other
+    Prefer not to disclose;
+    Prefer to self-describe*
 
 > What is your profession?
 
@@ -143,11 +143,9 @@ Which of the following statements about managing the information points for plan
 
 > Student assistants are required in two areas: the lobby and the event level, for the following tasks:
 
-> 1. **Management of two information points and the registration desk in the lobby:**
->   One student assistant each is to be scheduled for a full day for the information points and the registration desk.
+> 1. **Management of two information points and the registration desk in the lobby:** One student assistant each is to be scheduled for a full day for the information points and the registration desk.
 
-> 2. **Operation of the technical systems in the rooms at event level:**
->   Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
+> 2. **Operation of the technical systems in the rooms at event level:** Four event rooms are required on Thursday and Friday, but only three are required on Saturday. The student assistants in the three rooms used on all three days should have an excellent knowledge of the event technology, while those in the fourth room only require superficial knowledge. One student assistant per day is required for each room.
 
 > The two student assistants Jonah and Peter have already been scheduled, who are already part of the organising committee: Jonah operates the event technology in one room at event level on Thursday and Saturday and Peter operates it on Friday, while Jonah manages an information point on Friday. Both have an excellent knowledge of the event technology.
 
@@ -1197,37 +1195,41 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please rate your experience with the AI system on the following scales.** When answering the questions on this page, please focus on the design and usability of the interface, rather than on the performance or accuracy of the AI system.
+s> **Please rate your experience with the AI system on the following scales.** When answering the questions on this page, please focus on the design and usability of the interface, rather than on the performance or accuracy of the AI system.
 
-> obstructive - supportive
+> Decide as spontaneously as possible which of the following conflicting terms better describes the system. Please consider each of the scales individually.
+
+> **The system was:**
+
+> 
 
     $likert; 1; 7; obstructive; supportive
 
-> complicated - easy
+> 
 
     $likert; 1; 7; complicated; easy
 
-> inefficient - efficient
+> 
 
     $likert; 1; 7; inefficient; efficient
 
-> confusing - clear
+> 
 
     $likert; 1; 7; confusing; clear
 
-> boring - exciting
+> 
 
     $likert; 1; 7; boring; exciting
 
-> not interesting - interesting
+> 
 
     $likert; 1; 7; not interesting; interesting
 
-> conventional - inventive
+> 
 
     $likert; 1; 7; conventional; inventive
 
-> usual - leading edge
+> 
 
     $likert; 1; 7; usual; leading edge
 
@@ -1281,7 +1283,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **For each sentence below, please select how uncharacteristic or characteristic (5-point scale) this is for you personally.** 
+> **For each sentence below, please select how uncharacteristic or characteristic this is for you personally.** 
 
 > I would prefer complex to simple problems.
 

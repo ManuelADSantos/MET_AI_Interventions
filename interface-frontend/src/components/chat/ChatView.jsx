@@ -5,7 +5,7 @@ import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
 import { resolveReliabilityWarning } from '../../scripts/reliabilityWarning'
 import { Thread } from '../thread'
-import reliabilityWarningsFile from '/public/reliability_warnings.json?raw'
+import reliabilityWarningsFile from '/customizations/reliability_warnings.json?raw'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
 const reliabilityWarningsConfig = JSON.parse(reliabilityWarningsFile)

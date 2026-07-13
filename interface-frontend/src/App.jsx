@@ -15,6 +15,8 @@ const App = ({ condition, tasks, directStartPid }) => {
   const [idError, setIdError] = useState('')
   const ctxStore = useContext(store)
 
+  if (!tasks?.length) return <div className='flex justify-center items-center h-screen bg-neutral-100'><p className='text-red-500 font-bold'>Unknown condition "{condition}". Check the URL.</p></div>
+
   const startStudy = (pid) => {
     // Registers the session server-side (binds pid→condition) and warms the chat token;
     // chatService re-mints on demand if this fails
