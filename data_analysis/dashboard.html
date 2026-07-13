@@ -6,9 +6,12 @@
 <title>MET AI Interventions — Participant Dashboard</title>
 <!--
   Reproducible participant dashboard for the MET AI Interventions study.
-  Usage: open this file in any browser, then drop one or more raw data.json
+  Usage: open this file in any browser, then drop one or more data.json
   files (or use the file picker). Switch participants with the dropdown.
   No server, no build step. Only dependency: Chart.js from CDN.
+
+  Questionnaires are detected by question text, not task index — works
+  across conditions and task-file versions.
 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
 <style>
@@ -24,7 +27,7 @@ h1 { font-size:20px; } h2 { font-size:15px; margin-bottom:12px; color:#2d3748; }
 select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; }
 button { font-size:13px; padding:4px 10px; border-radius:6px; border:1px solid #cbd5e0; background:#fff; cursor:pointer; }
 button:hover { background:#edf2f7; }
-.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:16px; }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:16px; }
 .kpi { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; }
 .kpi .v { font-size:22px; font-weight:700; } .kpi.bad .v{color:#e53e3e} .kpi.good .v{color:#38a169}
 .kpi .l { font-size:11px; color:#718096; text-transform:uppercase; margin-top:2px; }
@@ -55,9 +58,9 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
-    <button id="prev" style="display:none" title="Previous trial">◀</button>
+    <button id="prev" style="display:none" title="Previous trial">&#9664;</button>
     <select id="picker" style="display:none"></select>
-    <button id="next" style="display:none" title="Next trial">▶</button>
+    <button id="next" style="display:none" title="Next trial">&#9654;</button>
     <span class="badge" id="condBadge" style="display:none"></span>
   </div>
 </div>
@@ -69,7 +72,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 
 <div id="dash">
   <div class="kpis" id="kpis"></div>
-  <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
+  <div class="qual" id="qualCard" style="display:none"><h2>&#9888; Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
     <div class="card"><h2>Confidence per question (presentation order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
     <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
@@ -77,6 +80,8 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
     <div class="card"><h2>SUS &amp; Need for Cognition</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card" id="trustCard" style="display:none"><h2>Trust in AI (1–5)</h2><div class="chartbox"><canvas id="c_trust"></canvas></div><div class="sub" id="trustNote" style="margin-top:8px"></div></div>
+    <div class="card" id="relCard" style="display:none"><h2>Reliability questionnaire (1–5)</h2><div class="chartbox"><canvas id="c_rel"></canvas></div></div>
     <div class="card">
       <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
       <div class="chat" id="chat"></div>
@@ -91,79 +96,115 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 </div>
 
 <script>
-/* ---------- 1. Preprocess a raw data.json into dashboard-ready form ---------- */
+/* ---------- 1. Preprocess ---------- */
 function process(raw) {
-  const tasks = raw.tasks, ans = raw.answerResults || {};
+  const tasks = raw.tasks || {};
   const get = (t, q) => tasks[t]?.responses?.[q]?.answer;
+  // ponytail: hardcoded answer key — source of truth for correct/incorrect scoring
+  const answerKey = {
+    '7.1': 'Neither of the two statements is correct.',
+    '8.1': 'Only statement 2 is correct.',
+    '9.1': 'Only statement 1 is correct.',
+    '10.1': 'Only statement 1 is correct.',
+    '11.1': 'Neither of the two statements is correct.',
+    '12.1': 'Both statements are correct.',
+    '13.1': 'Only statement 2 is correct.',
+    '14.1': 'Only statement 1 is correct.',
+    '15.1': 'Only statement 2 is correct.',
+    '16.1': 'Only statement 1 is correct.',
+    '17.1': 'Neither of the two statements is correct.',
+    '18.1': 'Only statement 2 is correct.'
+  };
 
-  // timestamps by displayIndex, for per-question durations
   const tsByDi = {};
   for (const t of Object.values(tasks))
     if (t.displayIndex != null && t.ts) tsByDi[t.displayIndex] = t.ts;
 
-  // quiz questions = tasks with a "<k>.2 ... confident" response
+  // Quiz — tasks 7-18, randomized display order but fixed source IDs
   const quiz = [];
-  for (const k of Object.keys(tasks)) {
+  for (const k of Object.keys(answerKey).map(id => id.split('.')[0])) {
+    if (!tasks[k]) continue;
     const r = tasks[k].responses || {};
     if (r[k + '.2'] && /confident/.test(r[k + '.2'].question)) {
       const di = tasks[k].displayIndex;
       const prev = tsByDi[di - 1];
+      const answerId = k + '.1';
+      const answer = r[answerId]?.answer;
       quiz.push({
-        task: +k, di,
-        answer: r[k + '.1']?.answer, conf: +r[k + '.2'].answer,
-        correct: !!ans[k + '.1'],
+        task: +k, di, answer, conf: +r[k + '.2'].answer,
+        correctAnswer: answerKey[answerId],
+        correct: answer === answerKey[answerId],
         dur: prev ? +((tasks[k].ts - prev) / 1000).toFixed(1) : null
       });
     }
   }
   quiz.sort((a, b) => a.di - b.di);
 
-  // SUS (task 24, items 1..10, odd positive / even reverse-scored)
-  const susRaw = [...Array(10)].map((_, i) => +get('24', '24.' + (i + 1)));
+  // SUS (task 23; 23.8 is attention check — skip it)
+  const susIds = ['23.1','23.2','23.3','23.4','23.5','23.6','23.7','23.9','23.10','23.11'];
+  const susRaw = susIds.map(id => +get('23', id));
   const sus = susRaw.some(isNaN) ? null :
     susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
 
-  // UEQ-S (task 23, 8 items on 1–7, rescaled to −3..+3)
-  const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
-                    'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
-  const ueq = [...Array(8)].map((_, i) => +get('23', '23.' + (i + 1)) - 4);
+  // UEQ-S (task 22, 8 items on 1–7, rescaled to −3..+3)
+  const ueqLabels = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
+    'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
+  const ueq = [...Array(8)].map((_, i) => +get('22', '22.' + (i + 1)) - 4);
 
-  // NFC (task 25, 6 items on 1–5, items 3 & 4 reverse-scored)
+  // NFC (task 24, 6 items, items 3 & 4 reverse-scored)
   const nfc = [...Array(6)].map((_, i) => {
-    const v = +get('25', '25.' + (i + 1));
+    const v = +get('24', '24.' + (i + 1));
     return (i === 2 || i === 3) ? 6 - v : v;
   });
+  const nfcMean = nfc.some(isNaN) ? null : +(nfc.reduce((a, b) => a + b, 0) / nfc.length).toFixed(2);
 
-  // NASA-TLX (task 26; 26.6 is an attention check)
+  // Trust in AI (task 25, 8 items, item 6 "wary" reverse-scored)
+  const trustRaw = [...Array(8)].map((_, i) => +get('25', '25.' + (i + 1)));
+  const trust = trustRaw.map((v, i) => i === 5 ? 6 - v : v);
+  const trustLabels = ['Confident in AI','AI is reliable','AI provides useful suggestions',
+    'Can depend on AI','AI helps make better decisions','Wary of AI (reversed)',
+    'AI understands the task','Would use AI again'];
+  const trustMean = trustRaw.some(isNaN) ? null : +(trust.reduce((a, b) => a + b, 0) / trust.length).toFixed(2);
+
+  // NASA-TLX (task 26, 6 subscales)
   const tlx = { Mental:+get('26','26.1'), Physical:+get('26','26.2'), Temporal:+get('26','26.3'),
-                Performance:+get('26','26.4'), Effort:+get('26','26.5'), Frustration:+get('26','26.7') };
+                Performance:+get('26','26.4'), Effort:+get('26','26.5'), Frustration:+get('26','26.6') };
 
-  // chat messages (user entries vs OpenAI-style assistant entries)
+  // Reliability (task 21) — Likert items vs free-text
+  const relAll = Object.entries(tasks['21']?.responses || {})
+    .sort(([a], [b]) => +a.split('.').pop() - +b.split('.').pop())
+    .map(([k, v]) => ({ key: k, q: v.question || '', a: v.answer }));
+  const relLikert = relAll.filter(i => !isNaN(+i.a) && +i.a >= 1 && +i.a <= 5);
+  const relFreeText = relAll.filter(i => isNaN(+i.a) || +i.a < 1 || +i.a > 5);
+
+  // Attention checks — hardcoded keys
+  const attn = { 'Instruction (1.2)': get('1','1.2') === 'C',
+                 'Post-task (20.3)': String(get('20','20.3')) === '5',
+                 'SUS (23.8)': +get('23','23.8') === 5 };
+
   const messages = (raw.messages || []).map(m => m.role === 'user'
-    ? { role:'user', task:m.task, ts:m.ts, text:m.content }
-    : { role:'assistant', task:m.survey_index, ts:m.created * 1000,
-        text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
+    ? { role: 'user', task: m.task, ts: m.ts, text: m.content }
+    : { role: 'assistant', task: m.survey_index, ts: m.created * 1000,
+        text: m.choices?.[0]?.message?.content || '', tokens: m.usage?.total_tokens });
 
   const tsAll = Object.values(tsByDi);
+  const g = get('2','2.2');
   return {
     meta: { condition: raw.condition, pid: raw.participantId,
-            start: Math.min(...tsAll), end: Math.max(...tsAll, ...(messages.map(m => m.ts || 0))) },
-    demo: { age:get('2','2.1'), gender:get('2','2.2'), profession:get('2','2.3'),
-            fluency:get('2','2.4'), education:get('2','2.5') },
-    pre:  { selfPct:get('3','3.1'), withAI:get('3','3.2'), withoutAI:get('3','3.3'), aiPct:get('3','3.4'), aiAlone:get('3','3.5') },
-    post: { withAI:get('21','21.1'), selfPct:get('21','21.2'), withoutAI:get('21','21.3'), aiPct:get('21','21.4'), aiAlone:get('21','21.5') },
-    quiz, susRaw, sus, ueqItems, ueq,
-    nfc, nfcMean: +(nfc.reduce((a,b)=>a+b,0) / nfc.length).toFixed(2),
-    tlx,
-    attn: { '1.2': get('1','1.2') === 'C', '26.6': get('26','26.6') === 'C' },
-    freeText: Object.fromEntries(Object.entries(tasks['22']?.responses || {}).map(([k,v]) => [k, v.answer])),
-    messages
+            start: Math.min(...tsAll), end: Math.max(...tsAll, ...messages.map(m => m.ts || 0)) },
+    demo: { age: get('2','2.1'), gender: Array.isArray(g) ? g.join(', ') : g,
+            profession: get('2','2.3'), fluency: get('2','2.4'), education: get('2','2.5') },
+    pre:  { withAI: get('5','5.1'), withoutAI: get('5','5.2'), aiAlone: get('5','5.3'), selfPct: get('5','5.4'), aiPct: get('5','5.5') },
+    post: { withAI: get('20','20.1'), withoutAI: get('20','20.2'), aiAlone: get('20','20.4'), selfPct: get('20','20.5'), aiPct: get('20','20.6') },
+    quiz, susRaw, sus, ueqLabels, ueq,
+    nfc, nfcMean, trustLabels, trust, trustMean, tlx,
+    relLikert, relFreeText, attn, messages
   };
 }
 
 /* ---------- 2. Rendering ---------- */
 let charts = [];
-const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 function chart(id, cfg) { charts.push(new Chart(document.getElementById(id), cfg)); }
 
 function render(D) {
@@ -172,105 +213,147 @@ function render(D) {
 
   const durMin = ((D.meta.end - D.meta.start) / 60000).toFixed(1);
   document.getElementById('subline').textContent =
-    `Participant ${String(D.meta.pid).slice(0,12)}… · ${new Date(D.meta.start).toLocaleString('en-GB')} · session ${durMin} min`;
+    `Participant ${String(D.meta.pid).slice(0, 12)}… · ${new Date(D.meta.start).toLocaleString('en-GB')} · session ${durMin} min`;
   const cb = document.getElementById('condBadge');
   cb.style.display = 'inline-block'; cb.textContent = 'Condition: ' + D.meta.condition;
 
   const nCorrect = D.quiz.filter(q => q.correct).length;
-  const meanConf = (D.quiz.reduce((s,q) => s + q.conf, 0) / D.quiz.length).toFixed(1);
+  const meanConf = D.quiz.length ? (D.quiz.reduce((s, q) => s + q.conf, 0) / D.quiz.length).toFixed(1) : '–';
   const tlxVals = Object.values(D.tlx);
-  const tlxMean = (tlxVals.reduce((a,b) => a + b, 0) / tlxVals.length).toFixed(1);
-  const attnPass = Object.values(D.attn).filter(Boolean).length;
+  const tlxMean = tlxVals.length ? (tlxVals.reduce((a, b) => a + b, 0) / tlxVals.length).toFixed(1) : '–';
   const userMsgs = D.messages.filter(m => m.role === 'user');
+  const attnPass = Object.values(D.attn).filter(Boolean).length;
+  const attnTotal = Object.keys(D.attn).length;
 
   document.getElementById('kpis').innerHTML = [
-    { v:`${nCorrect}/${D.quiz.length}`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
-    { v:meanConf + '%', l:'Mean confidence' },
-    { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
-    { v:tlxMean, l:'TLX mean (0–20)' },
-    { v:D.nfcMean, l:'NFC mean (1–5)' },
-    { v:`${attnPass}/2`, l:'Attention checks', cls:attnPass === 2 ? 'good' : 'bad' },
-    { v:userMsgs.length, l:'Msgs to AI' },
-  ].map(k => `<div class="kpi ${k.cls||''}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
+    { v: `${nCorrect}/${D.quiz.length}`, l: 'Correct', cls: nCorrect === 0 ? 'bad' : '' },
+    { v: meanConf + (meanConf !== '–' ? '%' : ''), l: 'Mean confidence' },
+    { v: D.sus ?? '–', l: 'SUS (0–100)', cls: D.sus >= 68 ? 'good' : '' },
+    { v: tlxMean, l: 'TLX (0–20)' },
+    { v: D.nfcMean ?? '–', l: 'NFC (1–5)' },
+    { v: D.trustMean ?? '–', l: 'Trust (1–5)' },
+    { v: `${attnPass}/${attnTotal}`, l: 'Attention checks', cls: attnPass === attnTotal ? 'good' : 'bad' },
+    { v: userMsgs.length, l: 'Msgs to AI' },
+  ].map(k => `<div class="kpi ${k.cls || ''}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
 
-  // data quality flags
+  // Quality flags
   const inv = x => isNaN(+x) || +x < 0 || +x > 12;
   const flags = [];
-  if (nCorrect === 0) flags.push(`0 of ${D.quiz.length} planning problems answered correctly.`);
+  if (nCorrect === 0 && D.quiz.length) flags.push(`0 of ${D.quiz.length} planning problems answered correctly.`);
   if (inv(D.pre.withAI) || inv(D.pre.withoutAI) || inv(D.pre.aiAlone))
     flags.push(`Pre-task estimates out of range (with AI: ${D.pre.withAI}, without: ${D.pre.withoutAI}, AI alone: ${D.pre.aiAlone} — expected 0–12).`);
   if (inv(D.post.withAI) || inv(D.post.withoutAI) || inv(D.post.aiAlone))
     flags.push(`Post-task estimates out of range (with AI: ${D.post.withAI}, without: ${D.post.withoutAI}, AI alone: ${D.post.aiAlone}).`);
-  if (!isNaN(+D.demo.profession)) flags.push(`Profession field is numeric ("${D.demo.profession}").`);
-  const ftVals = Object.values(D.freeText);
-  if (ftVals.length && ftVals.every(t => !/\s/.test(String(t))))
+  if (D.demo.profession && !isNaN(+D.demo.profession)) flags.push(`Profession field is numeric ("${D.demo.profession}").`);
+  const ftVals = D.relFreeText.map(i => String(i.a || ''));
+  if (ftVals.length && ftVals.some(t => t.length > 0) && ftVals.every(t => !/\s/.test(t)))
     flags.push('All free-text responses look like keyboard mashing (no spaces / real words).');
   if (userMsgs.length && userMsgs.every(m => m.text.length < 8))
     flags.push('All chat messages to the AI are short gibberish strings.');
+  for (const [name, pass] of Object.entries(D.attn)) if (!pass) flags.push(`Failed attention check: ${name}.`);
   if (flags.length) flags.push('→ Possibly a pilot / test run rather than a genuine participant.');
   document.getElementById('qualCard').style.display = flags.length ? 'block' : 'none';
   document.getElementById('qualList').innerHTML = flags.map(f => `<li>${f}</li>`).join('');
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
-  const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
+  const grid = '#eef1f5', noAR = { responsive: true, maintainAspectRatio: false };
   const qLabels = D.quiz.map(q => 'Q' + q.di);
 
-  chart('c_conf', { type:'bar',
-    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
-      backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
-    options:{ ...noAR, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
-        const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
-      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+  chart('c_conf', { type: 'bar',
+    data: { labels: qLabels, datasets: [{ data: D.quiz.map(q => q.conf),
+      backgroundColor: D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius: 4 }] },
+    options: { ...noAR, plugins: { legend: { display: false }, tooltip: { callbacks: { afterLabel: c => {
+        const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; } } } },
+      scales: { y: { min: 0, max: 100, title: { display: true, text: 'Confidence (%)' }, grid: { color: grid } }, x: { grid: { display: false } } } } });
 
-  chart('c_time', { type:'bar',
-    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
-    options:{ ...noAR, plugins:{legend:{display:false}},
-      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+  chart('c_time', { type: 'bar',
+    data: { labels: qLabels, datasets: [{ data: D.quiz.map(q => q.dur), backgroundColor: '#63b3ed', borderRadius: 4 }] },
+    options: { ...noAR, plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, title: { display: true, text: 'Seconds' }, grid: { color: grid } }, x: { grid: { display: false } } } } });
 
-  chart('c_prepost', { type:'bar',
-    data:{ labels:['Own ability (percentile)', 'AI ability (percentile)'], datasets:[
-      { label:'Pre-task', data:[+D.pre.selfPct, +D.pre.aiPct], backgroundColor:'#a0aec0', borderRadius:4 },
-      { label:'Post-task', data:[+D.post.selfPct, +D.post.aiPct], backgroundColor:'#4c8bf5', borderRadius:4 }]},
-    options:{ ...noAR, scales:{ y:{ min:0, max:100, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+  chart('c_prepost', { type: 'bar',
+    data: { labels: ['Own ability (percentile)', 'AI ability (percentile)'], datasets: [
+      { label: 'Pre-task', data: [+D.pre.selfPct, +D.pre.aiPct], backgroundColor: '#a0aec0', borderRadius: 4 },
+      { label: 'Post-task', data: [+D.post.selfPct, +D.post.aiPct], backgroundColor: '#4c8bf5', borderRadius: 4 }] },
+    options: { ...noAR, scales: { y: { min: 0, max: 100, grid: { color: grid } }, x: { grid: { display: false } } } } });
   document.getElementById('estNote').textContent =
-    `Problem-count estimates (0–12 expected): pre — with AI ${D.pre.withAI}, without ${D.pre.withoutAI}, AI alone ${D.pre.aiAlone}; ` +
-    `post — with AI ${D.post.withAI}, without ${D.post.withoutAI}, AI alone ${D.post.aiAlone}.`;
+    `Problem-count estimates (0–12): pre — with AI ${D.pre.withAI ?? '–'}, without ${D.pre.withoutAI ?? '–'}, AI alone ${D.pre.aiAlone ?? '–'}; ` +
+    `post — with AI ${D.post.withAI ?? '–'}, without ${D.post.withoutAI ?? '–'}, AI alone ${D.post.aiAlone ?? '–'}.`;
 
-  chart('c_tlx', { type:'bar',
-    data:{ labels:Object.keys(D.tlx), datasets:[{ data:Object.values(D.tlx), backgroundColor:'#9f7aea', borderRadius:4 }]},
-    options:{ ...noAR, indexAxis:'y', plugins:{legend:{display:false}},
-      scales:{ x:{ min:0, max:20, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+  chart('c_tlx', { type: 'bar',
+    data: { labels: Object.keys(D.tlx), datasets: [{ data: Object.values(D.tlx), backgroundColor: '#9f7aea', borderRadius: 4 }] },
+    options: { ...noAR, indexAxis: 'y', plugins: { legend: { display: false } },
+      scales: { x: { min: 0, max: 20, grid: { color: grid } }, y: { grid: { display: false } } } } });
 
-  chart('c_ueq', { type:'bar',
-    data:{ labels:D.ueqItems, datasets:[{ data:D.ueq,
-      backgroundColor:D.ueqItems.map((_, i) => i < 4 ? '#4c8bf5' : '#ed8936'), borderRadius:4 }]},
-    options:{ ...noAR, indexAxis:'y', plugins:{ legend:{display:false},
-        tooltip:{ callbacks:{ afterLabel:c => c.dataIndex < 4 ? 'Pragmatic quality' : 'Hedonic quality' }}},
-      scales:{ x:{ min:-3, max:3, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+  chart('c_ueq', { type: 'bar',
+    data: { labels: D.ueqLabels, datasets: [{ data: D.ueq,
+      backgroundColor: D.ueqLabels.map((_, i) => i < 4 ? '#4c8bf5' : '#ed8936'), borderRadius: 4 }] },
+    options: { ...noAR, indexAxis: 'y', plugins: { legend: { display: false },
+        tooltip: { callbacks: { afterLabel: c => c.dataIndex < 4 ? 'Pragmatic quality' : 'Hedonic quality' } } },
+      scales: { x: { min: -3, max: 3, grid: { color: grid } }, y: { grid: { display: false } } } } });
 
-  chart('c_sus', { type:'bar',
-    data:{ labels:D.susRaw.map((_, i) => 'S' + (i + 1)), datasets:[{ data:D.susRaw,
-      backgroundColor:D.susRaw.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius:4 }]},
-    options:{ ...noAR, plugins:{ legend:{display:false},
-        tooltip:{ callbacks:{ afterLabel:c => c.dataIndex % 2 === 0 ? 'Positive item' : 'Negative item (reverse-scored)' }}},
-      scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
-  document.getElementById('susNote').textContent =
-    `SUS = ${D.sus} (≥68 above average). NFC item scores (reversed where needed): ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`;
+  chart('c_sus', { type: 'bar',
+    data: { labels: D.susRaw.map((_, i) => 'S' + (i + 1)), datasets: [{ data: D.susRaw,
+      backgroundColor: D.susRaw.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius: 4 }] },
+    options: { ...noAR, plugins: { legend: { display: false },
+        tooltip: { callbacks: { afterLabel: c => c.dataIndex % 2 === 0 ? 'Positive item' : 'Negative item (reverse-scored)' } } },
+      scales: { y: { min: 0, max: 5, grid: { color: grid } }, x: { grid: { display: false } } } } });
+  document.getElementById('susNote').textContent = D.nfc.length
+    ? `SUS = ${D.sus ?? '–'} (≥68 above average). NFC items: ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`
+    : `SUS = ${D.sus ?? '–'} (≥68 above average). NFC: no data.`;
 
+  // Trust in AI
+  const trustCard = document.getElementById('trustCard');
+  if (D.trust.length) {
+    trustCard.style.display = '';
+    chart('c_trust', { type: 'bar',
+      data: { labels: D.trustLabels, datasets: [{ data: D.trust,
+        backgroundColor: D.trust.map((_, i) => i === 5 ? '#cbd5e0' : '#38b2ac'), borderRadius: 4 }] },
+      options: { ...noAR, indexAxis: 'y', plugins: { legend: { display: false },
+          tooltip: { callbacks: { afterLabel: c => c.dataIndex === 5 ? 'Reverse-scored (original: "wary")' : '' } } },
+        scales: { x: { min: 0, max: 5, grid: { color: grid } }, y: { grid: { display: false } } } } });
+    document.getElementById('trustNote').textContent = `Trust mean = ${D.trustMean}/5 (item 6 "wary" reverse-scored).`;
+  } else trustCard.style.display = 'none';
+
+  // ponytail: label map for reliability items (task 21), used by both chart and free text
+  const ftLabels = {
+    '21.1':'Usually double-checked AI answers','21.2':'Paid attention to reliability info',
+    '21.3':'Reliability info changed interaction','21.4':'Reliability info helped evaluate answers',
+    '21.5':'Less likely to accept AI without checking','21.6':'Reliability info made task more demanding',
+    '21.7':'Strategies used','21.8':'How reliability info changed interaction',
+    '21.9':'How reliability info was used in decisions','21.10':'Further comments'
+  };
+
+  // Reliability questionnaire
+  const relCard = document.getElementById('relCard');
+  if (D.relLikert.length) {
+    relCard.style.display = '';
+    chart('c_rel', { type: 'bar',
+      data: { labels: D.relLikert.map(i => ftLabels[i.key] || (i.q.length > 55 ? i.q.slice(0, 52) + '…' : i.q) || i.key),
+        datasets: [{ data: D.relLikert.map(i => +i.a), backgroundColor: '#ed8936', borderRadius: 4 }] },
+      options: { ...noAR, indexAxis: 'y', plugins: { legend: { display: false } },
+        scales: { x: { min: 0, max: 5, grid: { color: grid } }, y: { grid: { display: false } } } } });
+  } else relCard.style.display = 'none';
+
+  // Chat
   const totalTokens = D.messages.reduce((s, m) => s + (m.tokens || 0), 0);
   document.getElementById('chatStats').textContent =
     `${userMsgs.length} user messages · ${D.messages.length - userMsgs.length} AI replies · ${totalTokens.toLocaleString()} total tokens`;
   document.getElementById('chat').innerHTML = D.messages.map(m =>
     `<div class="msg ${m.role}">${esc(m.text)}<div class="mmeta">task ${m.task} · ${new Date(m.ts).toLocaleTimeString('en-GB')}${m.tokens ? ' · ' + m.tokens + ' tok' : ''}</div></div>`).join('');
 
+  // Demographics
   document.getElementById('demo').innerHTML =
-    ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education]
-    .map(x => `<span class="pill">${esc(x)}</span>`).join('');
-  const ftLabels = { '22.1':'Reliability info changed interaction (1–5)', '22.2':'Strategies used',
-    '22.3':'How reliability info changed interaction', '22.4':'Use of reliability info in decisions', '22.5':'Further comments' };
-  document.getElementById('freetext').innerHTML = Object.entries(D.freeText)
-    .map(([k, v]) => `<div class="ft"><b>${ftLabels[k] || k}:</b> ${esc(v)}</div>`).join('');
+    [D.demo.age && 'Age ' + D.demo.age, D.demo.gender, D.demo.profession && 'Profession: ' + D.demo.profession,
+     D.demo.fluency, D.demo.education]
+    .filter(Boolean).map(x => `<span class="pill">${esc(x)}</span>`).join('');
 
+  // Free text
+  document.getElementById('freetext').innerHTML = D.relFreeText.length
+    ? D.relFreeText.map(i => `<div class="ft"><b>${esc(ftLabels[i.key] || i.q || i.key)}:</b> ${esc(String(i.a || '(empty)'))}</div>`).join('')
+    : '<div class="ft" style="color:#718096">No free-text responses.</div>';
+
+  // Answer table
   document.getElementById('ansTable').innerHTML =
     '<tr><th>#</th><th>Task</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
     D.quiz.map(q => `<tr><td>Q${q.di}</td><td>${q.task}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
@@ -278,7 +361,7 @@ function render(D) {
 }
 
 /* ---------- 3. File loading & participant switching ---------- */
-const store = [];                       // [{label, data}]
+const store = [];
 const picker = document.getElementById('picker');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
