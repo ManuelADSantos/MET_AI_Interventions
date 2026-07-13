@@ -1171,7 +1171,7 @@ The following should be taken into account when setting up the stalls:
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
-> The reliability information made the task feel more mentally demanding.
+> I paid attention to the evaluation strategies within the reliability information.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
