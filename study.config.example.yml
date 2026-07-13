@@ -12,7 +12,6 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 allow_image_attachments: false     # Enable image uploads
 copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
 
-
 # Proctoring (optional)
 use_autoproctor: false             # Enable AutoProctor proctoring (requires AUTOPROCTOR_API_KEY + AUTOPROCTOR_TEST_LABEL env vars on the backend)
 
