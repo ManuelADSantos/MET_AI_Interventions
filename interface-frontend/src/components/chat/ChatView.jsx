@@ -110,7 +110,7 @@ const ChatView = ({ sourceIndex }) => {
           choices: [
             {
               index: 0,
-              message: { role: 'assistant', content: replyContent },
+              message: { role: 'assistant', content: replyContent, ...(reasoningContent ? { reasoning: reasoningContent } : {}) },
               finish_reason: 'stop'
             }
           ]
