@@ -76,7 +76,7 @@ const parseContentItems = (rawContent) => {
       }
     }
 
-    if (questionType === 'option') {
+    if (questionType === 'option' || questionType === 'checkbox') {
       return {
         question: questionText,
         type: questionType,

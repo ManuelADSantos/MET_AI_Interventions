@@ -44,7 +44,7 @@
 
 > What is your gender?
 
-    $option?;
+    $checkbox?;
     Woman;
     Man;
     Non-binary;

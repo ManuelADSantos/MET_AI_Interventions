@@ -22,7 +22,7 @@ const contentItemToText = (item) => {
       return `${marker} ${listItem}`
     }).join('\n')
   }
-  if (['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type)) {
+  if (['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(item.type)) {
     const options = item.options?.length ? `\n${item.options.map((option, index) => `${String.fromCharCode(65 + index)}. ${option}`).join('\n')}` : ''
     return `${item.question || ''}${options}`
   }
@@ -35,13 +35,13 @@ const tabToText = (tab) => (tab?.content || [])
   .join('\n\n')
 
 const getQuestionText = (items) => items
-  .filter((item) => ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type))
+  .filter((item) => ['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(item.type))
   .map((item) => item.question)
   .filter(Boolean)
   .join('\n\n')
 
 const getOptionsText = (items) => items
-  .filter((item) => item.type === 'option' && item.options?.length)
+  .filter((item) => (item.type === 'option' || item.type === 'checkbox') && item.options?.length)
   .map((item) => item.options.map((option, index) => `${String.fromCharCode(65 + index)}. ${option}`).join('\n'))
   .join('\n\n')
 
@@ -158,7 +158,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
       * responses later.
       */
       const questionItems = exerciseItems.filter((c) =>
-        ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(c.type)
+        ['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(c.type)
       )
       pageResponses[taskIndex].forEach((r, i) => {
         if (r !== undefined && r !== null) {
@@ -195,7 +195,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
    * */ 
   const getQuestionIndex = (question) => {
     const onlyQuestions = exerciseItems.filter((c) =>
-      ['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(c.type)
+      ['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(c.type)
     )
 
     return onlyQuestions.indexOf(question) + 1
@@ -206,7 +206,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
     return <PlainContentWrapper key={i} content={item} />
   }
 
-  if (['text', 'textarea', 'number', 'likert', 'option', 'slider'].includes(item.type)) {
+  if (['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(item.type)) {
     return (
       <QuestionWrapper
         key={i}

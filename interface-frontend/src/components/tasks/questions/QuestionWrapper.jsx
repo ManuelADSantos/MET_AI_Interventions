@@ -40,6 +40,7 @@ const QuestionWrapper = ({ id, question, formControl }) => {
         {...field}/>}
       {question.type === 'likert' && <LikertQuestion id={id} question={question} field={field} />}
       {question.type === 'option' && <OptionQuestion id={id} question={question} field={field} />}
+      {question.type === 'checkbox' && <OptionQuestion id={id} question={question} field={field} multi />}
       {question.type === 'slider' && <SliderQuestion id={id} question={question} field={field}/>}
     </div>
   )
@@ -69,6 +70,8 @@ const validateAnswer = (v, question) => {
       return question.options.some((o) => o.toLowerCase() === 'other' || o.includes('*'))
         ? true
         : (question.options.includes(v) || 'Please select one')
+    case 'checkbox':
+      return (Array.isArray(v) && v.length > 0) || 'Please select at least one'
     default:
       return true
   }
