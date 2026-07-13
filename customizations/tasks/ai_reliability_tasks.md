@@ -192,34 +192,32 @@ The following student assistants are available for the event:
 # Pre-Questionnaire
 
 > ### Self-Assessment
-> Now that you have familiarized yourself with the task type, we would like to ask you a few final questions about your expectations and self-assessment before the main study begins.
-
-> We would like to ask you a few questions regarding your expectations and self-assessment when now working with AI on the planning and organizing tasks.
+> Now that you have familiarized yourself with the task type, we would like to ask you a few questions about your expectations and self-assessment about working with AI on the planning and organizing tasks before the main study begins.
 
 > Using the AI, how many of the 12 planning problems do you think you would solve correctly? 
 ~Please enter a number out of 12.
 
-    $number?; 0; 12
+    $number; 0; 12
 
 > Without AI use, how many of the 12 planning and organizing problems do you think you would solve correctly? 
 ~ Please enter a number out of 12.
 
-    $number?; 0; 12
+    $number; 0; 12
 
 > On its own, how many of the 12 planning and organizing problems do you think the AI would solve correctly? 
 ~Please enter a number out of 12.
 
-    $number?; 0; 12
+    $number; 0; 12
 
 > Compared to other participants, how would you rate your general planning and organizing ability?
 ~Marking 90% means you are better than 90% of participants, marking 10% means you are better than only 10%, and marking 50% means that you performed better than half of the participants.
 
-    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
+    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
 > Compared to other AI systems, how would you estimate the AI system's planning and organizing ability? 
 ~Marking 90% means it performs better than 90% of other systems, marking 10% means it performs better than only 10%, and marking 50% means that the AI system performs better than half of other AI systems. 
 
-    $slider?; 0; 100; Better than 0%; Better than 100%; tooltip%
+    $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
 
 # Main Tasks
