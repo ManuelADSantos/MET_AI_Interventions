@@ -10,7 +10,7 @@ import './index.css'
 
 const urlParams = new URLSearchParams(window.location.search)
 // ponytail: condition comes from URL only — ?condition=ai or ?condition=no_ai
-const condition = urlParams.get('condition')?.replace('_', '-') || 'no-ai'
+const condition = urlParams.get('condition')?.replace('_', '-') || 'ai'
 
 // Strip Prolific params from the address bar so participants can't read or tweak them
 // mid-study (App.jsx captured them at import time, before this line runs)
