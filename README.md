@@ -59,14 +59,14 @@ All customization is done by editing files on your computer. Changes take effect
 | Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
 | GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
-| Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `no-ai` |
+| Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `ai` |
 | Which pages show chat | `:::chat-enabled` in task `.md` file | Per-page directive |
 | Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
 | UI components (advanced) | `interface-frontend/src/components/` | React components with hot-reload |
 
 ### Task File Format
 
-Task files use a markdown-based format. See [`customizations/tasks/examples.md`](customizations/tasks/examples.md) for a full reference, or `customizations/tasks/ai_tasks.md` for a working example.
+Task files use a markdown-based format. See [`customizations/examples.md`](customizations/examples.md) for a full reference, or `customizations/tasks/ai_tasks.md` for a working example.
 
 ```markdown
 # Page Title
@@ -140,6 +140,7 @@ Text to copy into the AI chat.
 - `##` creates a section heading within a page
 - `> text` displays paragraph text to the participant
 - `$option; A; B; C` creates radio buttons (semicolon-separated; `Other` or a `*`-suffixed option opens a text field)
+- `$checkbox; A; B; C` creates checkboxes for multi-select (same syntax as `$option`, stores an array)
 - `$slider; min; max; lowLabel; highLabel` creates a slider (append `; tooltip` or `; tooltip%` to show the selected value)
 - `$likert; min; max; lowLabel; highLabel` creates a Likert scale
 - `$number` creates a number input (optionally `$number; min; max`, defaults 0–999)
@@ -169,6 +170,7 @@ base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
 # Study Settings
 randomize_tasks: true              # Shuffle tasks within sections
+study_info: true                   # Show study info pages (false to skip them)
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
 # Chat Availability
@@ -196,7 +198,7 @@ Conditions are auto-discovered from `customizations/tasks/` — no code changes 
    - `<name>_tasks.md` — the survey/task pages (required)
    - `study_info/<name>_studyinfo.md` — consent / intro pages (optional)
 
-2. **Set the condition** via URL query parameter: `?condition=<name>` (defaults to `no-ai` if omitted)
+2. **Set the condition** via URL query parameter: `?condition=<name>` (defaults to `ai` if omitted)
 
 ### Naming conventions
 

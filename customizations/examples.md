@@ -46,17 +46,32 @@ Add `Other` as a choice to allow free-text input:
 Any option ending with `*` also triggers a free-text input, using the text before `*` as the label. Append a custom placeholder after `*`:
 
 ```markdown
-> What is your gender?
+> What is your favourite colour?
 
     $option?;
+    Red;
+    Blue;
+    Something else*Please describe
+```
+
+If no placeholder is given after `*`, the input shows empty. Both `Other` and `*` patterns can coexist across different questions.
+
+### `$checkbox` — Multi-select checkboxes
+
+Same syntax as `$option` but allows selecting multiple values. Stored as an array.
+
+```markdown
+> What is your gender?
+
+    $checkbox;
     Woman;
     Man;
     Non-binary;
     Prefer not to disclose;
-    Prefer to self-describe*Please describe your gender
+    Prefer to self-describe*
 ```
 
-If no placeholder is given after `*`, the input shows empty. Both `Other` and `*` patterns can coexist across different questions.
+Supports `Other` and `*` free-text patterns just like `$option`.
 
 ### `$text` — Short text input
 
@@ -66,7 +81,7 @@ If no placeholder is given after `*`, the input shows empty. Both `Other` and `*
     $text
 ```
 
-Validated: 2–200 characters.
+Validated: 3–200 characters.
 
 ### `$textarea` — Long text input
 
