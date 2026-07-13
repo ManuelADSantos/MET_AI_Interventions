@@ -40,11 +40,11 @@
 
 > What is your age?
 
-    $number?; 18; 99
+    $number; 18; 99
 
 > What is your gender?
 
-    $option?;
+    $option;
     Woman;
     Man;
     Non-binary;
@@ -53,11 +53,11 @@
 
 > What is your profession?
 
-    $text?
+    $text
 
 > Estimate your fluency in the English language
 
-    $option?;
+    $option;
     Native speaker;
     Fully fluent;
     Conversationally fluent;
@@ -66,7 +66,7 @@
 
 > What is the highest level of school you have completed or the highest degree you have received?
 
-    $option?;
+    $option;
     Basic education / Middle school;
     Upper secondary school / High school;
     Vocational college degree;
@@ -76,7 +76,7 @@
 
 > How often do you use AI assistants?
 
-    $option?;
+    $option;
     Multiple Times a Day;
     Daily;
     A Few Times a Week;
@@ -98,7 +98,7 @@
 
 :::tab Exercise
 
-> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you might first have to come up with an ideal schedule before being able to verify the statements.
+> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you might first have to come up with an ideal schedule before being able to verify the statements. You can copy the text from the current tab by clicking the **copy icon** in the top-right corner.
 > ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
@@ -1186,7 +1186,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please rate your experience with the AI system on the following scales.**
+> **Please rate your experience with the AI system on the following scales.** When answering the questions on this page, please focus on the design and usability of the interface, rather than on the performance or accuracy of the AI system.
 
 > 
 
@@ -1222,7 +1222,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please indicate how strongly you agree or disagree with each statement regarding the AI system.**
+> **Please indicate how strongly you agree or disagree with each statement about the AI interface.** When answering the questions on this page, please focus on the design and usability of the interface, rather than on the performance or accuracy of the AI system.
 
 > I think that I would like to use this system frequently.
 
