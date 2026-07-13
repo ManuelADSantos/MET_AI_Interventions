@@ -22,6 +22,8 @@ h1 { font-size:20px; } h2 { font-size:15px; margin-bottom:12px; color:#2d3748; }
 .drop { border:2px dashed #cbd5e0; border-radius:10px; padding:18px; text-align:center; color:#718096; background:#fff; margin-bottom:16px; cursor:pointer; }
 .drop.over { border-color:#3182ce; background:#ebf4ff; }
 select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; }
+button { font-size:13px; padding:4px 10px; border-radius:6px; border:1px solid #cbd5e0; background:#fff; cursor:pointer; }
+button:hover { background:#edf2f7; }
 .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:16px; }
 .kpi { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; }
 .kpi .v { font-size:22px; font-weight:700; } .kpi.bad .v{color:#e53e3e} .kpi.good .v{color:#38a169}
@@ -53,7 +55,9 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
+    <button id="prev" style="display:none" title="Previous trial">◀</button>
     <select id="picker" style="display:none"></select>
+    <button id="next" style="display:none" title="Next trial">▶</button>
     <span class="badge" id="condBadge" style="display:none"></span>
   </div>
 </div>
@@ -274,21 +278,43 @@ function render(D) {
 }
 
 /* ---------- 3. File loading & participant switching ---------- */
-const store = {};                       // filename → processed data
+const store = [];                       // [{label, data}]
 const picker = document.getElementById('picker');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
 
-async function loadFiles(files) {
-  for (const f of files) {
-    try { store[f.name] = process(JSON.parse(await f.text())); }
-    catch (e) { alert(`Could not parse ${f.name}: ${e.message}`); }
-  }
-  picker.innerHTML = Object.keys(store).map(n => `<option>${esc(n)}</option>`).join('');
-  picker.style.display = Object.keys(store).length > 1 ? 'inline-block' : 'none';
-  const last = files[files.length - 1]?.name;
-  if (store[last]) { picker.value = last; render(store[last]); }
+function showNav() {
+  const show = store.length > 1;
+  picker.style.display = show ? 'inline-block' : 'none';
+  prevBtn.style.display = show ? 'inline-block' : 'none';
+  nextBtn.style.display = show ? 'inline-block' : 'none';
 }
 
-picker.onchange = () => render(store[picker.value]);
+function go(idx) { picker.selectedIndex = idx; render(store[idx].data); }
+
+async function loadFiles(files) {
+  store.length = 0;
+  for (const f of files) {
+    try {
+      const raw = JSON.parse(await f.text());
+      if (raw.participants) {
+        raw.participants.forEach((p, i) => {
+          const pid = String(p.participantId || '').slice(0, 16);
+          store.push({ label: `${f.name} — #${i + 1} ${pid} (${p.condition || '?'})`, data: process(p) });
+        });
+      } else {
+        store.push({ label: f.name, data: process(raw) });
+      }
+    } catch (e) { alert(`Could not parse ${f.name}: ${e.message}`); }
+  }
+  picker.innerHTML = store.map((s, i) => `<option value="${i}">${esc(s.label)}</option>`).join('');
+  showNav();
+  if (store.length) go(0);
+}
+
+picker.onchange = () => go(+picker.value);
+prevBtn.onclick = () => { if (+picker.value > 0) go(+picker.value - 1); };
+nextBtn.onclick = () => { if (+picker.value < store.length - 1) go(+picker.value + 1); };
 const drop = document.getElementById('drop'), input = document.getElementById('fileInput');
 drop.onclick = () => input.click();
 input.onchange = () => loadFiles([...input.files]);
