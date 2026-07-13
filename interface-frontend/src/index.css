@@ -4,6 +4,6 @@
 @tailwind utilities;
 
 :root {
-    font-size: calc(100% * 0.95);
+    font-size: calc(100% * 0.85);
 }
 
