@@ -1,7 +1,7 @@
 {
   "randomizeStrategyOrder": false,
   "tasks": {
-    "8": {
+    "6": {
       "show": true,
       "reliability": {
         "label": "High",
@@ -29,7 +29,7 @@
         "poolSampleSize": 0
       }
     },
-    "9": {
+    "7": {
       "show": true,
       "reliability": {
         "label": "Low",
@@ -57,7 +57,7 @@
         "poolSampleSize": 0
       }
     },
-    "10": {
+    "8": {
       "show": true,
       "reliability": {
         "label": "Medium",
@@ -85,7 +85,7 @@
         "poolSampleSize": 0
       }
     },
-    "11": {
+    "9": {
       "show": true,
       "reliability": {
         "label": "Low",
@@ -113,7 +113,7 @@
         "poolSampleSize": 0
       }
     },
-    "12": {
+    "10": {
       "show": true,
       "reliability": {
         "label": "High",
@@ -141,7 +141,7 @@
         "poolSampleSize": 0
       }
     },
-    "13": {
+    "11": {
       "show": true,
       "reliability": {
         "label": "Low",
@@ -169,7 +169,7 @@
         "poolSampleSize": 0
       }
     },
-    "14": {
+    "12": {
       "show": true,
       "reliability": {
         "label": "Medium",
@@ -197,7 +197,7 @@
         "poolSampleSize": 0
       }
     },
-    "15": {
+    "13": {
       "show": true,
       "reliability": {
         "label": "Low",
@@ -225,7 +225,7 @@
         "poolSampleSize": 0
       }
     },
-    "16": {
+    "14": {
       "show": true,
       "reliability": {
         "label": "High",
@@ -253,7 +253,7 @@
         "poolSampleSize": 0
       }
     },
-    "17": {
+    "15": {
       "show": true,
       "reliability": {
         "label": "Medium",
@@ -281,7 +281,7 @@
         "poolSampleSize": 0
       }
     },
-    "18": {
+    "16": {
       "show": true,
       "reliability": {
         "label": "High",
@@ -309,7 +309,7 @@
         "poolSampleSize": 0
       }
     },
-    "19": {
+    "17": {
       "show": true,
       "reliability": {
         "label": "Medium",
