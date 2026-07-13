@@ -107,7 +107,7 @@
 
 :::tab Exercise
 
-> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements. You can copy the text from the current tab by clicking the **copy icon** in the top-left corner.
+> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements. You can copy the text from the current tab by clicking the **copy icon** in the top-right corner.
 > ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
