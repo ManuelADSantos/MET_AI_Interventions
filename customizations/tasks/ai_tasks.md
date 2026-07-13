@@ -93,6 +93,8 @@
 
 # Trial: Future Days
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you might first have to come up with an ideal schedule before being able to verify the statements.
@@ -224,6 +226,8 @@ The following student assistants are available for the event:
 
 # Scenario: Young Professionals Consulting
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > **Which of the following statements about the effects of certain working times is or are correct?**
@@ -294,6 +298,8 @@ If the following exercises mention "week", this always refers to a working week 
 :::
 
 # Scenario: Young Professionals Consulting
+
+:::require-ai-prompt
 
 :::tab Exercise
 
@@ -366,6 +372,8 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Scenario: Young Professionals Consulting
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > **Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?**
@@ -436,6 +444,8 @@ If the following exercises mention "week", this always refers to a working week 
 :::
 
 # Scenario: Young Professionals Consulting
+
+:::require-ai-prompt
 
 :::tab Exercise
 
@@ -512,6 +522,8 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Scenario: Incentive Car Racing
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > **Which of the following statements is or are correct?**
@@ -583,6 +595,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::
 
 # Scenario: Incentive Car Racing
+
+:::require-ai-prompt
 
 :::tab Exercise
 
@@ -656,6 +670,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Scenario: Incentive Car Racing
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > **Which of the following statements is or are correct?**
@@ -727,6 +743,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::
 
 # Scenario: Incentive Car Racing
+
+:::require-ai-prompt
 
 :::tab Exercise
 
@@ -804,6 +822,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Scenario: Graduation Party
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > **Which of the following statements about the beginning and end of the reconstruction measures is or are correct?**
@@ -875,6 +895,8 @@ The following should be taken into account when setting up the stalls:
 :::
 
 # Scenario: Graduation Party
+
+:::require-ai-prompt
 
 :::tab Exercise
 
@@ -948,6 +970,8 @@ The following should be taken into account when setting up the stalls:
 
 # Scenario: Graduation Party
 
+:::require-ai-prompt
+
 :::tab Exercise
 
 > **Suppose — for this question only — that you have an additional team of ten helpers working in parallel with the first team. Which of the following statements is or are correct?**
@@ -1019,6 +1043,8 @@ The following should be taken into account when setting up the stalls:
 :::
 
 # Scenario: Graduation Party
+
+:::require-ai-prompt
 
 :::tab Exercise
 

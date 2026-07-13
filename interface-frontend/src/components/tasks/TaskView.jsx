@@ -44,6 +44,7 @@ const TaskView = ({ tasks }) => {
               tabs={tasks[state.taskIndex].tabs}
               taskIndex={state.taskIndex}
               sourceIndex={tasks[state.taskIndex].sourceIndex}
+              requireAiPrompt={tasks[state.taskIndex].requireAiPrompt}
               isLast={state.taskIndex === tasks.length - 1}
               next={handleNextPage}
             />

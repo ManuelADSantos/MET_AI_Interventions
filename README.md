@@ -98,6 +98,10 @@ Task files use a markdown-based format. See [`customizations/tasks/examples.md`]
 Text to copy into the AI chat.
 :::
 
+> Require at least one AI prompt before the Next button appears:
+
+:::require-ai-prompt
+
 > How much do you agree?
 
     $likert; 1; 7; Strongly disagree; Strongly agree
@@ -144,6 +148,7 @@ Text to copy into the AI chat.
 - Append `?` to any type (e.g. `$text?`) to make the question optional
 - `:::tab Title` ... `:::` creates a tab on the current page
 - `:::copy` ... `:::` adds copy-button text without displaying it as page content
+- `:::require-ai-prompt` gates the Next button behind at least one AI prompt (chat conditions only)
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
 - `%% SECTION` ... `%%` marks a block as a section but keeps its page order
 - A standalone `%% RANDOMIZE_SECTIONS` line anywhere in the file shuffles all marked
@@ -170,8 +175,6 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 chat_enabled_from_page: 1          # First page with chat (0-indexed)
 chat_enabled_until_page: 99        # Last page with chat
 allow_image_attachments: false     # Enable image uploads
-require_ai_prompt: true            # Require one AI prompt before continuing
-require_ai_prompt_pages: 3-99     # Pages where the AI prompt is required
 copy_button_pages: 1-99            # Pages where tabs show the copy button
 copy_button_template: "{copyText}" # Copy-button template text
 

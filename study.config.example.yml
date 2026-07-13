@@ -13,8 +13,6 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 chat_enabled_from_page: 1          # First page with chat (0-indexed)
 chat_enabled_until_page: 99        # Last page with chat
 allow_image_attachments: false     # Enable image uploads
-require_ai_prompt: true             # Require participants to prompt AI at least once before proceeding
-require_ai_prompt_pages: 3-99
 copy_button_pages: 2-99            # 0-indexed source pages where each tab should show a copy button, e.g. 1-5 or 1,3,4
 copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
 

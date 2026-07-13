@@ -254,17 +254,19 @@ const mergeConsecutiveMarkdownTables = (items) => {
 const extractCopyBlocks = (rawContent) => {
   const copyBlocks = []
   const copyDisabled = /^\s*:::(copy-disabled|no-copy)\s*$/m.test(String(rawContent))
+  const requireAiPrompt = /^\s*:::require-ai-prompt\s*$/m.test(String(rawContent))
   const content = String(rawContent)
     .replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
     copyBlocks.push(copyText.trim())
     return ''
     })
-    .replace(/^\s*:::(copy-disabled|no-copy)\s*$/gm, '')
+    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt)\s*$/gm, '')
 
   return {
     content,
     copyText: copyBlocks.join('\n\n'),
-    copyDisabled
+    copyDisabled,
+    requireAiPrompt
   }
 }
 
@@ -358,6 +360,7 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
           title: pageTitle,
           copyText: parsedPageCopyBlocks.copyText,
           copyDisabled: parsedPageCopyBlocks.copyDisabled,
+          requireAiPrompt: parsedPageCopyBlocks.requireAiPrompt,
           content: pageContent,
           tabs: tabs || [
             {

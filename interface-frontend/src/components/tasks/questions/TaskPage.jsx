@@ -41,10 +41,6 @@ const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 
 const copyButtonPages = parsePageList(import.meta.env.VITE_COPY_BUTTON_PAGES || '')
 const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
-const requireAiPrompt = import.meta.env.VITE_REQUIRE_AI_PROMPT !== 'false'
-const requireAiPromptPagesConfig = import.meta.env.VITE_REQUIRE_AI_PROMPT_PAGES || ''
-const requireAiPromptPages = parsePageList(requireAiPromptPagesConfig)
-const hasRequireAiPromptPages = requireAiPromptPagesConfig.trim().length > 0
 
 const contentItemToText = (item) => {
   if (!item) return ''
@@ -128,7 +124,7 @@ const TabCopyButton = ({ text }) => {
   )
 }
 
-const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast }) => {
+const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, requireAiPrompt }) => {
   const [submitError, setSubmitError] = useState('')
   const ctxStore = useContext(store)
   const { handleSubmit, control } = useForm({
@@ -178,8 +174,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast }) 
   // The last page's Next completes the study — never gate it behind an AI prompt
   const shouldRequireAiPrompt = !isDevMode && requireAiPrompt &&
     !isLast &&
-    ctxStore.state.chatEnabled &&
-    (!hasRequireAiPromptPages || requireAiPromptPages.has(sourceIndex))
+    ctxStore.state.chatEnabled
 
   const onSubmit = (pageResponses) => {    
     const mappedResponses = {}
