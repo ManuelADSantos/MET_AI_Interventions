@@ -39,13 +39,14 @@ const parseContentItems = (rawContent) => {
       rq = rq.replace(subtitleMatch[0], '')
     }
 
-    const questionText = rq.split('$')[0].trim()
-    const rawType = rq.split('$')[1].trim().split(';')[0].trim()
+    const [beforeDollar, afterDollar] = [rq.split('$')[0].trim(), rq.split('$')[1].trim()]
+    const questionText = beforeDollar
+    const rawType = afterDollar.split(';')[0].trim()
     const isRequired = !rawType.endsWith('?')
     const questionType = rawType.replace(/\?$/, '')
 
     if (questionType === 'likert' || questionType === 'slider') {
-      let params = rq.split('$')[1].trim().split(';')
+      let params = afterDollar.split(';')
 
       if (params.length < 2) {
         return {
@@ -81,14 +82,14 @@ const parseContentItems = (rawContent) => {
         type: questionType,
         required: isRequired,
         subtitle,
-        options: rq.split('$')[1].trim().split(';').length > 1
-          ? rq.split('$')[1].trim().split(';').slice(1).map((o) => o.trim())
+        options: afterDollar.split(';').length > 1
+          ? afterDollar.split(';').slice(1).map((o) => o.trim())
           : ['Yes', 'No']
       }
     }
 
     if (questionType === 'number') {
-      const params = rq.split('$')[1].trim().split(';').slice(1).map((p) => p.trim())
+      const params = afterDollar.split(';').slice(1).map((p) => p.trim())
       const num = (v, fallback) => {
         const n = parseInt(v)
         return Number.isNaN(n) ? fallback : n

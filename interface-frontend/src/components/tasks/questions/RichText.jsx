@@ -1,22 +1,20 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
+const StyledLink = ({ children, ...props }) => (
+  <a className='text-blue-600 underline underline-offset-2' {...props}>
+    {children}
+  </a>
+)
+
 const inlineComponents = {
   p: ({ children }) => <>{children}</>,
-  a: ({ children, ...props }) => (
-    <a className='text-blue-600 underline underline-offset-2' {...props}>
-      {children}
-    </a>
-  )
+  a: StyledLink
 }
 
 const blockComponents = {
   p: ({ children }) => <p className='mb-4 leading-relaxed'>{children}</p>,
-  a: ({ children, ...props }) => (
-    <a className='text-blue-600 underline underline-offset-2' {...props}>
-      {children}
-    </a>
-  ),
+  a: StyledLink,
   table: ({ children }) => (
     <div className='my-4 w-full overflow-hidden rounded-lg border border-[#d4d4d4]'>
       <table className='w-full table-auto border-separate border-spacing-0'>

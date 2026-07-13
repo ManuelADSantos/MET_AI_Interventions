@@ -40,12 +40,7 @@ import {
   RefreshCwIcon,
   SquareIcon,
 } from "lucide-react";
-import { createContext, useContext, useEffect, useState } from "react";
-
-const EMPTY_COMPONENTS = {};
-
-const ThreadComponentsContext =
-  createContext(EMPTY_COMPONENTS);
+import { useEffect, useState } from "react";
 
 // Startup exposes a loading placeholder thread; treat it as a new chat so
 // the composer mounts centered. Loads after startup keep the docked layout.
@@ -53,18 +48,12 @@ const isNewChatView = (s) =>
   s.thread.messages.length === 0 &&
   (!s.thread.isLoading || s.threads.isLoading);
 
-export const Thread = ({ allowAttachments = true, components = EMPTY_COMPONENTS }) => {
+export const Thread = () => {
   const isEmpty = useAuiState(isNewChatView);
-
-  return (
-    <ThreadComponentsContext.Provider value={{ ...components, allowAttachments }}>
-      <ThreadRoot isEmpty={isEmpty} />
-    </ThreadComponentsContext.Provider>
-  );
+  return <ThreadRoot isEmpty={isEmpty} />;
 };
 
 const ThreadRoot = ({ isEmpty }) => {
-  const { Welcome = ThreadWelcome } = useContext(ThreadComponentsContext);
 
   return (
     <ThreadPrimitive.Root
@@ -85,7 +74,7 @@ const ThreadRoot = ({ isEmpty }) => {
             isEmpty && "justify-center"
           )}>
           <AuiIf condition={isNewChatView}>
-            <Welcome />
+            <ThreadWelcome />
           </AuiIf>
 
           <div
@@ -119,14 +108,12 @@ const ThreadRoot = ({ isEmpty }) => {
 };
 
 const ThreadMessage = () => {
-  const { AssistantMessage: AssistantMessageComponent = AssistantMessage } =
-    useContext(ThreadComponentsContext);
   const role = useAuiState((s) => s.message.role);
   const isEditing = useAuiState((s) => s.message.composer.isEditing);
 
   if (isEditing) return <EditComposer />;
   if (role === "user") return <UserMessage />;
-  return <AssistantMessageComponent />;
+  return <AssistantMessage />;
 };
 
 const ThreadScrollToBottom = () => {
@@ -291,8 +278,6 @@ const MessageError = () => {
 };
 
 const AssistantMessage = () => {
-  const { ReasoningGroup } = useContext(ThreadComponentsContext);
-
   // reserves space for action bar and compensates with `-mb` for consistent msg spacing
   // keeps hovered action bar from shifting layout (autohide doesn't support absolute positioning well)
   // for pt-[n] use -mb-[n + 6] & min-h-[n + 6] to preserve compensation
@@ -316,9 +301,6 @@ const AssistantMessage = () => {
               case "group-chainOfThought":
                 return <div data-slot="aui_chain-of-thought">{children}</div>;
               case "group-reasoning": {
-                if (ReasoningGroup) {
-                  return (<ReasoningGroup group={part}>{children}</ReasoningGroup>);
-                }
                 const running = part.status.type === "running";
                 return (
                   <ReasoningRoot streaming={running}>

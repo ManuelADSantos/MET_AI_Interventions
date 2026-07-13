@@ -9,9 +9,7 @@ const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_AL
 
 const partText = (part) => {
   if (!part) return ''
-  if (part.type === 'text') return part.text || ''
-  if (typeof part.text === 'string') return part.text
-  return ''
+  return typeof part.text === 'string' ? part.text : ''
 }
 
 const messageText = (message) => {
@@ -161,7 +159,7 @@ const ChatView = ({ sourceIndex }) => {
       <div className='min-h-0 w-full flex-1'>
         {ctxStore.state.chatEnabled && (
           <AssistantRuntimeProvider runtime={runtime}>
-            <Thread allowAttachments={enableImages} />
+            <Thread />
           </AssistantRuntimeProvider>
         )}
       </div>

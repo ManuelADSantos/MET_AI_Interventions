@@ -29,7 +29,6 @@ services:
       - ./interface-backend:/app
       - ./tests:/tests:ro
     environment:
-      - FLASK_APP=app.py
       - DATABASE_URL=postgresql://study:study@db:5432/study
     depends_on:
       db:

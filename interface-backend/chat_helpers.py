@@ -130,7 +130,6 @@ def stream_completion(messages):
                 'id': chunk_data.get('id'),
                 'created': chunk_data.get('created'),
                 'model': chunk_data.get('model'),
-                'system_fingerprint': chunk_data.get('system_fingerprint')
             }
 
             choice = chunk.choices[0] if chunk.choices else None
@@ -165,7 +164,6 @@ def stream_completion(messages):
                 'object': 'chat.completion',
                 'created': response_meta.get('created'),
                 'model': response_meta.get('model') or str(gpt_model),
-                'system_fingerprint': response_meta.get('system_fingerprint'),
                 'choices': [
                     {
                         'index': 0,

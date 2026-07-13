@@ -1,4 +1,3 @@
-"use client";;
 import {
   createContext,
   memo,
@@ -259,55 +258,13 @@ function ReasoningText({
 
 const ReasoningImpl = () => <MarkdownText />;
 
-const ReasoningGroupImpl = ({
-  children,
-  startIndex,
-  endIndex,
-}) => {
-  const isReasoningStreaming = useAuiState((s) => {
-    if (s.message.status?.type !== "running") return false;
-    const lastIndex = s.message.parts.length - 1;
-    if (lastIndex < 0) return false;
-    const lastType = s.message.parts[lastIndex]?.type;
-    if (lastType !== "reasoning") return false;
-    return lastIndex >= startIndex && lastIndex <= endIndex;
-  });
-
-  return (
-    <ReasoningRoot streaming={isReasoningStreaming}>
-      <ReasoningTrigger active={isReasoningStreaming} />
-      <ReasoningContent aria-busy={isReasoningStreaming}>
-        <ReasoningText>{children}</ReasoningText>
-      </ReasoningContent>
-    </ReasoningRoot>
-  );
-};
-
 const Reasoning = memo(ReasoningImpl);
-
 Reasoning.displayName = "Reasoning";
-Reasoning.Root = ReasoningRoot;
-Reasoning.Trigger = ReasoningTrigger;
-Reasoning.Content = ReasoningContent;
-Reasoning.Text = ReasoningText;
-Reasoning.Fade = ReasoningFade;
-
-/**
- * @deprecated This wrapper targets the legacy `components.ReasoningGroup`
- * prop on `<MessagePrimitive.Parts>`. Use `<MessagePrimitive.GroupedParts>`
- * with a `groupBy` returning `"group-reasoning"` and compose `ReasoningRoot`
- * / `ReasoningTrigger` / `ReasoningContent` / `ReasoningText` directly.
- * See `thread.tsx` for an example.
- */
-const ReasoningGroup = memo(ReasoningGroupImpl);
-ReasoningGroup.displayName = "ReasoningGroup";
 
 export {
   Reasoning,
-  ReasoningGroup,
   ReasoningRoot,
   ReasoningTrigger,
   ReasoningContent,
   ReasoningText,
-  ReasoningFade,
 };

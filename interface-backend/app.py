@@ -96,11 +96,6 @@ def stream_message():
 
 RELEVANT_KEYS = {f'{i}.1' for i in range(4, 24)}
 
-def get_answer(resp_val):
-    if isinstance(resp_val, dict):
-        return resp_val.get('answer', resp_val)
-    return resp_val
-
 def evaluate_answers(tasks):
     correct = 0
     results = {}
@@ -108,7 +103,7 @@ def evaluate_answers(tasks):
         responses = task_val.get('responses', {})
         for resp_key, resp_val in responses.items():
             if resp_key in RELEVANT_KEYS:
-                answer = get_answer(resp_val)
+                answer = resp_val.get('answer', resp_val) if isinstance(resp_val, dict) else resp_val
                 is_correct = answer in right_choices
                 results[resp_key] = is_correct
                 if is_correct:
