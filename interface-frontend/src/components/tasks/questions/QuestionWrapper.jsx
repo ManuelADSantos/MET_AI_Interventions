@@ -50,7 +50,7 @@ const QuestionWrapper = ({ id, question, formControl }) => {
 const validateAnswer = (v, question) => {
   switch (question.type) {
     case 'text':
-      if (v.length < 2) return 'Must be at least 2 characters long.'
+      if (v.length < 3) return 'Must be at least 3 characters long.'
       return v.length <= 200 || 'Maximum 200 characters.'
     case 'textarea':
       if (v.length < 2) return 'Must be at least 2 characters long.'
