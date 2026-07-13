@@ -8,7 +8,8 @@ const init = {
   condition: undefined,
   chatEnabled: false,
   displayChatOnboarding: true,
-  chatUsedOnPage: false
+  chatUsedOnPage: false,
+  reliabilityWarningVisible: false
 }
 
 const store = createContext(init)
@@ -25,10 +26,12 @@ const StateProvider = ({ children }) => {
           return {...state, displayChatOnboarding: false}
       case 'TOGGLE_CHAT_USED':
         return {...state, chatUsedOnPage: action.payload.value}
+      case 'SHOW_RELIABILITY_WARNING':
+        return {...state, reliabilityWarningVisible: true}
       case 'NEXT_TASK':
-        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false}
+        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false}
       case 'SET_TASK_INDEX':
-        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false}
+        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false}
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {
@@ -41,6 +44,9 @@ const StateProvider = ({ children }) => {
         const resToStamp = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const stampedRes = {...resToStamp, ts: action.payload.ts}
         return {...state, tasks: {...state.tasks, [action.payload.index]: stampedRes}}
+      case 'UPDATE_TASK_RELIABILITY_SHOWN':
+        const resToStampR = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
+        return {...state, tasks: {...state.tasks, [action.payload.index]: {...resToStampR, reliabilityShownAt: action.payload.ts}}}
       case 'UPDATE_MESSAGES':
         const updatedMessages = [...state.messages, action.payload.prompt, action.payload.response]
         return {...state, messages: updatedMessages}

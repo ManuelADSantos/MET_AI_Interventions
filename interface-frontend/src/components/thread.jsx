@@ -10,6 +10,7 @@ import {
   ReasoningText,
   ReasoningTrigger,
 } from "@/components/reasoning";
+import AiReliabilityWarningCard from "@/components/chat/AiReliabilityWarningCard";
 import { TooltipIconButton } from "@/components/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -40,6 +41,7 @@ import {
   RefreshCwIcon,
   SquareIcon,
 } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 // Startup exposes a loading placeholder thread; treat it as a new chat so
@@ -48,12 +50,12 @@ const isNewChatView = (s) =>
   s.thread.messages.length === 0 &&
   (!s.thread.isLoading || s.threads.isLoading);
 
-export const Thread = () => {
+export const Thread = ({ warning = null, warningVisible = false }) => {
   const isEmpty = useAuiState(isNewChatView);
-  return <ThreadRoot isEmpty={isEmpty} />;
+  return <ThreadRoot isEmpty={isEmpty} warning={warning} warningVisible={warningVisible} />;
 };
 
-const ThreadRoot = ({ isEmpty }) => {
+const ThreadRoot = ({ isEmpty, warning, warningVisible }) => {
 
   return (
     <ThreadPrimitive.Root
@@ -92,6 +94,9 @@ const ThreadRoot = ({ isEmpty }) => {
                 "sticky bottom-0 mt-auto rounded-t-[var(--composer-radius)]"
             )}>
             <ThreadScrollToBottom />
+            <AnimatePresence initial={false}>
+              {warningVisible && warning && <AiReliabilityWarningCard warning={warning} />}
+            </AnimatePresence>
             <Composer />
             {/* <p className="text-center text-xs text-[#5d5d5d]">
               AI can make mistakes. Check important info.

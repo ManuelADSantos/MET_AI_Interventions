@@ -3,9 +3,12 @@ import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
+import { resolveReliabilityWarning } from '../../scripts/reliabilityWarning'
 import { Thread } from '../thread'
+import reliabilityWarningsFile from '/public/reliability_warnings.json?raw'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
+const reliabilityWarningsConfig = JSON.parse(reliabilityWarningsFile)
 
 const partText = (part) => {
   if (!part) return ''
@@ -55,6 +58,13 @@ const ChatView = ({ sourceIndex }) => {
 
       if (currentStore.state.displayChatOnboarding) {
         currentStore.dispatch({ type: 'DISMISS_ONBOARDING' })
+      }
+
+      if (currentStore.state.condition?.startsWith('ai-reliability')) {
+        currentStore.dispatch({ type: 'SHOW_RELIABILITY_WARNING' })
+        if (!currentStore.state.tasks[currentSourceIndex]?.reliabilityShownAt) {
+          currentStore.dispatch({ type: 'UPDATE_TASK_RELIABILITY_SHOWN', payload: { index: currentSourceIndex, ts: Date.now() } })
+        }
       }
 
       const backendMessages = messages
@@ -149,6 +159,12 @@ const ChatView = ({ sourceIndex }) => {
 
   const runtime = useLocalRuntime(chatModel, runtimeOptions)
 
+  const resolvedWarning = useMemo(() => (
+    ctxStore.state.condition?.startsWith('ai-reliability')
+      ? resolveReliabilityWarning(reliabilityWarningsConfig, sourceIndex, ctxStore.state.participantId)
+      : null
+  ), [sourceIndex, ctxStore.state.participantId, ctxStore.state.condition])
+
   return (
     <div className='flex flex-1 flex-col justify-start items-center h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       {ctxStore.state.chatEnabled && (
@@ -159,7 +175,7 @@ const ChatView = ({ sourceIndex }) => {
       <div className='min-h-0 w-full flex-1'>
         {ctxStore.state.chatEnabled && (
           <AssistantRuntimeProvider runtime={runtime}>
-            <Thread />
+            <Thread warning={resolvedWarning} warningVisible={ctxStore.state.reliabilityWarningVisible} />
           </AssistantRuntimeProvider>
         )}
       </div>

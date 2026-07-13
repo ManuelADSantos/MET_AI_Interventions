@@ -1,0 +1,342 @@
+{
+  "randomizeStrategyOrder": false,
+  "tasks": {
+    "7": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 80,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... tracking people, roles, days, and properties through a table or list to make sure nothing is mixed up.",
+            "description": ""
+          },
+          {
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "8": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 45,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+
+          {
+            "title": "... tracking people, roles, days, and properties through a small table or list to make sure nothing is mixed up.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "9": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 55,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
+            "description": ""
+          },
+          {
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "10": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 35,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
+            "description": ""
+          },
+          {
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "11": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 85,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... checking that options are valid before comparing them.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI assumed something that is not explicitly stated in the scenario.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "12": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 35,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... checking that options are valid before comparing them.",
+            "description": ""
+          },
+          {
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
+            "description": ""
+          },
+          {
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "13": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 55,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
+            "description": ""
+          },
+          {
+            "title": "... checking that options are valid before comparing them.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "14": {
+      "show": true,
+      "reliability": {
+        "label": "Low",
+        "color": "#ef4444",
+        "markerValue": 30,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 7 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... checking that options are valid before comparing them.",
+            "description": ""
+          },
+          {
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
+            "description": ""
+          },
+          {
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "15": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 85,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... tracing the sequence step by step.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "16": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 65,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
+            "description": ""
+          },
+          {
+            "title": "... tracing the sequence step by step.",
+            "description": ""
+          },
+          {
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "17": {
+      "show": true,
+      "reliability": {
+        "label": "High",
+        "color": "#22c55e",
+        "markerValue": 76,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... tracing the sequence step by step.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
+            "description": ""
+          },
+          {
+            "title": "... trying to find one valid alternative schedule or plan that would make the statement false.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    },
+    "18": {
+      "show": true,
+      "reliability": {
+        "label": "Medium",
+        "color": "#f59e0b",
+        "markerValue": 60,
+        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+      },
+      "strategies": {
+        "heading": "Before relying on the AI, consider...",
+        "fixed": [
+          {
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
+            "description": ""
+          },
+          {
+            "title": "... checking whether the AI assumed something that is not explicitly stated in the scenario.",
+            "description": ""
+          },
+          {
+            "title": "... tracing the sequence step by step.",
+            "description": ""
+          }
+        ],
+        "pool": [],
+        "poolSampleSize": 0
+      }
+    }
+  }
+}
