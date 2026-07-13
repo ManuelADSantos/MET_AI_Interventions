@@ -155,7 +155,7 @@ const AiReliabilityWarningCard = ({ warning }) => {
                 </div>
 
                 <div className="flex flex-col justify-center gap-1.5">
-                  <p className="mt-2 text-[3rem] font-bold leading-tight text-[#050505]">
+                  <p className="mt-2 text-[2rem] font-bold leading-tight text-[#050505]">
                     Reliability:{' '}
                     <span style={{ color: reliabilityColor }}>
                       {reliability?.label}
