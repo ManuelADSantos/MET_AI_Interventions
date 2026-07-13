@@ -6,7 +6,10 @@ const SYSTEM_PROMPT = import.meta.env.VITE_SYSTEM_PROMPT || ''
  * Reads the pid/condition stored by App.jsx at study start.
  */
 const mintChatToken = async () => {
-  const payload = { id: sessionStorage.getItem('pid'), condition: sessionStorage.getItem('condition') }
+  const id = sessionStorage.getItem('pid')
+  const condition = sessionStorage.getItem('condition')
+  if (!id || !condition) throw new Error('No active session — reload and enter your participant ID')
+  const payload = { id, condition }
   const res = await fetch(`${baseURL}/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

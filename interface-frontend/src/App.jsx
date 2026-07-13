@@ -31,7 +31,7 @@ const App = ({ condition, tasks, directStartPid }) => {
 
   const submitId = async (pid) => {
     if (import.meta.env.VITE_DEV_MODE === 'true') {
-      startStudy(pid)
+      startStudy(pid || `dev-${Date.now()}`)
       return
     }
 
