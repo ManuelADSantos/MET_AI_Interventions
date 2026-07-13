@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { cva } from "class-variance-authority";
+import remarkGfm from "remark-gfm";
 import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import { useScrollLock, useAuiState } from "@assistant-ui/react";
 import { MarkdownText } from "@/components/markdown-text";
