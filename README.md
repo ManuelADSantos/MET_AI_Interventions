@@ -59,8 +59,8 @@ All customization is done by editing files on your computer. Changes take effect
 | Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
 | GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
-| Experimental condition | `study.config.yml` → `condition` | Any condition name matching a `*_tasks.md` file |
-| Which pages show chat | `study.config.yml` → `chat_enabled_from/until_page` | Control chat availability |
+| Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `no-ai` |
+| Which pages show chat | `:::chat-enabled` in task `.md` file | Per-page directive |
 | Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
 | UI components (advanced) | `interface-frontend/src/components/` | React components with hot-reload |
 
@@ -148,6 +148,7 @@ Text to copy into the AI chat.
 - Append `?` to any type (e.g. `$text?`) to make the question optional
 - `:::tab Title` ... `:::` creates a tab on the current page
 - `:::copy` ... `:::` adds copy-button text without displaying it as page content
+- `:::chat-enabled` shows the chat panel on this page (chat conditions only, ignored for `no-*` conditions)
 - `:::require-ai-prompt` gates the Next button behind at least one AI prompt (chat conditions only)
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
 - `%% SECTION` ... `%%` marks a block as a section but keeps its page order
@@ -167,15 +168,11 @@ reasoning_effort: none            # Optional: none, low, medium, high, or xhigh 
 base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
 # Study Settings
-condition: ai                      # Any condition name matching a *_tasks.md file
 randomize_tasks: true              # Shuffle tasks within sections
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
 # Chat Availability
-chat_enabled_from_page: 1          # First page with chat (0-indexed)
-chat_enabled_until_page: 99        # Last page with chat
 allow_image_attachments: false     # Enable image uploads
-copy_button_pages: 1-99            # Pages where tabs show the copy button
 copy_button_template: "{copyText}" # Copy-button template text
 
 # Development
@@ -199,7 +196,7 @@ Conditions are auto-discovered from `customizations/tasks/` — no code changes 
    - `<name>_tasks.md` — the survey/task pages (required)
    - `study_info/<name>_studyinfo.md` — consent / intro pages (optional)
 
-2. **Set the condition** via `study.config.yml` → `condition: <name>`, env var `VITE_PCTP_CONDITION=<name>`, or per-participant URL: `?condition=<name>`
+2. **Set the condition** via URL query parameter: `?condition=<name>` (defaults to `no-ai` if omitted)
 
 ### Naming conventions
 
@@ -215,7 +212,7 @@ customizations/tasks/ai_limited_tasks.md              # task pages (required)
 customizations/tasks/study_info/ai_limited_studyinfo.md  # consent pages (optional)
 ```
 
-Set `condition: ai-limited` in `study.config.yml` and restart. The chat panel will appear (name doesn't start with `no-`).
+Open `http://localhost:5173?condition=ai-limited`. The chat panel will appear (name doesn't start with `no-`).
 
 ### Condition-specific UI components
 

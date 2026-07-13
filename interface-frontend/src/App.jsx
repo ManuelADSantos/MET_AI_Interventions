@@ -25,7 +25,7 @@ const App = ({ condition, tasks, directStartPid }) => {
     ctxStore.dispatch({type: 'UPDATE_CONDITION', payload: {condition}})
     // Stamp the first page's entry time; later pages are stamped on navigation in TaskView
     ctxStore.dispatch({type: 'UPDATE_TASK_TIMESTAMP', payload: {index: tasks[0].sourceIndex, ts: Date.now()}})
-    ctxStore.dispatch({type: 'NEXT_TASK'})
+    ctxStore.dispatch({type: 'NEXT_TASK', payload: {chatEnabled: conditionHasChat(condition) && tasks[0]?.chatEnabled}})
     setIdGiven(true)
   }
 

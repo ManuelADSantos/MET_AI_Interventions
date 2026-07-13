@@ -10,13 +10,9 @@ if [ -f "$CONFIG_FILE" ]; then
 
     cat > /app/.env << EOF
 VITE_PROXY_URL=$(grep '^backend_url:' $CONFIG_FILE | sed 's/backend_url: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
-VITE_CHAT_ENABLED_BEGIN=$(grep '^chat_enabled_from_page:' $CONFIG_FILE | sed 's/chat_enabled_from_page: *//;s/  *#.*//;s/ *$//')
-VITE_CHAT_ENABLED_END=$(grep '^chat_enabled_until_page:' $CONFIG_FILE | sed 's/chat_enabled_until_page: *//;s/  *#.*//;s/ *$//')
 VITE_ALLOW_IMAGES=$(grep '^allow_image_attachments:' $CONFIG_FILE | sed 's/allow_image_attachments: *//;s/  *#.*//;s/ *$//')
-VITE_PCTP_CONDITION=$(grep '^condition:' $CONFIG_FILE | sed 's/condition: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
 VITE_DEV_MODE=$(grep '^dev_mode:' $CONFIG_FILE | sed 's/dev_mode: *//;s/  *#.*//;s/ *$//')
 VITE_SYSTEM_PROMPT=$(grep '^system_prompt:' $CONFIG_FILE | sed 's/system_prompt: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
-VITE_COPY_BUTTON_PAGES=$(grep '^copy_button_pages:' $CONFIG_FILE | sed 's/copy_button_pages: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
 VITE_COPY_BUTTON_TEMPLATE=$(grep '^copy_button_template:' $CONFIG_FILE | sed 's/copy_button_template: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
 VITE_RANDOMIZE_TASKS=$(grep '^randomize_tasks:' $CONFIG_FILE | sed 's/randomize_tasks: *//;s/  *#.*//;s/ *$//')
 VITE_USE_AUTOPROCTOR=$(grep '^use_autoproctor:' $CONFIG_FILE | sed 's/use_autoproctor: *//;s/  *#.*//;s/ *$//')

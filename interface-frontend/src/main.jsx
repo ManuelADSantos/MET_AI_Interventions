@@ -9,9 +9,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import './index.css'
 
 const urlParams = new URLSearchParams(window.location.search)
-// ponytail: URL ?condition=no_ai overrides config; normalize underscore to hyphen
-const urlCondition = urlParams.get('condition')?.replace('_', '-')
-const condition = urlCondition || import.meta.env.VITE_PCTP_CONDITION || 'no-ai'
+// ponytail: condition comes from URL only — ?condition=ai or ?condition=no_ai
+const condition = urlParams.get('condition')?.replace('_', '-') || 'no-ai'
 
 // Strip Prolific params from the address bar so participants can't read or tweak them
 // mid-study (App.jsx captured them at import time, before this line runs)

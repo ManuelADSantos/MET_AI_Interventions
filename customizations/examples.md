@@ -257,7 +257,25 @@ To disable the copy button on a specific tab:
 
 ---
 
-## Require AI Prompt
+## Chat & AI Prompt Directives
+
+### `:::chat-enabled`
+
+Show the chat panel on this page (only effective for conditions with chat, i.e. names not starting with `no-`):
+
+```markdown
+# Task Page
+
+:::chat-enabled
+
+:::tab Exercise
+
+> Solve this problem.
+
+    $option; A; B; C
+```
+
+### `:::require-ai-prompt`
 
 Gate the Next button behind at least one AI prompt on a specific page:
 

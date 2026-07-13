@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { store } from '../../scripts/store'
+import { conditionHasChat } from '../../scripts/conditions'
 import TaskPage from './questions/TaskPage'
 import DonePage from './DonePage'
 
@@ -16,7 +17,8 @@ const TaskView = ({ tasks }) => {
     }
 
     dispatch({ type: 'UPDATE_TASK_TIMESTAMP', payload: {index: nextTaskSourceIndex, ts: Date.now()}})
-    dispatch({ type: 'NEXT_TASK' })
+    const nextChat = conditionHasChat(state.condition) && tasks[state.taskIndex + 1]?.chatEnabled
+    dispatch({ type: 'NEXT_TASK', payload: { chatEnabled: nextChat } })
   }
 
   return (
@@ -26,7 +28,7 @@ const TaskView = ({ tasks }) => {
             <div className='w-full mb-2'>
               {devMode
                 ? <>
-                    <input type='range' className='w-full accent-blue-500 h-1.5 cursor-pointer' min={0} max={tasks.length - 1} value={state.taskIndex} onChange={(e) => dispatch({ type: 'SET_TASK_INDEX', payload: Number(e.target.value) })} />
+                    <input type='range' className='w-full accent-blue-500 h-1.5 cursor-pointer' min={0} max={tasks.length - 1} value={state.taskIndex} onChange={(e) => { const i = Number(e.target.value); dispatch({ type: 'SET_TASK_INDEX', payload: { index: i, chatEnabled: conditionHasChat(state.condition) && tasks[i]?.chatEnabled } }) }} />
                     <p className='text-xs text-blue-500 text-center mt-1'>[DEV] {state.taskIndex + 1} / {tasks.length}</p>
                   </>
                 : <>

@@ -255,18 +255,20 @@ const extractCopyBlocks = (rawContent) => {
   const copyBlocks = []
   const copyDisabled = /^\s*:::(copy-disabled|no-copy)\s*$/m.test(String(rawContent))
   const requireAiPrompt = /^\s*:::require-ai-prompt\s*$/m.test(String(rawContent))
+  const chatEnabled = /^\s*:::chat-enabled\s*$/m.test(String(rawContent))
   const content = String(rawContent)
     .replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
     copyBlocks.push(copyText.trim())
     return ''
     })
-    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt)\s*$/gm, '')
+    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt|chat-enabled)\s*$/gm, '')
 
   return {
     content,
     copyText: copyBlocks.join('\n\n'),
     copyDisabled,
-    requireAiPrompt
+    requireAiPrompt,
+    chatEnabled
   }
 }
 
@@ -361,6 +363,7 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
           copyText: parsedPageCopyBlocks.copyText,
           copyDisabled: parsedPageCopyBlocks.copyDisabled,
           requireAiPrompt: parsedPageCopyBlocks.requireAiPrompt,
+          chatEnabled: parsedPageCopyBlocks.chatEnabled,
           content: pageContent,
           tabs: tabs || [
             {

@@ -5,41 +5,12 @@ import { Button, Tabs, Tab, Tooltip } from '@nextui-org/react'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
 import RichText from './RichText'
-import { conditionHasChat } from '../../../scripts/conditions'
+
 
 const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n\nRelevant information:\n{tabText}\n\n{copyText}'
 
-const parsePageList = (value) => {
-  const pages = new Set()
-
-  String(value)
-    .split(',')
-    .map((part) => part.trim())
-    .filter(Boolean)
-    .forEach((part) => {
-      const rangeMatch = part.match(/^(\d+)\s*-\s*(\d+)$/)
-
-      if (rangeMatch) {
-        const start = parseInt(rangeMatch[1], 10)
-        const end = parseInt(rangeMatch[2], 10)
-        for (let page = Math.min(start, end); page <= Math.max(start, end); page++) {
-          pages.add(page)
-        }
-        return
-      }
-
-      const page = parseInt(part, 10)
-      if (!Number.isNaN(page)) {
-        pages.add(page)
-      }
-    })
-
-  return pages
-}
-
 const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 
-const copyButtonPages = parsePageList(import.meta.env.VITE_COPY_BUTTON_PAGES || '')
 const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
 
 const contentItemToText = (item) => {
@@ -164,9 +135,8 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
     setSelectedTabKey(nextKey)
   }
 
+  // ponytail: copy button shows on all chat-enabled pages unless :::no-copy
   const shouldShowCopyButton = ctxStore.state.chatEnabled &&
-    conditionHasChat(ctxStore.state.condition) &&
-    copyButtonPages.has(sourceIndex) &&
     !selectedTab.copyDisabled
 
   // ponytail: dev mode lifts all restrictions

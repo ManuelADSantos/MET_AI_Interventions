@@ -1,7 +1,4 @@
 import { createContext, useReducer } from 'react'
-import { conditionHasChat } from './conditions'
-const chatEnabledIndex = import.meta.env.VITE_CHAT_ENABLED_BEGIN || 1
-const chatDisabledIndex = import.meta.env.VITE_CHAT_ENABLED_END || 99
 
 const init = {
   participantId: '',
@@ -29,15 +26,9 @@ const StateProvider = ({ children }) => {
       case 'TOGGLE_CHAT_USED':
         return {...state, chatUsedOnPage: action.payload.value}
       case 'NEXT_TASK':
-        if (conditionHasChat(state.condition) && state.taskIndex + 1 >= chatEnabledIndex && state.taskIndex + 1 <= chatDisabledIndex) {
-          return {...state, taskIndex: state.taskIndex + 1, chatEnabled: true, chatUsedOnPage: false}
-        }
-        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: false, chatUsedOnPage: false}
-      // ponytail: dev-mode only — free navigation
-      case 'SET_TASK_INDEX': {
-        const chatOn = conditionHasChat(state.condition) && action.payload >= chatEnabledIndex && action.payload <= chatDisabledIndex
-        return {...state, taskIndex: action.payload, chatEnabled: chatOn, chatUsedOnPage: false}
-      }
+        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false}
+      case 'SET_TASK_INDEX':
+        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false}
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {
