@@ -98,6 +98,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 <script>
 /* ---------- 1. Preprocess ---------- */
 function process(raw) {
+  if (!raw || typeof raw !== 'object') throw new Error('invalid participant data');
   const tasks = raw.tasks || {};
   const get = (t, q) => tasks[t]?.responses?.[q]?.answer;
   // ponytail: hardcoded answer key — source of truth for correct/incorrect scoring
@@ -382,8 +383,10 @@ async function loadFiles(files) {
       const raw = JSON.parse(await f.text());
       if (raw.participants) {
         raw.participants.forEach((p, i) => {
-          const pid = String(p.participantId || '').slice(0, 16);
-          store.push({ label: `${f.name} — #${i + 1} ${pid} (${p.condition || '?'})`, data: process(p) });
+          try {
+            const pid = String(p?.participantId || '').slice(0, 16);
+            store.push({ label: `${f.name} — #${i + 1} ${pid} (${p?.condition || '?'})`, data: process(p) });
+          } catch (e) { console.warn(`Skipped participant #${i + 1}: ${e.message}`); }
         });
       } else {
         store.push({ label: f.name, data: process(raw) });
