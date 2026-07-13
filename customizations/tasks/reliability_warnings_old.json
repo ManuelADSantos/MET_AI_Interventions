@@ -1,7 +1,7 @@
 {
   "randomizeStrategyOrder": false,
   "tasks": {
-    "7": {
+    "8": {
       "show": true,
       "reliability": {
         "label": "High",
@@ -58,7 +58,7 @@
         "poolSampleSize": 0
       }
     },
-    "9": {
+    "10": {
       "show": true,
       "reliability": {
         "label": "Medium",
