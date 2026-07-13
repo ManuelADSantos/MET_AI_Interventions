@@ -82,12 +82,12 @@
 > How often do you use AI assistants?
 
     $option;
-    Multiple Times a Day;
-    Daily;
-    A Few Times a Week;
-    Once a Week;
-    A Few Times a Month;
-    Rarely;
+    Several times a day;
+    About once a day;
+    A few times a week;
+    About once a week;
+    A few times a month;
+    Less than once a month;
     Never
 
 # Trial
