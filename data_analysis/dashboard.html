@@ -18,7 +18,7 @@ body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; backgr
 h1 { font-size:20px; } h2 { font-size:15px; margin-bottom:12px; color:#2d3748; }
 .sub { color:#718096; font-size:12px; margin-top:4px; }
 .badge { padding:2px 10px; border-radius:12px; font-size:12px; font-weight:600; background:#ebf4ff; color:#3182ce; }
-.header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:16px; position:sticky; top:0; z-index:100; background:#f6f7f9; padding:12px 0; }
 .drop { border:2px dashed #cbd5e0; border-radius:10px; padding:18px; text-align:center; color:#718096; background:#fff; margin-bottom:16px; cursor:pointer; }
 .drop.over { border-color:#3182ce; background:#ebf4ff; }
 select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; }
@@ -55,6 +55,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
+    <select id="condFilter" style="display:none"><option value="">All conditions</option></select>
     <button id="prev" style="display:none" title="Previous trial">&#9664;</button>
     <select id="picker" style="display:none"></select>
     <button id="next" style="display:none" title="Next trial">&#9654;</button>
@@ -121,17 +122,16 @@ function process(raw) {
     if (!tasks[k]) continue;
     const r = tasks[k].responses || {};
     if (r[k + '.2'] && /confident/.test(r[k + '.2'].question)) {
-      const di = tasks[k].displayIndex;
-      const prev = tsByDi[di - 1];
       const answer = r[answerId]?.answer;
       quiz.push({
-        task: +k, di, answer, conf: +r[k + '.2'].answer,
-        correctAnswer, correct: answer === correctAnswer,
-        dur: prev ? +((tasks[k].ts - prev) / 1000).toFixed(1) : null
+        task: +k, di: tasks[k].displayIndex, ts: tasks[k].ts,
+        answer, conf: +r[k + '.2'].answer,
+        correctAnswer, correct: answer === correctAnswer, dur: null
       });
     }
   }
   quiz.sort((a, b) => a.di - b.di);
+  quiz.forEach((q, i) => { if (i > 0) q.dur = +((q.ts - quiz[i-1].ts) / 1000).toFixed(1); });
 
   const susT = T(23);
   const susIds = [1,2,3,4,5,6,7,9,10,11].map(i => susT + '.' + i);
@@ -231,7 +231,7 @@ function render(D) {
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
-  const qLabels = D.quiz.map(q => 'Q' + q.di);
+  const qLabels = D.quiz.map((_, i) => 'Q' + (i + 1));
 
   chart('c_conf', { type:'bar',
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
@@ -289,21 +289,31 @@ function render(D) {
 
   document.getElementById('ansTable').innerHTML =
     '<tr><th>#</th><th>Task</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map(q => `<tr><td>Q${q.di}</td><td>${q.task}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+    D.quiz.map((q, i) => `<tr><td>Q${i+1}</td><td>${q.task}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
 }
 
 /* ---------- 3. File loading & participant switching ---------- */
 const store = []; // [{label, data}]
+let filtered = []; // indices into store matching current condition filter
 const picker = document.getElementById('picker');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
+const condFilter = document.getElementById('condFilter');
 
 function showNav() {
-  const show = store.length > 1;
-  [picker, prevBtn, nextBtn].forEach(el => el.style.display = show ? 'inline-block' : 'none');
+  const show = filtered.length > 0;
+  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = show ? 'inline-block' : 'none');
 }
-function go(idx) { picker.selectedIndex = idx; render(store[idx].data); }
+
+function applyFilter() {
+  const cond = condFilter.value;
+  filtered = store.map((s, i) => i).filter(i => !cond || store[i].data.meta.condition === cond);
+  picker.innerHTML = filtered.map(i => `<option value="${i}">${esc(store[i].label)}</option>`).join('');
+  if (filtered.length) go(filtered[0]);
+}
+
+function go(idx) { picker.value = String(idx); render(store[idx].data); }
 
 async function loadFiles(files) {
   store.length = 0;
@@ -322,14 +332,16 @@ async function loadFiles(files) {
       }
     } catch (e) { alert(`Could not parse ${f.name}: ${e.message}`); }
   }
-  picker.innerHTML = store.map((s, i) => `<option value="${i}">${esc(s.label)}</option>`).join('');
+  const conds = [...new Set(store.map(s => s.data.meta.condition).filter(Boolean))].sort();
+  condFilter.innerHTML = '<option value="">All conditions</option>' + conds.map(c => `<option value="${c}">${c}</option>`).join('');
+  applyFilter();
   showNav();
-  if (store.length) go(0);
 }
 
+condFilter.onchange = () => applyFilter();
 picker.onchange = () => go(+picker.value);
-prevBtn.onclick = () => { if (+picker.value > 0) go(+picker.value - 1); };
-nextBtn.onclick = () => { if (+picker.value < store.length - 1) go(+picker.value + 1); };
+prevBtn.onclick = () => { const i = filtered.indexOf(+picker.value); if (i > 0) go(filtered[i - 1]); };
+nextBtn.onclick = () => { const i = filtered.indexOf(+picker.value); if (i < filtered.length - 1) go(filtered[i + 1]); };
 const drop = document.getElementById('drop'), input = document.getElementById('fileInput');
 drop.onclick = () => input.click();
 input.onchange = () => loadFiles([...input.files]);
