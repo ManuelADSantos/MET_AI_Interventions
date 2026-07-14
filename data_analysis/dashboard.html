@@ -131,7 +131,10 @@ function process(raw) {
     }
   }
   quiz.sort((a, b) => a.di - b.di);
-  quiz.forEach((q, i) => { if (i > 0) q.dur = +((q.ts - quiz[i-1].ts) / 1000).toFixed(1); });
+  quiz.forEach((q, i) => {
+    const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
+    if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
+  });
 
   const susT = T(23);
   const susIds = [1,2,3,4,5,6,7,9,10,11].map(i => susT + '.' + i);
