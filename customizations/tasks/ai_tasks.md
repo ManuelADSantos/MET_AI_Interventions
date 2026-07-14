@@ -1150,6 +1150,33 @@ The following should be taken into account when setting up the stalls:
 
     $slider; 0; 100; Better than 0%; Better than 100%; tooltip%
 
+# Post-Questionnaire
+
+> **Please answer the following questions about the main tasks you just completed.**
+
+> How mentally demanding was this task?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How physically demanding was this task?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How hurried or rushed was the pace of the task?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How successful were you in accomplishing what you were asked to do?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How hard did you have to work to accomplish your level of performance?
+
+    $slider; 1; 20; Very low; Very high; tooltip
+
+> How insecure, discouraged, irritated, stressed, and annoyed were you?
+
+    $slider; 1; 20; Very low; Very high; tooltip
 
 # Post-Questionnaire
 
@@ -1318,31 +1345,3 @@ The following should be taken into account when setting up the stalls:
 > I like using the system for decision making.
 
     $likert; 1; 5; ; ; I disagree strongly; I disagree somewhat; I'm neutral about it; I agree somewhat; I agree strongly
-
-# Post-Questionnaire
-
-> **Please answer the following questions about the main tasks you just completed.**
-
-> How mentally demanding was this task?
-
-    $slider; 1; 20; Very low; Very high; tooltip
-
-> How physically demanding was this task?
-
-    $slider; 1; 20; Very low; Very high; tooltip
-
-> How hurried or rushed was the pace of the task?
-
-    $slider; 1; 20; Very low; Very high; tooltip
-
-> How successful were you in accomplishing what you were asked to do?
-
-    $slider; 1; 20; Very low; Very high; tooltip
-
-> How hard did you have to work to accomplish your level of performance?
-
-    $slider; 1; 20; Very low; Very high; tooltip
-
-> How insecure, discouraged, irritated, stressed, and annoyed were you?
-
-    $slider; 1; 20; Very low; Very high; tooltip
