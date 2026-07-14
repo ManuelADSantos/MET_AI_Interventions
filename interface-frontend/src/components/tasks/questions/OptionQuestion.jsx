@@ -86,7 +86,7 @@ const OptionQuestion = ({ id, question, field, multi }) => {
                 checked={otherCheckedMulti}
                 onChange={toggleOtherCheckbox}
               />
-              <label htmlFor={`${id}_other`}>{otherLabel}:</label>
+              <label htmlFor={`${id}_other`}>{otherLabel}</label>
             </div>
           }
         </fieldset>
@@ -133,7 +133,7 @@ const OptionQuestion = ({ id, question, field, multi }) => {
               checked={otherSelected}
               onChange={() => handleSelectOption(other, true)}
             />
-            <label htmlFor={`${id}_other`}>{otherLabel}:</label>
+            <label htmlFor={`${id}_other`}>{otherLabel}</label>
           </div>
         }
       </fieldset>
