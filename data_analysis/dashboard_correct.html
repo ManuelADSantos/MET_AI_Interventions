@@ -67,7 +67,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   <div class="kpis" id="kpis"></div>
   <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
-    <div class="card"><h2>Confidence per question (presentation order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Confidence per question (question index order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
     <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
     <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
@@ -131,7 +131,9 @@ function process(raw) {
       });
     }
   }
-  quiz.sort((a, b) => a.di - b.di);
+  // Display questions by their stable source index. Keep displayIndex on each
+  // item because it is still required to calculate timing in presentation order.
+  quiz.sort((a, b) => a.task - b.task);
 
   // SUS (task 23; 23.8 is an attention check, so skip it)
   const susIds = ['23.1','23.2','23.3','23.4','23.5','23.6','23.7','23.9','23.10','23.11'];
@@ -229,7 +231,7 @@ function render(D) {
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
-  const qLabels = D.quiz.map(q => 'Q' + q.di);
+  const qLabels = D.quiz.map(q => 'Q' + q.task);
 
   chart('c_conf', { type:'bar',
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
@@ -298,8 +300,8 @@ function render(D) {
     .map(([k, v]) => `<div class="ft"><b>${ftLabels[k] || k}:</b> ${esc(v)}</div>`).join('');
 
   document.getElementById('ansTable').innerHTML =
-    '<tr><th>#</th><th>Task</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map(q => `<tr><td>Q${q.di}</td><td>${q.task}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
+    D.quiz.map(q => `<tr><td>Q${q.task}</td><td>Q${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
 }
 

@@ -107,6 +107,8 @@
 
 :::tab Exercise
 
+> ![Use the button in the top-right corner to copy the text from the current tab, then paste it into the chat by pressing Ctrl+V.](/img/copy_button_guide.png)
+
 > On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements. You can copy the text from the current tab by clicking the **copy icon** in the top-right corner.
 > ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
 

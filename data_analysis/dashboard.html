@@ -72,7 +72,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   <div class="kpis" id="kpis"></div>
   <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
-    <div class="card"><h2>Confidence per question (presentation order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Confidence per question (question index order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
     <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
     <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
@@ -135,6 +135,9 @@ function process(raw) {
     const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
     if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
   });
+  // Timing above follows the participant's presentation order. Displaying the
+  // result by stable question index does not affect answers or evaluation.
+  quiz.sort((a, b) => a.task - b.task);
 
   const susT = T(23);
   const susIds = [1,2,3,4,5,6,7,9,10,11].map(i => susT + '.' + i);
@@ -163,6 +166,13 @@ function process(raw) {
         text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
 
   const demoT = T(2), preT = T(5), postT = T(20), ftT = T(21), attnT = T(1);
+  const openText = [];
+  const profession = tasks[demoT]?.responses?.[demoT + '.3'];
+  if (profession) openText.push({ label: profession.question || 'What is your profession?', answer: profession.answer });
+  for (const i of [7, 8, 9, 10]) {
+    const response = tasks[ftT]?.responses?.[ftT + '.' + i];
+    if (response) openText.push({ label: response.question || (ftT + '.' + i), answer: response.answer });
+  }
   const tsAll = Object.values(tsByDi);
   return {
     meta: { condition: raw.condition, pid: raw.participantId,
@@ -175,9 +185,7 @@ function process(raw) {
     nfc, nfcMean: +(nfc.reduce((a,b)=>a+b,0) / nfc.length).toFixed(2),
     tlx,
     attn: { instr: get(attnT,attnT+'.2') === 'C', post: String(get(postT,postT+'.3')) === '5', sus: +get(susT,susT+'.8') === 5 },
-    freeText: Object.entries(tasks[ftT]?.responses || {})
-      .sort(([a],[b]) => +a.split('.')[1] - +b.split('.')[1])
-      .map(([k,v]) => ({ label: v.question || k, answer: v.answer })),
+    openText,
     messages
   };
 }
@@ -199,6 +207,14 @@ function render(D) {
 
   const nCorrect = D.quiz.filter(q => q.correct).length;
   const meanConf = D.quiz.length ? (D.quiz.reduce((s,q) => s + q.conf, 0) / D.quiz.length).toFixed(1) : '–';
+  const correctConf = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const incorrectConf = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const avg = values => values.reduce((sum, value) => sum + value, 0) / values.length;
+  const sensitivity = correctConf.length && incorrectConf.length ? avg(correctConf) - avg(incorrectConf) : null;
+  const sensitivityText = sensitivity == null ? '–' : `${sensitivity >= 0 ? '+' : ''}${sensitivity.toFixed(1)} pp`;
+  const sensitivityTitle = sensitivity == null
+    ? 'Requires at least one correct and one incorrect answer'
+    : `Mean confidence: ${avg(correctConf).toFixed(1)}% correct vs ${avg(incorrectConf).toFixed(1)}% incorrect`;
   const tlxVals = Object.values(D.tlx).filter(v => !isNaN(v));
   const tlxMean = tlxVals.length ? (tlxVals.reduce((a,b) => a + b, 0) / tlxVals.length).toFixed(1) : '–';
   const attnPass = Object.values(D.attn).filter(Boolean).length;
@@ -207,12 +223,13 @@ function render(D) {
   document.getElementById('kpis').innerHTML = [
     { v:`${nCorrect}/${D.quiz.length}`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
     { v:meanConf + '%', l:'Mean confidence' },
+    { v:sensitivityText, l:'Metacog. sensitivity', cls:sensitivity == null ? '' : sensitivity >= 0 ? 'good' : 'bad', title:sensitivityTitle },
     { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
     { v:tlxMean, l:'TLX mean (0–20)' },
     { v:D.nfcMean, l:'NFC mean (1–5)' },
     { v:`${attnPass}/${Object.keys(D.attn).length}`, l:'Attention checks', cls:attnPass === Object.keys(D.attn).length ? 'good' : 'bad' },
     { v:userMsgs.length, l:'Msgs to AI' },
-  ].map(k => `<div class="kpi ${k.cls||''}"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
+  ].map(k => `<div class="kpi ${k.cls||''}"${k.title ? ` title="${esc(k.title)}"` : ''}><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
 
   // data quality flags
   const inv = x => isNaN(+x) || +x < 0 || +x > 12;
@@ -223,7 +240,7 @@ function render(D) {
   if (inv(D.post.withAI) || inv(D.post.withoutAI) || inv(D.post.aiAlone))
     flags.push(`Post-task estimates out of range (with AI: ${D.post.withAI}, without: ${D.post.withoutAI}, AI alone: ${D.post.aiAlone}).`);
   if (!isNaN(+D.demo.profession)) flags.push(`Profession field is numeric ("${D.demo.profession}").`);
-  const ftVals = Object.values(D.freeText);
+  const ftVals = D.openText.map(item => item.answer);
   if (ftVals.length && ftVals.every(t => !/\s/.test(String(t))))
     flags.push('All free-text responses look like keyboard mashing (no spaces / real words).');
   if (userMsgs.length && userMsgs.every(m => m.text.length < 8))
@@ -234,7 +251,7 @@ function render(D) {
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
-  const qLabels = D.quiz.map((_, i) => 'Q' + (i + 1));
+  const qLabels = D.quiz.map(q => 'Q' + q.task);
 
   chart('c_conf', { type:'bar',
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
@@ -287,12 +304,12 @@ function render(D) {
   document.getElementById('demo').innerHTML =
     ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education]
     .map(x => `<span class="pill">${esc(x)}</span>`).join('');
-  document.getElementById('freetext').innerHTML = D.freeText
+  document.getElementById('freetext').innerHTML = D.openText
     .map(ft => `<div class="ft"><b>${esc(ft.label)}:</b> ${esc(ft.answer)}</div>`).join('');
 
   document.getElementById('ansTable').innerHTML =
-    '<tr><th>#</th><th>Task</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map((q, i) => `<tr><td>Q${i+1}</td><td>${q.task}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
+    D.quiz.map(q => `<tr><td>Q${q.task}</td><td>Q${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
 }
 
