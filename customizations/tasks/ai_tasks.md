@@ -1,22 +1,17 @@
 # Introduction
 
 :::tab Instruction
+:::chat-enabled
 
 > ## Welcome!
 >
-> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **three scenarios**, with **four questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In many cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
+> In this study, you will answer **12 questions** about **planning and organizing**. The questions are grouped into **three scenarios**, with **four questions per scenario**. Each scenario describes an event or situation that needs to be organized. Your task is to determine whether specific statements are **true or false** based on the information provided. In most cases, you will first need to develop an optimal schedule or plan before deciding whether the statements can be satisfied.
 >
-> To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Feel free to familiarize yourself with the assistant before you begin. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**.
+> To complete the tasks, you will work together with an **AI assistant**, which is displayed on the right side of your screen. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**. However, you can decide for yourself whether or not to follow its suggestions.
 >
-> For each question, select the **best answer**, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
+> Please use a **desktop computer or laptop** for this study. Mobile devices are not supported.
 >
-> Please use a **desktop computer or laptop** for the best experience. Smartphones and tablets are not supported.
->
-> ***Please do not refresh your browser tab at any point while participating in the study, or all your progress will be lost!***
->
-> ## How to use
->
-> Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
+> ***Please do not refresh your browser tab at any point during the study, as this will cause all progress to be lost.***
 >
 > Before continuing, please answer the following questions to confirm that you have read the instructions.
 >
@@ -98,7 +93,11 @@
 >
 > This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance.
 >
-> Click on _Next_ to continue.
+> ## How to use
+>
+> Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
+>
+> ### Click on _Next_ to continue.
 
 # Trial: Future Days
 
@@ -107,13 +106,14 @@
 
 :::tab Exercise
 
-> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements. You can copy the text from the current tab by clicking the **copy icon** in the top-right corner.
-> ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
+> _How to use the interface: Each task has two tabs: Exercise and Scenario. This tab (Exercise) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
 
 > 1. The same student assistants can be deployed at the information points on Thursday and Friday.
 > 2. The same student assistants can be deployed at the information points on Thursday and Saturday.
+
+> _Tip: Use this button below to copy-paste both the task description and the scenario into the chat on the right, so you don't have to copy it manually._
 
 > Please indicate your answer.
 
@@ -232,7 +232,11 @@ The following student assistants are available for the event:
 >
 > The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question.
 >
-> Please click _Next_ to continue.
+> ## 💰 **You can earn a bonus reward!** 💰
+>
+> The **top 10% of participants** based on task performance will receive an additional **bonus payment** together with their Prolific payout.
+>
+> ### Please click _Next_ to continue.
 
 %% RANDOMIZE_SECTIONS
 

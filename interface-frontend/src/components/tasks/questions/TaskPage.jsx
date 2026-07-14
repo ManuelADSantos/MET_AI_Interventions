@@ -250,7 +250,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
               type='button'
               size='m' 
               borderWeight='light'
-              className='mb-2'
+              className='mt-2 mb-2'
               variant='flat' 
               onClick={handleAddTaskToChat}
             >

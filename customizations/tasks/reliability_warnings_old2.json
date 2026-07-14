@@ -1,5 +1,5 @@
 {
-  "randomizeStrategyOrder": true,
+  "randomizeStrategyOrder": false,
   "tasks": {
     "6": {
       "show": true,
@@ -13,15 +13,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking whether every proposed option satisfies all relevant constraints at the same time.",
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           },
           {
-            "title": "... looking for conditions that were considered separately but not combined in the final solution.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... verifying that all parts of the proposed solution can coexist in one complete arrangement.",
+            "title": "... tracking people, roles, days, and properties through a table or list to make sure nothing is mixed up.",
             "description": ""
           }
         ],
@@ -41,15 +41,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... considering the feasible alternatives systematically rather than relying on the first plausible solution.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... listing the relevant candidates and removing invalid or duplicate cases when checking counts or limits.",
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           },
           {
-            "title": "... searching specifically for overlooked, extreme, or non-obvious alternatives.",
+            "title": "... tracking people, roles, days, and properties through a small table or list to make sure nothing is mixed up.",
             "description": ""
           }
         ],
@@ -69,15 +69,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking whether the reasoning supports the full strength of the conclusion.",
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
             "description": ""
           },
           {
-            "title": "... remembering that one example does not prove necessity, impossibility, uniqueness, or optimality.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... actively testing the opposite possibility for claims such as “must,” “cannot,” or “maximum.”",
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           }
         ],
@@ -97,15 +97,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... considering the feasible alternatives systematically rather than relying on the first plausible solution.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... listing the relevant candidates and removing invalid or duplicate cases when checking counts or limits.",
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           },
           {
-            "title": "... searching specifically for overlooked, extreme, or non-obvious alternatives.",
+            "title": "... asking whether the statement must always be true, or whether another valid plan could make it false.",
             "description": ""
           }
         ],
@@ -125,15 +125,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking whether every proposed option satisfies all relevant constraints at the same time.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           },
           {
-            "title": "... looking for conditions that were considered separately but not combined in the final solution.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... verifying that all parts of the proposed solution can coexist in one complete arrangement.",
+            "title": "... checking whether the AI assumed something that is not explicitly stated in the scenario.",
             "description": ""
           }
         ],
@@ -153,15 +153,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking whether every proposed option satisfies all relevant constraints at the same time.",
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           },
           {
-            "title": "... looking for conditions that were considered separately but not combined in the final solution.",
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
             "description": ""
           },
           {
-            "title": "... verifying that all parts of the proposed solution can coexist in one complete arrangement.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           }
         ],
@@ -181,15 +181,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking that alternatives are feasible before comparing their cost, duration, or quality.",
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           },
           {
-            "title": "... comparing all relevant alternatives using the same units, assumptions, and reference points.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           },
           {
-            "title": "... recalculating the decisive comparison independently from the underlying values.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           }
         ],
@@ -209,15 +209,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking that alternatives are feasible before comparing their cost, duration, or quality.",
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           },
           {
-            "title": "... comparing all relevant alternatives using the same units, assumptions, and reference points.",
+            "title": "... checking that options are valid before comparing them.",
             "description": ""
           },
           {
-            "title": "... recalculating the decisive comparison independently from the underlying values.",
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           }
         ],
@@ -237,15 +237,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... reconstructing the problem using an explicit timeline or other structured representation.",
+            "title": "... verifying the intermediate reasoning steps, not only whether the final answer sounds plausible.",
             "description": ""
           },
           {
-            "title": "... checking that every quantity uses the correct unit, interval, and reference group.",
+            "title": "... tracing the sequence step by step.",
             "description": ""
           },
           {
-            "title": "... distinguishing activity time from availability, waiting, breaks, and overlap.",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           }
         ],
@@ -258,22 +258,22 @@
       "reliability": {
         "label": "Medium",
         "color": "#f59e0b",
-        "markerValue": 65,
+        "markerValue": 55,
         "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... reconstructing the problem using an explicit timeline or other structured representation.",
+            "title": "... looking for words like “only,” “must,” “not,” “at most,” or “exactly,” as they can change the answer.",
             "description": ""
           },
           {
-            "title": "... checking that every quantity uses the correct unit, interval, and reference group.",
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           },
           {
-            "title": "... distinguishing activity time from availability, waiting, breaks, and overlap.",
+            "title": "... tracing the sequence step by step.",
             "description": ""
           }
         ],
@@ -293,15 +293,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... checking whether the reasoning supports the full strength of the conclusion.",
+            "title": "... tracing the sequence step by step.",
             "description": ""
           },
           {
-            "title": "... remembering that one example does not prove necessity, impossibility, uniqueness, or optimality.",
+            "title": "... trying to find one valid alternative schedule or plan that would make the statement false.",
             "description": ""
           },
           {
-            "title": "... actively testing the opposite possibility for claims such as “must,” “cannot,” or “maximum.”",
+            "title": "... checking whether the AI's answer satisfies all constraints at the same time.",
             "description": ""
           }
         ],
@@ -321,15 +321,15 @@
         "heading": "Before relying on the AI, consider...",
         "fixed": [
           {
-            "title": "... reconstructing the problem using an explicit timeline or other structured representation.",
+            "title": "... checking whether the AI assumed something that is not explicitly stated in the scenario.",
             "description": ""
           },
           {
-            "title": "... checking that every quantity uses the correct unit, interval, and reference group.",
+            "title": "... tracing the sequence step by step.",
             "description": ""
           },
           {
-            "title": "... distinguishing activity time from availability, waiting, breaks, and overlap.",
+            "title": "... recalculating important counts, times, costs, or percentages yourself.",
             "description": ""
           }
         ],
