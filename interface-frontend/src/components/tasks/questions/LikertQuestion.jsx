@@ -5,8 +5,8 @@ const LikertQuestion = ({ id, question, field }) => {
 
   return (
     <div className='flex flex-row items-center mx-16 justify-center max-w-2xl self-center'>
-      <p className='text-center shrink-0'>{question.minLabel}</p>
-      <fieldset className='border-none flex flex-row mx-4 w-full justify-center' name={id} {...field}>
+      <p className='text-left shrink-0 w-36'>{question.minLabel}</p>
+      <fieldset className='border-none flex flex-row mx-4 justify-center' name={id} {...field}>
         {options.map((o, i) =>
           <div key={o} className='mx-2 flex flex-col justify-center items-center'>
             <input
@@ -22,7 +22,7 @@ const LikertQuestion = ({ id, question, field }) => {
           </div>
         )}
       </fieldset>
-      <p className='text-center shrink-0'>{question.maxLabel}</p>
+      <p className='text-right shrink-0 w-36'>{question.maxLabel}</p>
     </div>
   )
 }
