@@ -108,6 +108,9 @@ const AiReliabilityWarningCard = ({ warning, onInteraction }) => {
 
   return (
     <motion.div
+      onCopy={(event) => event.preventDefault()}
+      onCut={(event) => event.preventDefault()}
+      onDragStart={(event) => event.preventDefault()}
       initial={{ opacity: 0, y: 14 }}
       exit={{
         opacity: 0,
@@ -124,7 +127,7 @@ const AiReliabilityWarningCard = ({ warning, onInteraction }) => {
         y: { duration: 0.35, ease: 'easeOut' },
         boxShadow: { duration: 2, ease: 'easeInOut', repeat: isLowReliability ? 5 : 0 }
       }}
-      className="relative mx-auto w-full max-w-[var(--thread-max-width)] overflow-hidden rounded-2xl border border-[#e7e7e7] bg-white"
+      className="relative mx-auto w-full max-w-[var(--thread-max-width)] select-none overflow-hidden rounded-2xl border border-[#e7e7e7] bg-white"
     >
       <AnimatePresence initial={false} mode="wait">
         {showExpandedCard ? (
