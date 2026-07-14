@@ -77,7 +77,7 @@ const StateProvider = ({ children }) => {
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {
-          ts: resToUpdate['ts'],
+          ...resToUpdate,
           displayIndex: state.taskIndex,
           responses: action.payload.responses
         }
@@ -86,9 +86,27 @@ const StateProvider = ({ children }) => {
         const resToStamp = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const stampedRes = {...resToStamp, ts: action.payload.ts}
         return {...state, tasks: {...state.tasks, [action.payload.index]: stampedRes}}
-      case 'UPDATE_TASK_RELIABILITY_SHOWN':
-        const resToStampR = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
-        return {...state, tasks: {...state.tasks, [action.payload.index]: {...resToStampR, reliabilityShownAt: action.payload.ts}}}
+      case 'LOG_RELIABILITY_CARD_EVENT': {
+        const event = action.payload
+        const isPresented = event.type === 'reliability_card_presented'
+        if (isPresented && state.interactionLog.some((item) =>
+          item.type === 'reliability_card_presented' && item.taskId === event.taskId
+        )) return state
+
+        if (!isPresented) {
+          return {...state, interactionLog: [...state.interactionLog, event]}
+        }
+
+        const task = state.tasks[event.taskId] || {ts: undefined, responses: {}}
+        return {
+          ...state,
+          interactionLog: [...state.interactionLog, event],
+          tasks: {
+            ...state.tasks,
+            [event.taskId]: {...task, reliabilityShownAt: event.timestamp}
+          }
+        }
+      }
       case 'UPDATE_MESSAGES':
         const updatedMessages = [...state.messages, action.payload.prompt, action.payload.response]
         return {...state, messages: updatedMessages}

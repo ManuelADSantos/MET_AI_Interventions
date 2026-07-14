@@ -47,7 +47,7 @@ const getSegmentColorForPercent = (percent) => {
   return segment?.color || SEGMENTS[SEGMENTS.length - 1].color
 }
 
-const AiReliabilityWarningCard = ({ warning }) => {
+const AiReliabilityWarningCard = ({ warning, onInteraction }) => {
   const { reliability, heading, entries } = warning
   const [isExpanded, setIsExpanded] = useState(true)
   const [strategyIndex, setStrategyIndex] = useState(0)
@@ -72,6 +72,12 @@ const AiReliabilityWarningCard = ({ warning }) => {
     `0 0 0 1px ${colorWithAlpha(reliabilityColor, 0.035)}, 0 0 12px -12px ${colorWithAlpha(reliabilityColor, 0.28)}, 0 16px 32px -22px rgba(0,0,0,0.42)`,
     neutralShadow,
   ]
+
+  // Log after React commits the card, so this timestamp represents actual
+  // presentation rather than the earlier start of the AI request.
+  useEffect(() => {
+    onInteraction?.('reliability_card_presented', 'expanded')
+  }, [onInteraction])
 
   // Marker slides from 0 -> target once the card has started entering
   const [markerPosition, setMarkerPosition] = useState(0)
@@ -133,7 +139,10 @@ const AiReliabilityWarningCard = ({ warning }) => {
             {ENABLE_COLLAPSIBLE_WARNING_CARD && (
               <button
                 type="button"
-                onClick={() => setIsExpanded(false)}
+                onClick={() => {
+                  onInteraction?.('reliability_card_hidden', 'collapsed')
+                  setIsExpanded(false)
+                }}
                 className="absolute right-3 top-3 z-20 rounded-full bg-white/80 px-2 py-1 text-[11px] font-semibold text-[#737373] shadow-sm ring-1 ring-black/5 transition hover:bg-white hover:text-[#3f3f46]"
               >
                 Hide
@@ -234,7 +243,10 @@ const AiReliabilityWarningCard = ({ warning }) => {
           <motion.button
             key="collapsed-warning"
             type="button"
-            onClick={() => setIsExpanded(true)}
+            onClick={() => {
+              onInteraction?.('reliability_card_unhidden', 'expanded')
+              setIsExpanded(true)
+            }}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}

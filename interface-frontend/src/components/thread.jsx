@@ -52,12 +52,12 @@ const isNewChatView = (s) =>
   s.thread.messages.length === 0 &&
   (!s.thread.isLoading || s.threads.isLoading);
 
-export const Thread = ({ warning = null, warningVisible = false }) => {
+export const Thread = ({ warning = null, warningVisible = false, onReliabilityCardEvent }) => {
   const isEmpty = useAuiState(isNewChatView);
-  return <ThreadRoot isEmpty={isEmpty} warning={warning} warningVisible={warningVisible} />;
+  return <ThreadRoot isEmpty={isEmpty} warning={warning} warningVisible={warningVisible} onReliabilityCardEvent={onReliabilityCardEvent} />;
 };
 
-const ThreadRoot = ({ isEmpty, warning, warningVisible }) => {
+const ThreadRoot = ({ isEmpty, warning, warningVisible, onReliabilityCardEvent }) => {
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root @container flex h-full flex-col bg-[#fafafa] text-[#0d0d0d]"
@@ -96,7 +96,9 @@ const ThreadRoot = ({ isEmpty, warning, warningVisible }) => {
             )}>
             <ThreadScrollToBottom />
             <AnimatePresence initial={false}>
-              {warningVisible && warning && <AiReliabilityWarningCard warning={warning} />}
+              {warningVisible && warning && (
+                <AiReliabilityWarningCard warning={warning} onInteraction={onReliabilityCardEvent} />
+              )}
             </AnimatePresence>
             <TaskDraftBridge />
             <Composer />

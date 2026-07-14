@@ -1,4 +1,4 @@
-import { useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
 import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime } from '@assistant-ui/react'
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
@@ -62,9 +62,6 @@ const ChatView = ({ sourceIndex }) => {
 
       if (currentStore.state.condition?.startsWith('ai-reliability')) {
         currentStore.dispatch({ type: 'SHOW_RELIABILITY_WARNING' })
-        if (!currentStore.state.tasks[currentSourceIndex]?.reliabilityShownAt) {
-          currentStore.dispatch({ type: 'UPDATE_TASK_RELIABILITY_SHOWN', payload: { index: currentSourceIndex, ts: Date.now() } })
-        }
       }
 
       const backendMessages = messages
@@ -177,6 +174,19 @@ const ChatView = ({ sourceIndex }) => {
       : null
   ), [sourceIndex, ctxStore.state.participantId, ctxStore.state.condition])
 
+  const logReliabilityCardEvent = useCallback((type, state) => {
+    ctxStore.dispatch({
+      type: 'LOG_RELIABILITY_CARD_EVENT',
+      payload: {
+        type,
+        taskId: sourceIndex,
+        timestamp: Date.now(),
+        reliabilityLevel: resolvedWarning?.reliability?.label,
+        ...(state ? { state } : {})
+      }
+    })
+  }, [ctxStore.dispatch, sourceIndex, resolvedWarning?.reliability?.label])
+
   return (
     <div className='flex flex-1 flex-col justify-start items-center h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       {ctxStore.state.chatEnabled && (
@@ -187,7 +197,11 @@ const ChatView = ({ sourceIndex }) => {
       <div className='min-h-0 w-full flex-1'>
         {ctxStore.state.chatEnabled && (
           <AssistantRuntimeProvider runtime={runtime}>
-            <Thread warning={resolvedWarning} warningVisible={ctxStore.state.reliabilityWarningVisible} />
+            <Thread
+              warning={resolvedWarning}
+              warningVisible={ctxStore.state.reliabilityWarningVisible}
+              onReliabilityCardEvent={logReliabilityCardEvent}
+            />
           </AssistantRuntimeProvider>
         )}
       </div>
