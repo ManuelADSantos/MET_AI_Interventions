@@ -4,6 +4,8 @@ const init = {
   participantId: '',
   taskIndex: -1,
   messages: [],
+  interactionLog: [],
+  taskChatDraft: null,
   tasks: {},
   condition: undefined,
   chatEnabled: false,
@@ -29,9 +31,49 @@ const StateProvider = ({ children }) => {
       case 'SHOW_RELIABILITY_WARNING':
         return {...state, reliabilityWarningVisible: true}
       case 'NEXT_TASK':
-        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false}
+        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false, taskChatDraft: null}
       case 'SET_TASK_INDEX':
-        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false}
+        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false, taskChatDraft: null}
+      case 'TASK_ADDED_TO_CHAT':
+        return {
+          ...state,
+          taskChatDraft: { taskId: action.payload.taskId, insertedText: action.payload.insertedText, editedBeforeSend: false },
+          interactionLog: [...state.interactionLog, {
+            type: 'task_added_to_chat',
+            taskId: action.payload.taskId,
+            timestamp: action.payload.timestamp,
+            draftWasSent: false,
+            editedBeforeSend: false
+          }]
+        }
+      case 'TASK_CHAT_DRAFT_EDITED': {
+        if (!state.taskChatDraft || state.taskChatDraft.taskId !== action.payload.taskId || state.taskChatDraft.editedBeforeSend) return state
+        const interactionLog = [...state.interactionLog]
+        for (let i = interactionLog.length - 1; i >= 0; i -= 1) {
+          const event = interactionLog[i]
+          if (event.type === 'task_added_to_chat' && event.taskId === action.payload.taskId && !event.draftWasSent) {
+            interactionLog[i] = {...event, editedBeforeSend: true}
+            break
+          }
+        }
+        return {...state, interactionLog, taskChatDraft: {...state.taskChatDraft, editedBeforeSend: true}}
+      }
+      case 'TASK_CHAT_DRAFT_SENT': {
+        const interactionLog = [...state.interactionLog]
+        for (let i = interactionLog.length - 1; i >= 0; i -= 1) {
+          const event = interactionLog[i]
+          if (event.type === 'task_added_to_chat' && event.taskId === action.payload.taskId && !event.draftWasSent) {
+            interactionLog[i] = {
+              ...event,
+              draftWasSent: true,
+              editedBeforeSend: event.editedBeforeSend || action.payload.editedBeforeSend,
+              sentTimestamp: action.payload.timestamp
+            }
+            break
+          }
+        }
+        return {...state, interactionLog, taskChatDraft: null}
+      }
       case 'UPDATE_RESPONSES':
         const resToUpdate = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const updatedRes = {

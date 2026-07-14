@@ -70,6 +70,21 @@ const buildCopyText = ({ template, pageTitle, tab, pageTabs, exerciseItems }) =>
     .replaceAll('{optionsText}', getOptionsText(exerciseItems))
 }
 
+const buildTaskChatDraft = ({ pageTitle, pageTabs, exerciseItems }) => {
+  const scenarioTab = pageTabs.find((tab) => tab.title.toLowerCase() === 'scenario')
+  const answerIndex = exerciseItems.findIndex((item) => item.type === 'option' || item.type === 'checkbox')
+  if (!scenarioTab || answerIndex < 0) return ''
+
+  const scenarioText = scenarioTab.copyText || tabToText(scenarioTab)
+  const questionText = exerciseItems
+    .slice(0, answerIndex + 1)
+    .map(contentItemToText)
+    .filter(Boolean)
+    .join('\n\n')
+
+  return `${pageTitle}\n\nScenario:\n${scenarioText}\n\nQuestion and answer options:\n${questionText}`
+}
+
 const TabCopyButton = ({ text }) => {
   const [copied, setCopied] = useState(false)
 
@@ -97,6 +112,7 @@ const TabCopyButton = ({ text }) => {
 
 const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, requireAiPrompt }) => {
   const [submitError, setSubmitError] = useState('')
+  const [taskAddedToChat, setTaskAddedToChat] = useState(false)
   const ctxStore = useContext(store)
   const { handleSubmit, control } = useForm({
     mode: 'onSubmit'
@@ -118,6 +134,25 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   const exerciseItems = pageTabs.find(
     (tab) => tab.title.toLowerCase() === 'exercise'
   )?.content || pageTabs[0].content
+  const primaryAnswerItem = exerciseItems.find((item) => item.type === 'option' || item.type === 'checkbox')
+  const taskChatText = buildTaskChatDraft({ pageTitle: title, pageTabs, exerciseItems })
+  const canAddTaskToChat = ctxStore.state.chatEnabled && !!primaryAnswerItem && !!taskChatText
+
+  const handleAddTaskToChat = () => {
+    window.dispatchEvent(new CustomEvent('study:add-task-to-chat', {
+      detail: {
+        text: taskChatText,
+        focusOnly: taskAddedToChat,
+        onInserted: taskAddedToChat ? undefined : (insertedText) => {
+          ctxStore.dispatch({
+            type: 'TASK_ADDED_TO_CHAT',
+            payload: { taskId: sourceIndex, timestamp: Date.now(), insertedText }
+          })
+          setTaskAddedToChat(true)
+        }
+      }
+    }))
+  }
 
   useLayoutEffect(() => {
     const scrollContainer = scrollContainerRef.current
@@ -208,12 +243,28 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
 
   if (['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(item.type)) {
     return (
-      <QuestionWrapper
-        key={i}
-        id={`${taskIndex}.${getQuestionIndex(item)}`}
-        question={item}
-        formControl={control}
-      />
+      <div key={i} className='w-full'>
+        {canAddTaskToChat && item === primaryAnswerItem && (
+          <Tooltip content='Adds the scenario and current question to the chat input. You can edit it before sending.'>
+            <Button
+              type='button'
+              size='m' 
+              borderWeight='light'
+              className='mb-2'
+              variant='flat' 
+              onClick={handleAddTaskToChat}
+            >
+              <i className={`bi ${taskAddedToChat ? 'bi-clipboard-check text-emerald-700' : 'bi-copy text-stone-500'}`}></i>
+              {taskAddedToChat ? 'Pasted to chat' : 'Copy-paste task & scenario to chat'}
+            </Button>
+          </Tooltip>
+        )}
+        <QuestionWrapper
+          id={`${taskIndex}.${getQuestionIndex(item)}`}
+          question={item}
+          formControl={control}
+        />
+      </div>
     )
   }
 

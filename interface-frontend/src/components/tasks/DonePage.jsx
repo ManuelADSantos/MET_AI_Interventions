@@ -25,6 +25,7 @@ const DonePage = () => {
         participantId: state.participantId,
         condition: state.condition,
         messages: state.messages,
+        interactionLog: state.interactionLog,
         tasks: state.tasks,
         studyId: params.get('STUDY_ID') || '',
         sessionId: params.get('SESSION_ID') || ''

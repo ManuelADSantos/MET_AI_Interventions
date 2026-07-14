@@ -87,6 +87,18 @@ const ChatView = ({ sourceIndex }) => {
         ...(isNewPrompt ? {} : { regenerated: true })
       }
 
+      const addedDraft = currentStore.state.taskChatDraft
+      if (isNewPrompt && addedDraft?.taskId === currentSourceIndex) {
+        currentStore.dispatch({
+          type: 'TASK_CHAT_DRAFT_SENT',
+          payload: {
+            taskId: currentSourceIndex,
+            timestamp: prompt.ts,
+            editedBeforeSend: addedDraft.editedBeforeSend || prompt.content !== addedDraft.insertedText
+          }
+        })
+      }
+
       let finalResponse
       let replyContent = ''
       let reasoningContent = ''

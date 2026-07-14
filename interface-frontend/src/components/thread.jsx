@@ -14,6 +14,7 @@ import AiReliabilityWarningCard from "@/components/chat/AiReliabilityWarningCard
 import { TooltipIconButton } from "@/components/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { store } from "@/scripts/store";
 import {
   ActionBarMorePrimitive,
   ActionBarPrimitive,
@@ -25,6 +26,7 @@ import {
   MessagePrimitive,
   SuggestionPrimitive,
   ThreadPrimitive,
+  useAui,
   useAuiState,
   useThreadViewport,
 } from "@assistant-ui/react";
@@ -42,7 +44,7 @@ import {
   SquareIcon,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // Startup exposes a loading placeholder thread; treat it as a new chat so
 // the composer mounts centered. Loads after startup keep the docked layout.
@@ -56,7 +58,6 @@ export const Thread = ({ warning = null, warningVisible = false }) => {
 };
 
 const ThreadRoot = ({ isEmpty, warning, warningVisible }) => {
-
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root @container flex h-full flex-col bg-[#fafafa] text-[#0d0d0d]"
@@ -97,6 +98,7 @@ const ThreadRoot = ({ isEmpty, warning, warningVisible }) => {
             <AnimatePresence initial={false}>
               {warningVisible && warning && <AiReliabilityWarningCard warning={warning} />}
             </AnimatePresence>
+            <TaskDraftBridge />
             <Composer />
             {/* <p className="text-center text-xs text-[#5d5d5d]">
               AI can make mistakes. Check important info.
@@ -110,6 +112,51 @@ const ThreadRoot = ({ isEmpty, warning, warningVisible }) => {
       </ThreadPrimitive.Viewport>
     </ThreadPrimitive.Root>
   );
+};
+
+const TaskDraftBridge = () => {
+  const aui = useAui();
+  const ctxStore = useContext(store);
+  const composerText = useAuiState((s) => s.composer.text);
+  const composerTextRef = useRef(composerText);
+  composerTextRef.current = composerText;
+
+  useEffect(() => {
+    const handleTaskDraft = (event) => {
+      const { text, focusOnly, onInserted } = event.detail || {};
+
+      if (!focusOnly && text) {
+        const existingText = composerTextRef.current?.trim();
+        const nextText = existingText ? `${existingText}\n\n${text}` : text;
+        aui.composer().setText(nextText);
+        composerTextRef.current = nextText;
+        onInserted?.(nextText);
+      }
+
+      requestAnimationFrame(() => {
+        const input = document.querySelector('.aui-composer-input');
+        input?.focus();
+        input?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    };
+
+    window.addEventListener('study:add-task-to-chat', handleTaskDraft);
+    return () => window.removeEventListener('study:add-task-to-chat', handleTaskDraft);
+  }, [aui]);
+
+  useEffect(() => {
+    const handleDraftEdited = () => {
+      const draft = ctxStore.state.taskChatDraft;
+      if (draft && !draft.editedBeforeSend) {
+        ctxStore.dispatch({ type: 'TASK_CHAT_DRAFT_EDITED', payload: { taskId: draft.taskId } });
+      }
+    };
+
+    window.addEventListener('study:task-chat-draft-edited', handleDraftEdited);
+    return () => window.removeEventListener('study:task-chat-draft-edited', handleDraftEdited);
+  }, [ctxStore.state.taskChatDraft, ctxStore.dispatch]);
+
+  return null;
 };
 
 const ThreadMessage = () => {
@@ -233,6 +280,7 @@ const Composer = () => {
             className="aui-composer-input max-h-32 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 text-base leading-6 text-[#0d0d0d] outline-none placeholder:text-[#6f6f6f]"
             rows={1}
             autoFocus
+            onInput={() => window.dispatchEvent(new CustomEvent('study:task-chat-draft-edited'))}
             aria-label="Message input" />
           <ComposerAction />
         </div>

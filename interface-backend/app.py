@@ -125,6 +125,7 @@ def save_data():
         record = {
             'participantId': req['participantId'],
             'messages': req['messages'],
+            'interactionLog': req.get('interactionLog', []),
             'tasks': req['tasks'],
             'condition': condition,
             'studyId': req.get('studyId', ''),
