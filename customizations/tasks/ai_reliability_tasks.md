@@ -107,15 +107,14 @@
 
 :::tab Exercise
 
-> ![Use the button in the top-right corner to copy the text from the current tab, then paste it into the chat by pressing Ctrl+V.](/img/copy_button_guide.png)
-
-> On this tab, you will find the question you need to answer. The Scenario tab contains all the information required to solve the exercise. For some questions, you migh first have to come up with an ideal schedule before being able to verify the statements. You can copy the text from the current tab by clicking the **copy icon** in the top-right corner.
-> ***This is a trial exercise, so it is only meant for practice and does not need to be answered correctly.***
+> _Each task has two tabs: Exercise and Scenario. This tab (Scenario) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
 
 > 1. The same student assistants can be deployed at the information points on Thursday and Friday.
 > 2. The same student assistants can be deployed at the information points on Thursday and Saturday.
+
+> _Tip: Use this button below to copy-paste both the task description and the scenario into the chat on the right, so you don't have to copy it manually._
 
 > Please indicate your answer.
 
