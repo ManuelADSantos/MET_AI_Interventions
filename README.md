@@ -177,6 +177,10 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 allow_image_attachments: false     # Enable image uploads
 copy_button_template: "{copyText}" # Copy-button template text
 
+# Reliability card (ai-reliability condition)
+reliability_similarity_gate: false       # Require a task-similar prompt before showing the card
+reliability_similarity_threshold: 0.25   # Cosine similarity threshold (0 to 1)
+
 # Development
 dev_mode: true                     # Dev mode: skip ID validation, free page navigation, optional fields
 

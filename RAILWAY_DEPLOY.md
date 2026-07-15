@@ -117,6 +117,8 @@ Click **"Raw Editor"** and paste:
   "VITE_RANDOMIZE_TASKS": "true",
   "VITE_REQUIRE_AI_PROMPT": "true",
   "VITE_REQUIRE_AI_PROMPT_PAGES": "3-99",
+  "VITE_RELIABILITY_SIMILARITY_GATE": "false",
+  "VITE_RELIABILITY_SIMILARITY_THRESHOLD": "0.25",
   "VITE_USE_AUTOPROCTOR": "false"
 }
 ```
@@ -135,6 +137,8 @@ Click **"Raw Editor"** and paste:
 | `VITE_RANDOMIZE_TASKS` | `true` or `false` — shuffle task order |
 | `VITE_REQUIRE_AI_PROMPT` | `true` to require participants to prompt the AI at least once per question |
 | `VITE_REQUIRE_AI_PROMPT_PAGES` | Page range where the AI prompt requirement applies (e.g. `3-99`) |
+| `VITE_RELIABILITY_SIMILARITY_GATE` | `true` to show the reliability card only after a prompt meets the task-text cosine similarity threshold. Default `false` |
+| `VITE_RELIABILITY_SIMILARITY_THRESHOLD` | Cosine similarity threshold from `0` to `1`. Default `0.25` |
 | `VITE_USE_AUTOPROCTOR` | `true` to enable AutoProctor proctoring (requires `AUTOPROCTOR_API_KEY` + `AUTOPROCTOR_TEST_LABEL` on the backend). Default `false` |
 
 ### Networking tab

@@ -107,6 +107,8 @@ const StateProvider = ({ children }) => {
           }
         }
       }
+      case 'LOG_INTERACTION':
+        return {...state, interactionLog: [...state.interactionLog, action.payload]}
       case 'UPDATE_MESSAGES':
         const updatedMessages = [...state.messages, action.payload.prompt, action.payload.response]
         return {...state, messages: updatedMessages}

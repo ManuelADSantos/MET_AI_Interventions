@@ -92,11 +92,9 @@ const App = ({ condition, tasks, directStartPid }) => {
       : <>
         <div className='flex flex-1 flex-row h-screen'>
           <TaskView tasks={tasks} />
-          {conditionHasChat(condition) && <ChatView sourceIndex={
-            tasks[ctxStore.state.taskIndex]
-            ? tasks[ctxStore.state.taskIndex].sourceIndex
-            : tasks[ctxStore.state.taskIndex - 1].sourceIndex
-          } />}
+          {conditionHasChat(condition) && <ChatView
+            task={tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]}
+          />}
         </div>
       </>
       }

@@ -3,12 +3,18 @@ import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
+import { cosineSimilarity, getTaskCopyableText } from '../../scripts/cosineSimilarity'
 import { resolveReliabilityWarning } from '../../scripts/reliabilityWarning'
 import { Thread } from '../thread'
 import reliabilityWarningsFile from '/customizations/reliability_warnings.json?raw'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
 const reliabilityWarningsConfig = JSON.parse(reliabilityWarningsFile)
+const reliabilitySimilarityGateEnabled = import.meta.env.VITE_RELIABILITY_SIMILARITY_GATE === 'true'
+const configuredSimilarityThreshold = Number(import.meta.env.VITE_RELIABILITY_SIMILARITY_THRESHOLD)
+const reliabilitySimilarityThreshold = Number.isFinite(configuredSimilarityThreshold)
+  ? Math.min(1, Math.max(0, configuredSimilarityThreshold))
+  : 0.25
 
 const partText = (part) => {
   if (!part) return ''
@@ -42,14 +48,17 @@ const toBackendMessage = (message) => {
   }
 }
 
-const ChatView = ({ sourceIndex }) => {
+const ChatView = ({ task }) => {
+  const sourceIndex = task?.sourceIndex
   const ctxStore = useContext(store)
   const ctxStoreRef = useRef(ctxStore)
   const sourceIndexRef = useRef(sourceIndex)
+  const taskCopyableTextRef = useRef(getTaskCopyableText(task))
   const lastUserMessageIdRef = useRef(undefined)
 
   ctxStoreRef.current = ctxStore
   sourceIndexRef.current = sourceIndex
+  taskCopyableTextRef.current = getTaskCopyableText(task)
 
   const chatModel = useMemo(() => ({
     async *run({ messages, abortSignal }) {
@@ -58,10 +67,6 @@ const ChatView = ({ sourceIndex }) => {
 
       if (currentStore.state.displayChatOnboarding) {
         currentStore.dispatch({ type: 'DISMISS_ONBOARDING' })
-      }
-
-      if (currentStore.state.condition?.startsWith('ai-reliability')) {
-        currentStore.dispatch({ type: 'SHOW_RELIABILITY_WARNING' })
       }
 
       const backendMessages = messages
@@ -82,6 +87,33 @@ const ChatView = ({ sourceIndex }) => {
         ts: Date.now(),
         task: currentSourceIndex,
         ...(isNewPrompt ? {} : { regenerated: true })
+      }
+
+      if (currentStore.state.condition?.startsWith('ai-reliability')) {
+        let similarityMatched = true
+
+        if (reliabilitySimilarityGateEnabled) {
+          const similarity = cosineSimilarity(prompt.content, taskCopyableTextRef.current)
+          similarityMatched = similarity >= reliabilitySimilarityThreshold
+
+          if (isNewPrompt) {
+            currentStore.dispatch({
+              type: 'LOG_INTERACTION',
+              payload: {
+                type: 'reliability_similarity_test',
+                taskId: currentSourceIndex,
+                timestamp: prompt.ts,
+                similarity,
+                threshold: reliabilitySimilarityThreshold,
+                matched: similarityMatched
+              }
+            })
+          }
+        }
+
+        if (similarityMatched) {
+          currentStore.dispatch({ type: 'SHOW_RELIABILITY_WARNING' })
+        }
       }
 
       const addedDraft = currentStore.state.taskChatDraft

@@ -17,6 +17,8 @@ VITE_COPY_BUTTON_TEMPLATE=$(grep '^copy_button_template:' $CONFIG_FILE | sed 's/
 VITE_RANDOMIZE_TASKS=$(grep '^randomize_tasks:' $CONFIG_FILE | sed 's/randomize_tasks: *//;s/  *#.*//;s/ *$//')
 VITE_USE_AUTOPROCTOR=$(grep '^use_autoproctor:' $CONFIG_FILE | sed 's/use_autoproctor: *//;s/  *#.*//;s/ *$//')
 VITE_STUDY_INFO=$(grep '^study_info:' $CONFIG_FILE | sed 's/study_info: *//;s/  *#.*//;s/ *$//')
+VITE_RELIABILITY_SIMILARITY_GATE=$(grep '^reliability_similarity_gate:' $CONFIG_FILE | sed 's/reliability_similarity_gate: *//;s/  *#.*//;s/ *$//')
+VITE_RELIABILITY_SIMILARITY_THRESHOLD=$(grep '^reliability_similarity_threshold:' $CONFIG_FILE | sed 's/reliability_similarity_threshold: *//;s/  *#.*//;s/ *$//')
 EOF
 
     echo ".env file generated successfully:"
