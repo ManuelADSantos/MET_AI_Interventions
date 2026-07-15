@@ -11,6 +11,8 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 # Chat Availability
 allow_image_attachments: false     # Enable image uploads
 copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
+enable_task_to_chat_button: true    # Show the "Copy-paste task & scenario to chat" button
+enable_task_text_copying: true      # Allow drag-selection and copying of task/scenario text
 
 # Reliability-card prompt similarity gate (ai-reliability condition only)
 reliability_similarity_gate: false       # true: show the card only after a sufficiently task-similar prompt

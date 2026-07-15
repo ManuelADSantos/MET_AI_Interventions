@@ -12,6 +12,8 @@ const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n
 const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 
 const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
+const taskToChatButtonEnabled = import.meta.env.VITE_ENABLE_TASK_TO_CHAT_BUTTON !== 'false'
+const taskTextCopyingEnabled = import.meta.env.VITE_ENABLE_TASK_TEXT_COPYING !== 'false'
 
 const contentItemToText = (item) => {
   if (!item) return ''
@@ -136,7 +138,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   )?.content || pageTabs[0].content
   const primaryAnswerItem = exerciseItems.find((item) => item.type === 'option' || item.type === 'checkbox')
   const taskChatText = buildTaskChatDraft({ pageTitle: title, pageTabs, exerciseItems })
-  const canAddTaskToChat = ctxStore.state.chatEnabled && !!primaryAnswerItem && !!taskChatText
+  const canAddTaskToChat = taskToChatButtonEnabled && ctxStore.state.chatEnabled && !!primaryAnswerItem && !!taskChatText
 
   const handleAddTaskToChat = () => {
     window.dispatchEvent(new CustomEvent('study:add-task-to-chat', {
@@ -168,6 +170,11 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
       tabScrollPositionsRef.current[selectedTabKey] = scrollContainerRef.current.scrollTop
     }
     setSelectedTabKey(nextKey)
+  }
+
+  const isFormField = (target) => target instanceof Element && !!target.closest('input, textarea')
+  const preventTaskTextCopy = (event) => {
+    if (!taskTextCopyingEnabled && !isFormField(event.target)) event.preventDefault()
   }
 
   // ponytail: copy button shows on all chat-enabled pages unless :::no-copy
@@ -309,7 +316,13 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
             )}
           </div>
         )}
-        <div ref={scrollContainerRef} className='w-full flex-1 overflow-y-auto pb-4'>
+        <div
+          ref={scrollContainerRef}
+          className={`w-full flex-1 overflow-y-auto pb-4 ${taskTextCopyingEnabled ? '' : 'select-none [&_input]:select-text [&_textarea]:select-text'}`}
+          onCopy={preventTaskTextCopy}
+          onCut={preventTaskTextCopy}
+          onDragStart={preventTaskTextCopy}
+        >
           {selectedTab.content.map(renderContentItem)}
         </div>
       </div>

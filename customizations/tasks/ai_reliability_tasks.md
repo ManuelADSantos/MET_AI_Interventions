@@ -105,14 +105,13 @@
 
 :::tab Exercise
 
+> ![Use the button in the top right corner and press CTRL+V to paste the text into the AI chat.](public/img/copy_button_guide.png)
 > _How to use the interface: Each task has two tabs: Exercise and Scenario. This tab (Exercise) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
 
 > 1. The same student assistants can be deployed at the information points on Thursday and Friday.
 > 2. The same student assistants can be deployed at the information points on Thursday and Saturday.
-
-> _Tip: Use this button below to copy-paste both the task description and the scenario into the chat on the right, so you don't have to copy it manually._
 
 > Please indicate your answer.
 
@@ -231,7 +230,7 @@ The following student assistants are available for the event:
 >
 > ## 💰 **You can earn a bonus reward!** 💰
 >
-> The **top 10% of participants** based on task performance will receive an additional **bonus payment** together with their Prolific payout.
+> The **top 10 participants** based on task performance will receive an additional **bonus payment** together with their Prolific payout.
 >
 > ### Please click _Next_ to continue.
 

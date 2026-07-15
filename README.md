@@ -176,6 +176,8 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 # Chat Availability
 allow_image_attachments: false     # Enable image uploads
 copy_button_template: "{copyText}" # Copy-button template text
+enable_task_to_chat_button: true    # Show the task-and-scenario paste-to-chat button
+enable_task_text_copying: true      # Allow manual selection/copying of task and scenario text
 
 # Reliability card (ai-reliability condition)
 reliability_similarity_gate: false       # Require a task-similar prompt before showing the card

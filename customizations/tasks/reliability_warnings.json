@@ -7,7 +7,7 @@
         "label": "High",
         "color": "#22c55e",
         "markerValue": 80,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 2 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -35,7 +35,7 @@
         "label": "Low",
         "color": "#ef4444",
         "markerValue": 45,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 6 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -63,7 +63,7 @@
         "label": "Medium",
         "color": "#f59e0b",
         "markerValue": 55,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 4 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -91,7 +91,7 @@
         "label": "Low",
         "color": "#ef4444",
         "markerValue": 35,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 6 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -119,7 +119,7 @@
         "label": "High",
         "color": "#22c55e",
         "markerValue": 85,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 2 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -147,7 +147,7 @@
         "label": "Low",
         "color": "#ef4444",
         "markerValue": 35,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 6 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 6 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -175,7 +175,7 @@
         "label": "Medium",
         "color": "#f59e0b",
         "markerValue": 55,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 4 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -203,7 +203,7 @@
         "label": "Low",
         "color": "#ef4444",
         "markerValue": 30,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 7 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 7 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -231,7 +231,7 @@
         "label": "High",
         "color": "#22c55e",
         "markerValue": 85,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 2 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -259,7 +259,7 @@
         "label": "Medium",
         "color": "#f59e0b",
         "markerValue": 65,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 4 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -287,7 +287,7 @@
         "label": "High",
         "color": "#22c55e",
         "markerValue": 76,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 2 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 2 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",
@@ -315,7 +315,7 @@
         "label": "Medium",
         "color": "#f59e0b",
         "markerValue": 60,
-        "explanatoryText": "On similar tasks, AI made mistakes in about 4 out of 10 cases."
+        "explanatoryText": "On tasks like this one, AI made mistakes in about 4 out of 10 cases."
       },
       "strategies": {
         "heading": "Before relying on the AI, consider...",

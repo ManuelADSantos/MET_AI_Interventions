@@ -114,6 +114,8 @@ Click **"Raw Editor"** and paste:
   "VITE_SYSTEM_PROMPT": "You are a helpful logical reasoning assistant",
   "VITE_COPY_BUTTON_PAGES": "1-99",
   "VITE_COPY_BUTTON_TEMPLATE": "{copyText}",
+  "VITE_ENABLE_TASK_TO_CHAT_BUTTON": "true",
+  "VITE_ENABLE_TASK_TEXT_COPYING": "true",
   "VITE_RANDOMIZE_TASKS": "true",
   "VITE_REQUIRE_AI_PROMPT": "true",
   "VITE_REQUIRE_AI_PROMPT_PAGES": "3-99",
@@ -134,6 +136,8 @@ Click **"Raw Editor"** and paste:
 | `VITE_SYSTEM_PROMPT` | The system prompt that defines AI behavior |
 | `VITE_COPY_BUTTON_PAGES` | Page range where tabs show a copy-to-clipboard button (e.g. `1-99` or `2,4,6`) |
 | `VITE_COPY_BUTTON_TEMPLATE` | Template for copied text. Placeholders: `{copyText}`, `{title}`, `{tabTitle}`, `{tabText}`, `{exerciseText}`, `{allTabsText}`, `{allCopyText}`, `{questionText}`, `{optionsText}` |
+| `VITE_ENABLE_TASK_TO_CHAT_BUTTON` | `true` to show or `false` to hide the task-and-scenario paste-to-chat button. Default `true` |
+| `VITE_ENABLE_TASK_TEXT_COPYING` | `true` to allow or `false` to prevent drag-selection and copying of task/scenario text. Default `true` |
 | `VITE_RANDOMIZE_TASKS` | `true` or `false` — shuffle task order |
 | `VITE_REQUIRE_AI_PROMPT` | `true` to require participants to prompt the AI at least once per question |
 | `VITE_REQUIRE_AI_PROMPT_PAGES` | Page range where the AI prompt requirement applies (e.g. `3-99`) |
