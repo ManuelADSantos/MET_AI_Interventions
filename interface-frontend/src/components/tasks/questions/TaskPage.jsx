@@ -87,17 +87,53 @@ const buildTaskChatDraft = ({ pageTitle, pageTabs, exerciseItems }) => {
   return `${pageTitle}\n\nScenario:\n${scenarioText}\n\nQuestion and answer options:\n${questionText}`
 }
 
+const fallbackCopyText = (text) => {
+  const textarea = document.createElement('textarea')
+  textarea.value = text
+  textarea.setAttribute('readonly', '')
+  textarea.style.position = 'fixed'
+  textarea.style.opacity = '0'
+  textarea.style.pointerEvents = 'none'
+  document.body.appendChild(textarea)
+  textarea.select()
+  textarea.setSelectionRange(0, textarea.value.length)
+
+  try {
+    return document.execCommand('copy')
+  } finally {
+    textarea.remove()
+  }
+}
+
+const copyTextToClipboard = async (text) => {
+  if (window.isSecureContext && navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text)
+      return true
+    } catch {
+      // Chrome can reject clipboard access because of site permissions; use
+      // the synchronous selection-based fallback below.
+    }
+  }
+
+  try {
+    return fallbackCopyText(text)
+  } catch {
+    return false
+  }
+}
+
 const TabCopyButton = ({ text }) => {
-  const [copied, setCopied] = useState(false)
+  const [copyStatus, setCopyStatus] = useState('idle')
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+    const copied = await copyTextToClipboard(text)
+    setCopyStatus(copied ? 'copied' : 'error')
+    setTimeout(() => setCopyStatus('idle'), 1500)
   }
 
   return (
-    <Tooltip className="p-2" content={copied ? 'Copied' : 'Copy to clipboard'}>
+    <Tooltip className="p-2" content={copyStatus === 'copied' ? 'Copied' : copyStatus === 'error' ? 'Could not copy' : 'Copy to clipboard'}>
       <Button
         className='shrink-0'
         color='default'
@@ -106,7 +142,7 @@ const TabCopyButton = ({ text }) => {
         onClick={handleCopy}
         isIconOnly
       >
-        <i className={`bi ${copied ? 'bi-clipboard-check text-emerald-700' : 'bi-copy text-stone-500'} text-xl`}></i>
+        <i className={`bi ${copyStatus === 'copied' ? 'bi-clipboard-check text-emerald-700' : copyStatus === 'error' ? 'bi-exclamation-circle text-red-600' : 'bi-copy text-stone-500'} text-xl`}></i>
       </Button>
     </Tooltip>
   )
