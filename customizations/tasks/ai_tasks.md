@@ -108,7 +108,6 @@
 
 > ![Use the copy button in the top-right corner, then press CTRL+V to paste the text into the AI chat.](img/copy_button_guide.png)
 >
-> **Use the copy button in the top-right corner to copy the text from the current tab. You can then paste it into the AI assistant chat by pressing CTRL+V.**
 > _How to use the interface: Each task has two tabs: Exercise and Scenario. This tab (Exercise) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
@@ -142,8 +141,6 @@ Which of the following statements about managing the information points for plan
 
 > ![Use the copy button in the top-right corner, then press CTRL+V to paste the text into the AI chat.](img/copy_button_guide.png)
 >
-> **Use the copy button in the top-right corner to copy the text from the current tab. You can then paste it into the AI assistant chat by pressing CTRL+V.**
-
 > Every year, a large corporation holds an event called "Future Days" at one of its sites that lasts several days and is intended for international applicants. This year, the event is being held from Thursday to Saturday.
 
 > One of the tasks is to plan when which student assistant will be employed where during the Future Days event. The preferences of the student assistants are to be considered.
