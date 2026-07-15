@@ -106,7 +106,7 @@
 
 :::tab Exercise
 
-> ![Use the button in the top right corner and press CTRL+V to paste the text into the AI chat.](public/img/copy_button_guide.png)
+> ![Use the button in the top right corner and press CTRL+V to paste the text into the AI chat.](img/copy_button_guide.png)
 > _How to use the interface: Each task has two tabs: Exercise and Scenario. This tab (Exercise) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
