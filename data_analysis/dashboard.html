@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MET AI Interventions — Participant Dashboard</title>
+<title>MET AI Interventions — Participant Dashboard (Pilot 2)</title>
 <!--
-  Reproducible participant dashboard for the MET AI Interventions study.
-  Usage: open this file in any browser, then drop one or more raw data.json
-  files (or use the file picker). Switch participants with the dropdown.
+  Reproducible participant dashboard for the MET AI Interventions study, pilot 2.
+  Usage: open this file in any browser, then drop metai_pliot_2_responses.json
+  (or single-participant data.json files). Switch participants with the dropdown.
   No server, no build step. Only dependency: Chart.js from CDN.
 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
@@ -51,7 +51,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 
 <div class="header">
   <div>
-    <h1>MET AI Interventions — Participant Dashboard</h1>
+    <h1>MET AI Interventions — Participant Dashboard (Pilot 2)</h1>
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
@@ -72,63 +72,64 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   <div class="kpis" id="kpis"></div>
   <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
-    <div class="card"><h2>Confidence per question (question index order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Confidence per question</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
     <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
     <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
     <div class="card"><h2>SUS &amp; Need for Cognition</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>Trust in the AI system (1–5)</h2><div class="chartbox"><canvas id="c_trust"></canvas></div></div>
     <div class="card">
       <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
       <div class="chat" id="chat"></div>
     </div>
     <div class="card">
-      <h2>Participant &amp; free-text responses</h2>
+      <h2>Participant &amp; post-task responses</h2>
       <div id="demo" style="margin-bottom:12px"></div><div id="freetext"></div>
-      <h2 style="margin-top:14px">Answer table</h2>
-      <div style="max-height:220px;overflow-y:auto"><table id="ansTable"></table></div>
+    </div>
+    <div class="card">
+      <h2>Answer table</h2>
+      <div style="max-height:300px;overflow-y:auto"><table id="ansTable"></table></div>
     </div>
   </div>
 </div>
 
 <script>
-/* ---------- 1. Preprocess a raw data.json into dashboard-ready form ---------- */
+/* ---------- 1. Preprocess a raw data.json (pilot-2 layout) into dashboard-ready form ---------- */
+// ponytail: task IDs hardcoded to the pilot-2 study layout; edit here if the study changes again
+const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customizations/correct_answers.md
+  [6,  'ypc_02', 'Neither of the two statements is correct.'],
+  [7,  'ypc_03', 'Only statement 2 is correct.'],
+  [8,  'ypc_05', 'Only statement 1 is correct.'],
+  [9,  'ypc_06', 'Only statement 1 is correct.'],
+  [10, 'car_racing_01', 'Neither of the two statements is correct.'],
+  [11, 'car_racing_02', 'Both statements are correct.'],
+  [12, 'car_racing_03', 'Only statement 2 is correct.'],
+  [13, 'car_racing_05', 'Only statement 1 is correct.'],
+  [14, 'graduation_party_01', 'Only statement 2 is correct.'],
+  [15, 'graduation_party_05', 'Only statement 1 is correct.'],
+  [16, 'graduation_party_06', 'Neither of the two statements is correct.'],
+  [17, 'graduation_party_07', 'Only statement 2 is correct.'],
+];
+
 function process(raw) {
   const tasks = raw.tasks || {};
-  const get = (t, q) => tasks[t]?.responses?.[q]?.answer;
-
-  // ponytail: detect task-ID offset — study versions shift all IDs by ±1
-  let off = 0;
-  outer: for (const [k, t] of Object.entries(tasks))
-    for (const r of Object.values(t.responses || {}))
-      if (/like to use this system/i.test(r.question)) { off = +k - 23; break outer; }
-  const T = id => String(+id + off);
-
-  const baseAnswers = [[7,'Neither of the two statements is correct.'],[8,'Only statement 2 is correct.'],
-    [9,'Only statement 1 is correct.'],[10,'Only statement 1 is correct.'],[11,'Neither of the two statements is correct.'],
-    [12,'Both statements are correct.'],[13,'Only statement 2 is correct.'],[14,'Only statement 1 is correct.'],
-    [15,'Only statement 2 is correct.'],[16,'Only statement 1 is correct.'],[17,'Neither of the two statements is correct.'],
-    [18,'Only statement 2 is correct.']];
-  const answerKey = {};
-  for (const [base, ans] of baseAnswers) answerKey[T(base) + '.1'] = ans;
+  const get = (t, i) => tasks[t]?.responses?.[t + '.' + i]?.answer;
 
   const tsByDi = {};
   for (const t of Object.values(tasks))
     if (t.displayIndex != null && t.ts) tsByDi[t.displayIndex] = t.ts;
 
   const quiz = [];
-  for (const [answerId, correctAnswer] of Object.entries(answerKey)) {
-    const k = answerId.split('.')[0];
-    if (!tasks[k]) continue;
-    const r = tasks[k].responses || {};
-    if (r[k + '.2'] && /confident/.test(r[k + '.2'].question)) {
-      const answer = r[answerId]?.answer;
-      quiz.push({
-        task: +k, di: tasks[k].displayIndex, ts: tasks[k].ts,
-        answer, conf: +r[k + '.2'].answer,
-        correctAnswer, correct: answer === correctAnswer, dur: null
-      });
-    }
+  for (const [task, name, correctAnswer] of QUIZ_KEY) {
+    const t = tasks[task];
+    if (!t) continue;
+    const answer = get(task, 1);
+    quiz.push({
+      task, name, di: t.displayIndex, ts: t.ts,
+      answer, conf: +get(task, 2),
+      correctAnswer, correct: answer === correctAnswer, dur: null
+    });
   }
   quiz.sort((a, b) => a.di - b.di);
   quiz.forEach((q, i) => {
@@ -136,55 +137,56 @@ function process(raw) {
     if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
   });
   // Timing above follows the participant's presentation order. Displaying the
-  // result by stable question index does not affect answers or evaluation.
+  // result by stable question name does not affect answers or evaluation.
   quiz.sort((a, b) => a.task - b.task);
 
-  const susT = T(23);
-  const susIds = [1,2,3,4,5,6,7,9,10,11].map(i => susT + '.' + i);
-  const susRaw = susIds.map(id => +get(susT, id));
+  const susIds = [1,2,3,4,5,6,7,9,10,11]; // item 8 is an attention check
+  const susRaw = susIds.map(i => +get(23, i));
   const sus = susRaw.some(isNaN) ? null :
     susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
 
-  const ueqT = T(22);
   const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
                     'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
-  const ueq = [...Array(8)].map((_, i) => +get(ueqT, ueqT + '.' + (i + 1)) - 4);
+  const ueq = [...Array(8)].map((_, i) => +get(22, i + 1) - 4);
 
-  const nfcT = T(24);
   const nfc = [...Array(6)].map((_, i) => {
-    const v = +get(nfcT, nfcT + '.' + (i + 1));
-    return (i === 2 || i === 3) ? 6 - v : v;
+    const v = +get(24, i + 1);
+    return (i === 2 || i === 3) ? 6 - v : v; // items 3 & 4 reverse-scored
   });
 
-  const tlxT = T(26);
-  const tlx = { Mental:+get(tlxT,tlxT+'.1'), Physical:+get(tlxT,tlxT+'.2'), Temporal:+get(tlxT,tlxT+'.3'),
-                Performance:+get(tlxT,tlxT+'.4'), Effort:+get(tlxT,tlxT+'.5'), Frustration:+get(tlxT,tlxT+'.6') };
+  const tlx = { Mental:+get(20,1), Physical:+get(20,2), Temporal:+get(20,3),
+                Performance:+get(20,4), Effort:+get(20,5), Frustration:+get(20,6) };
+
+  const trustItems = ['Confident in it','Predictable','Reliable','Feel safe relying','Efficient / quick',
+                      'Wary of it (rev)','Better than novice','Like using it'];
+  const trust = [...Array(8)].map((_, i) => +get(25, i + 1));
 
   const messages = (raw.messages || []).map(m => m.role === 'user'
     ? { role:'user', task:m.task, ts:m.ts, text:m.content }
     : { role:'assistant', task:m.survey_index, ts:m.created * 1000,
         text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
 
-  const demoT = T(2), preT = T(5), postT = T(20), ftT = T(21), attnT = T(1);
+  // Post-task block (task 21) differs per condition — dump every item in order,
+  // Likert answers render as their number, free text as-is.
   const openText = [];
-  const profession = tasks[demoT]?.responses?.[demoT + '.3'];
+  const profession = tasks[1]?.responses?.['1.3'];
   if (profession) openText.push({ label: profession.question || 'What is your profession?', answer: profession.answer });
-  for (const i of [7, 8, 9, 10]) {
-    const response = tasks[ftT]?.responses?.[ftT + '.' + i];
-    if (response) openText.push({ label: response.question || (ftT + '.' + i), answer: response.answer });
-  }
+  Object.entries(tasks[21]?.responses || {})
+    .sort((a, b) => +a[0].split('.')[1] - +b[0].split('.')[1])
+    .forEach(([, r]) => openText.push({ label: r.question || '(unlabelled item)', answer: r.answer }));
+
   const tsAll = Object.values(tsByDi);
   return {
     meta: { condition: raw.condition, pid: raw.participantId,
             start: Math.min(...tsAll), end: Math.max(...tsAll, ...(messages.map(m => m.ts || 0))) },
-    demo: { age:get(demoT,demoT+'.1'), gender:get(demoT,demoT+'.2'), profession:get(demoT,demoT+'.3'),
-            fluency:get(demoT,demoT+'.4'), education:get(demoT,demoT+'.5') },
-    pre:  { withAI:get(preT,preT+'.1'), withoutAI:get(preT,preT+'.2'), aiAlone:get(preT,preT+'.3'), selfPct:get(preT,preT+'.4'), aiPct:get(preT,preT+'.5') },
-    post: { withAI:get(postT,postT+'.1'), withoutAI:get(postT,postT+'.2'), attn:get(postT,postT+'.3'), aiAlone:get(postT,postT+'.4'), selfPct:get(postT,postT+'.5'), aiPct:get(postT,postT+'.6') },
+    demo: { age:get(1,1), gender:get(1,2), profession:get(1,3),
+            fluency:get(1,4), education:get(1,5), aiUse:get(1,6) },
+    pre:  { withAI:get(4,1), withoutAI:get(4,2), aiAlone:get(4,3), selfPct:get(4,4), aiPct:get(4,5) },
+    post: { withAI:get(19,1), withoutAI:get(19,2), attn:get(19,3), aiAlone:get(19,4), selfPct:get(19,5), aiPct:get(19,6) },
     quiz, susRaw, sus, ueqItems, ueq,
     nfc, nfcMean: +(nfc.reduce((a,b)=>a+b,0) / nfc.length).toFixed(2),
-    tlx,
-    attn: { instr: get(attnT,attnT+'.2') === 'C', post: String(get(postT,postT+'.3')) === '5', sus: +get(susT,susT+'.8') === 5 },
+    tlx, trustItems, trust,
+    attn: { instr: get(0,2) === 'C', post: String(get(19,3)) === '5', sus: +get(23,8) === 5 },
     openText,
     messages
   };
@@ -240,7 +242,7 @@ function render(D) {
   if (inv(D.post.withAI) || inv(D.post.withoutAI) || inv(D.post.aiAlone))
     flags.push(`Post-task estimates out of range (with AI: ${D.post.withAI}, without: ${D.post.withoutAI}, AI alone: ${D.post.aiAlone}).`);
   if (!isNaN(+D.demo.profession)) flags.push(`Profession field is numeric ("${D.demo.profession}").`);
-  const ftVals = D.openText.map(item => item.answer);
+  const ftVals = D.openText.map(item => item.answer).filter(t => isNaN(+t)); // free text only, skip Likert numbers
   if (ftVals.length && ftVals.every(t => !/\s/.test(String(t))))
     flags.push('All free-text responses look like keyboard mashing (no spaces / real words).');
   if (userMsgs.length && userMsgs.every(m => m.text.length < 8))
@@ -251,19 +253,20 @@ function render(D) {
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
-  const qLabels = D.quiz.map(q => 'Q' + q.task);
+  const qLabels = D.quiz.map(q => q.name);
+  const qTicks = { autoSkip:false, maxRotation:60, minRotation:60 };
 
   chart('c_conf', { type:'bar',
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
       backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
     options:{ ...noAR, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
         const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
-      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
 
   chart('c_time', { type:'bar',
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
     options:{ ...noAR, plugins:{legend:{display:false}},
-      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
 
   chart('c_prepost', { type:'bar',
     data:{ labels:['Own ability (percentile)', 'AI ability (percentile)'], datasets:[
@@ -295,6 +298,12 @@ function render(D) {
   document.getElementById('susNote').textContent =
     `SUS = ${D.sus} (≥68 above average). NFC item scores (reversed where needed): ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`;
 
+  chart('c_trust', { type:'bar',
+    data:{ labels:D.trustItems, datasets:[{ data:D.trust,
+      backgroundColor:D.trustItems.map((_, i) => i === 5 ? '#cbd5e0' : '#38b2ac'), borderRadius:4 }]},
+    options:{ ...noAR, indexAxis:'y', plugins:{legend:{display:false}},
+      scales:{ x:{ min:0, max:5, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+
   const totalTokens = D.messages.reduce((s, m) => s + (m.tokens || 0), 0);
   document.getElementById('chatStats').textContent =
     `${userMsgs.length} user messages · ${D.messages.length - userMsgs.length} AI replies · ${totalTokens.toLocaleString()} total tokens`;
@@ -302,14 +311,14 @@ function render(D) {
     `<div class="msg ${m.role}">${esc(m.text)}<div class="mmeta">task ${m.task} · ${new Date(m.ts).toLocaleTimeString('en-GB')}${m.tokens ? ' · ' + m.tokens + ' tok' : ''}</div></div>`).join('');
 
   document.getElementById('demo').innerHTML =
-    ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education]
+    ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education, 'AI use: ' + D.demo.aiUse]
     .map(x => `<span class="pill">${esc(x)}</span>`).join('');
   document.getElementById('freetext').innerHTML = D.openText
     .map(ft => `<div class="ft"><b>${esc(ft.label)}:</b> ${esc(ft.answer)}</div>`).join('');
 
   document.getElementById('ansTable').innerHTML =
     '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map(q => `<tr><td>Q${q.task}</td><td>Q${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+    D.quiz.map(q => `<tr><td>${q.name}</td><td>#${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
 }
 
