@@ -96,6 +96,10 @@
 >
 > Each question consists of two tabs at the top of the screen. The **Exercise** tab contains the question you need to answer, while the **Scenario** tab contains all the information required to solve it. Your answers are saved automatically when you switch between tabs. After submitting an answer, you will automatically proceed to the next question. **You cannot return to previous questions.**
 >
+> To complete the tasks, you will work together with an **AI assistant**, which will be displayed on the right side of your screen. Because this study investigates how people collaborate with AI, **you are required to prompt the AI assistant at least once for every question**. However, you can decide for yourself whether or not to follow its suggestions.
+>
+> To copy text from the question or scenario, use the copy button in the top-right corner of the screen. You can then paste the text into the AI assistant by pressing CTRL+V.
+>
 > ### Click on _Next_ to continue.
 
 # Trial: Future Days
