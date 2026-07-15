@@ -1208,7 +1208,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please rate your experience with the AI system on the following scales.** When answering the questions on this page, please focus on the design of the AI interface, rather than on the performance of the AI system.
+> **Please rate your experience with the AI system on the following scales.** When answering the questions on this page, please **focus on the design of the AI interface, rather than on the performance of the AI system.**
 
 > Decide as spontaneously as possible which of the following conflicting terms better describes the system. Please consider each of the scales individually.
 
@@ -1248,7 +1248,7 @@ The following should be taken into account when setting up the stalls:
 
 # Post-Questionnaire
 
-> **Please indicate how strongly you agree or disagree with each statement about the AI interface.** When answering the questions on this page, please focus on the design of the AI interface, rather than on the performance of the AI system.
+> **Please indicate how strongly you agree or disagree with each statement about the AI interface.** When answering the questions on this page, please **focus on the design of the AI interface, rather than on the performance of the AI system.**
 
 > I think that I would like to use this system frequently.
 
