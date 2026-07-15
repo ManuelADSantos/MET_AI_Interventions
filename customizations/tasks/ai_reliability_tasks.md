@@ -90,7 +90,7 @@
 >
 > You will now complete **one trial task** to familiarize yourself with the task type and interface before starting the main test.
 >
-> This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance.
+> This trial is for practice and familiarizing yourself with the interface only. **You do not need to solve the task correctly**, and your answer will not be used to evaluate your performance. 
 >
 > ## How to use
 >
@@ -107,7 +107,7 @@
 
 > ![Use the copy button in the top-right corner, then press CTRL+V to paste the text into the AI chat.](img/copy_button_guide.png)
 >
-> _How to use the interface: Each task has two tabs: Exercise and Scenario. This tab (Exercise) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._
+> _How to use the interface: Each task has two tabs: Exercise and Scenario. This tab (Exercise) contains the question you need to answer. The Scenario Tab contains all further info required to solve the exercise._ 
 
 > **Which of the following statements about managing the information points for planning when considering all requirements is or are correct?**
 
@@ -229,7 +229,7 @@ The following student assistants are available for the event:
 >
 > This section consists of **12 questions**. The questions are grouped into **three scenarios**, with **four questions per scenario**. 
 >
-> The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question.
+> The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question. For each question, select the best answer, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
 >
 > ## 💰 **You can earn a bonus reward!** 💰
 >

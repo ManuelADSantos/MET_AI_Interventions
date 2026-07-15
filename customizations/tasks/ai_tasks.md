@@ -234,7 +234,7 @@ The following student assistants are available for the event:
 >
 > This section consists of **12 questions**. The questions are grouped into **three scenarios**, with **four questions per scenario**. 
 >
-> The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question.
+> The questions within each scenario are independent. If a question introduces a special assumption, it applies only to that question. For each question, select the best answer, even if more than one option appears plausible. If you are unsure, choose the answer you think is most likely to be correct.
 >
 > ## 💰 **You can earn a bonus reward!** 💰
 >
