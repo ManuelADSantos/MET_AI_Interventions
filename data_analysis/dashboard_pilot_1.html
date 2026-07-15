@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MET AI Interventions — Participant Dashboard</title>
+<!--
+  Reproducible participant dashboard for the MET AI Interventions study.
+  Usage: open this file in any browser, then drop one or more raw data.json
+  files (or use the file picker). Switch participants with the dropdown.
+  No server, no build step. Only dependency: Chart.js from CDN.
+-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:#f6f7f9; color:#1a202c; padding:20px; font-size:14px; }
+h1 { font-size:20px; } h2 { font-size:15px; margin-bottom:12px; color:#2d3748; }
+.sub { color:#718096; font-size:12px; margin-top:4px; }
+.badge { padding:2px 10px; border-radius:12px; font-size:12px; font-weight:600; background:#ebf4ff; color:#3182ce; }
+.header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:16px; position:sticky; top:0; z-index:100; background:#f6f7f9; padding:12px 0; }
+.drop { border:2px dashed #cbd5e0; border-radius:10px; padding:18px; text-align:center; color:#718096; background:#fff; margin-bottom:16px; cursor:pointer; }
+.drop.over { border-color:#3182ce; background:#ebf4ff; }
+select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; }
+button { font-size:13px; padding:4px 10px; border-radius:6px; border:1px solid #cbd5e0; background:#fff; cursor:pointer; }
+button:hover { background:#edf2f7; }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:16px; }
+.kpi { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; }
+.kpi .v { font-size:22px; font-weight:700; } .kpi.bad .v{color:#e53e3e} .kpi.good .v{color:#38a169}
+.kpi .l { font-size:11px; color:#718096; text-transform:uppercase; margin-top:2px; }
+.grid { display:grid; gap:14px; margin-bottom:14px; grid-template-columns:1fr 1fr; }
+@media (max-width:800px){ .grid { grid-template-columns:1fr; } }
+.card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:16px; }
+.chartbox { position:relative; height:260px; }
+.qual { background:#fffaf0; border:1px solid #f6ad55; border-radius:10px; padding:14px 16px; margin-bottom:16px; }
+.qual h2 { color:#c05621; } .qual ul { margin:6px 0 0 18px; } .qual li { color:#7b341e; margin-bottom:3px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #e2e8f0; }
+td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
+.chat { max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
+.msg { max-width:78%; padding:8px 12px; border-radius:12px; font-size:13px; line-height:1.45; white-space:pre-wrap; }
+.msg.user { align-self:flex-end; background:#3182ce; color:#fff; }
+.msg.assistant { align-self:flex-start; background:#edf2f7; }
+.msg .mmeta { font-size:10px; opacity:.7; margin-top:4px; }
+.pill { display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; background:#edf2f7; color:#4a5568; margin:2px 4px 2px 0; }
+.ft { font-size:13px; color:#4a5568; margin-bottom:8px; } .ft b { color:#2d3748; }
+#dash { display:none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>MET AI Interventions — Participant Dashboard</h1>
+    <div class="sub" id="subline">Load one or more data.json files to begin.</div>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <select id="condFilter" style="display:none"><option value="">All conditions</option></select>
+    <button id="prev" style="display:none" title="Previous trial">&#9664;</button>
+    <select id="picker" style="display:none"></select>
+    <button id="next" style="display:none" title="Next trial">&#9654;</button>
+    <span class="badge" id="condBadge" style="display:none"></span>
+  </div>
+</div>
+
+<div class="drop" id="drop">
+  Drop participant <b>data.json</b> file(s) here, or click to browse
+  <input type="file" id="fileInput" accept=".json" multiple hidden>
+</div>
+
+<div id="dash">
+  <div class="kpis" id="kpis"></div>
+  <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
+  <div class="grid">
+    <div class="card"><h2>Confidence per question (question index order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
+    <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
+    <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
+    <div class="card"><h2>SUS &amp; Need for Cognition</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card">
+      <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
+      <div class="chat" id="chat"></div>
+    </div>
+    <div class="card">
+      <h2>Participant &amp; free-text responses</h2>
+      <div id="demo" style="margin-bottom:12px"></div><div id="freetext"></div>
+      <h2 style="margin-top:14px">Answer table</h2>
+      <div style="max-height:220px;overflow-y:auto"><table id="ansTable"></table></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- 1. Preprocess a raw data.json into dashboard-ready form ---------- */
+function process(raw) {
+  const tasks = raw.tasks || {};
+  const get = (t, q) => tasks[t]?.responses?.[q]?.answer;
+
+  // ponytail: detect task-ID offset — study versions shift all IDs by ±1
+  let off = 0;
+  outer: for (const [k, t] of Object.entries(tasks))
+    for (const r of Object.values(t.responses || {}))
+      if (/like to use this system/i.test(r.question)) { off = +k - 23; break outer; }
+  const T = id => String(+id + off);
+
+  const baseAnswers = [[7,'Neither of the two statements is correct.'],[8,'Only statement 2 is correct.'],
+    [9,'Only statement 1 is correct.'],[10,'Only statement 1 is correct.'],[11,'Neither of the two statements is correct.'],
+    [12,'Both statements are correct.'],[13,'Only statement 2 is correct.'],[14,'Only statement 1 is correct.'],
+    [15,'Only statement 2 is correct.'],[16,'Only statement 1 is correct.'],[17,'Neither of the two statements is correct.'],
+    [18,'Only statement 2 is correct.']];
+  const answerKey = {};
+  for (const [base, ans] of baseAnswers) answerKey[T(base) + '.1'] = ans;
+
+  const tsByDi = {};
+  for (const t of Object.values(tasks))
+    if (t.displayIndex != null && t.ts) tsByDi[t.displayIndex] = t.ts;
+
+  const quiz = [];
+  for (const [answerId, correctAnswer] of Object.entries(answerKey)) {
+    const k = answerId.split('.')[0];
+    if (!tasks[k]) continue;
+    const r = tasks[k].responses || {};
+    if (r[k + '.2'] && /confident/.test(r[k + '.2'].question)) {
+      const answer = r[answerId]?.answer;
+      quiz.push({
+        task: +k, di: tasks[k].displayIndex, ts: tasks[k].ts,
+        answer, conf: +r[k + '.2'].answer,
+        correctAnswer, correct: answer === correctAnswer, dur: null
+      });
+    }
+  }
+  quiz.sort((a, b) => a.di - b.di);
+  quiz.forEach((q, i) => {
+    const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
+    if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
+  });
+  // Timing above follows the participant's presentation order. Displaying the
+  // result by stable question index does not affect answers or evaluation.
+  quiz.sort((a, b) => a.task - b.task);
+
+  const susT = T(23);
+  const susIds = [1,2,3,4,5,6,7,9,10,11].map(i => susT + '.' + i);
+  const susRaw = susIds.map(id => +get(susT, id));
+  const sus = susRaw.some(isNaN) ? null :
+    susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
+
+  const ueqT = T(22);
+  const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
+                    'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
+  const ueq = [...Array(8)].map((_, i) => +get(ueqT, ueqT + '.' + (i + 1)) - 4);
+
+  const nfcT = T(24);
+  const nfc = [...Array(6)].map((_, i) => {
+    const v = +get(nfcT, nfcT + '.' + (i + 1));
+    return (i === 2 || i === 3) ? 6 - v : v;
+  });
+
+  const tlxT = T(26);
+  const tlx = { Mental:+get(tlxT,tlxT+'.1'), Physical:+get(tlxT,tlxT+'.2'), Temporal:+get(tlxT,tlxT+'.3'),
+                Performance:+get(tlxT,tlxT+'.4'), Effort:+get(tlxT,tlxT+'.5'), Frustration:+get(tlxT,tlxT+'.6') };
+
+  const messages = (raw.messages || []).map(m => m.role === 'user'
+    ? { role:'user', task:m.task, ts:m.ts, text:m.content }
+    : { role:'assistant', task:m.survey_index, ts:m.created * 1000,
+        text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
+
+  const demoT = T(2), preT = T(5), postT = T(20), ftT = T(21), attnT = T(1);
+  const openText = [];
+  const profession = tasks[demoT]?.responses?.[demoT + '.3'];
+  if (profession) openText.push({ label: profession.question || 'What is your profession?', answer: profession.answer });
+  for (const i of [7, 8, 9, 10]) {
+    const response = tasks[ftT]?.responses?.[ftT + '.' + i];
+    if (response) openText.push({ label: response.question || (ftT + '.' + i), answer: response.answer });
+  }
+  const tsAll = Object.values(tsByDi);
+  return {
+    meta: { condition: raw.condition, pid: raw.participantId,
+            start: Math.min(...tsAll), end: Math.max(...tsAll, ...(messages.map(m => m.ts || 0))) },
+    demo: { age:get(demoT,demoT+'.1'), gender:get(demoT,demoT+'.2'), profession:get(demoT,demoT+'.3'),
+            fluency:get(demoT,demoT+'.4'), education:get(demoT,demoT+'.5') },
+    pre:  { withAI:get(preT,preT+'.1'), withoutAI:get(preT,preT+'.2'), aiAlone:get(preT,preT+'.3'), selfPct:get(preT,preT+'.4'), aiPct:get(preT,preT+'.5') },
+    post: { withAI:get(postT,postT+'.1'), withoutAI:get(postT,postT+'.2'), attn:get(postT,postT+'.3'), aiAlone:get(postT,postT+'.4'), selfPct:get(postT,postT+'.5'), aiPct:get(postT,postT+'.6') },
+    quiz, susRaw, sus, ueqItems, ueq,
+    nfc, nfcMean: +(nfc.reduce((a,b)=>a+b,0) / nfc.length).toFixed(2),
+    tlx,
+    attn: { instr: get(attnT,attnT+'.2') === 'C', post: String(get(postT,postT+'.3')) === '5', sus: +get(susT,susT+'.8') === 5 },
+    openText,
+    messages
+  };
+}
+
+/* ---------- 2. Rendering ---------- */
+let charts = [];
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function chart(id, cfg) { charts.push(new Chart(document.getElementById(id), cfg)); }
+
+function render(D) {
+  charts.forEach(c => c.destroy()); charts = [];
+  document.getElementById('dash').style.display = 'block';
+
+  const durMin = ((D.meta.end - D.meta.start) / 60000).toFixed(1);
+  document.getElementById('subline').textContent =
+    `Participant ${String(D.meta.pid).slice(0,12)}… · ${new Date(D.meta.start).toLocaleString('en-GB')} · session ${durMin} min`;
+  const cb = document.getElementById('condBadge');
+  cb.style.display = 'inline-block'; cb.textContent = 'Condition: ' + D.meta.condition;
+
+  const nCorrect = D.quiz.filter(q => q.correct).length;
+  const meanConf = D.quiz.length ? (D.quiz.reduce((s,q) => s + q.conf, 0) / D.quiz.length).toFixed(1) : '–';
+  const correctConf = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const incorrectConf = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const avg = values => values.reduce((sum, value) => sum + value, 0) / values.length;
+  const sensitivity = correctConf.length && incorrectConf.length ? avg(correctConf) - avg(incorrectConf) : null;
+  const sensitivityText = sensitivity == null ? '–' : `${sensitivity >= 0 ? '+' : ''}${sensitivity.toFixed(1)} pp`;
+  const sensitivityTitle = sensitivity == null
+    ? 'Requires at least one correct and one incorrect answer'
+    : `Mean confidence: ${avg(correctConf).toFixed(1)}% correct vs ${avg(incorrectConf).toFixed(1)}% incorrect`;
+  const tlxVals = Object.values(D.tlx).filter(v => !isNaN(v));
+  const tlxMean = tlxVals.length ? (tlxVals.reduce((a,b) => a + b, 0) / tlxVals.length).toFixed(1) : '–';
+  const attnPass = Object.values(D.attn).filter(Boolean).length;
+  const userMsgs = D.messages.filter(m => m.role === 'user');
+
+  document.getElementById('kpis').innerHTML = [
+    { v:`${nCorrect}/${D.quiz.length}`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
+    { v:meanConf + '%', l:'Mean confidence' },
+    { v:sensitivityText, l:'Metacog. sensitivity', cls:sensitivity == null ? '' : sensitivity >= 0 ? 'good' : 'bad', title:sensitivityTitle },
+    { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
+    { v:tlxMean, l:'TLX mean (0–20)' },
+    { v:D.nfcMean, l:'NFC mean (1–5)' },
+    { v:`${attnPass}/${Object.keys(D.attn).length}`, l:'Attention checks', cls:attnPass === Object.keys(D.attn).length ? 'good' : 'bad' },
+    { v:userMsgs.length, l:'Msgs to AI' },
+  ].map(k => `<div class="kpi ${k.cls||''}"${k.title ? ` title="${esc(k.title)}"` : ''}><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
+
+  // data quality flags
+  const inv = x => isNaN(+x) || +x < 0 || +x > 12;
+  const flags = [];
+  if (nCorrect === 0) flags.push(`0 of ${D.quiz.length} planning problems answered correctly.`);
+  if (inv(D.pre.withAI) || inv(D.pre.withoutAI) || inv(D.pre.aiAlone))
+    flags.push(`Pre-task estimates out of range (with AI: ${D.pre.withAI}, without: ${D.pre.withoutAI}, AI alone: ${D.pre.aiAlone} — expected 0–12).`);
+  if (inv(D.post.withAI) || inv(D.post.withoutAI) || inv(D.post.aiAlone))
+    flags.push(`Post-task estimates out of range (with AI: ${D.post.withAI}, without: ${D.post.withoutAI}, AI alone: ${D.post.aiAlone}).`);
+  if (!isNaN(+D.demo.profession)) flags.push(`Profession field is numeric ("${D.demo.profession}").`);
+  const ftVals = D.openText.map(item => item.answer);
+  if (ftVals.length && ftVals.every(t => !/\s/.test(String(t))))
+    flags.push('All free-text responses look like keyboard mashing (no spaces / real words).');
+  if (userMsgs.length && userMsgs.every(m => m.text.length < 8))
+    flags.push('All chat messages to the AI are short gibberish strings.');
+  if (flags.length) flags.push('→ Possibly a pilot / test run rather than a genuine participant.');
+  document.getElementById('qualCard').style.display = flags.length ? 'block' : 'none';
+  document.getElementById('qualList').innerHTML = flags.map(f => `<li>${f}</li>`).join('');
+
+  Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
+  const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
+  const qLabels = D.quiz.map(q => 'Q' + q.task);
+
+  chart('c_conf', { type:'bar',
+    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
+      backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
+    options:{ ...noAR, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
+        const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
+      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+
+  chart('c_time', { type:'bar',
+    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
+    options:{ ...noAR, plugins:{legend:{display:false}},
+      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+
+  chart('c_prepost', { type:'bar',
+    data:{ labels:['Own ability (percentile)', 'AI ability (percentile)'], datasets:[
+      { label:'Pre-task', data:[+D.pre.selfPct, +D.pre.aiPct], backgroundColor:'#a0aec0', borderRadius:4 },
+      { label:'Post-task', data:[+D.post.selfPct, +D.post.aiPct], backgroundColor:'#4c8bf5', borderRadius:4 }]},
+    options:{ ...noAR, scales:{ y:{ min:0, max:100, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+  document.getElementById('estNote').textContent =
+    `Problem-count estimates (0–12 expected): pre — with AI ${D.pre.withAI}, without ${D.pre.withoutAI}, AI alone ${D.pre.aiAlone}; ` +
+    `post — with AI ${D.post.withAI}, without ${D.post.withoutAI}, AI alone ${D.post.aiAlone}.`;
+
+  chart('c_tlx', { type:'bar',
+    data:{ labels:Object.keys(D.tlx), datasets:[{ data:Object.values(D.tlx), backgroundColor:'#9f7aea', borderRadius:4 }]},
+    options:{ ...noAR, indexAxis:'y', plugins:{legend:{display:false}},
+      scales:{ x:{ min:0, max:20, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+
+  chart('c_ueq', { type:'bar',
+    data:{ labels:D.ueqItems, datasets:[{ data:D.ueq,
+      backgroundColor:D.ueqItems.map((_, i) => i < 4 ? '#4c8bf5' : '#ed8936'), borderRadius:4 }]},
+    options:{ ...noAR, indexAxis:'y', plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ afterLabel:c => c.dataIndex < 4 ? 'Pragmatic quality' : 'Hedonic quality' }}},
+      scales:{ x:{ min:-3, max:3, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+
+  chart('c_sus', { type:'bar',
+    data:{ labels:D.susRaw.map((_, i) => 'S' + (i + 1)), datasets:[{ data:D.susRaw,
+      backgroundColor:D.susRaw.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius:4 }]},
+    options:{ ...noAR, plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ afterLabel:c => c.dataIndex % 2 === 0 ? 'Positive item' : 'Negative item (reverse-scored)' }}},
+      scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+  document.getElementById('susNote').textContent =
+    `SUS = ${D.sus} (≥68 above average). NFC item scores (reversed where needed): ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`;
+
+  const totalTokens = D.messages.reduce((s, m) => s + (m.tokens || 0), 0);
+  document.getElementById('chatStats').textContent =
+    `${userMsgs.length} user messages · ${D.messages.length - userMsgs.length} AI replies · ${totalTokens.toLocaleString()} total tokens`;
+  document.getElementById('chat').innerHTML = D.messages.map(m =>
+    `<div class="msg ${m.role}">${esc(m.text)}<div class="mmeta">task ${m.task} · ${new Date(m.ts).toLocaleTimeString('en-GB')}${m.tokens ? ' · ' + m.tokens + ' tok' : ''}</div></div>`).join('');
+
+  document.getElementById('demo').innerHTML =
+    ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education]
+    .map(x => `<span class="pill">${esc(x)}</span>`).join('');
+  document.getElementById('freetext').innerHTML = D.openText
+    .map(ft => `<div class="ft"><b>${esc(ft.label)}:</b> ${esc(ft.answer)}</div>`).join('');
+
+  document.getElementById('ansTable').innerHTML =
+    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
+    D.quiz.map(q => `<tr><td>Q${q.task}</td><td>Q${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+      `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
+}
+
+/* ---------- 3. File loading & participant switching ---------- */
+const store = []; // [{label, data}]
+let filtered = []; // indices into store matching current condition filter
+const picker = document.getElementById('picker');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const condFilter = document.getElementById('condFilter');
+
+function showNav() {
+  const show = filtered.length > 0;
+  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = show ? 'inline-block' : 'none');
+}
+
+function applyFilter() {
+  const cond = condFilter.value;
+  filtered = store.map((s, i) => i).filter(i => !cond || store[i].data.meta.condition === cond);
+  picker.innerHTML = filtered.map(i => `<option value="${i}">${esc(store[i].label)}</option>`).join('');
+  if (filtered.length) go(filtered[0]);
+}
+
+function go(idx) { picker.value = String(idx); render(store[idx].data); }
+
+async function loadFiles(files) {
+  store.length = 0;
+  for (const f of files) {
+    try {
+      const raw = JSON.parse(await f.text());
+      if (raw.participants) {
+        raw.participants.forEach((p, i) => {
+          try {
+            const pid = String(p?.participantId || '').slice(0, 16);
+            store.push({ label: `${f.name} — #${i+1} ${pid} (${p?.condition || '?'})`, data: process(p) });
+          } catch (e) { console.warn(`Skipped participant #${i+1}: ${e.message}`); }
+        });
+      } else {
+        store.push({ label: f.name, data: process(raw) });
+      }
+    } catch (e) { alert(`Could not parse ${f.name}: ${e.message}`); }
+  }
+  const conds = [...new Set(store.map(s => s.data.meta.condition).filter(Boolean))].sort();
+  condFilter.innerHTML = '<option value="">All conditions</option>' + conds.map(c => `<option value="${c}">${c}</option>`).join('');
+  applyFilter();
+  showNav();
+}
+
+condFilter.onchange = () => applyFilter();
+picker.onchange = () => go(+picker.value);
+prevBtn.onclick = () => { const i = filtered.indexOf(+picker.value); if (i > 0) go(filtered[i - 1]); };
+nextBtn.onclick = () => { const i = filtered.indexOf(+picker.value); if (i < filtered.length - 1) go(filtered[i + 1]); };
+const drop = document.getElementById('drop'), input = document.getElementById('fileInput');
+drop.onclick = () => input.click();
+input.onchange = () => loadFiles([...input.files]);
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); loadFiles([...e.dataTransfer.files]); };
+</script>
+</body>
+</html>
