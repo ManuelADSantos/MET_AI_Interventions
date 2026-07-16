@@ -168,6 +168,8 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   const [selectedTabKey, setSelectedTabKey] = useState(pageTabs[0].title)
   const selectedTab = pageTabs.find((tab) => tab.title === selectedTabKey) || pageTabs[0]
   const selectedTabHasQuestions = selectedTab.content.some((item) => questionTypes.includes(item.type))
+  const pageUsesNextMarkers = pageTabs.some((tab) => tab.nextEnabled)
+  const shouldShowNext = pageUsesNextMarkers ? selectedTab.nextEnabled : selectedTabHasQuestions
   const scrollContainerRef = useRef(null)
   const tabScrollPositionsRef = useRef({})
 
@@ -372,12 +374,12 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
           {submitError}
         </p>
         {/* Display instruction to use chat if not used on this page yet */}
-        <p className={`text-emerald-500 font-bold -mr-16 ${(selectedTabHasQuestions && shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
+        <p className={`text-emerald-500 font-bold -mr-16 ${(shouldShowNext && shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
           <i className='bi bi-info-circle text-xl mr-2'></i>
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
-        {selectedTabHasQuestions && (
+        {shouldShowNext && (
           <Button
             className={(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
             isDisabled={shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage}

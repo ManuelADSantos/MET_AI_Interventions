@@ -109,6 +109,7 @@
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > ![Use the copy button in the top-right corner, then press CTRL+V to paste the text into the AI chat.](img/copy_button_guide.png)
 >
@@ -256,6 +257,7 @@ The following student assistants are available for the event:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements about the effects of certain working times is or are correct?**
 
@@ -325,6 +327,7 @@ If the following exercises mention "week", this always refers to a working week 
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements about possible cooperation is or are correct?**
 
@@ -394,6 +397,7 @@ If the following exercises mention "week", this always refers to a working week 
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?**
 
@@ -463,6 +467,7 @@ If the following exercises mention "week", this always refers to a working week 
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Suppose — for this question only — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?**
 
@@ -536,6 +541,7 @@ If the following exercises mention "week", this always refers to a working week 
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements is or are correct?**
 
@@ -609,6 +615,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements is or are correct?**
 
@@ -682,6 +689,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements is or are correct?**
 
@@ -755,6 +763,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements is or are correct?**
 
@@ -832,6 +841,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements about the beginning and end of the reconstruction measures is or are correct?**
 
@@ -905,6 +915,7 @@ The following should be taken into account when setting up the stalls:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Which of the following statements about payment of helpers is or are correct?**
 
@@ -978,6 +989,7 @@ The following should be taken into account when setting up the stalls:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Suppose — for this question only — that you have an additional team of ten helpers working in parallel with the first team. Which of the following statements is or are correct?**
 
@@ -1051,6 +1063,7 @@ The following should be taken into account when setting up the stalls:
 :::require-ai-prompt
 
 :::tab Exercise
+:::next
 
 > **Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?**
 

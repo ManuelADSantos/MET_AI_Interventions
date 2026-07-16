@@ -257,19 +257,22 @@ const extractCopyBlocks = (rawContent) => {
   const copyDisabled = /^\s*:::(copy-disabled|no-copy)\s*$/m.test(String(rawContent))
   const requireAiPrompt = /^\s*:::require-ai-prompt\s*$/m.test(String(rawContent))
   const chatEnabled = /^\s*:::chat-enabled\s*$/m.test(String(rawContent))
+  const nextEnabled = /^\s*:{2,3}next\s*$/m.test(String(rawContent))
   const content = String(rawContent)
     .replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
     copyBlocks.push(copyText.trim())
     return ''
     })
     .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt|chat-enabled)\s*$/gm, '')
+    .replace(/^\s*:{2,3}next\s*$/gm, '')
 
   return {
     content,
     copyText: copyBlocks.join('\n\n'),
     copyDisabled,
     requireAiPrompt,
-    chatEnabled
+    chatEnabled,
+    nextEnabled
   }
 }
 
@@ -293,7 +296,8 @@ const parseTabs = (rawPageContent) => {
       title,
       content: parseContentItems(visibleBody),
       copyText: parsedCopyBlocks.copyText,
-      copyDisabled: parsedCopyBlocks.copyDisabled
+      copyDisabled: parsedCopyBlocks.copyDisabled,
+      nextEnabled: parsedCopyBlocks.nextEnabled
     }
   })
 }
@@ -371,7 +375,8 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
               title: 'Exercise',
               content: pageContent,
               copyText: parsedPageCopyBlocks.copyText,
-              copyDisabled: parsedPageCopyBlocks.copyDisabled
+              copyDisabled: parsedPageCopyBlocks.copyDisabled,
+              nextEnabled: true
             }
           ]
         }
