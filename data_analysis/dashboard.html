@@ -209,7 +209,8 @@ function render(D) {
   //cb.style.display = 'inline-block'; cb.textContent = 'Condition: ' + D.meta.condition;
 
   const nCorrect = D.quiz.filter(q => q.correct).length;
-  const meanConf = D.quiz.length ? (D.quiz.reduce((s,q) => s + q.conf, 0) / D.quiz.length).toFixed(1) : '–';
+  const validConf = D.quiz.filter(q => Number.isFinite(q.conf));
+  const meanConf = validConf.length ? (validConf.reduce((s,q) => s + q.conf, 0) / validConf.length).toFixed(1) : '–';
   const correctConf = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
   const incorrectConf = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
   const avg = values => values.reduce((sum, value) => sum + value, 0) / values.length;
