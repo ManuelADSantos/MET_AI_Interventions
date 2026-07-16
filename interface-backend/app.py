@@ -94,20 +94,41 @@ def stream_message():
 
     return Response(stream_with_context(generate()), mimetype='application/x-ndjson')
 
-RELEVANT_KEYS = {f'{i}.1' for i in range(4, 24)}
-
 def evaluate_answers(tasks):
-    correct = 0
-    results = {}
+    # The trial and every main exercise use answer item .1 and confidence item
+    # .2. The 12 main exercises are the longest consecutive source-index run;
+    # the trial is isolated and must not contribute to the score.
+    candidates = []
     for task_key, task_val in tasks.items():
+        try:
+            task_id = int(task_key)
+        except (TypeError, ValueError):
+            continue
         responses = task_val.get('responses', {})
-        for resp_key, resp_val in responses.items():
-            if resp_key in RELEVANT_KEYS:
-                answer = resp_val.get('answer', resp_val) if isinstance(resp_val, dict) else resp_val
-                is_correct = answer in right_choices
-                results[resp_key] = is_correct
-                if is_correct:
-                    correct += 1
+        confidence = responses.get(f'{task_id}.2', {})
+        question = confidence.get('question', '') if isinstance(confidence, dict) else ''
+        if 'confident' in str(question).lower():
+            candidates.append(task_id)
+
+    candidates.sort()
+    runs = []
+    for task_id in candidates:
+        if runs and task_id == runs[-1][-1] + 1:
+            runs[-1].append(task_id)
+        else:
+            runs.append([task_id])
+    main_task_ids = max(runs, key=len, default=[])[:len(right_choices)]
+
+    results = {}
+    for task_id, expected_answer in zip(main_task_ids, right_choices):
+        task_val = tasks.get(str(task_id), tasks.get(task_id, {}))
+        responses = task_val.get('responses', {})
+        resp_key = f'{task_id}.1'
+        resp_val = responses.get(resp_key, {})
+        answer = resp_val.get('answer') if isinstance(resp_val, dict) else resp_val
+        results[resp_key] = str(answer).strip() == expected_answer
+
+    correct = sum(results.values())
     return correct, results
 
 @app.route('/save', methods = ['POST'])
