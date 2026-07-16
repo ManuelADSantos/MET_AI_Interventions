@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MET AI Interventions — Participant Dashboard (Pilot 2)</title>
+<title>MET AI Interventions — Participant Dashboard (Pilot 3)</title>
 <!--
-  Reproducible participant dashboard for the MET AI Interventions study, pilot 2.
-  Usage: open this file in any browser, then drop metai_pliot_2_responses.json
+  Reproducible participant dashboard for the MET AI Interventions study, pilot 3.
+  Usage: open this file in any browser, then drop metai_pilot_3_responses.json
   (or single-participant data.json files). Switch participants with the dropdown.
   No server, no build step. Only dependency: Chart.js from CDN.
 -->
@@ -51,7 +51,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 
 <div class="header">
   <div>
-    <h1>MET AI Interventions — Participant Dashboard (Pilot 2)</h1>
+    <h1>MET AI Interventions — Participant Dashboard (Pilot 3)</h1>
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
@@ -99,8 +99,8 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 </div>
 
 <script>
-/* ---------- 1. Preprocess a raw data.json (pilot-2 layout) into dashboard-ready form ---------- */
-// ponytail: task IDs hardcoded to the pilot-2 study layout; edit here if the study changes again
+/* ---------- 1. Preprocess a raw data.json (pilot-3 layout) into dashboard-ready form ---------- */
+// ponytail: task IDs hardcoded to the pilot-3 study layout; edit here if the study changes again
 const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customizations/correct_answers.md
   [6,  'ypc_02', 'Neither of the two statements is correct.'],
   [7,  'ypc_03', 'Only statement 2 is correct.'],
