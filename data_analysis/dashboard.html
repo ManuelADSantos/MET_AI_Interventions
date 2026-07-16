@@ -252,18 +252,42 @@ function render(D) {
   document.getElementById('qualList').innerHTML = flags.map(f => `<li>${f}</li>`).join('');
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
+  // ponytail: inline plugin to draw value labels on bars; no external datalabels CDN needed
+  const barLabels = { id:'barLabels', afterDatasetsDraw(chart) {
+    const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif';
+    const area = chart.chartArea;
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di);
+      meta.data.forEach((bar, i) => {
+        const v = ds.data[i]; if (v == null) return;
+        const horiz = chart.options.indexAxis === 'y';
+        if (horiz) {
+          ctx.textBaseline = 'middle';
+          const neg = v < 0;
+          const outside = neg ? bar.x - 8 < area.left + 20 : bar.x + 8 > area.right - 20;
+          if (outside) { ctx.textAlign = neg ? 'left' : 'right'; ctx.fillStyle = '#fff'; ctx.fillText(v, bar.x + (neg ? 8 : -8), bar.y); }
+          else { ctx.textAlign = neg ? 'right' : 'left'; ctx.fillStyle = '#4a5568'; ctx.fillText(v, bar.x + (neg ? -8 : 8), bar.y); }
+        } else {
+          const outside = bar.y - 4 < area.top + 12;
+          ctx.textAlign = 'center';
+          if (outside) { ctx.textBaseline = 'top'; ctx.fillStyle = '#fff'; ctx.fillText(v, bar.x, bar.y + 4); }
+          else { ctx.textBaseline = 'bottom'; ctx.fillStyle = '#4a5568'; ctx.fillText(v, bar.x, bar.y - 4); }
+        }
+      });
+    }); ctx.restore();
+  }};
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
   const qLabels = D.quiz.map(q => q.name);
   const qTicks = { autoSkip:false, maxRotation:60, minRotation:60 };
 
-  chart('c_conf', { type:'bar',
+  chart('c_conf', { type:'bar', plugins:[barLabels],
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
       backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
     options:{ ...noAR, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
         const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
       scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
 
-  chart('c_time', { type:'bar',
+  chart('c_time', { type:'bar', plugins:[barLabels],
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
     options:{ ...noAR, plugins:{legend:{display:false}},
       scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
@@ -277,19 +301,19 @@ function render(D) {
     `Problem-count estimates (0–12 expected): pre — with AI ${D.pre.withAI}, without ${D.pre.withoutAI}, AI alone ${D.pre.aiAlone}; ` +
     `post — with AI ${D.post.withAI}, without ${D.post.withoutAI}, AI alone ${D.post.aiAlone}.`;
 
-  chart('c_tlx', { type:'bar',
+  chart('c_tlx', { type:'bar', plugins:[barLabels],
     data:{ labels:Object.keys(D.tlx), datasets:[{ data:Object.values(D.tlx), backgroundColor:'#9f7aea', borderRadius:4 }]},
     options:{ ...noAR, indexAxis:'y', plugins:{legend:{display:false}},
       scales:{ x:{ min:0, max:20, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
-  chart('c_ueq', { type:'bar',
+  chart('c_ueq', { type:'bar', plugins:[barLabels],
     data:{ labels:D.ueqItems, datasets:[{ data:D.ueq,
       backgroundColor:D.ueqItems.map((_, i) => i < 4 ? '#4c8bf5' : '#ed8936'), borderRadius:4 }]},
     options:{ ...noAR, indexAxis:'y', plugins:{ legend:{display:false},
         tooltip:{ callbacks:{ afterLabel:c => c.dataIndex < 4 ? 'Pragmatic quality' : 'Hedonic quality' }}},
       scales:{ x:{ min:-3, max:3, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
-  chart('c_sus', { type:'bar',
+  chart('c_sus', { type:'bar', plugins:[barLabels],
     data:{ labels:D.susRaw.map((_, i) => 'S' + (i + 1)), datasets:[{ data:D.susRaw,
       backgroundColor:D.susRaw.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius:4 }]},
     options:{ ...noAR, plugins:{ legend:{display:false},
@@ -298,7 +322,7 @@ function render(D) {
   document.getElementById('susNote').textContent =
     `SUS = ${D.sus} (≥68 above average). NFC item scores (reversed where needed): ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`;
 
-  chart('c_trust', { type:'bar',
+  chart('c_trust', { type:'bar', plugins:[barLabels],
     data:{ labels:D.trustItems, datasets:[{ data:D.trust,
       backgroundColor:D.trustItems.map((_, i) => i === 5 ? '#cbd5e0' : '#38b2ac'), borderRadius:4 }]},
     options:{ ...noAR, indexAxis:'y', plugins:{legend:{display:false}},
