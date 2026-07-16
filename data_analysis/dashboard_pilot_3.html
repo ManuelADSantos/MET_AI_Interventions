@@ -75,9 +75,10 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   <div class="kpis" id="kpis"></div>
   <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
-    <div class="card"><h2>Confidence per question <button id="sortConf" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort: by name</button></h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
-    <div class="card"><h2>Response time per question (s) <button id="sortTime" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort: by name</button></h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
-    <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>Confidence per question <button id="sortConf" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort by name</button></h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Response time per question (s) <button id="sortTime" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort by name</button></h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
+    <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div></div>
+    <div class="card"><h2>Problem-count estimates: pre vs post</h2><div class="chartbox"><canvas id="c_estimates"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
     <div class="card"><h2>SUS usability (raw items, 1–5)</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
@@ -88,8 +89,12 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
       <div id="demo" style="margin-bottom:12px"></div><div id="freetext"></div>
     </div>
     <div class="card">
-      <h2>Answer table</h2>
+      <h2>Answer table <button id="sortAns" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort by name</button></h2>
       <div style="max-height:300px;overflow-y:auto"><table id="ansTable"></table></div>
+    </div>
+    <div class="card" id="reliabilityCard" style="display:none">
+      <h2>Reliability intervention log <button id="sortRel" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort by name</button></h2>
+      <div style="max-height:300px;overflow-y:auto"><table id="relTable"></table></div>
     </div>
   </div>
   <div class="card" style="margin-bottom:14px">
@@ -193,6 +198,16 @@ function process(raw) {
     nfc, nfcMean: (() => { const v = nfc.filter(x => x != null); return v.length ? +(v.reduce((a,b)=>a+b,0) / v.length).toFixed(2) : null; })(),
     tlx, trustItems, trust,
     attn: { instr: get(0,2) === 'C', post: String(get(19,3)) === '5', sus: +get(23,8) === 5 },
+    reliabilityByTask: (() => {
+      const m = {};
+      for (const evt of (raw.interactionLog || [])) {
+        const tid = evt.taskId;
+        if (!m[tid]) m[tid] = { sims: [], level: null };
+        if (evt.type === 'reliability_similarity_test') m[tid].sims.push(evt.similarity);
+        if (evt.type === 'reliability_card_presented') m[tid].level = evt.reliabilityLevel;
+      }
+      return m;
+    })(),
     openText,
     messages
   };
@@ -201,7 +216,7 @@ function process(raw) {
 /* ---------- 2. Rendering ---------- */
 let charts = [];
 let confChart = null, timeChart = null;
-let lastQuiz = null, sortByOrder = false;
+let lastQuiz = null, lastD = null, sortByOrder = false;
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 function chart(id, cfg) { charts.push(new Chart(document.getElementById(id), cfg)); }
 
@@ -231,19 +246,44 @@ function renderQuizCharts(quiz, barLabels, noAR, padV, grid, qTicks) {
     options:{ ...noAR, ...padV, plugins:{legend:{display:false}},
       scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
   charts.push(timeChart);
-  const label = sortByOrder ? 'Sort: by name' : 'Sort: by presented order';
-  document.getElementById('sortConf').textContent = label;
-  document.getElementById('sortTime').textContent = label;
+  const label = sortByOrder ? 'Sort by name' : 'Sort by presented order';
+  ['sortConf','sortTime','sortAns','sortRel'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = label; });
 }
 
 // ponytail: stash render params so toggleSort can re-call renderQuizCharts
 let lastRenderParams = {};
+function renderTables() {
+  if (!lastD) return;
+  const sorted = sortByOrder ? [...lastD.quiz].sort((a, b) => a.order - b.order) : lastD.quiz;
+  document.getElementById('ansTable').innerHTML =
+    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
+    sorted.map(q => `<tr><td>${q.name}</td><td>#${q.order}</td><td>${esc(q.answer)}</td><td>${q.conf ?? '–'}%</td>` +
+      `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
+  const relCard = document.getElementById('reliabilityCard');
+  if (lastD.reliabilityByTask && Object.keys(lastD.reliabilityByTask).length) {
+    relCard.style.display = 'block';
+    const levelColor = l => l === 'High' ? '#38a169' : l === 'Medium' ? '#d69e2e' : l === 'Low' ? '#e53e3e' : '#a0aec0';
+    document.getElementById('relTable').innerHTML =
+      '<tr><th>Question</th><th>#</th><th>Reliability shown</th><th>Max similarity</th><th>Sim tests</th><th>Correct?</th></tr>' +
+      sorted.map(q => {
+        const r = lastD.reliabilityByTask[q.task] || {};
+        const maxSim = r.sims?.length ? Math.max(...r.sims).toFixed(2) : '–';
+        return `<tr><td>${q.name}</td><td>#${q.order}</td>` +
+          `<td><span style="color:${levelColor(r.level)};font-weight:700">${r.level || '–'}</span></td>` +
+          `<td>${maxSim}</td><td>${r.sims?.length || 0}</td>` +
+          `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td></tr>`;
+      }).join('');
+  } else {
+    relCard.style.display = 'none';
+  }
+}
 function toggleSort() {
   sortByOrder = !sortByOrder;
   if (lastQuiz && lastRenderParams.barLabels) {
     const p = lastRenderParams;
     renderQuizCharts(lastQuiz, p.barLabels, p.noAR, p.padV, p.grid, p.qTicks);
   }
+  renderTables();
 }
 
 function render(D) {
@@ -337,9 +377,20 @@ function render(D) {
       { label:'Pre-task', data:[+D.pre.selfPct, +D.pre.aiPct], backgroundColor:'#a0aec0', borderRadius:4 },
       { label:'Post-task', data:[+D.post.selfPct, +D.post.aiPct], backgroundColor:'#4c8bf5', borderRadius:4 }]},
     options:{ ...noAR, scales:{ y:{ min:0, max:100, grid:{color:grid} }, x:{ grid:{display:false} } }}});
-  document.getElementById('estNote').textContent =
-    `Problem-count estimates (0–12 expected): pre — with AI ${D.pre.withAI}, without ${D.pre.withoutAI}, AI alone ${D.pre.aiAlone}; ` +
-    `post — with AI ${D.post.withAI}, without ${D.post.withoutAI}, AI alone ${D.post.aiAlone}.`;
+  const estRefLine = { id:'estRefLine', afterDraw(ch) {
+    const y = ch.scales.y.getPixelForValue(nCorrect);
+    const ctx = ch.ctx; ctx.save(); ctx.setLineDash([5,3]); ctx.strokeStyle='#38a169'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(ch.chartArea.left,y); ctx.lineTo(ch.chartArea.right,y); ctx.stroke();
+    ctx.fillStyle='#38a169'; ctx.font='10px sans-serif'; ctx.textAlign='right';
+    ctx.fillText(' '+nCorrect, ch.chartArea.right, y-4); ctx.restore();
+  }};
+  chart('c_estimates', { type:'bar', plugins:[barLabels, estRefLine],
+    data:{ labels:['With AI','Without AI','AI alone'], datasets:[
+      { label:'Pre-task', data:[+D.pre.withAI, +D.pre.withoutAI, +D.pre.aiAlone], backgroundColor:'#a0aec0', borderRadius:4 },
+      { label:'Post-task', data:[+D.post.withAI, +D.post.withoutAI, +D.post.aiAlone], backgroundColor:'#4c8bf5', borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{ legend:{position:'bottom'} },
+      scales:{ y:{ min:0, max:12, grid:{color:grid}, title:{display:true,text:'Estimated correct (out of 12)'} }, x:{ grid:{display:false} } }}});
+  document.getElementById('estNote').textContent = `Dashed line = actual correct (${nCorrect}/12).`;
 
   chart('c_tlx', { type:'bar', plugins:[barLabels],
     data:{ labels:Object.keys(D.tlx), datasets:[{ data:Object.values(D.tlx), backgroundColor:'#9f7aea', borderRadius:4 }]},
@@ -387,10 +438,8 @@ function render(D) {
   document.getElementById('freetext').innerHTML = D.openText
     .map(ft => `<div class="ft"><b>${esc(ft.label)}:</b> ${esc(ft.answer)}</div>`).join('');
 
-  document.getElementById('ansTable').innerHTML =
-    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map(q => `<tr><td>${q.name}</td><td>#${q.order}</td><td>${esc(q.answer)}</td><td>${q.conf ?? '–'}%</td>` +
-      `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
+  lastD = D;
+  renderTables();
 }
 
 /* ---------- 3. File loading & participant switching ---------- */
@@ -477,7 +526,11 @@ function participantRow(D) {
   const trustM = trustV.length ? +(trustV.reduce((a,b)=>a+b,0)/trustV.length).toFixed(1) : null;
   const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
   const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
-  return { nC, total: D.quiz.length, mc, sens, sus: D.sus, ueqM, tlxM, nfcMean: D.nfcMean, trustM, qCorrect, pid: D.meta.pid, cond: D.meta.condition };
+  const n = v => v != null ? +v : null;
+  return { nC, total: D.quiz.length, mc, sens, sus: D.sus, ueqM, tlxM, nfcMean: D.nfcMean, trustM,
+    preAI: n(D.pre.withAI), preNoAI: n(D.pre.withoutAI), preAlone: n(D.pre.aiAlone),
+    postAI: n(D.post.withAI), postNoAI: n(D.post.withoutAI), postAlone: n(D.post.aiAlone),
+    qCorrect, pid: D.meta.pid, cond: D.meta.condition };
 }
 
 function buildTable(title, rows) {
@@ -485,6 +538,7 @@ function buildTable(title, rows) {
   const f = v => v == null ? '–' : v;
   const hdr = `<tr><th>Participant</th><th>Correct</th><th>Mean Conf</th>` +
     `<th>Sensitivity</th><th>SUS</th><th>UEQ-S</th><th>TLX</th><th>NFC</th><th>Trust</th>` +
+    `<th title="Pre→Post">Est. w/ AI</th><th title="Pre→Post">Est. w/o AI</th><th title="Pre→Post">Est. AI alone</th>` +
     qNames.map(n => `<th style="writing-mode:vertical-lr;font-size:10px">${n}</th>`).join('') + '</tr>';
   const body = rows.map(r => {
     const qCells = r.qCorrect.map(v =>
@@ -494,6 +548,7 @@ function buildTable(title, rows) {
     return `<tr><td>${esc(String(r.pid).slice(0,12))}…</td>` +
       `<td>${r.nC}/${r.total}</td><td>${f(r.mc)}%</td><td>${f(r.sens)}</td>` +
       `<td>${f(r.sus)}</td><td>${f(r.ueqM)}</td><td>${f(r.tlxM)}</td><td>${f(r.nfcMean)}</td><td>${f(r.trustM)}</td>` +
+      `<td>${f(r.preAI)}→${f(r.postAI)}</td><td>${f(r.preNoAI)}→${f(r.postNoAI)}</td><td>${f(r.preAlone)}→${f(r.postAlone)}</td>` +
       qCells + '</tr>';
   }).join('');
   // mean row
@@ -508,6 +563,9 @@ function buildTable(title, rows) {
     `<td>${avg(rows.map(r=>r.nC))}</td><td>${avg(rows.map(r=>r.mc))}%</td><td>${avg(rows.map(r=>r.sens))}</td>` +
     `<td>${avg(rows.map(r=>r.sus))}</td><td>${avg(rows.map(r=>r.ueqM))}</td><td>${avg(rows.map(r=>r.tlxM))}</td>` +
     `<td>${avg(rows.map(r=>r.nfcMean != null ? +r.nfcMean : null))}</td><td>${avg(rows.map(r=>r.trustM))}</td>` +
+    `<td>${avg(rows.map(r=>r.preAI))}→${avg(rows.map(r=>r.postAI))}</td>` +
+    `<td>${avg(rows.map(r=>r.preNoAI))}→${avg(rows.map(r=>r.postNoAI))}</td>` +
+    `<td>${avg(rows.map(r=>r.preAlone))}→${avg(rows.map(r=>r.postAlone))}</td>` +
     qMeans + '</tr>';
   return `<div class="card" style="margin-bottom:14px"><h2>${esc(title)}</h2>` +
     `<div style="overflow-x:auto"><table style="white-space:nowrap">${hdr}${body}${meanRow}</table></div></div>`;
