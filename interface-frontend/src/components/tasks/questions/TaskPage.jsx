@@ -166,6 +166,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   const hasMultipleTabs = pageTabs.length > 1
   const [selectedTabKey, setSelectedTabKey] = useState(pageTabs[0].title)
   const selectedTab = pageTabs.find((tab) => tab.title === selectedTabKey) || pageTabs[0]
+  const isScenarioTab = selectedTab.title.toLowerCase() === 'scenario'
   const scrollContainerRef = useRef(null)
   const tabScrollPositionsRef = useRef({})
 
@@ -375,14 +376,16 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
-        <Button
-          className={(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
-          isDisabled={shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage}
-          color='primary'
-          type='submit'
-        >
-          Next
-        </Button>
+        {!isScenarioTab && (
+          <Button
+            className={(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
+            isDisabled={shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage}
+            color='primary'
+            type='submit'
+          >
+            Next
+          </Button>
+        )}
       </div>
     </form>
   )
