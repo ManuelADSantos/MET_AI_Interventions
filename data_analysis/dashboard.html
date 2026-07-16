@@ -77,12 +77,9 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
-    <div class="card"><h2>SUS &amp; Need for Cognition</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>SUS usability (raw items, 1–5)</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>Need for Cognition (1–5)</h2><div class="chartbox"><canvas id="c_nfc"></canvas></div></div>
     <div class="card"><h2>Trust in the AI system (1–5)</h2><div class="chartbox"><canvas id="c_trust"></canvas></div></div>
-    <div class="card">
-      <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
-      <div class="chat" id="chat"></div>
-    </div>
     <div class="card">
       <h2>Participant &amp; post-task responses</h2>
       <div id="demo" style="margin-bottom:12px"></div><div id="freetext"></div>
@@ -91,6 +88,10 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
       <h2>Answer table</h2>
       <div style="max-height:300px;overflow-y:auto"><table id="ansTable"></table></div>
     </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
+    <div class="chat" id="chat"></div>
   </div>
 </div>
 
@@ -221,12 +222,15 @@ function render(D) {
   const tlxMean = tlxVals.length ? (tlxVals.reduce((a,b) => a + b, 0) / tlxVals.length).toFixed(1) : '–';
   const attnPass = Object.values(D.attn).filter(Boolean).length;
   const userMsgs = D.messages.filter(m => m.role === 'user');
+  const ueqVals = D.ueq.filter(v => !isNaN(v));
+  const ueqMean = ueqVals.length ? (ueqVals.reduce((a,b) => a + b, 0) / ueqVals.length).toFixed(2) : '–';
 
   document.getElementById('kpis').innerHTML = [
     { v:`${nCorrect}/${D.quiz.length}`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
     { v:meanConf + '%', l:'Mean confidence' },
     { v:sensitivityText, l:'Metacog. sensitivity', cls:sensitivity == null ? '' : sensitivity >= 0 ? 'good' : 'bad', title:sensitivityTitle },
     { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
+    { v:ueqMean, l:'UEQ-S mean (−3…+3)', cls:ueqMean !== '–' && +ueqMean > 0.8 ? 'good' : ueqMean !== '–' && +ueqMean < -0.8 ? 'bad' : '' },
     { v:tlxMean, l:'TLX mean (0–20)' },
     { v:D.nfcMean, l:'NFC mean (1–5)' },
     { v:`${attnPass}/${Object.keys(D.attn).length}`, l:'Attention checks', cls:attnPass === Object.keys(D.attn).length ? 'good' : 'bad' },
@@ -315,8 +319,15 @@ function render(D) {
     options:{ ...noAR, ...padV, plugins:{ legend:{display:false},
         tooltip:{ callbacks:{ afterLabel:c => c.dataIndex % 2 === 0 ? 'Positive item' : 'Negative item (reverse-scored)' }}},
       scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
-  document.getElementById('susNote').textContent =
-    `SUS = ${D.sus} (≥68 above average). NFC item scores (reversed where needed): ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`;
+  document.getElementById('susNote').textContent = `SUS = ${D.sus} (≥68 above average).`;
+
+  const nfcLabels = ['NFC1','NFC2','NFC3 (R)','NFC4 (R)','NFC5','NFC6'];
+  chart('c_nfc', { type:'bar', plugins:[barLabels],
+    data:{ labels:nfcLabels, datasets:[{ data:D.nfc,
+      backgroundColor:nfcLabels.map((_, i) => (i === 2 || i === 3) ? '#cbd5e0' : '#ed8936'), borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ afterLabel:c => (c.dataIndex === 2 || c.dataIndex === 3) ? 'Reverse-scored' : '' }}},
+      scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
 
   chart('c_trust', { type:'bar', plugins:[barLabels],
     data:{ labels:D.trustItems, datasets:[{ data:D.trust,
