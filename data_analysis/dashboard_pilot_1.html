@@ -297,7 +297,7 @@ function render(D) {
   const ueqMean = ueqVals.length ? (ueqVals.reduce((a,b) => a + b, 0) / ueqVals.length).toFixed(2) : '–';
 
   document.getElementById('kpis').innerHTML = [
-    { v:`${nCorrect}/${D.quiz.length}`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
+    { v:`${nCorrect}/${D.quiz.length} (${Math.round(100*nCorrect/D.quiz.length)}%)`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
     { v:meanConf + '%', l:'Mean confidence' },
     { v:sensitivityText, l:'Metacog. sensitivity', cls:sensitivity == null ? '' : sensitivity >= 0 ? 'good' : 'bad', title:sensitivityTitle },
     { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
@@ -352,11 +352,11 @@ function render(D) {
   lastRenderParams = { barLabels, noAR, padV, grid, qTicks };
   renderQuizCharts(D.quiz, barLabels, noAR, padV, grid, qTicks);
 
-  chart('c_prepost', { type:'bar',
+  chart('c_prepost', { type:'bar', plugins:[barLabels],
     data:{ labels:['Own ability (percentile)', 'AI ability (percentile)'], datasets:[
       { label:'Pre-task', data:[+D.pre.selfPct, +D.pre.aiPct], backgroundColor:'#a0aec0', borderRadius:4 },
       { label:'Post-task', data:[+D.post.selfPct, +D.post.aiPct], backgroundColor:'#4c8bf5', borderRadius:4 }]},
-    options:{ ...noAR, scales:{ y:{ min:0, max:100, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+    options:{ ...noAR, ...padV, scales:{ y:{ min:0, max:100, grid:{color:grid} }, x:{ grid:{display:false} } }}});
   const estRefLine = { id:'estRefLine', afterDraw(ch) {
     const y = ch.scales.y.getPixelForValue(nCorrect);
     const ctx = ch.ctx; ctx.save(); ctx.setLineDash([5,3]); ctx.strokeStyle='#38a169'; ctx.lineWidth=1.5;
@@ -527,7 +527,7 @@ function buildTable(title, rows) {
       : v ? '<td style="color:#38a169;font-weight:700">✓</td>'
       : '<td style="color:#e53e3e">✗</td>').join('');
     return `<tr><td>${esc(String(r.pid).slice(0,12))}…</td>` +
-      `<td>${r.nC}/${r.total}</td><td>${f(r.mc)}%</td><td>${f(r.sens)}</td>` +
+      `<td>${r.nC}/${r.total} (${Math.round(100*r.nC/r.total)}%)</td><td>${f(r.mc)}%</td><td>${f(r.sens)}</td>` +
       `<td>${f(r.sus)}</td><td>${f(r.ueqM)}</td><td>${f(r.tlxM)}</td><td>${f(r.nfcMean)}</td><td>${f(r.trustM)}</td>` +
       `<td>${f(r.preAI)}→${f(r.postAI)}</td><td>${f(r.preNoAI)}→${f(r.postNoAI)}</td><td>${f(r.preAlone)}→${f(r.postAlone)}</td>` +
       qCells + '</tr>';
@@ -540,7 +540,7 @@ function buildTable(title, rows) {
     return `<td style="font-weight:700;font-size:11px">${pct}%</td>`;
   }).join('');
   const meanRow = `<tr style="background:#f7fafc;font-weight:600"><td>Mean</td>` +
-    `<td>${avg(rows.map(r=>r.nC))}</td><td>${avg(rows.map(r=>r.mc))}%</td><td>${avg(rows.map(r=>r.sens))}</td>` +
+    `<td>${avg(rows.map(r=>r.nC))} (${Math.round(100*rows.reduce((s,r)=>s+r.nC,0)/rows.reduce((s,r)=>s+r.total,0))}%)</td><td>${avg(rows.map(r=>r.mc))}%</td><td>${avg(rows.map(r=>r.sens))}</td>` +
     `<td>${avg(rows.map(r=>r.sus))}</td><td>${avg(rows.map(r=>r.ueqM))}</td><td>${avg(rows.map(r=>r.tlxM))}</td>` +
     `<td>${avg(rows.map(r=>r.nfcMean != null ? +r.nfcMean : null))}</td><td>${avg(rows.map(r=>r.trustM))}</td>` +
     `<td>${avg(rows.map(r=>r.preAI))}→${avg(rows.map(r=>r.postAI))}</td>` +

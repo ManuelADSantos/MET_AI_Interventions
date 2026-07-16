@@ -6,7 +6,7 @@ How each KPI card / chart in the participant dashboards is computed.
 
 | Metric | Calculation |
 |--------|-------------|
-| **Correct** | Count of quiz answers (tasks 6–17) matching `QUIZ_KEY`. Shown as `n / 12`. Pilot 1 uses offset detection (`T(id)` pattern). |
+| **Correct** | Count of quiz answers (tasks 6–17) matching `QUIZ_KEY`. Shown as `n / 12 (x%)`. Pilot 1 uses offset detection (`T(id)` pattern). |
 | **Mean confidence** | Arithmetic mean of 12 per-question confidence values (item 2 of each quiz task, 0–100%). |
 | **Metacog. sensitivity** | `mean_conf_correct − mean_conf_incorrect`. Needs ≥1 of each; otherwise `–`. |
 | **SUS score** | Standard SUS formula on task 23 (pilot 1: `T(24)`), items 1–7 and 9–11 (item 8 = attention check). Odd: `val − 1`; even: `5 − val`. Sum × 2.5 → 0–100. |
@@ -38,7 +38,7 @@ How each KPI card / chart in the participant dashboards is computed.
 |--------|-------------|
 | **PID** | Participant ID from `meta.pid`. | 1, 2, 3 |
 | **Cond** | Condition from `meta.condition` (`ai` or `ai-reliability`). |
-| **Correct** | `n / total` — same as upper-bar KPI. |
+| **Correct** | `n / total (x%)` — same as upper-bar KPI. Mean row shows overall percentage. |
 | **Conf** | Mean confidence (same as upper-bar). |
 | **Sens** | Metacognitive sensitivity (same as upper-bar). |
 | **SUS** | SUS score (same as upper-bar). |
