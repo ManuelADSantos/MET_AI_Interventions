@@ -60,6 +60,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <select id="picker" style="display:none"></select>
     <button id="next" style="display:none" title="Next trial">&#9654;</button>
     <span class="badge" id="condBadge" style="display:none"></span>
+    <button id="summaryBtn" style="display:none" onclick="toggleSummary()">Summary</button>
   </div>
 </div>
 
@@ -67,6 +68,8 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   Drop participant <b>data.json</b> file(s) here, or click to browse
   <input type="file" id="fileInput" accept=".json" multiple hidden>
 </div>
+
+<div id="summary" style="display:none"></div>
 
 <div id="dash">
   <div class="kpis" id="kpis"></div>
@@ -281,7 +284,17 @@ function render(D) {
   const qLabels = D.quiz.map(q => q.name);
   const qTicks = { autoSkip:false, maxRotation:60, minRotation:60 };
 
-  chart('c_conf', { type:'bar', plugins:[barLabels],
+  const confLabels = { id:'confLabels', afterDatasetsDraw(chart) {
+    const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    chart.getDatasetMeta(0).data.forEach((bar, i) => {
+      const q = D.quiz[i]; if (q.conf == null) return;
+      const mark = q.correct ? ' ✓' : ' ✗';
+      ctx.fillStyle = q.correct ? '#38a169' : '#e53e3e';
+      ctx.fillText(q.conf + mark, bar.x, bar.y - 4);
+    }); ctx.restore();
+  }};
+
+  chart('c_conf', { type:'bar', plugins:[confLabels],
     data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
       backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
     options:{ ...noAR, ...padV, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
@@ -362,9 +375,10 @@ const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const condFilter = document.getElementById('condFilter');
 
+const summaryBtn = document.getElementById('summaryBtn');
 function showNav() {
   const show = filtered.length > 0;
-  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = show ? 'inline-block' : 'none');
+  [picker, prevBtn, nextBtn, condFilter, summaryBtn].forEach(el => el.style.display = show ? 'inline-block' : 'none');
 }
 
 function applyFilter() {
@@ -409,6 +423,78 @@ input.onchange = () => loadFiles([...input.files]);
 drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
 drop.ondragleave = () => drop.classList.remove('over');
 drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); loadFiles([...e.dataTransfer.files]); };
+
+let summaryVisible = false;
+function toggleSummary() {
+  summaryVisible = !summaryVisible;
+  document.getElementById('summary').style.display = summaryVisible ? 'block' : 'none';
+  document.getElementById('dash').style.display = summaryVisible ? 'none' : 'block';
+  summaryBtn.textContent = summaryVisible ? 'Individual' : 'Summary';
+  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = summaryVisible ? 'none' : 'inline-block');
+  if (summaryVisible) renderSummary();
+}
+
+function participantRow(D) {
+  const qNames = QUIZ_KEY.map(k => k[1]);
+  const nC = D.quiz.filter(q => q.correct).length;
+  const vc = D.quiz.filter(q => Number.isFinite(q.conf));
+  const mc = vc.length ? (vc.reduce((a,q) => a + q.conf, 0) / vc.length).toFixed(1) : null;
+  const cc = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const ic = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const avg = v => v.reduce((a,b)=>a+b,0)/v.length;
+  const sens = cc.length && ic.length ? +(avg(cc) - avg(ic)).toFixed(1) : null;
+  const tlxV = Object.values(D.tlx).filter(v => !isNaN(v));
+  const tlxM = tlxV.length ? +(tlxV.reduce((a,b)=>a+b,0)/tlxV.length).toFixed(1) : null;
+  const ueqV = D.ueq.filter(v => !isNaN(v));
+  const ueqM = ueqV.length ? +(ueqV.reduce((a,b)=>a+b,0)/ueqV.length).toFixed(2) : null;
+  const trustV = D.trust.filter(v => !isNaN(v));
+  const trustM = trustV.length ? +(trustV.reduce((a,b)=>a+b,0)/trustV.length).toFixed(1) : null;
+  const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
+  const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
+  return { nC, total: D.quiz.length, mc, sens, sus: D.sus, ueqM, tlxM, nfcMean: D.nfcMean, trustM, qCorrect, pid: D.meta.pid, cond: D.meta.condition };
+}
+
+function buildTable(title, rows) {
+  const qNames = QUIZ_KEY.map(k => k[1]);
+  const f = v => v == null ? '–' : v;
+  const hdr = `<tr><th>Participant</th><th>Correct</th><th>Mean Conf</th>` +
+    `<th>Sensitivity</th><th>SUS</th><th>UEQ-S</th><th>TLX</th><th>NFC</th><th>Trust</th>` +
+    qNames.map(n => `<th style="writing-mode:vertical-lr;font-size:10px">${n}</th>`).join('') + '</tr>';
+  const body = rows.map(r => {
+    const qCells = r.qCorrect.map(v =>
+      v == null ? '<td style="color:#a0aec0">–</td>'
+      : v ? '<td style="color:#38a169;font-weight:700">✓</td>'
+      : '<td style="color:#e53e3e">✗</td>').join('');
+    return `<tr><td>${esc(String(r.pid).slice(0,12))}…</td>` +
+      `<td>${r.nC}/${r.total}</td><td>${f(r.mc)}%</td><td>${f(r.sens)}</td>` +
+      `<td>${f(r.sus)}</td><td>${f(r.ueqM)}</td><td>${f(r.tlxM)}</td><td>${f(r.nfcMean)}</td><td>${f(r.trustM)}</td>` +
+      qCells + '</tr>';
+  }).join('');
+  // mean row
+  const avg = (arr) => { const v = arr.filter(x => x != null); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : '–'; };
+  const qMeans = qNames.map((_, qi) => {
+    const vals = rows.map(r => r.qCorrect[qi]).filter(v => v != null);
+    if (!vals.length) return '<td>–</td>';
+    const pct = Math.round(100 * vals.filter(Boolean).length / vals.length);
+    return `<td style="font-weight:700;font-size:11px">${pct}%</td>`;
+  }).join('');
+  const meanRow = `<tr style="background:#f7fafc;font-weight:600"><td>Mean</td>` +
+    `<td>${avg(rows.map(r=>r.nC))}</td><td>${avg(rows.map(r=>r.mc))}%</td><td>${avg(rows.map(r=>r.sens))}</td>` +
+    `<td>${avg(rows.map(r=>r.sus))}</td><td>${avg(rows.map(r=>r.ueqM))}</td><td>${avg(rows.map(r=>r.tlxM))}</td>` +
+    `<td>${avg(rows.map(r=>r.nfcMean != null ? +r.nfcMean : null))}</td><td>${avg(rows.map(r=>r.trustM))}</td>` +
+    qMeans + '</tr>';
+  return `<div class="card" style="margin-bottom:14px"><h2>${esc(title)}</h2>` +
+    `<div style="overflow-x:auto"><table style="white-space:nowrap">${hdr}${body}${meanRow}</table></div></div>`;
+}
+
+function renderSummary() {
+  const allRows = store.map(s => participantRow(s.data));
+  const conds = [...new Set(allRows.map(r => r.cond).filter(Boolean))].sort();
+  let html = '';
+  for (const c of conds) html += buildTable('Condition: ' + c, allRows.filter(r => r.cond === c));
+  if (conds.length > 1) html += buildTable('All participants', allRows);
+  document.getElementById('summary').innerHTML = html;
+}
 </script>
 </body>
 </html>
