@@ -45,6 +45,10 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 .pill { display:inline-block; font-size:11px; padding:1px 8px; border-radius:10px; background:#edf2f7; color:#4a5568; margin:2px 4px 2px 0; }
 .ft { font-size:13px; color:#4a5568; margin-bottom:8px; } .ft b { color:#2d3748; }
 #dash { display:none; }
+.tip { cursor:help; border-bottom:1px dotted #a0aec0; position:relative; }
+.tip .tt { display:none; position:fixed; background:#2d3748; color:#fff; font-size:11px; padding:6px 10px;
+  border-radius:6px; white-space:pre; z-index:9999; pointer-events:none; max-width:340px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2); line-height:1.5; }
 </style>
 </head>
 <body>
@@ -104,6 +108,8 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 </div>
 
 <script>
+document.addEventListener('mouseover', e => { const el = e.target.closest('.tip'); if (!el) return; const tt = el.querySelector('.tt'); if (!tt) return; tt.style.display = 'block'; tt.offsetHeight; const r = el.getBoundingClientRect(); tt.style.left = r.left + 'px'; tt.style.top = (r.top - tt.offsetHeight - 4) + 'px'; });
+document.addEventListener('mouseout', e => { const el = e.target.closest('.tip'); if (!el) return; const tt = el.querySelector('.tt'); if (tt) tt.style.display = 'none'; });
 /* ---------- 1. Preprocess a raw data.json (pilot-2 layout) into dashboard-ready form ---------- */
 // ponytail: task IDs hardcoded to the pilot-2 study layout; edit here if the study changes again
 const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customizations/correct_answers.md
@@ -527,7 +533,8 @@ function participantRow(D) {
   const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
   const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
   const n = v => v != null ? +v : null;
-  return { nC, total: D.quiz.length, mc, sens, sus: D.sus, ueqM, tlxM, nfcMean: D.nfcMean, trustM,
+  return { nC, total: D.quiz.length, mc, sens, sus: D.sus, susRaw: D.susRaw, ueqM, ueq: D.ueq, ueqItems: D.ueqItems,
+    tlxM, tlx: D.tlx, nfcMean: D.nfcMean, nfc: D.nfc, trustM, trust: D.trust, trustItems: D.trustItems,
     preAI: n(D.pre.withAI), preNoAI: n(D.pre.withoutAI), preAlone: n(D.pre.aiAlone),
     postAI: n(D.post.withAI), postNoAI: n(D.post.withoutAI), postAlone: n(D.post.aiAlone),
     qCorrect, pid: D.meta.pid, cond: D.meta.condition };
@@ -540,19 +547,46 @@ function buildTable(title, rows) {
     `<th>Sensitivity</th><th>SUS</th><th>UEQ-S</th><th>TLX</th><th>NFC</th><th>Trust</th>` +
     `<th title="Pre→Post">Est. w/ AI</th><th title="Pre→Post">Est. w/o AI</th><th title="Pre→Post">Est. AI alone</th>` +
     qNames.map(n => `<th style="writing-mode:vertical-lr;font-size:10px">${n}</th>`).join('') + '</tr>';
+  const tip = (val, t) => t ? `<span class="tip">${val}<span class="tt">${t.replace(/\n/g,'<br>')}</span></span>` : val;
+  const susIds = [1,2,3,4,5,6,7,9,10,11];
+  const nfcLbl = ['NFC1','NFC2','NFC3(R)','NFC4(R)','NFC5','NFC6'];
   const body = rows.map(r => {
     const qCells = r.qCorrect.map(v =>
       v == null ? '<td style="color:#a0aec0">–</td>'
       : v ? '<td style="color:#38a169;font-weight:700">✓</td>'
       : '<td style="color:#e53e3e">✗</td>').join('');
+    const susTip = r.susRaw ? r.susRaw.map((v,i) => 'S'+susIds[i]+': '+f(v)).join('\n') : '';
+    const ueqTip = r.ueq ? r.ueqItems.map((l,i) => l+': '+f(r.ueq[i])).join('\n') : '';
+    const tlxTip = r.tlx ? Object.entries(r.tlx).map(([k,v]) => k+': '+f(v)).join('\n') : '';
+    const nfcTip = r.nfc ? nfcLbl.map((l,i) => l+': '+f(r.nfc[i])).join('\n') : '';
+    const trustTip = r.trust && r.trustItems ? r.trustItems.map((l,i) => l+': '+f(r.trust[i])).join('\n') : '';
     return `<tr><td>${esc(String(r.pid).slice(0,12))}…</td>` +
       `<td>${r.nC}/${r.total} (${Math.round(100*r.nC/r.total)}%)</td><td>${f(r.mc)}%</td><td>${f(r.sens)}</td>` +
-      `<td>${f(r.sus)}</td><td>${f(r.ueqM)}</td><td>${f(r.tlxM)}</td><td>${f(r.nfcMean)}</td><td>${f(r.trustM)}</td>` +
+      `<td>${tip(f(r.sus), susTip)}</td>` +
+      `<td>${tip(f(r.ueqM), ueqTip)}</td>` +
+      `<td>${tip(f(r.tlxM), tlxTip)}</td>` +
+      `<td>${tip(f(r.nfcMean), nfcTip)}</td>` +
+      `<td>${tip(f(r.trustM), trustTip)}</td>` +
       `<td>${f(r.preAI)}→${f(r.postAI)}</td><td>${f(r.preNoAI)}→${f(r.postNoAI)}</td><td>${f(r.preAlone)}→${f(r.postAlone)}</td>` +
       qCells + '</tr>';
   }).join('');
   // mean row
   const avg = (arr) => { const v = arr.filter(x => x != null); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : '–'; };
+  const avgArr = (arrs, len) => [...Array(len)].map((_, i) => {
+    const vals = arrs.map(a => a?.[i]).filter(v => v != null);
+    return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '–';
+  });
+  const mSus = avgArr(rows.map(r => r.susRaw), 10);
+  const mSusTip = mSus.map((v,i) => 'S'+susIds[i]+': '+v).join('\n');
+  const mUeq = avgArr(rows.map(r => r.ueq), 8);
+  const mUeqTip = (rows[0]?.ueqItems||[]).map((l,i) => l+': '+mUeq[i]).join('\n');
+  const tlxKeys = ['Mental','Physical','Temporal','Performance','Effort','Frustration'];
+  const mTlx = tlxKeys.map(k => { const v = rows.map(r => r.tlx?.[k]).filter(x => x!=null); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : '–'; });
+  const mTlxTip = tlxKeys.map((k,i) => k+': '+mTlx[i]).join('\n');
+  const mNfc = avgArr(rows.map(r => r.nfc), 6);
+  const mNfcTip = nfcLbl.map((l,i) => l+': '+mNfc[i]).join('\n');
+  const mTrust = avgArr(rows.map(r => r.trust), 8);
+  const mTrustTip = (rows[0]?.trustItems||[]).map((l,i) => l+': '+mTrust[i]).join('\n');
   const qMeans = qNames.map((_, qi) => {
     const vals = rows.map(r => r.qCorrect[qi]).filter(v => v != null);
     if (!vals.length) return '<td>–</td>';
@@ -561,8 +595,11 @@ function buildTable(title, rows) {
   }).join('');
   const meanRow = `<tr style="background:#f7fafc;font-weight:600"><td>Mean</td>` +
     `<td>${avg(rows.map(r=>r.nC))} (${Math.round(100*rows.reduce((s,r)=>s+r.nC,0)/rows.reduce((s,r)=>s+r.total,0))}%)</td><td>${avg(rows.map(r=>r.mc))}%</td><td>${avg(rows.map(r=>r.sens))}</td>` +
-    `<td>${avg(rows.map(r=>r.sus))}</td><td>${avg(rows.map(r=>r.ueqM))}</td><td>${avg(rows.map(r=>r.tlxM))}</td>` +
-    `<td>${avg(rows.map(r=>r.nfcMean != null ? +r.nfcMean : null))}</td><td>${avg(rows.map(r=>r.trustM))}</td>` +
+    `<td>${tip(avg(rows.map(r=>r.sus)), mSusTip)}</td>` +
+    `<td>${tip(avg(rows.map(r=>r.ueqM)), mUeqTip)}</td>` +
+    `<td>${tip(avg(rows.map(r=>r.tlxM)), mTlxTip)}</td>` +
+    `<td>${tip(avg(rows.map(r=>r.nfcMean != null ? +r.nfcMean : null)), mNfcTip)}</td>` +
+    `<td>${tip(avg(rows.map(r=>r.trustM)), mTrustTip)}</td>` +
     `<td>${avg(rows.map(r=>r.preAI))}→${avg(rows.map(r=>r.postAI))}</td>` +
     `<td>${avg(rows.map(r=>r.preNoAI))}→${avg(rows.map(r=>r.postNoAI))}</td>` +
     `<td>${avg(rows.map(r=>r.preAlone))}→${avg(rows.map(r=>r.postAlone))}</td>` +
