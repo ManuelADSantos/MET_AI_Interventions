@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MET AI Interventions — Participant Dashboard</title>
+<title>MET AI Interventions — Participant Dashboard (Pilot 1)</title>
 <!--
-  Reproducible participant dashboard for the MET AI Interventions study.
+  Reproducible participant dashboard for the MET AI Interventions study, pilot 1.
   Usage: open this file in any browser, then drop one or more raw data.json
   files (or use the file picker). Switch participants with the dropdown.
   No server, no build step. Only dependency: Chart.js from CDN.
@@ -37,7 +37,7 @@ button:hover { background:#edf2f7; }
 table { width:100%; border-collapse:collapse; font-size:13px; }
 th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #e2e8f0; }
 td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
-.chat { max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
+.chat { max-height:840px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; }
 .msg { max-width:78%; padding:8px 12px; border-radius:12px; font-size:13px; line-height:1.45; white-space:pre-wrap; }
 .msg.user { align-self:flex-end; background:#3182ce; color:#fff; }
 .msg.assistant { align-self:flex-start; background:#edf2f7; }
@@ -51,7 +51,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 
 <div class="header">
   <div>
-    <h1>MET AI Interventions — Participant Dashboard</h1>
+    <h1>MET AI Interventions — Participant Dashboard (Pilot 1)</h1>
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
@@ -60,6 +60,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <select id="picker" style="display:none"></select>
     <button id="next" style="display:none" title="Next trial">&#9654;</button>
     <span class="badge" id="condBadge" style="display:none"></span>
+    <button id="summaryBtn" style="display:none" onclick="toggleSummary()">Summary</button>
   </div>
 </div>
 
@@ -68,34 +69,57 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   <input type="file" id="fileInput" accept=".json" multiple hidden>
 </div>
 
+<div id="summary" style="display:none"></div>
+
 <div id="dash">
   <div class="kpis" id="kpis"></div>
   <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
-    <div class="card"><h2>Confidence per question (question index order)</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
-    <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
+    <div class="card"><h2>Confidence per question <button id="sortConf" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort: by name</button></h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Response time per question (s) <button id="sortTime" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort: by name</button></h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
     <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
-    <div class="card"><h2>SUS &amp; Need for Cognition</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
-    <div class="card">
-      <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
-      <div class="chat" id="chat"></div>
-    </div>
+    <div class="card"><h2>SUS usability (raw items, 1–5)</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>Need for Cognition (1–5)</h2><div class="chartbox"><canvas id="c_nfc"></canvas></div></div>
+    <div class="card"><h2>Trust in the AI system (1–5)</h2><div class="chartbox"><canvas id="c_trust"></canvas></div></div>
     <div class="card">
       <h2>Participant &amp; free-text responses</h2>
       <div id="demo" style="margin-bottom:12px"></div><div id="freetext"></div>
-      <h2 style="margin-top:14px">Answer table</h2>
-      <div style="max-height:220px;overflow-y:auto"><table id="ansTable"></table></div>
     </div>
+    <div class="card">
+      <h2>Answer table</h2>
+      <div style="max-height:300px;overflow-y:auto"><table id="ansTable"></table></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <h2>AI chat log</h2><div class="sub" id="chatStats" style="margin-bottom:8px"></div>
+    <div class="chat" id="chat"></div>
   </div>
 </div>
 
 <script>
-/* ---------- 1. Preprocess a raw data.json into dashboard-ready form ---------- */
+/* ---------- 1. Preprocess a raw data.json (pilot-1 layout) into dashboard-ready form ---------- */
+// ponytail: pilot-1 uses full response keys (taskT+'.N') and offset detection
+const QUIZ_KEY = [ // [baseTaskId, question name, correct answer]
+  [7,  'ypc_02', 'Neither of the two statements is correct.'],
+  [8,  'ypc_03', 'Only statement 2 is correct.'],
+  [9,  'ypc_05', 'Only statement 1 is correct.'],
+  [10, 'ypc_06', 'Only statement 1 is correct.'],
+  [11, 'car_racing_01', 'Neither of the two statements is correct.'],
+  [12, 'car_racing_02', 'Both statements are correct.'],
+  [13, 'car_racing_03', 'Only statement 2 is correct.'],
+  [14, 'car_racing_05', 'Only statement 1 is correct.'],
+  [15, 'graduation_party_01', 'Only statement 2 is correct.'],
+  [16, 'graduation_party_05', 'Only statement 1 is correct.'],
+  [17, 'graduation_party_06', 'Neither of the two statements is correct.'],
+  [18, 'graduation_party_07', 'Only statement 2 is correct.'],
+];
+
 function process(raw) {
   const tasks = raw.tasks || {};
   const get = (t, q) => tasks[t]?.responses?.[q]?.answer;
+  const num = (t, q) => { const v = get(t, q); return v != null ? +v : null; };
 
   // ponytail: detect task-ID offset — study versions shift all IDs by ±1
   let off = 0;
@@ -104,61 +128,58 @@ function process(raw) {
       if (/like to use this system/i.test(r.question)) { off = +k - 23; break outer; }
   const T = id => String(+id + off);
 
-  const baseAnswers = [[7,'Neither of the two statements is correct.'],[8,'Only statement 2 is correct.'],
-    [9,'Only statement 1 is correct.'],[10,'Only statement 1 is correct.'],[11,'Neither of the two statements is correct.'],
-    [12,'Both statements are correct.'],[13,'Only statement 2 is correct.'],[14,'Only statement 1 is correct.'],
-    [15,'Only statement 2 is correct.'],[16,'Only statement 1 is correct.'],[17,'Neither of the two statements is correct.'],
-    [18,'Only statement 2 is correct.']];
-  const answerKey = {};
-  for (const [base, ans] of baseAnswers) answerKey[T(base) + '.1'] = ans;
-
   const tsByDi = {};
   for (const t of Object.values(tasks))
     if (t.displayIndex != null && t.ts) tsByDi[t.displayIndex] = t.ts;
 
   const quiz = [];
-  for (const [answerId, correctAnswer] of Object.entries(answerKey)) {
-    const k = answerId.split('.')[0];
+  for (const [baseId, name, correctAnswer] of QUIZ_KEY) {
+    const k = T(baseId);
     if (!tasks[k]) continue;
     const r = tasks[k].responses || {};
     if (r[k + '.2'] && /confident/.test(r[k + '.2'].question)) {
-      const answer = r[answerId]?.answer;
+      const answer = r[k + '.1']?.answer;
       quiz.push({
-        task: +k, di: tasks[k].displayIndex, ts: tasks[k].ts,
-        answer, conf: +r[k + '.2'].answer,
+        task: +k, name, di: tasks[k].displayIndex, ts: tasks[k].ts,
+        answer, conf: num(k, k + '.2'),
         correctAnswer, correct: answer === correctAnswer, dur: null
       });
     }
   }
   quiz.sort((a, b) => a.di - b.di);
   quiz.forEach((q, i) => {
+    q.order = i + 1;
     const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
     if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
   });
-  // Timing above follows the participant's presentation order. Displaying the
-  // result by stable question index does not affect answers or evaluation.
   quiz.sort((a, b) => a.task - b.task);
 
   const susT = T(23);
-  const susIds = [1,2,3,4,5,6,7,9,10,11].map(i => susT + '.' + i);
-  const susRaw = susIds.map(id => +get(susT, id));
-  const sus = susRaw.some(isNaN) ? null :
+  const susIds = [1,2,3,4,5,6,7,9,10,11];
+  const susRaw = susIds.map(i => num(susT, susT + '.' + i));
+  const sus = susRaw.some(v => v == null) ? null :
     susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
 
   const ueqT = T(22);
   const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
                     'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
-  const ueq = [...Array(8)].map((_, i) => +get(ueqT, ueqT + '.' + (i + 1)) - 4);
+  const ueq = [...Array(8)].map((_, i) => { const v = num(ueqT, ueqT + '.' + (i + 1)); return v != null ? v - 4 : null; });
 
   const nfcT = T(24);
   const nfc = [...Array(6)].map((_, i) => {
-    const v = +get(nfcT, nfcT + '.' + (i + 1));
+    const v = num(nfcT, nfcT + '.' + (i + 1));
+    if (v == null) return null;
     return (i === 2 || i === 3) ? 6 - v : v;
   });
 
+  const trustT = T(25);
+  const trustItems = ['Confident in it','Predictable','Reliable','Feel safe relying','Efficient / quick',
+                      'Wary (R)','Better than novice','Like using it'];
+  const trust = [...Array(8)].map((_, i) => num(trustT, trustT + '.' + (i + 1)));
+
   const tlxT = T(26);
-  const tlx = { Mental:+get(tlxT,tlxT+'.1'), Physical:+get(tlxT,tlxT+'.2'), Temporal:+get(tlxT,tlxT+'.3'),
-                Performance:+get(tlxT,tlxT+'.4'), Effort:+get(tlxT,tlxT+'.5'), Frustration:+get(tlxT,tlxT+'.6') };
+  const tlx = { Mental:num(tlxT,tlxT+'.1'), Physical:num(tlxT,tlxT+'.2'), Temporal:num(tlxT,tlxT+'.3'),
+                Performance:num(tlxT,tlxT+'.4'), Effort:num(tlxT,tlxT+'.5'), Frustration:num(tlxT,tlxT+'.6') };
 
   const messages = (raw.messages || []).map(m => m.role === 'user'
     ? { role:'user', task:m.task, ts:m.ts, text:m.content }
@@ -173,6 +194,7 @@ function process(raw) {
     const response = tasks[ftT]?.responses?.[ftT + '.' + i];
     if (response) openText.push({ label: response.question || (ftT + '.' + i), answer: response.answer });
   }
+
   const tsAll = Object.values(tsByDi);
   return {
     meta: { condition: raw.condition, pid: raw.participantId,
@@ -182,9 +204,10 @@ function process(raw) {
     pre:  { withAI:get(preT,preT+'.1'), withoutAI:get(preT,preT+'.2'), aiAlone:get(preT,preT+'.3'), selfPct:get(preT,preT+'.4'), aiPct:get(preT,preT+'.5') },
     post: { withAI:get(postT,postT+'.1'), withoutAI:get(postT,postT+'.2'), attn:get(postT,postT+'.3'), aiAlone:get(postT,postT+'.4'), selfPct:get(postT,postT+'.5'), aiPct:get(postT,postT+'.6') },
     quiz, susRaw, sus, ueqItems, ueq,
-    nfc, nfcMean: +(nfc.reduce((a,b)=>a+b,0) / nfc.length).toFixed(2),
+    nfc, nfcMean: (() => { const v = nfc.filter(x => x != null); return v.length ? +(v.reduce((a,b)=>a+b,0) / v.length).toFixed(2) : null; })(),
+    trustItems, trust,
     tlx,
-    attn: { instr: get(attnT,attnT+'.2') === 'C', post: String(get(postT,postT+'.3')) === '5', sus: +get(susT,susT+'.8') === 5 },
+    attn: { instr: get(attnT,attnT+'.2') === 'C', post: String(get(postT,postT+'.3')) === '5', sus: num(susT,susT+'.8') === 5 },
     openText,
     messages
   };
@@ -192,8 +215,50 @@ function process(raw) {
 
 /* ---------- 2. Rendering ---------- */
 let charts = [];
+let confChart = null, timeChart = null;
+let lastQuiz = null, sortByOrder = false;
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 function chart(id, cfg) { charts.push(new Chart(document.getElementById(id), cfg)); }
+
+function renderQuizCharts(quiz, barLabels, noAR, padV, grid, qTicks) {
+  if (confChart) { confChart.destroy(); charts = charts.filter(c => c !== confChart); }
+  if (timeChart) { timeChart.destroy(); charts = charts.filter(c => c !== timeChart); }
+  const sorted = sortByOrder ? [...quiz].sort((a, b) => a.order - b.order) : quiz;
+  const qLabels = sorted.map(q => q.name + ' [#' + q.order + ']');
+  const confLabelsPlugin = { id:'confLabels', afterDatasetsDraw(chart) {
+    const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    chart.getDatasetMeta(0).data.forEach((bar, i) => {
+      const q = sorted[i]; if (q.conf == null) return;
+      const mark = q.correct ? ' ✓' : ' ✗';
+      ctx.fillStyle = q.correct ? '#38a169' : '#e53e3e';
+      ctx.fillText(q.conf + mark, bar.x, bar.y - 4);
+    }); ctx.restore();
+  }};
+  confChart = new Chart(document.getElementById('c_conf'), { type:'bar', plugins:[confLabelsPlugin],
+    data:{ labels:qLabels, datasets:[{ data:sorted.map(q => q.conf),
+      backgroundColor:sorted.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
+        const q = sorted[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
+      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
+  charts.push(confChart);
+  timeChart = new Chart(document.getElementById('c_time'), { type:'bar', plugins:[barLabels],
+    data:{ labels:qLabels, datasets:[{ data:sorted.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{legend:{display:false}},
+      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
+  charts.push(timeChart);
+  const label = sortByOrder ? 'Sort: by name' : 'Sort: by presented order';
+  document.getElementById('sortConf').textContent = label;
+  document.getElementById('sortTime').textContent = label;
+}
+
+let lastRenderParams = {};
+function toggleSort() {
+  sortByOrder = !sortByOrder;
+  if (lastQuiz && lastRenderParams.barLabels) {
+    const p = lastRenderParams;
+    renderQuizCharts(lastQuiz, p.barLabels, p.noAR, p.padV, p.grid, p.qTicks);
+  }
+}
 
 function render(D) {
   charts.forEach(c => c.destroy()); charts = [];
@@ -203,10 +268,10 @@ function render(D) {
   document.getElementById('subline').textContent =
     `Participant ${String(D.meta.pid).slice(0,12)}… · ${new Date(D.meta.start).toLocaleString('en-GB')} · session ${durMin} min`;
   const cb = document.getElementById('condBadge');
-  cb.style.display = 'inline-block'; cb.textContent = 'Condition: ' + D.meta.condition;
 
   const nCorrect = D.quiz.filter(q => q.correct).length;
-  const meanConf = D.quiz.length ? (D.quiz.reduce((s,q) => s + q.conf, 0) / D.quiz.length).toFixed(1) : '–';
+  const validConf = D.quiz.filter(q => Number.isFinite(q.conf));
+  const meanConf = validConf.length ? (validConf.reduce((s,q) => s + q.conf, 0) / validConf.length).toFixed(1) : '–';
   const correctConf = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
   const incorrectConf = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
   const avg = values => values.reduce((sum, value) => sum + value, 0) / values.length;
@@ -215,18 +280,21 @@ function render(D) {
   const sensitivityTitle = sensitivity == null
     ? 'Requires at least one correct and one incorrect answer'
     : `Mean confidence: ${avg(correctConf).toFixed(1)}% correct vs ${avg(incorrectConf).toFixed(1)}% incorrect`;
-  const tlxVals = Object.values(D.tlx).filter(v => !isNaN(v));
+  const tlxVals = Object.values(D.tlx).filter(v => v != null);
   const tlxMean = tlxVals.length ? (tlxVals.reduce((a,b) => a + b, 0) / tlxVals.length).toFixed(1) : '–';
   const attnPass = Object.values(D.attn).filter(Boolean).length;
   const userMsgs = D.messages.filter(m => m.role === 'user');
+  const ueqVals = D.ueq.filter(v => v != null);
+  const ueqMean = ueqVals.length ? (ueqVals.reduce((a,b) => a + b, 0) / ueqVals.length).toFixed(2) : '–';
 
   document.getElementById('kpis').innerHTML = [
     { v:`${nCorrect}/${D.quiz.length}`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
     { v:meanConf + '%', l:'Mean confidence' },
     { v:sensitivityText, l:'Metacog. sensitivity', cls:sensitivity == null ? '' : sensitivity >= 0 ? 'good' : 'bad', title:sensitivityTitle },
     { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
+    { v:ueqMean, l:'UEQ-S mean (−3…+3)', cls:ueqMean !== '–' && +ueqMean > 0.8 ? 'good' : ueqMean !== '–' && +ueqMean < -0.8 ? 'bad' : '' },
     { v:tlxMean, l:'TLX mean (0–20)' },
-    { v:D.nfcMean, l:'NFC mean (1–5)' },
+    { v:D.nfcMean ?? '–', l:'NFC mean (1–5)' },
     { v:`${attnPass}/${Object.keys(D.attn).length}`, l:'Attention checks', cls:attnPass === Object.keys(D.attn).length ? 'good' : 'bad' },
     { v:userMsgs.length, l:'Msgs to AI' },
   ].map(k => `<div class="kpi ${k.cls||''}"${k.title ? ` title="${esc(k.title)}"` : ''}><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
@@ -250,20 +318,30 @@ function render(D) {
   document.getElementById('qualList').innerHTML = flags.map(f => `<li>${f}</li>`).join('');
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
+  const barLabels = { id:'barLabels', afterDatasetsDraw(chart) {
+    const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.fillStyle = '#4a5568';
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di);
+      meta.data.forEach((bar, i) => {
+        const v = ds.data[i]; if (v == null) return;
+        const horiz = chart.options.indexAxis === 'y';
+        if (horiz) {
+          ctx.textBaseline = 'middle';
+          const neg = v < 0;
+          ctx.textAlign = neg ? 'right' : 'left';
+          ctx.fillText(v, bar.x + (neg ? -8 : 8), bar.y);
+        } else { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(v, bar.x, bar.y - 4); }
+      });
+    }); ctx.restore();
+  }};
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
-  const qLabels = D.quiz.map(q => 'Q' + q.task);
+  const padH = { layout:{ padding:{ right:28 } } };
+  const padV = { layout:{ padding:{ top:14 } } };
+  const qTicks = { autoSkip:false, maxRotation:60, minRotation:60 };
 
-  chart('c_conf', { type:'bar',
-    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
-      backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
-    options:{ ...noAR, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
-        const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
-      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
-
-  chart('c_time', { type:'bar',
-    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
-    options:{ ...noAR, plugins:{legend:{display:false}},
-      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+  lastQuiz = D.quiz;
+  lastRenderParams = { barLabels, noAR, padV, grid, qTicks };
+  renderQuizCharts(D.quiz, barLabels, noAR, padV, grid, qTicks);
 
   chart('c_prepost', { type:'bar',
     data:{ labels:['Own ability (percentile)', 'AI ability (percentile)'], datasets:[
@@ -274,26 +352,40 @@ function render(D) {
     `Problem-count estimates (0–12 expected): pre — with AI ${D.pre.withAI}, without ${D.pre.withoutAI}, AI alone ${D.pre.aiAlone}; ` +
     `post — with AI ${D.post.withAI}, without ${D.post.withoutAI}, AI alone ${D.post.aiAlone}.`;
 
-  chart('c_tlx', { type:'bar',
+  chart('c_tlx', { type:'bar', plugins:[barLabels],
     data:{ labels:Object.keys(D.tlx), datasets:[{ data:Object.values(D.tlx), backgroundColor:'#9f7aea', borderRadius:4 }]},
-    options:{ ...noAR, indexAxis:'y', plugins:{legend:{display:false}},
+    options:{ ...noAR, ...padH, indexAxis:'y', plugins:{legend:{display:false}},
       scales:{ x:{ min:0, max:20, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
-  chart('c_ueq', { type:'bar',
+  chart('c_ueq', { type:'bar', plugins:[barLabels],
     data:{ labels:D.ueqItems, datasets:[{ data:D.ueq,
       backgroundColor:D.ueqItems.map((_, i) => i < 4 ? '#4c8bf5' : '#ed8936'), borderRadius:4 }]},
-    options:{ ...noAR, indexAxis:'y', plugins:{ legend:{display:false},
+    options:{ ...noAR, ...padH, indexAxis:'y', plugins:{ legend:{display:false},
         tooltip:{ callbacks:{ afterLabel:c => c.dataIndex < 4 ? 'Pragmatic quality' : 'Hedonic quality' }}},
       scales:{ x:{ min:-3, max:3, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
-  chart('c_sus', { type:'bar',
+  chart('c_sus', { type:'bar', plugins:[barLabels],
     data:{ labels:D.susRaw.map((_, i) => 'S' + (i + 1)), datasets:[{ data:D.susRaw,
       backgroundColor:D.susRaw.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius:4 }]},
-    options:{ ...noAR, plugins:{ legend:{display:false},
+    options:{ ...noAR, ...padV, plugins:{ legend:{display:false},
         tooltip:{ callbacks:{ afterLabel:c => c.dataIndex % 2 === 0 ? 'Positive item' : 'Negative item (reverse-scored)' }}},
       scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
-  document.getElementById('susNote').textContent =
-    `SUS = ${D.sus} (≥68 above average). NFC item scores (reversed where needed): ${D.nfc.join(', ')} → mean ${D.nfcMean}/5.`;
+  document.getElementById('susNote').textContent = `SUS = ${D.sus} (≥68 above average).`;
+
+  const nfcLabels = ['NFC1','NFC2','NFC3 (R)','NFC4 (R)','NFC5','NFC6'];
+  chart('c_nfc', { type:'bar', plugins:[barLabels],
+    data:{ labels:nfcLabels, datasets:[{ data:D.nfc,
+      backgroundColor:nfcLabels.map((_, i) => (i === 2 || i === 3) ? '#cbd5e0' : '#ed8936'), borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ afterLabel:c => (c.dataIndex === 2 || c.dataIndex === 3) ? 'Reverse-scored' : '' }}},
+      scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+
+  chart('c_trust', { type:'bar', plugins:[barLabels],
+    data:{ labels:D.trustItems, datasets:[{ data:D.trust,
+      backgroundColor:D.trustItems.map((_, i) => i === 5 ? '#cbd5e0' : '#38b2ac'), borderRadius:4 }]},
+    options:{ ...noAR, ...padH, indexAxis:'y', plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ afterLabel:c => c.dataIndex === 5 ? 'Reverse-scored (wary)' : '' }}},
+      scales:{ x:{ min:0, max:5, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
   const totalTokens = D.messages.reduce((s, m) => s + (m.tokens || 0), 0);
   document.getElementById('chatStats').textContent =
@@ -309,21 +401,22 @@ function render(D) {
 
   document.getElementById('ansTable').innerHTML =
     '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map(q => `<tr><td>Q${q.task}</td><td>Q${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+    D.quiz.map(q => `<tr><td>${q.name}</td><td>#${q.order}</td><td>${esc(q.answer)}</td><td>${q.conf ?? '–'}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
 }
 
 /* ---------- 3. File loading & participant switching ---------- */
-const store = []; // [{label, data}]
-let filtered = []; // indices into store matching current condition filter
+const store = [];
+let filtered = [];
 const picker = document.getElementById('picker');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const condFilter = document.getElementById('condFilter');
 
+const summaryBtn = document.getElementById('summaryBtn');
 function showNav() {
   const show = filtered.length > 0;
-  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = show ? 'inline-block' : 'none');
+  [picker, prevBtn, nextBtn, condFilter, summaryBtn].forEach(el => el.style.display = show ? 'inline-block' : 'none');
 }
 
 function applyFilter() {
@@ -368,6 +461,77 @@ input.onchange = () => loadFiles([...input.files]);
 drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
 drop.ondragleave = () => drop.classList.remove('over');
 drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); loadFiles([...e.dataTransfer.files]); };
+
+let summaryVisible = false;
+function toggleSummary() {
+  summaryVisible = !summaryVisible;
+  document.getElementById('summary').style.display = summaryVisible ? 'block' : 'none';
+  document.getElementById('dash').style.display = summaryVisible ? 'none' : 'block';
+  summaryBtn.textContent = summaryVisible ? 'Individual' : 'Summary';
+  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = summaryVisible ? 'none' : 'inline-block');
+  if (summaryVisible) renderSummary();
+}
+
+function participantRow(D) {
+  const qNames = QUIZ_KEY.map(k => k[1]);
+  const nC = D.quiz.filter(q => q.correct).length;
+  const vc = D.quiz.filter(q => Number.isFinite(q.conf));
+  const mc = vc.length ? +(vc.reduce((a,q) => a + q.conf, 0) / vc.length).toFixed(1) : null;
+  const cc = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const ic = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
+  const avg = v => v.reduce((a,b)=>a+b,0)/v.length;
+  const sens = cc.length && ic.length ? +(avg(cc) - avg(ic)).toFixed(1) : null;
+  const tlxV = Object.values(D.tlx).filter(v => v != null);
+  const tlxM = tlxV.length ? +(tlxV.reduce((a,b)=>a+b,0)/tlxV.length).toFixed(1) : null;
+  const ueqV = D.ueq.filter(v => v != null);
+  const ueqM = ueqV.length ? +(ueqV.reduce((a,b)=>a+b,0)/ueqV.length).toFixed(2) : null;
+  const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
+  const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
+  const trustV = D.trust.filter(v => v != null);
+  const trustM = trustV.length ? +(trustV.reduce((a,b)=>a+b,0)/trustV.length).toFixed(1) : null;
+  return { nC, total: D.quiz.length, mc, sens, sus: D.sus, ueqM, tlxM, nfcMean: D.nfcMean, trustM, qCorrect, pid: D.meta.pid, cond: D.meta.condition };
+}
+
+function buildTable(title, rows) {
+  const qNames = QUIZ_KEY.map(k => k[1]);
+  const f = v => v == null ? '–' : v;
+  const hdr = `<tr><th>Participant</th><th>Correct</th><th>Mean Conf</th>` +
+    `<th>Sensitivity</th><th>SUS</th><th>UEQ-S</th><th>TLX</th><th>NFC</th><th>Trust</th>` +
+    qNames.map(n => `<th style="writing-mode:vertical-lr;font-size:10px">${n}</th>`).join('') + '</tr>';
+  const body = rows.map(r => {
+    const qCells = r.qCorrect.map(v =>
+      v == null ? '<td style="color:#a0aec0">–</td>'
+      : v ? '<td style="color:#38a169;font-weight:700">✓</td>'
+      : '<td style="color:#e53e3e">✗</td>').join('');
+    return `<tr><td>${esc(String(r.pid).slice(0,12))}…</td>` +
+      `<td>${r.nC}/${r.total}</td><td>${f(r.mc)}%</td><td>${f(r.sens)}</td>` +
+      `<td>${f(r.sus)}</td><td>${f(r.ueqM)}</td><td>${f(r.tlxM)}</td><td>${f(r.nfcMean)}</td><td>${f(r.trustM)}</td>` +
+      qCells + '</tr>';
+  }).join('');
+  const avg = (arr) => { const v = arr.filter(x => x != null); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : '–'; };
+  const qMeans = qNames.map((_, qi) => {
+    const vals = rows.map(r => r.qCorrect[qi]).filter(v => v != null);
+    if (!vals.length) return '<td>–</td>';
+    const pct = Math.round(100 * vals.filter(Boolean).length / vals.length);
+    return `<td style="font-weight:700;font-size:11px">${pct}%</td>`;
+  }).join('');
+  const meanRow = `<tr style="background:#f7fafc;font-weight:600"><td>Mean</td>` +
+    `<td>${avg(rows.map(r=>r.nC))}</td><td>${avg(rows.map(r=>r.mc))}%</td><td>${avg(rows.map(r=>r.sens))}</td>` +
+    `<td>${avg(rows.map(r=>r.sus))}</td><td>${avg(rows.map(r=>r.ueqM))}</td><td>${avg(rows.map(r=>r.tlxM))}</td>` +
+    `<td>${avg(rows.map(r=>r.nfcMean != null ? +r.nfcMean : null))}</td><td>${avg(rows.map(r=>r.trustM))}</td>` +
+    qMeans + '</tr>';
+  return `<div class="card" style="margin-bottom:14px"><h2>${esc(title)}</h2>` +
+    `<div style="overflow-x:auto"><table style="white-space:nowrap">${hdr}${body}${meanRow}</table></div></div>`;
+}
+
+function renderSummary() {
+  const allRows = store.map(s => participantRow(s.data));
+  const conds = [...new Set(allRows.map(r => r.cond).filter(Boolean))].sort();
+  let html = '';
+  for (const c of conds) html += buildTable('Condition: ' + c, allRows.filter(r => r.cond === c));
+  if (conds.length > 1) html += buildTable('All participants', allRows);
+  document.getElementById('summary').innerHTML = html;
+}
 </script>
 </body>
 </html>

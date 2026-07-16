@@ -75,8 +75,8 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
   <div class="kpis" id="kpis"></div>
   <div class="qual" id="qualCard" style="display:none"><h2>⚠ Data quality flags</h2><ul id="qualList"></ul></div>
   <div class="grid">
-    <div class="card"><h2>Confidence per question</h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
-    <div class="card"><h2>Response time per question (s)</h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
+    <div class="card"><h2>Confidence per question <button id="sortConf" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort: by name</button></h2><div class="chartbox"><canvas id="c_conf"></canvas></div></div>
+    <div class="card"><h2>Response time per question (s) <button id="sortTime" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort: by name</button></h2><div class="chartbox"><canvas id="c_time"></canvas></div></div>
     <div class="card"><h2>Self-assessment: pre vs post (percentiles)</h2><div class="chartbox"><canvas id="c_prepost"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
@@ -139,11 +139,10 @@ function process(raw) {
   }
   quiz.sort((a, b) => a.di - b.di);
   quiz.forEach((q, i) => {
+    q.order = i + 1; // presentation order (#1–#12)
     const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
     if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
   });
-  // Timing above follows the participant's presentation order. Displaying the
-  // result by stable question name does not affect answers or evaluation.
   quiz.sort((a, b) => a.task - b.task);
 
   const susIds = [1,2,3,4,5,6,7,9,10,11]; // item 8 is an attention check
@@ -201,8 +200,51 @@ function process(raw) {
 
 /* ---------- 2. Rendering ---------- */
 let charts = [];
+let confChart = null, timeChart = null;
+let lastQuiz = null, sortByOrder = false;
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 function chart(id, cfg) { charts.push(new Chart(document.getElementById(id), cfg)); }
+
+function renderQuizCharts(quiz, barLabels, noAR, padV, grid, qTicks) {
+  if (confChart) { confChart.destroy(); charts = charts.filter(c => c !== confChart); }
+  if (timeChart) { timeChart.destroy(); charts = charts.filter(c => c !== timeChart); }
+  const sorted = sortByOrder ? [...quiz].sort((a, b) => a.order - b.order) : quiz;
+  const qLabels = sorted.map(q => q.name + ' [#' + q.order + ']');
+  const confLabelsPlugin = { id:'confLabels', afterDatasetsDraw(chart) {
+    const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    chart.getDatasetMeta(0).data.forEach((bar, i) => {
+      const q = sorted[i]; if (q.conf == null) return;
+      const mark = q.correct ? ' ✓' : ' ✗';
+      ctx.fillStyle = q.correct ? '#38a169' : '#e53e3e';
+      ctx.fillText(q.conf + mark, bar.x, bar.y - 4);
+    }); ctx.restore();
+  }};
+  confChart = new Chart(document.getElementById('c_conf'), { type:'bar', plugins:[confLabelsPlugin],
+    data:{ labels:qLabels, datasets:[{ data:sorted.map(q => q.conf),
+      backgroundColor:sorted.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
+        const q = sorted[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
+      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
+  charts.push(confChart);
+  timeChart = new Chart(document.getElementById('c_time'), { type:'bar', plugins:[barLabels],
+    data:{ labels:qLabels, datasets:[{ data:sorted.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
+    options:{ ...noAR, ...padV, plugins:{legend:{display:false}},
+      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
+  charts.push(timeChart);
+  const label = sortByOrder ? 'Sort: by name' : 'Sort: by presented order';
+  document.getElementById('sortConf').textContent = label;
+  document.getElementById('sortTime').textContent = label;
+}
+
+// ponytail: stash render params so toggleSort can re-call renderQuizCharts
+let lastRenderParams = {};
+function toggleSort() {
+  sortByOrder = !sortByOrder;
+  if (lastQuiz && lastRenderParams.barLabels) {
+    const p = lastRenderParams;
+    renderQuizCharts(lastQuiz, p.barLabels, p.noAR, p.padV, p.grid, p.qTicks);
+  }
+}
 
 function render(D) {
   charts.forEach(c => c.destroy()); charts = [];
@@ -212,7 +254,6 @@ function render(D) {
   document.getElementById('subline').textContent =
     `Participant ${String(D.meta.pid).slice(0,12)}… · ${new Date(D.meta.start).toLocaleString('en-GB')} · session ${durMin} min`;
   const cb = document.getElementById('condBadge');
-  //cb.style.display = 'inline-block'; cb.textContent = 'Condition: ' + D.meta.condition;
 
   const nCorrect = D.quiz.filter(q => q.correct).length;
   const validConf = D.quiz.filter(q => Number.isFinite(q.conf));
@@ -284,30 +325,12 @@ function render(D) {
   // ponytail: extra layout padding so bar-end labels don't clip at chart edges
   const padH = { layout:{ padding:{ right:28 } } };  // horizontal bar charts
   const padV = { layout:{ padding:{ top:14 } } };     // vertical bar charts
-  const qLabels = D.quiz.map(q => q.name);
   const qTicks = { autoSkip:false, maxRotation:60, minRotation:60 };
 
-  const confLabels = { id:'confLabels', afterDatasetsDraw(chart) {
-    const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
-    chart.getDatasetMeta(0).data.forEach((bar, i) => {
-      const q = D.quiz[i]; if (q.conf == null) return;
-      const mark = q.correct ? ' ✓' : ' ✗';
-      ctx.fillStyle = q.correct ? '#38a169' : '#e53e3e';
-      ctx.fillText(q.conf + mark, bar.x, bar.y - 4);
-    }); ctx.restore();
-  }};
-
-  chart('c_conf', { type:'bar', plugins:[confLabels],
-    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.conf),
-      backgroundColor:D.quiz.map(q => q.correct ? '#48bb78' : '#fc8181'), borderRadius:4 }]},
-    options:{ ...noAR, ...padV, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ afterLabel:c => {
-        const q = D.quiz[c.dataIndex]; return [(q.correct ? '✓ correct' : '✗ incorrect'), 'Answer: ' + q.answer]; }}}},
-      scales:{ y:{ min:0, max:100, title:{display:true, text:'Confidence (%)'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
-
-  chart('c_time', { type:'bar', plugins:[barLabels],
-    data:{ labels:qLabels, datasets:[{ data:D.quiz.map(q => q.dur), backgroundColor:'#63b3ed', borderRadius:4 }]},
-    options:{ ...noAR, ...padV, plugins:{legend:{display:false}},
-      scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
+  // ponytail: conf+time charts are re-rendered on sort toggle, so extracted into a function
+  lastQuiz = D.quiz;
+  lastRenderParams = { barLabels, noAR, padV, grid, qTicks };
+  renderQuizCharts(D.quiz, barLabels, noAR, padV, grid, qTicks);
 
   chart('c_prepost', { type:'bar',
     data:{ labels:['Own ability (percentile)', 'AI ability (percentile)'], datasets:[
@@ -366,7 +389,7 @@ function render(D) {
 
   document.getElementById('ansTable').innerHTML =
     '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
-    D.quiz.map(q => `<tr><td>${q.name}</td><td>#${q.di}</td><td>${esc(q.answer)}</td><td>${q.conf}%</td>` +
+    D.quiz.map(q => `<tr><td>${q.name}</td><td>#${q.order}</td><td>${esc(q.answer)}</td><td>${q.conf ?? '–'}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
 }
 
