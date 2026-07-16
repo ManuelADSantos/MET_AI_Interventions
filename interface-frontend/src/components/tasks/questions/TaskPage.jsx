@@ -8,6 +8,7 @@ import RichText from './RichText'
 
 
 const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n\nRelevant information:\n{tabText}\n\n{copyText}'
+const questionTypes = ['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider']
 
 const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 
@@ -166,7 +167,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   const hasMultipleTabs = pageTabs.length > 1
   const [selectedTabKey, setSelectedTabKey] = useState(pageTabs[0].title)
   const selectedTab = pageTabs.find((tab) => tab.title === selectedTabKey) || pageTabs[0]
-  const isScenarioTab = selectedTab.title.toLowerCase() === 'scenario'
+  const selectedTabHasQuestions = selectedTab.content.some((item) => questionTypes.includes(item.type))
   const scrollContainerRef = useRef(null)
   const tabScrollPositionsRef = useRef({})
 
@@ -371,12 +372,12 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
           {submitError}
         </p>
         {/* Display instruction to use chat if not used on this page yet */}
-        <p className={`text-emerald-500 font-bold -mr-16 ${(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
+        <p className={`text-emerald-500 font-bold -mr-16 ${(selectedTabHasQuestions && shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
           <i className='bi bi-info-circle text-xl mr-2'></i>
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
-        {!isScenarioTab && (
+        {selectedTabHasQuestions && (
           <Button
             className={(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
             isDisabled={shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage}
