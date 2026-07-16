@@ -118,7 +118,9 @@ const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customiza
 
 function process(raw) {
   const tasks = raw.tasks || {};
-  const get = (t, i) => tasks[t]?.responses?.[t + '.' + i]?.answer;
+  const getRaw = (t, i) => tasks[t]?.responses?.[t + '.' + i]?.answer;
+  const get = (t, i) => getRaw(t, i);
+  const num = (t, i) => { const v = getRaw(t, i); return v != null ? +v : null; };
 
   const tsByDi = {};
   for (const t of Object.values(tasks))
@@ -131,7 +133,7 @@ function process(raw) {
     const answer = get(task, 1);
     quiz.push({
       task, name, di: t.displayIndex, ts: t.ts,
-      answer, conf: +get(task, 2),
+      answer, conf: num(task, 2),
       correctAnswer, correct: answer === correctAnswer, dur: null
     });
   }
@@ -145,25 +147,26 @@ function process(raw) {
   quiz.sort((a, b) => a.task - b.task);
 
   const susIds = [1,2,3,4,5,6,7,9,10,11]; // item 8 is an attention check
-  const susRaw = susIds.map(i => +get(23, i));
-  const sus = susRaw.some(isNaN) ? null :
+  const susRaw = susIds.map(i => num(23, i));
+  const sus = susRaw.some(v => v == null) ? null :
     susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
 
   const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
                     'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
-  const ueq = [...Array(8)].map((_, i) => +get(22, i + 1) - 4);
+  const ueq = [...Array(8)].map((_, i) => { const v = num(22, i + 1); return v != null ? v - 4 : null; });
 
   const nfc = [...Array(6)].map((_, i) => {
-    const v = +get(24, i + 1);
+    const v = num(24, i + 1);
+    if (v == null) return null;
     return (i === 2 || i === 3) ? 6 - v : v; // items 3 & 4 reverse-scored
   });
 
-  const tlx = { Mental:+get(20,1), Physical:+get(20,2), Temporal:+get(20,3),
-                Performance:+get(20,4), Effort:+get(20,5), Frustration:+get(20,6) };
+  const tlx = { Mental:num(20,1), Physical:num(20,2), Temporal:num(20,3),
+                Performance:num(20,4), Effort:num(20,5), Frustration:num(20,6) };
 
   const trustItems = ['Confident in it','Predictable','Reliable','Feel safe relying','Efficient / quick',
                       'Wary of it (rev)','Better than novice','Like using it'];
-  const trust = [...Array(8)].map((_, i) => +get(25, i + 1));
+  const trust = [...Array(8)].map((_, i) => num(25, i + 1));
 
   const messages = (raw.messages || []).map(m => m.role === 'user'
     ? { role:'user', task:m.task, ts:m.ts, text:m.content }
@@ -188,7 +191,7 @@ function process(raw) {
     pre:  { withAI:get(4,1), withoutAI:get(4,2), aiAlone:get(4,3), selfPct:get(4,4), aiPct:get(4,5) },
     post: { withAI:get(19,1), withoutAI:get(19,2), attn:get(19,3), aiAlone:get(19,4), selfPct:get(19,5), aiPct:get(19,6) },
     quiz, susRaw, sus, ueqItems, ueq,
-    nfc, nfcMean: +(nfc.reduce((a,b)=>a+b,0) / nfc.length).toFixed(2),
+    nfc, nfcMean: (() => { const v = nfc.filter(x => x != null); return v.length ? +(v.reduce((a,b)=>a+b,0) / v.length).toFixed(2) : null; })(),
     tlx, trustItems, trust,
     attn: { instr: get(0,2) === 'C', post: String(get(19,3)) === '5', sus: +get(23,8) === 5 },
     openText,
@@ -438,16 +441,16 @@ function participantRow(D) {
   const qNames = QUIZ_KEY.map(k => k[1]);
   const nC = D.quiz.filter(q => q.correct).length;
   const vc = D.quiz.filter(q => Number.isFinite(q.conf));
-  const mc = vc.length ? (vc.reduce((a,q) => a + q.conf, 0) / vc.length).toFixed(1) : null;
+  const mc = vc.length ? +(vc.reduce((a,q) => a + q.conf, 0) / vc.length).toFixed(1) : null;
   const cc = D.quiz.filter(q => q.correct && Number.isFinite(q.conf)).map(q => q.conf);
   const ic = D.quiz.filter(q => !q.correct && Number.isFinite(q.conf)).map(q => q.conf);
   const avg = v => v.reduce((a,b)=>a+b,0)/v.length;
   const sens = cc.length && ic.length ? +(avg(cc) - avg(ic)).toFixed(1) : null;
-  const tlxV = Object.values(D.tlx).filter(v => !isNaN(v));
+  const tlxV = Object.values(D.tlx).filter(v => v != null);
   const tlxM = tlxV.length ? +(tlxV.reduce((a,b)=>a+b,0)/tlxV.length).toFixed(1) : null;
-  const ueqV = D.ueq.filter(v => !isNaN(v));
+  const ueqV = D.ueq.filter(v => v != null);
   const ueqM = ueqV.length ? +(ueqV.reduce((a,b)=>a+b,0)/ueqV.length).toFixed(2) : null;
-  const trustV = D.trust.filter(v => !isNaN(v));
+  const trustV = D.trust.filter(v => v != null);
   const trustM = trustV.length ? +(trustV.reduce((a,b)=>a+b,0)/trustV.length).toFixed(1) : null;
   const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
   const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
