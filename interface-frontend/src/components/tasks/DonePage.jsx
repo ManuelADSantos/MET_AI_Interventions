@@ -68,7 +68,7 @@ const DonePage = () => {
               Press <strong>'Click After Submitting Test'</strong> to complete your session.
             </p>
           : <>
-              <p>Thank you for taking part in the study!</p>
+              <p>Thank you for taking part in the study! </p>
               <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
               <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>
               <p className='font-bold my-4'>... OR copy and paste this code:</p>
