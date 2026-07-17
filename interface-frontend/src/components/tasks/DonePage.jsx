@@ -10,6 +10,7 @@ const DonePage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [prolificCode, setProlificCode] = useState('')
   const [prolificUrl, setProlificUrl] = useState('')
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     dispatch({ type: 'ALL_DONE' })
@@ -65,7 +66,12 @@ const DonePage = () => {
       {saveSuccess === true && <div>
         <p>Thank you for taking part in the study!</p>
         <p className='my-4 font-bold'>Please copy this completion code:</p>
-        <p className='font-mono p-4 bg-stone-200 select-all cursor-pointer' title='Click to select'>{prolificCode}</p>
+        <div className='flex items-center justify-center gap-2 my-2'>
+          <p className='font-mono p-4 bg-stone-200 select-all cursor-pointer'>{prolificCode}</p>
+          <Button size='sm' variant='flat' onClick={() => { navigator.clipboard.writeText(prolificCode); setCopied(true); setTimeout(() => setCopied(false), 2000) }}>
+            {copied ? 'Copied!' : 'Copy'}
+          </Button>
+        </div>
         {import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
           ? <p className='text-xl font-semibold mt-8'>
               Then press <strong>'Click After Submitting Test'</strong> to complete your session.
