@@ -68,7 +68,21 @@ const DonePage = () => {
         <p className='my-4 font-bold'>Please copy this completion code:</p>
         <div className='flex items-center justify-center gap-2 my-2'>
           <p className='font-mono p-4 bg-stone-200 select-all cursor-pointer'>{prolificCode}</p>
-          <Button size='sm' variant='flat' onClick={() => { navigator.clipboard.writeText(prolificCode); setCopied(true); setTimeout(() => setCopied(false), 2000) }}>
+          <Button size='sm' variant='flat' onClick={() => {
+            const copy = (text) => {
+              if (navigator.clipboard?.writeText) {
+                return navigator.clipboard.writeText(text).catch(() => fallback(text))
+              }
+              return fallback(text)
+            }
+            const fallback = (text) => {
+              const ta = document.createElement('textarea')
+              ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'
+              document.body.appendChild(ta); ta.select(); document.execCommand('copy')
+              document.body.removeChild(ta)
+            }
+            copy(prolificCode); setCopied(true); setTimeout(() => setCopied(false), 2000)
+          }}>
             {copied ? 'Copied!' : 'Copy'}
           </Button>
         </div>
