@@ -63,16 +63,16 @@ const DonePage = () => {
       </div>}
       {/* Show completion instructions once save succeeds */}
       {saveSuccess === true && <div>
+        <p>Thank you for taking part in the study!</p>
+        <p className='my-4 font-bold'>Please copy this completion code:</p>
+        <p className='font-mono p-4 bg-stone-200 select-all cursor-pointer' title='Click to select'>{prolificCode}</p>
         {import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
-          ? <p className='text-xl font-semibold mt-4'>
-              Press <strong>'Click After Submitting Test'</strong> to complete your session.
+          ? <p className='text-xl font-semibold mt-8'>
+              Then press <strong>'Click After Submitting Test'</strong> to complete your session.
             </p>
           : <>
-              <p>Thank you for taking part in the study! </p>
               <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
               <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>
-              <p className='font-bold my-4'>... OR copy and paste this code:</p>
-              <p className='font-mono p-4 bg-stone-200'>{prolificCode}</p>
             </>
         }
       </div>}
