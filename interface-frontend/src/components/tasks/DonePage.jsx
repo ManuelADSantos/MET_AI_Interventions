@@ -61,13 +61,20 @@ const DonePage = () => {
         <p className='text-red-500 my-4'>{errorMessage}</p>
         <Button color='danger' onClick={() => tryToSave()}>Try again</Button>
       </div>}
-      {/* Show thank-you message and Prolific redirect if save was successful */}
+      {/* Show completion instructions once save succeeds */}
       {saveSuccess === true && <div>
-        <p>Thank you for taking part in the study!</p> 
-        <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
-        <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>
-        <p className='font-bold my-4'>... OR copy and paste this code:</p>
-        <p className='font-mono p-4 bg-stone-200'>{prolificCode}</p>
+        {import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
+          ? <p className='text-xl font-semibold mt-4'>
+              Press <strong>'Click After Submitting Test'</strong> to complete your session.
+            </p>
+          : <>
+              <p>Thank you for taking part in the study!</p>
+              <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
+              <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>
+              <p className='font-bold my-4'>... OR copy and paste this code:</p>
+              <p className='font-mono p-4 bg-stone-200'>{prolificCode}</p>
+            </>
+        }
       </div>}
     </div>
   )
