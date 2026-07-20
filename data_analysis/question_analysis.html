@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question-level Answer Analysis</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; }
+body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background:#f6f7f9; color:#1a202c; padding:20px; font-size:14px; max-width:1200px; margin:0 auto; }
+h1 { font-size:20px; margin-bottom:4px; } h2 { font-size:15px; margin-bottom:10px; color:#2d3748; }
+.sub { color:#718096; font-size:12px; margin-bottom:16px; }
+.card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:14px; }
+.grid { display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+@media (max-width:900px) { .grid { grid-template-columns:1fr; } }
+.chartbox { position:relative; height:320px; }
+.tall { height:400px; }
+select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; margin-bottom:12px; }
+</style>
+</head>
+<body>
+
+<h1>Question-level Answer Analysis</h1>
+<div class="sub">7 response files · 158 participants · 12 questions · ai (n=79) vs ai-reliability (n=79)</div>
+
+<div class="card">
+  <h2>Accuracy by question (% correct, sorted)</h2>
+  <div class="chartbox tall"><canvas id="c_accuracy"></canvas></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>ai vs ai-reliability accuracy</h2>
+    <div class="chartbox tall"><canvas id="c_condition"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Accuracy by topic</h2>
+    <div class="chartbox"><canvas id="c_topic"></canvas></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Answer distribution per question</h2>
+  <div>
+    <select id="qPicker" onchange="renderDist()"></select>
+    <select id="condPicker" onchange="renderDist()">
+      <option value="all">All participants</option>
+      <option value="ai">ai only</option>
+      <option value="ai-reliability">ai-reliability only</option>
+    </select>
+  </div>
+  <div class="chartbox"><canvas id="c_dist"></canvas></div>
+</div>
+
+<script>
+const D = [{"name":"ypc_02","correct_ans":"Neither of the two statements is correct.","n":158,"n_correct":108,"ai_pct":67.1,"rel_pct":69.6,"dist":{"Both statements are correct.":8,"Neither of the two statements is correct.":108,"Only statement 1 is correct.":34,"Only statement 2 is correct.":8},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":3,"Neither of the two statements is correct.":53,"Only statement 1 is correct.":19,"Only statement 2 is correct.":4},"rel_dist":{"Both statements are correct.":5,"Neither of the two statements is correct.":55,"Only statement 1 is correct.":15,"Only statement 2 is correct.":4}},{"name":"ypc_03","correct_ans":"Only statement 2 is correct.","n":158,"n_correct":46,"ai_pct":29.1,"rel_pct":29.1,"dist":{"Both statements are correct.":23,"Neither of the two statements is correct.":38,"Only statement 1 is correct.":51,"Only statement 2 is correct.":46},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":11,"Neither of the two statements is correct.":12,"Only statement 1 is correct.":33,"Only statement 2 is correct.":23},"rel_dist":{"Both statements are correct.":12,"Neither of the two statements is correct.":26,"Only statement 1 is correct.":18,"Only statement 2 is correct.":23}},{"name":"ypc_05","correct_ans":"Only statement 1 is correct.","n":158,"n_correct":47,"ai_pct":27.8,"rel_pct":31.6,"dist":{"Both statements are correct.":13,"Neither of the two statements is correct.":83,"Only statement 1 is correct.":47,"Only statement 2 is correct.":15},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":6,"Neither of the two statements is correct.":44,"Only statement 1 is correct.":22,"Only statement 2 is correct.":7},"rel_dist":{"Both statements are correct.":7,"Neither of the two statements is correct.":39,"Only statement 1 is correct.":25,"Only statement 2 is correct.":8}},{"name":"ypc_06","correct_ans":"Only statement 1 is correct.","n":158,"n_correct":33,"ai_pct":21.5,"rel_pct":20.3,"dist":{"Both statements are correct.":44,"Neither of the two statements is correct.":30,"Only statement 1 is correct.":33,"Only statement 2 is correct.":51},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":17,"Neither of the two statements is correct.":19,"Only statement 1 is correct.":17,"Only statement 2 is correct.":26},"rel_dist":{"Both statements are correct.":27,"Neither of the two statements is correct.":11,"Only statement 1 is correct.":16,"Only statement 2 is correct.":25}},{"name":"car_racing_01","correct_ans":"Neither of the two statements is correct.","n":158,"n_correct":122,"ai_pct":82.3,"rel_pct":72.2,"dist":{"Both statements are correct.":3,"Neither of the two statements is correct.":122,"Only statement 1 is correct.":25,"Only statement 2 is correct.":8},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":2,"Neither of the two statements is correct.":65,"Only statement 1 is correct.":9,"Only statement 2 is correct.":3},"rel_dist":{"Both statements are correct.":1,"Neither of the two statements is correct.":57,"Only statement 1 is correct.":16,"Only statement 2 is correct.":5}},{"name":"car_racing_02","correct_ans":"Both statements are correct.","n":158,"n_correct":28,"ai_pct":25.3,"rel_pct":10.1,"dist":{"Both statements are correct.":28,"Neither of the two statements is correct.":18,"Only statement 1 is correct.":9,"Only statement 2 is correct.":103},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":20,"Neither of the two statements is correct.":7,"Only statement 1 is correct.":2,"Only statement 2 is correct.":50},"rel_dist":{"Both statements are correct.":8,"Neither of the two statements is correct.":11,"Only statement 1 is correct.":7,"Only statement 2 is correct.":53}},{"name":"car_racing_03","correct_ans":"Only statement 2 is correct.","n":158,"n_correct":79,"ai_pct":54.4,"rel_pct":45.6,"dist":{"Both statements are correct.":8,"Neither of the two statements is correct.":65,"Only statement 1 is correct.":6,"Only statement 2 is correct.":79},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":3,"Neither of the two statements is correct.":31,"Only statement 1 is correct.":2,"Only statement 2 is correct.":43},"rel_dist":{"Both statements are correct.":5,"Neither of the two statements is correct.":34,"Only statement 1 is correct.":4,"Only statement 2 is correct.":36}},{"name":"car_racing_05","correct_ans":"Only statement 1 is correct.","n":158,"n_correct":52,"ai_pct":34.2,"rel_pct":31.6,"dist":{"Both statements are correct.":32,"Neither of the two statements is correct.":60,"Only statement 1 is correct.":52,"Only statement 2 is correct.":14},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":16,"Neither of the two statements is correct.":33,"Only statement 1 is correct.":27,"Only statement 2 is correct.":3},"rel_dist":{"Both statements are correct.":16,"Neither of the two statements is correct.":27,"Only statement 1 is correct.":25,"Only statement 2 is correct.":11}},{"name":"graduation_party_01","correct_ans":"Only statement 2 is correct.","n":158,"n_correct":113,"ai_pct":77.2,"rel_pct":65.8,"dist":{"Both statements are correct.":27,"Neither of the two statements is correct.":10,"Only statement 1 is correct.":8,"Only statement 2 is correct.":113},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":11,"Neither of the two statements is correct.":3,"Only statement 1 is correct.":4,"Only statement 2 is correct.":61},"rel_dist":{"Both statements are correct.":16,"Neither of the two statements is correct.":7,"Only statement 1 is correct.":4,"Only statement 2 is correct.":52}},{"name":"graduation_party_05","correct_ans":"Only statement 1 is correct.","n":157,"n_correct":74,"ai_pct":45.6,"rel_pct":48.7,"dist":{"Both statements are correct.":10,"Neither of the two statements is correct.":65,"Only statement 1 is correct.":74,"Only statement 2 is correct.":8},"ai_n":79,"rel_n":78,"ai_dist":{"Both statements are correct.":5,"Neither of the two statements is correct.":35,"Only statement 1 is correct.":36,"Only statement 2 is correct.":3},"rel_dist":{"Both statements are correct.":5,"Neither of the two statements is correct.":30,"Only statement 1 is correct.":38,"Only statement 2 is correct.":5}},{"name":"graduation_party_06","correct_ans":"Neither of the two statements is correct.","n":158,"n_correct":91,"ai_pct":58.2,"rel_pct":57.0,"dist":{"Both statements are correct.":8,"Neither of the two statements is correct.":91,"Only statement 1 is correct.":24,"Only statement 2 is correct.":35},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":1,"Neither of the two statements is correct.":46,"Only statement 1 is correct.":9,"Only statement 2 is correct.":23},"rel_dist":{"Both statements are correct.":7,"Neither of the two statements is correct.":45,"Only statement 1 is correct.":15,"Only statement 2 is correct.":12}},{"name":"graduation_party_07","correct_ans":"Only statement 2 is correct.","n":158,"n_correct":42,"ai_pct":30.4,"rel_pct":22.8,"dist":{"Both statements are correct.":13,"Neither of the two statements is correct.":70,"Only statement 1 is correct.":33,"Only statement 2 is correct.":42},"ai_n":79,"rel_n":79,"ai_dist":{"Both statements are correct.":8,"Neither of the two statements is correct.":32,"Only statement 1 is correct.":15,"Only statement 2 is correct.":24},"rel_dist":{"Both statements are correct.":5,"Neither of the two statements is correct.":38,"Only statement 1 is correct.":18,"Only statement 2 is correct.":18}}];
+
+const OPTIONS = ['Both statements are correct.','Neither of the two statements is correct.','Only statement 1 is correct.','Only statement 2 is correct.'];
+const OPT_SHORT = ['Both correct','Neither correct','Only stmt 1','Only stmt 2'];
+const OPT_COLORS = ['#ed8936','#4c8bf5','#48bb78','#9f7aea'];
+const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
+const padH = { layout:{ padding:{ right:36 } } };
+
+Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
+const barLabels = { id:'barLabels', afterDatasetsDraw(chart) {
+  const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.fillStyle = '#4a5568';
+  chart.data.datasets.forEach((ds, di) => {
+    chart.getDatasetMeta(di).data.forEach((bar, i) => {
+      const v = ds.data[i]; if (v == null) return;
+      if (chart.options.indexAxis === 'y') {
+        ctx.textBaseline = 'middle'; ctx.textAlign = v < 0 ? 'right' : 'left';
+        ctx.fillText(v + '%', bar.x + (v < 0 ? -4 : 4), bar.y);
+      } else { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(v + '%', bar.x, bar.y - 4); }
+    });
+  }); ctx.restore();
+}};
+
+// 1. Accuracy sorted
+const sorted = [...D].sort((a,b) => b.n_correct/b.n - a.n_correct/a.n);
+const chanceLine = { id:'chanceLine', afterDraw(ch) {
+  const x = ch.scales.x.getPixelForValue(25);
+  const ctx = ch.ctx; ctx.save(); ctx.setLineDash([5,3]); ctx.strokeStyle='#e53e3e'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x, ch.chartArea.top); ctx.lineTo(x, ch.chartArea.bottom); ctx.stroke();
+  ctx.fillStyle='#e53e3e'; ctx.font='9px sans-serif'; ctx.textAlign='left';
+  //ctx.fillText('chance (25%)', x+3, ch.chartArea.top+10); ctx.restore();
+}};
+new Chart(document.getElementById('c_accuracy'), { type:'bar', plugins:[barLabels, chanceLine],
+  data:{ labels:sorted.map(q=>q.name), datasets:[{ data:sorted.map(q=>+(100*q.n_correct/q.n).toFixed(1)),
+    backgroundColor:sorted.map(q=>100*q.n_correct/q.n >= 50 ? '#48bb78' : 100*q.n_correct/q.n < 25 ? '#fc8181' : '#ecc94b'),
+    borderRadius:4 }]},
+  options:{ ...noAR, ...padH, indexAxis:'y', plugins:{ legend:{display:false} },
+    scales:{ x:{ min:0, max:100, grid:{color:grid}, title:{display:true,text:'% correct'} }, y:{ grid:{display:false} } }}});
+
+// 2. Condition comparison
+const byName = [...D].sort((a,b) => b.n_correct/b.n - a.n_correct/a.n);
+new Chart(document.getElementById('c_condition'), { type:'bar', plugins:[barLabels],
+  data:{ labels:byName.map(q=>q.name), datasets:[
+    { label:'ai', data:byName.map(q=>q.ai_pct), backgroundColor:'#4c8bf5', borderRadius:4 },
+    { label:'ai-reliability', data:byName.map(q=>q.rel_pct), backgroundColor:'#ed8936', borderRadius:4 }]},
+  options:{ ...noAR, indexAxis:'y', plugins:{ legend:{position:'bottom'} },
+    scales:{ x:{ min:0, max:100, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+
+// 3. Topic
+const topics = [
+  {name:'ypc', qs:D.filter(q=>q.name.startsWith('ypc'))},
+  {name:'car_racing', qs:D.filter(q=>q.name.startsWith('car'))},
+  {name:'graduation_party', qs:D.filter(q=>q.name.startsWith('grad'))}];
+new Chart(document.getElementById('c_topic'), { type:'bar', plugins:[barLabels],
+  data:{ labels:topics.map(t=>t.name), datasets:[{ data:topics.map(t => {
+    const c = t.qs.reduce((s,q)=>s+q.n_correct,0), n = t.qs.reduce((s,q)=>s+q.n,0);
+    return +(100*c/n).toFixed(1);
+  }), backgroundColor:['#4c8bf5','#ed8936','#48bb78'], borderRadius:4 }]},
+  options:{ ...noAR, layout:{padding:{top:14}}, plugins:{ legend:{display:false} },
+    scales:{ y:{ min:0, max:100, grid:{color:grid}, title:{display:true,text:'% correct'} }, x:{ grid:{display:false} } }}});
+
+// 4. Answer distribution (interactive)
+const picker = document.getElementById('qPicker');
+picker.innerHTML = D.map((q,i) => `<option value="${i}">${q.name}</option>`).join('');
+let distChart = null;
+function renderDist() {
+  if (distChart) distChart.destroy();
+  const q = D[+picker.value];
+  const cond = document.getElementById('condPicker').value;
+  const dist = cond === 'ai' ? q.ai_dist : cond === 'ai-reliability' ? q.rel_dist : q.dist;
+  const total = Object.values(dist).reduce((a,b)=>a+b,0);
+  const colors = OPTIONS.map(o => o === q.correct_ans ? '#48bb78' : '#fc8181');
+  distChart = new Chart(document.getElementById('c_dist'), { type:'bar',
+    data:{ labels:OPT_SHORT, datasets:[{ data:OPTIONS.map(o => +(100*(dist[o]||0)/total).toFixed(1)),
+      backgroundColor:colors, borderRadius:4 }]},
+    options:{ ...noAR, layout:{padding:{top:14}}, plugins:{ legend:{display:false},
+      tooltip:{ callbacks:{ afterLabel:c => OPTIONS[c.dataIndex] === q.correct_ans ? '← correct answer' : '',
+        label:c => `${c.raw}% (${dist[OPTIONS[c.dataIndex]]||0} participants)` }}},
+      scales:{ y:{ min:0, max:100, grid:{color:grid}, title:{display:true,text:'% of participants'} }, x:{ grid:{display:false} } }}});
+}
+renderDist();
+</script>
+</body>
+</html>

@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MET AI Interventions — Participant Dashboard (Pilot 1)</title>
+<title>MET AI Interventions — Participant Dashboard</title>
 <!--
-  Reproducible participant dashboard for the MET AI Interventions study, pilot 1.
-  Usage: open this file in any browser, then drop one or more raw data.json
-  files (or use the file picker). Switch participants with the dropdown.
+  Reproducible participant dashboard for the MET AI Interventions study.
+  Usage: open this file in any browser, then drop response JSON files
+  (or single-participant data.json files). Switch participants with the dropdown.
   No server, no build step. Only dependency: Chart.js from CDN.
 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
@@ -55,11 +55,12 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 
 <div class="header">
   <div>
-    <h1>MET AI Interventions — Participant Dashboard (Pilot 1)</h1>
+    <h1>MET AI Interventions — Participant Dashboard</h1>
     <div class="sub" id="subline">Load one or more data.json files to begin.</div>
   </div>
   <div style="display:flex;gap:10px;align-items:center">
     <select id="condFilter" style="display:none"><option value="">All conditions</option></select>
+    <input type="text" id="pSearch" placeholder="Search participant…" style="display:none;font-size:13px;padding:4px 8px;border-radius:6px;border:1px solid #cbd5e0;width:160px" oninput="filterPicker()">
     <button id="prev" style="display:none" title="Previous trial">&#9664;</button>
     <select id="picker" style="display:none"></select>
     <button id="next" style="display:none" title="Next trial">&#9654;</button>
@@ -89,12 +90,16 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="card"><h2>Need for Cognition (1–5)</h2><div class="chartbox"><canvas id="c_nfc"></canvas></div></div>
     <div class="card"><h2>Trust in the AI system (1–5)</h2><div class="chartbox"><canvas id="c_trust"></canvas></div></div>
     <div class="card">
-      <h2>Participant &amp; free-text responses</h2>
+      <h2>Participant &amp; post-task responses</h2>
       <div id="demo" style="margin-bottom:12px"></div><div id="freetext"></div>
     </div>
     <div class="card">
       <h2>Answer table <button id="sortAns" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort by name</button></h2>
       <div style="max-height:300px;overflow-y:auto"><table id="ansTable"></table></div>
+    </div>
+    <div class="card" id="reliabilityCard" style="display:none">
+      <h2>Reliability intervention log <button id="sortRel" onclick="toggleSort()" style="font-size:10px;padding:2px 6px">Sort by name</button></h2>
+      <div style="max-height:300px;overflow-y:auto"><table id="relTable"></table></div>
     </div>
   </div>
   <div class="card" style="margin-bottom:14px">
@@ -106,116 +111,111 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
 <script>
 document.addEventListener('mouseover', e => { const el = e.target.closest('.tip'); if (!el) return; const tt = el.querySelector('.tt'); if (!tt) return; tt.style.display = 'block'; tt.offsetHeight; const r = el.getBoundingClientRect(); tt.style.left = r.left + 'px'; tt.style.top = (r.top - tt.offsetHeight - 4) + 'px'; });
 document.addEventListener('mouseout', e => { const el = e.target.closest('.tip'); if (!el) return; const tt = el.querySelector('.tt'); if (tt) tt.style.display = 'none'; });
-/* ---------- 1. Preprocess a raw data.json (pilot-1 layout) into dashboard-ready form ---------- */
-// ponytail: pilot-1 uses full response keys (taskT+'.N') and offset detection
+/* ---------- 1. Preprocess a raw data.json into dashboard-ready form ---------- */
+// ponytail: task IDs hardcoded to the study layout; edit here if the study changes again
 const SUS_LABELS = ['Use frequently','Unnecessarily complex','Easy to use','Need tech support','Well integrated','Too inconsistent','Quick to learn','Cumbersome','Felt confident','Lots to learn first'];
-const QUIZ_KEY = [ // [baseTaskId, question name, correct answer]
-  [7,  'ypc_02', 'Neither of the two statements is correct.'],
-  [8,  'ypc_03', 'Only statement 2 is correct.'],
-  [9,  'ypc_05', 'Only statement 1 is correct.'],
-  [10, 'ypc_06', 'Only statement 1 is correct.'],
-  [11, 'car_racing_01', 'Neither of the two statements is correct.'],
-  [12, 'car_racing_02', 'Both statements are correct.'],
-  [13, 'car_racing_03', 'Only statement 2 is correct.'],
-  [14, 'car_racing_05', 'Only statement 1 is correct.'],
-  [15, 'graduation_party_01', 'Only statement 2 is correct.'],
-  [16, 'graduation_party_05', 'Only statement 1 is correct.'],
-  [17, 'graduation_party_06', 'Neither of the two statements is correct.'],
-  [18, 'graduation_party_07', 'Only statement 2 is correct.'],
+const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customizations/correct_answers.md
+  [6,  'ypc_02', 'Neither of the two statements is correct.'],
+  [7,  'ypc_03', 'Only statement 2 is correct.'],
+  [8,  'ypc_05', 'Only statement 1 is correct.'],
+  [9,  'ypc_06', 'Only statement 1 is correct.'],
+  [10, 'car_racing_01', 'Neither of the two statements is correct.'],
+  [11, 'car_racing_02', 'Both statements are correct.'],
+  [12, 'car_racing_03', 'Only statement 2 is correct.'],
+  [13, 'car_racing_05', 'Only statement 1 is correct.'],
+  [14, 'graduation_party_01', 'Only statement 2 is correct.'],
+  [15, 'graduation_party_05', 'Only statement 1 is correct.'],
+  [16, 'graduation_party_06', 'Neither of the two statements is correct.'],
+  [17, 'graduation_party_07', 'Only statement 2 is correct.'],
 ];
 
 function process(raw) {
   const tasks = raw.tasks || {};
-  const get = (t, q) => tasks[t]?.responses?.[q]?.answer;
-  const num = (t, q) => { const v = get(t, q); return v != null ? +v : null; };
-
-  // ponytail: detect task-ID offset — study versions shift all IDs by ±1
-  let off = 0;
-  outer: for (const [k, t] of Object.entries(tasks))
-    for (const r of Object.values(t.responses || {}))
-      if (/like to use this system/i.test(r.question)) { off = +k - 23; break outer; }
-  const T = id => String(+id + off);
+  const getRaw = (t, i) => tasks[t]?.responses?.[t + '.' + i]?.answer;
+  const get = (t, i) => getRaw(t, i);
+  const num = (t, i) => { const v = getRaw(t, i); return v != null ? +v : null; };
 
   const tsByDi = {};
   for (const t of Object.values(tasks))
     if (t.displayIndex != null && t.ts) tsByDi[t.displayIndex] = t.ts;
 
   const quiz = [];
-  for (const [baseId, name, correctAnswer] of QUIZ_KEY) {
-    const k = T(baseId);
-    if (!tasks[k]) continue;
-    const r = tasks[k].responses || {};
-    if (r[k + '.2'] && /confident/.test(r[k + '.2'].question)) {
-      const answer = r[k + '.1']?.answer;
-      quiz.push({
-        task: +k, name, di: tasks[k].displayIndex, ts: tasks[k].ts,
-        answer, conf: num(k, k + '.2'),
-        correctAnswer, correct: answer === correctAnswer, dur: null
-      });
-    }
+  for (const [task, name, correctAnswer] of QUIZ_KEY) {
+    const t = tasks[task];
+    if (!t) continue;
+    const answer = get(task, 1);
+    quiz.push({
+      task, name, di: t.displayIndex, ts: t.ts,
+      answer, conf: num(task, 2),
+      correctAnswer, correct: answer === correctAnswer, dur: null
+    });
   }
   quiz.sort((a, b) => a.di - b.di);
   quiz.forEach((q, i) => {
-    q.order = i + 1;
+    q.order = i + 1; // presentation order (#1–#12)
     const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
     if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
   });
   quiz.sort((a, b) => a.task - b.task);
 
-  const susT = T(23);
-  const susIds = [1,2,3,4,5,6,7,9,10,11];
-  const susRaw = susIds.map(i => num(susT, susT + '.' + i));
+  const susIds = [1,2,3,4,5,6,7,9,10,11]; // item 8 is an attention check
+  const susRaw = susIds.map(i => num(23, i));
   const sus = susRaw.some(v => v == null) ? null :
     susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
 
-  const ueqT = T(22);
   const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
                     'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
-  const ueq = [...Array(8)].map((_, i) => { const v = num(ueqT, ueqT + '.' + (i + 1)); return v != null ? v - 4 : null; });
+  const ueq = [...Array(8)].map((_, i) => { const v = num(22, i + 1); return v != null ? v - 4 : null; });
 
-  const nfcT = T(24);
   const nfc = [...Array(6)].map((_, i) => {
-    const v = num(nfcT, nfcT + '.' + (i + 1));
+    const v = num(24, i + 1);
     if (v == null) return null;
-    return (i === 2 || i === 3) ? 6 - v : v;
+    return (i === 2 || i === 3) ? 6 - v : v; // items 3 & 4 reverse-scored
   });
 
-  const trustT = T(25);
-  const trustItems = ['Confident in it','Predictable','Reliable','Feel safe relying','Efficient / quick',
-                      'Wary (R)','Better than novice','Like using it'];
-  const trust = [...Array(8)].map((_, i) => num(trustT, trustT + '.' + (i + 1)));
+  const tlx = { Mental:num(20,1), Physical:num(20,2), Temporal:num(20,3),
+                Performance:num(20,4), Effort:num(20,5), Frustration:num(20,6) };
 
-  const tlxT = T(26);
-  const tlx = { Mental:num(tlxT,tlxT+'.1'), Physical:num(tlxT,tlxT+'.2'), Temporal:num(tlxT,tlxT+'.3'),
-                Performance:num(tlxT,tlxT+'.4'), Effort:num(tlxT,tlxT+'.5'), Frustration:num(tlxT,tlxT+'.6') };
+  const trustItems = ['Confident in it','Predictable','Reliable','Feel safe relying','Efficient / quick',
+                      'Wary of it (rev)','Better than novice','Like using it'];
+  const trust = [...Array(8)].map((_, i) => num(25, i + 1));
 
   const messages = (raw.messages || []).map(m => m.role === 'user'
     ? { role:'user', task:m.task, ts:m.ts, text:m.content }
     : { role:'assistant', task:m.survey_index, ts:m.created * 1000,
         text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
 
-  const demoT = T(2), preT = T(5), postT = T(20), ftT = T(21), attnT = T(1);
+  // Post-task block (task 21) differs per condition — dump every item in order,
+  // Likert answers render as their number, free text as-is.
   const openText = [];
-  const profession = tasks[demoT]?.responses?.[demoT + '.3'];
+  const profession = tasks[1]?.responses?.['1.3'];
   if (profession) openText.push({ label: profession.question || 'What is your profession?', answer: profession.answer });
-  for (const i of [7, 8, 9, 10]) {
-    const response = tasks[ftT]?.responses?.[ftT + '.' + i];
-    if (response) openText.push({ label: response.question || (ftT + '.' + i), answer: response.answer });
-  }
+  Object.entries(tasks[21]?.responses || {})
+    .sort((a, b) => +a[0].split('.')[1] - +b[0].split('.')[1])
+    .forEach(([, r]) => openText.push({ label: r.question || '(unlabelled item)', answer: r.answer }));
 
   const tsAll = Object.values(tsByDi);
   return {
     meta: { condition: raw.condition, pid: raw.participantId,
             start: Math.min(...tsAll), end: Math.max(...tsAll, ...(messages.map(m => m.ts || 0))) },
-    demo: { age:get(demoT,demoT+'.1'), gender:get(demoT,demoT+'.2'), profession:get(demoT,demoT+'.3'),
-            fluency:get(demoT,demoT+'.4'), education:get(demoT,demoT+'.5') },
-    pre:  { withAI:get(preT,preT+'.1'), withoutAI:get(preT,preT+'.2'), aiAlone:get(preT,preT+'.3'), selfPct:get(preT,preT+'.4'), aiPct:get(preT,preT+'.5') },
-    post: { withAI:get(postT,postT+'.1'), withoutAI:get(postT,postT+'.2'), attn:get(postT,postT+'.3'), aiAlone:get(postT,postT+'.4'), selfPct:get(postT,postT+'.5'), aiPct:get(postT,postT+'.6') },
+    demo: { age:get(1,1), gender:get(1,2), profession:get(1,3),
+            fluency:get(1,4), education:get(1,5), aiUse:get(1,6) },
+    pre:  { withAI:get(4,1), withoutAI:get(4,2), aiAlone:get(4,3), selfPct:get(4,4), aiPct:get(4,5) },
+    post: { withAI:get(19,1), withoutAI:get(19,2), attn:get(19,3), aiAlone:get(19,4), selfPct:get(19,5), aiPct:get(19,6) },
     quiz, susRaw, sus, ueqItems, ueq,
     nfc, nfcMean: (() => { const v = nfc.filter(x => x != null); return v.length ? +(v.reduce((a,b)=>a+b,0) / v.length).toFixed(2) : null; })(),
-    trustItems, trust,
-    tlx,
-    attn: { instr: get(attnT,attnT+'.2') === 'C', post: String(get(postT,postT+'.3')) === '5', sus: num(susT,susT+'.8') === 5 },
+    tlx, trustItems, trust,
+    attn: { instr: get(0,2) === 'C', post: String(get(19,3)) === '5', sus: +get(23,8) === 5 },
+    reliabilityByTask: (() => {
+      const m = {};
+      for (const evt of (raw.interactionLog || [])) {
+        const tid = evt.taskId;
+        if (!m[tid]) m[tid] = { sims: [], level: null };
+        if (evt.type === 'reliability_similarity_test') m[tid].sims.push(evt.similarity);
+        if (evt.type === 'reliability_card_presented') m[tid].level = evt.reliabilityLevel;
+      }
+      return m;
+    })(),
     openText,
     messages
   };
@@ -255,9 +255,10 @@ function renderQuizCharts(quiz, barLabels, noAR, padV, grid, qTicks) {
       scales:{ y:{ beginAtZero:true, title:{display:true, text:'Seconds'}, grid:{color:grid} }, x:{ grid:{display:false}, ticks:qTicks } }}});
   charts.push(timeChart);
   const label = sortByOrder ? 'Sort by name' : 'Sort by presented order';
-  ['sortConf','sortTime','sortAns'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = label; });
+  ['sortConf','sortTime','sortAns','sortRel'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = label; });
 }
 
+// ponytail: stash render params so toggleSort can re-call renderQuizCharts
 let lastRenderParams = {};
 function renderTables() {
   if (!lastD) return;
@@ -266,6 +267,23 @@ function renderTables() {
     '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
     sorted.map(q => `<tr><td>${q.name}</td><td>#${q.order}</td><td>${esc(q.answer)}</td><td>${q.conf ?? '–'}%</td>` +
       `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
+  const relCard = document.getElementById('reliabilityCard');
+  if (lastD.reliabilityByTask && Object.keys(lastD.reliabilityByTask).length) {
+    relCard.style.display = 'block';
+    const levelColor = l => l === 'High' ? '#38a169' : l === 'Medium' ? '#d69e2e' : l === 'Low' ? '#e53e3e' : '#a0aec0';
+    document.getElementById('relTable').innerHTML =
+      '<tr><th>Question</th><th>#</th><th>Reliability shown</th><th>Max similarity</th><th>Sim tests</th><th>Correct?</th></tr>' +
+      sorted.map(q => {
+        const r = lastD.reliabilityByTask[q.task] || {};
+        const maxSim = r.sims?.length ? Math.max(...r.sims).toFixed(2) : '–';
+        return `<tr><td>${q.name}</td><td>#${q.order}</td>` +
+          `<td><span style="color:${levelColor(r.level)};font-weight:700">${r.level || '–'}</span></td>` +
+          `<td>${maxSim}</td><td>${r.sims?.length || 0}</td>` +
+          `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td></tr>`;
+      }).join('');
+  } else {
+    relCard.style.display = 'none';
+  }
 }
 function toggleSort() {
   sortByOrder = !sortByOrder;
@@ -296,11 +314,11 @@ function render(D) {
   const sensitivityTitle = sensitivity == null
     ? 'Requires at least one correct and one incorrect answer'
     : `Mean confidence: ${avg(correctConf).toFixed(1)}% correct vs ${avg(incorrectConf).toFixed(1)}% incorrect`;
-  const tlxVals = Object.values(D.tlx).filter(v => v != null);
+  const tlxVals = Object.values(D.tlx).filter(v => !isNaN(v));
   const tlxMean = tlxVals.length ? (tlxVals.reduce((a,b) => a + b, 0) / tlxVals.length).toFixed(1) : '–';
   const attnPass = Object.values(D.attn).filter(Boolean).length;
   const userMsgs = D.messages.filter(m => m.role === 'user');
-  const ueqVals = D.ueq.filter(v => v != null);
+  const ueqVals = D.ueq.filter(v => !isNaN(v));
   const ueqMean = ueqVals.length ? (ueqVals.reduce((a,b) => a + b, 0) / ueqVals.length).toFixed(2) : '–';
 
   document.getElementById('kpis').innerHTML = [
@@ -310,7 +328,7 @@ function render(D) {
     { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
     { v:ueqMean, l:'UEQ-S mean (−3…+3)', cls:ueqMean !== '–' && +ueqMean > 0.8 ? 'good' : ueqMean !== '–' && +ueqMean < -0.8 ? 'bad' : '' },
     { v:tlxMean, l:'TLX mean (0–20)' },
-    { v:D.nfcMean ?? '–', l:'NFC mean (1–5)' },
+    { v:D.nfcMean, l:'NFC mean (1–5)' },
     { v:`${attnPass}/${Object.keys(D.attn).length}`, l:'Attention checks', cls:attnPass === Object.keys(D.attn).length ? 'good' : 'bad' },
     { v:userMsgs.length, l:'Msgs to AI' },
   ].map(k => `<div class="kpi ${k.cls||''}"${k.title ? ` title="${esc(k.title)}"` : ''}><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('');
@@ -324,16 +342,17 @@ function render(D) {
   if (inv(D.post.withAI) || inv(D.post.withoutAI) || inv(D.post.aiAlone))
     flags.push(`Post-task estimates out of range (with AI: ${D.post.withAI}, without: ${D.post.withoutAI}, AI alone: ${D.post.aiAlone}).`);
   if (!isNaN(+D.demo.profession)) flags.push(`Profession field is numeric ("${D.demo.profession}").`);
-  const ftVals = D.openText.map(item => item.answer);
+  const ftVals = D.openText.map(item => item.answer).filter(t => isNaN(+t)); // free text only, skip Likert numbers
   if (ftVals.length && ftVals.every(t => !/\s/.test(String(t))))
     flags.push('All free-text responses look like keyboard mashing (no spaces / real words).');
   if (userMsgs.length && userMsgs.every(m => m.text.length < 8))
     flags.push('All chat messages to the AI are short gibberish strings.');
-  if (flags.length) flags.push('→ Possibly a pilot / test run rather than a genuine participant.');
+  if (flags.length) flags.push('→ Possibly a test run rather than a genuine participant.');
   document.getElementById('qualCard').style.display = flags.length ? 'block' : 'none';
   document.getElementById('qualList').innerHTML = flags.map(f => `<li>${f}</li>`).join('');
 
   Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
+  // ponytail: inline plugin to draw value labels on bars; no external datalabels CDN needed
   const barLabels = { id:'barLabels', afterDatasetsDraw(chart) {
     const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.fillStyle = '#4a5568';
     chart.data.datasets.forEach((ds, di) => {
@@ -351,10 +370,12 @@ function render(D) {
     }); ctx.restore();
   }};
   const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
-  const padH = { layout:{ padding:{ right:28 } } };
-  const padV = { layout:{ padding:{ top:14 } } };
+  // ponytail: extra layout padding so bar-end labels don't clip at chart edges
+  const padH = { layout:{ padding:{ right:28 } } };  // horizontal bar charts
+  const padV = { layout:{ padding:{ top:14 } } };     // vertical bar charts
   const qTicks = { autoSkip:false, maxRotation:60, minRotation:60 };
 
+  // ponytail: conf+time charts are re-rendered on sort toggle, so extracted into a function
   lastQuiz = D.quiz;
   lastRenderParams = { barLabels, noAR, padV, grid, qTicks };
   renderQuizCharts(D.quiz, barLabels, noAR, padV, grid, qTicks);
@@ -369,7 +390,7 @@ function render(D) {
     const ctx = ch.ctx; ctx.save(); ctx.setLineDash([5,3]); ctx.strokeStyle='#38a169'; ctx.lineWidth=1.5;
     ctx.beginPath(); ctx.moveTo(ch.chartArea.left,y); ctx.lineTo(ch.chartArea.right,y); ctx.stroke();
     ctx.fillStyle='#38a169'; ctx.font='10px sans-serif'; ctx.textAlign='right';
-    ctx.fillText('Actual: '+nCorrect, ch.chartArea.right, y-4); ctx.restore();
+    ctx.fillText(' '+nCorrect, ch.chartArea.right, y-4); ctx.restore();
   }};
   chart('c_estimates', { type:'bar', plugins:[barLabels, estRefLine],
     data:{ labels:['With AI','Without AI','AI alone'], datasets:[
@@ -411,8 +432,7 @@ function render(D) {
   chart('c_trust', { type:'bar', plugins:[barLabels],
     data:{ labels:D.trustItems, datasets:[{ data:D.trust,
       backgroundColor:D.trustItems.map((_, i) => i === 5 ? '#cbd5e0' : '#38b2ac'), borderRadius:4 }]},
-    options:{ ...noAR, ...padH, indexAxis:'y', plugins:{ legend:{display:false},
-        tooltip:{ callbacks:{ afterLabel:c => c.dataIndex === 5 ? 'Reverse-scored (wary)' : '' }}},
+    options:{ ...noAR, ...padH, indexAxis:'y', plugins:{legend:{display:false}},
       scales:{ x:{ min:0, max:5, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
   const totalTokens = D.messages.reduce((s, m) => s + (m.tokens || 0), 0);
@@ -422,7 +442,7 @@ function render(D) {
     `<div class="msg ${m.role}">${esc(m.text)}<div class="mmeta">task ${m.task} · ${new Date(m.ts).toLocaleTimeString('en-GB')}${m.tokens ? ' · ' + m.tokens + ' tok' : ''}</div></div>`).join('');
 
   document.getElementById('demo').innerHTML =
-    ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education]
+    ['Age ' + D.demo.age, D.demo.gender, 'Profession: ' + D.demo.profession, D.demo.fluency, D.demo.education, 'AI use: ' + D.demo.aiUse]
     .map(x => `<span class="pill">${esc(x)}</span>`).join('');
   document.getElementById('freetext').innerHTML = D.openText
     .map(ft => `<div class="ft"><b>${esc(ft.label)}:</b> ${esc(ft.answer)}</div>`).join('');
@@ -432,24 +452,35 @@ function render(D) {
 }
 
 /* ---------- 3. File loading & participant switching ---------- */
-const store = [];
-let filtered = [];
+const store = []; // [{label, data}]
+let filtered = []; // indices into store matching current condition filter
 const picker = document.getElementById('picker');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const condFilter = document.getElementById('condFilter');
+const pSearch = document.getElementById('pSearch');
 
 const summaryBtn = document.getElementById('summaryBtn');
 function showNav() {
   const show = filtered.length > 0;
-  [picker, prevBtn, nextBtn, condFilter, summaryBtn].forEach(el => el.style.display = show ? 'inline-block' : 'none');
+  [picker, prevBtn, nextBtn, condFilter, summaryBtn, pSearch].forEach(el => el.style.display = show ? 'inline-block' : 'none');
 }
 
 function applyFilter() {
   const cond = condFilter.value;
+  pSearch.value = '';
   filtered = store.map((s, i) => i).filter(i => !cond || store[i].data.meta.condition === cond);
   picker.innerHTML = filtered.map(i => `<option value="${i}">${esc(store[i].label)}</option>`).join('');
   if (filtered.length) go(filtered[0]);
+}
+
+function filterPicker() {
+  const q = pSearch.value.toLowerCase();
+  const current = +picker.value;
+  const matches = filtered.filter(i => store[i].label.toLowerCase().includes(q));
+  picker.innerHTML = matches.map(i => `<option value="${i}">${esc(store[i].label)}</option>`).join('');
+  if (matches.includes(current)) picker.value = String(current);
+  else if (matches.length) go(matches[0]);
 }
 
 function go(idx) { picker.value = String(idx); render(store[idx].data); }
@@ -494,7 +525,7 @@ function toggleSummary() {
   document.getElementById('summary').style.display = summaryVisible ? 'block' : 'none';
   document.getElementById('dash').style.display = summaryVisible ? 'none' : 'block';
   summaryBtn.textContent = summaryVisible ? 'Individual' : 'Summary';
-  [picker, prevBtn, nextBtn, condFilter].forEach(el => el.style.display = summaryVisible ? 'none' : 'inline-block');
+  [picker, prevBtn, nextBtn, condFilter, pSearch].forEach(el => el.style.display = summaryVisible ? 'none' : 'inline-block');
   if (summaryVisible) renderSummary();
 }
 
@@ -511,24 +542,34 @@ function participantRow(D) {
   const tlxM = tlxV.length ? +(tlxV.reduce((a,b)=>a+b,0)/tlxV.length).toFixed(1) : null;
   const ueqV = D.ueq.filter(v => v != null);
   const ueqM = ueqV.length ? +(ueqV.reduce((a,b)=>a+b,0)/ueqV.length).toFixed(2) : null;
-  const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
-  const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
   const trustV = D.trust.filter(v => v != null);
   const trustM = trustV.length ? +(trustV.reduce((a,b)=>a+b,0)/trustV.length).toFixed(1) : null;
-  const nn = v => v != null ? +v : null;
+  const qMap = Object.fromEntries(D.quiz.map(q => [q.name, q]));
+  const qCorrect = qNames.map(n => { const q = qMap[n]; return (!q || q.answer == null) ? null : q.correct; });
+  const n = v => v != null ? +v : null;
   return { nC, total: D.quiz.length, mc, sens, sus: D.sus, susRaw: D.susRaw, ueqM, ueq: D.ueq, ueqItems: D.ueqItems,
     tlxM, tlx: D.tlx, nfcMean: D.nfcMean, nfc: D.nfc, trustM, trust: D.trust, trustItems: D.trustItems,
-    preAI: nn(D.pre.withAI), preNoAI: nn(D.pre.withoutAI), preAlone: nn(D.pre.aiAlone),
-    postAI: nn(D.post.withAI), postNoAI: nn(D.post.withoutAI), postAlone: nn(D.post.aiAlone),
+    preAI: n(D.pre.withAI), preNoAI: n(D.pre.withoutAI), preAlone: n(D.pre.aiAlone),
+    postAI: n(D.post.withAI), postNoAI: n(D.post.withoutAI), postAlone: n(D.post.aiAlone),
     qCorrect, pid: D.meta.pid, cond: D.meta.condition };
 }
+
+let summarySort = { col: null, asc: true };
+function sortSummary(col) { summarySort = { col, asc: summarySort.col === col ? !summarySort.asc : false }; renderSummary(); }
 
 function buildTable(title, rows) {
   const qNames = QUIZ_KEY.map(k => k[1]);
   const f = v => v == null ? '–' : v;
-  const hdr = `<tr><th>Participant</th><th>Correct</th><th>Mean Conf</th>` +
-    `<th>Sensitivity</th><th>SUS</th><th>UEQ-S</th><th>TLX</th><th>NFC</th><th>Trust</th>` +
-    `<th title="Pre→Post">Est. w/ AI</th><th title="Pre→Post">Est. w/o AI</th><th title="Pre→Post">Est. AI alone</th>` +
+  // ponytail: inline sort for summary columns — clickable headers, nulls sink to bottom
+  const sc = summarySort.col, ar = k => sc === k ? (summarySort.asc ? ' ▲' : ' ▼') : '';
+  const sth = (l, k, a) => `<th style="cursor:pointer;user-select:none" ${a||''} onclick="sortSummary('${k}')">${l}${ar(k)}</th>`;
+  if (sc) {
+    const get = r => { if(sc==='correct') return r.nC/r.total; if(sc==='estAI') return r.postAI; if(sc==='estNoAI') return r.postNoAI; if(sc==='estAlone') return r.postAlone; return r[sc]; };
+    rows = [...rows].sort((a,b) => { const va=get(a), vb=get(b); if(va==null&&vb==null) return 0; if(va==null) return 1; if(vb==null) return -1; return summarySort.asc ? va-vb : vb-va; });
+  }
+  const hdr = `<tr><th>Participant</th>${sth('Correct','correct')}${sth('Mean Conf','mc')}` +
+    `${sth('Sensitivity','sens')}${sth('SUS','sus')}${sth('UEQ-S','ueqM')}${sth('TLX','tlxM')}${sth('NFC','nfcMean')}${sth('Trust','trustM')}` +
+    `${sth('Est. w/ AI','estAI','title="Pre→Post"')}${sth('Est. w/o AI','estNoAI','title="Pre→Post"')}${sth('Est. AI alone','estAlone','title="Pre→Post"')}` +
     qNames.map(n => `<th style="writing-mode:vertical-lr;font-size:10px">${n}</th>`).join('') + '</tr>';
   const tip = (val, t) => t ? `<span class="tip">${val}<span class="tt">${t.replace(/\n/g,'<br>')}</span></span>` : val;
   const susIds = [1,2,3,4,5,6,7,9,10,11];
@@ -553,6 +594,7 @@ function buildTable(title, rows) {
       `<td>${f(r.preAI)}→${f(r.postAI)}</td><td>${f(r.preNoAI)}→${f(r.postNoAI)}</td><td>${f(r.preAlone)}→${f(r.postAlone)}</td>` +
       qCells + '</tr>';
   }).join('');
+  // mean row
   const avg = (arr) => { const v = arr.filter(x => x != null); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : '–'; };
   const avgArr = (arrs, len) => [...Array(len)].map((_, i) => {
     const vals = arrs.map(a => a?.[i]).filter(v => v != null);

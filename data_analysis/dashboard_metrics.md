@@ -41,7 +41,7 @@ How each KPI card / chart in the participant dashboards is computed.
 | **Correct** | `n / total (x%)` — same as upper-bar KPI. Mean row shows overall percentage. |
 | **Conf** | Mean confidence (same as upper-bar). |
 | **Sens** | Metacognitive sensitivity (same as upper-bar). |
-| **SUS** | SUS score (same as upper-bar). |
+| **SUS** | SUS score (same as upper-bar). Tooltip shows per-item contribution scores (0–4): odd items `val−1`, even items `5−val`. |
 | **UEQ** | UEQ-S mean (same as upper-bar). |
 | **TLX** | TLX mean (same as upper-bar). |
 | **NFC** | NFC mean (same as upper-bar). |
