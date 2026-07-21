@@ -1,6 +1,6 @@
 # Question-level answer analysis
 
-Data: 6 response files, 129 participants total.
+Data: 7 response files, 248 participants total.
 
 **Answer options** (same for all questions):
 
@@ -16,300 +16,300 @@ Data: 6 response files, 129 participants total.
 ## ypc_02
 
 Correct answer: **B) Neither of the two statements is correct.**  
-Overall accuracy: **87/129 (67.4%)**
+Overall accuracy: **171/248 (69.0%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 8 | 6.2% |
-| B) Neither of the two statements is correct. | 87 | 67.4% **correct** |
-| C) Only statement 1 is correct. | 27 | 20.9% |
-| D) Only statement 2 is correct. | 7 | 5.4% |
+| A) Both statements are correct. | 14 | 5.6% |
+| B) Neither of the two statements is correct. | 171 | 69.0% **correct** |
+| C) Only statement 1 is correct. | 49 | 19.8% |
+| D) Only statement 2 is correct. | 14 | 5.6% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 3 (5%) | 5 (8%) |
-| B) Neither of the two statements is correct. **correct** | 42 (66%) | 45 (69%) |
-| C) Only statement 1 is correct. | 16 (25%) | 11 (17%) |
-| D) Only statement 2 is correct. | 3 (5%) | 4 (6%) |
+| A) Both statements are correct. | 5 (4%) | 9 (7%) |
+| B) Neither of the two statements is correct. **correct** | 84 (68%) | 87 (70%) |
+| C) Only statement 1 is correct. | 28 (23%) | 21 (17%) |
+| D) Only statement 2 is correct. | 7 (6%) | 7 (6%) |
 
 ---
 
 ## ypc_03
 
 Correct answer: **D) Only statement 2 is correct.**  
-Overall accuracy: **36/129 (27.9%)**
+Overall accuracy: **59/248 (23.8%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 18 | 14.0% |
-| B) Neither of the two statements is correct. | 33 | 25.6% |
-| C) Only statement 1 is correct. | 42 | 32.6% |
-| D) Only statement 2 is correct. | 36 | 27.9% **correct** |
+| A) Both statements are correct. | 45 | 18.1% |
+| B) Neither of the two statements is correct. | 59 | 23.8% |
+| C) Only statement 1 is correct. | 85 | 34.3% |
+| D) Only statement 2 is correct. | 59 | 23.8% **correct** |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 9 (14%) | 9 (14%) |
-| B) Neither of the two statements is correct. | 10 (16%) | 23 (35%) |
-| C) Only statement 1 is correct. | 27 (42%) | 15 (23%) |
-| D) Only statement 2 is correct. **correct** | 18 (28%) | 18 (28%) |
+| A) Both statements are correct. | 24 (19%) | 21 (17%) |
+| B) Neither of the two statements is correct. | 25 (20%) | 34 (27%) |
+| C) Only statement 1 is correct. | 47 (38%) | 38 (31%) |
+| D) Only statement 2 is correct. **correct** | 28 (23%) | 31 (25%) |
 
 ---
 
 ## ypc_05
 
 Correct answer: **C) Only statement 1 is correct.**  
-Overall accuracy: **42/129 (32.6%)**
+Overall accuracy: **92/248 (37.1%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 9 | 7.0% |
-| B) Neither of the two statements is correct. | 67 | 51.9% |
-| C) Only statement 1 is correct. | 42 | 32.6% **correct** |
-| D) Only statement 2 is correct. | 11 | 8.5% |
+| A) Both statements are correct. | 15 | 6.0% |
+| B) Neither of the two statements is correct. | 122 | 49.2% |
+| C) Only statement 1 is correct. | 92 | 37.1% **correct** |
+| D) Only statement 2 is correct. | 19 | 7.7% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 4 (6%) | 5 (8%) |
-| B) Neither of the two statements is correct. | 37 (58%) | 30 (46%) |
-| C) Only statement 1 is correct. **correct** | 18 (28%) | 24 (37%) |
-| D) Only statement 2 is correct. | 5 (8%) | 6 (9%) |
+| A) Both statements are correct. | 8 (6%) | 7 (6%) |
+| B) Neither of the two statements is correct. | 63 (51%) | 59 (48%) |
+| C) Only statement 1 is correct. **correct** | 45 (36%) | 47 (38%) |
+| D) Only statement 2 is correct. | 8 (6%) | 11 (9%) |
 
 ---
 
 ## ypc_06
 
 Correct answer: **C) Only statement 1 is correct.**  
-Overall accuracy: **25/129 (19.4%)**
+Overall accuracy: **48/248 (19.4%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 36 | 27.9% |
-| B) Neither of the two statements is correct. | 24 | 18.6% |
-| C) Only statement 1 is correct. | 25 | 19.4% **correct** |
-| D) Only statement 2 is correct. | 44 | 34.1% |
+| A) Both statements are correct. | 61 | 24.6% |
+| B) Neither of the two statements is correct. | 52 | 21.0% |
+| C) Only statement 1 is correct. | 48 | 19.4% **correct** |
+| D) Only statement 2 is correct. | 87 | 35.1% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 14 (22%) | 22 (34%) |
-| B) Neither of the two statements is correct. | 14 (22%) | 10 (15%) |
-| C) Only statement 1 is correct. **correct** | 13 (20%) | 12 (18%) |
-| D) Only statement 2 is correct. | 23 (36%) | 21 (32%) |
+| A) Both statements are correct. | 29 (23%) | 32 (26%) |
+| B) Neither of the two statements is correct. | 32 (26%) | 20 (16%) |
+| C) Only statement 1 is correct. **correct** | 23 (19%) | 25 (20%) |
+| D) Only statement 2 is correct. | 40 (32%) | 47 (38%) |
 
 ---
 
 ## car_racing_01
 
 Correct answer: **B) Neither of the two statements is correct.**  
-Overall accuracy: **101/129 (78.3%)**
+Overall accuracy: **204/248 (82.3%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 3 | 2.3% |
-| B) Neither of the two statements is correct. | 101 | 78.3% **correct** |
-| C) Only statement 1 is correct. | 20 | 15.5% |
-| D) Only statement 2 is correct. | 5 | 3.9% |
+| A) Both statements are correct. | 4 | 1.6% |
+| B) Neither of the two statements is correct. | 204 | 82.3% **correct** |
+| C) Only statement 1 is correct. | 35 | 14.1% |
+| D) Only statement 2 is correct. | 5 | 2.0% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 2 (3%) | 1 (2%) |
-| B) Neither of the two statements is correct. **correct** | 52 (81%) | 49 (75%) |
-| C) Only statement 1 is correct. | 8 (12%) | 12 (18%) |
-| D) Only statement 2 is correct. | 2 (3%) | 3 (5%) |
+| A) Both statements are correct. | 3 (2%) | 1 (1%) |
+| B) Neither of the two statements is correct. **correct** | 106 (85%) | 98 (79%) |
+| C) Only statement 1 is correct. | 13 (10%) | 22 (18%) |
+| D) Only statement 2 is correct. | 2 (2%) | 3 (2%) |
 
 ---
 
 ## car_racing_02
 
 Correct answer: **A) Both statements are correct.**  
-Overall accuracy: **22/129 (17.1%)**
+Overall accuracy: **44/248 (17.7%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 22 | 17.1% **correct** |
-| B) Neither of the two statements is correct. | 14 | 10.9% |
-| C) Only statement 1 is correct. | 8 | 6.2% |
-| D) Only statement 2 is correct. | 85 | 65.9% |
+| A) Both statements are correct. | 44 | 17.7% **correct** |
+| B) Neither of the two statements is correct. | 32 | 12.9% |
+| C) Only statement 1 is correct. | 14 | 5.6% |
+| D) Only statement 2 is correct. | 158 | 63.7% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. **correct** | 16 (25%) | 6 (9%) |
-| B) Neither of the two statements is correct. | 6 (9%) | 8 (12%) |
-| C) Only statement 1 is correct. | 2 (3%) | 6 (9%) |
-| D) Only statement 2 is correct. | 40 (62%) | 45 (69%) |
+| A) Both statements are correct. **correct** | 28 (23%) | 16 (13%) |
+| B) Neither of the two statements is correct. | 13 (10%) | 19 (15%) |
+| C) Only statement 1 is correct. | 5 (4%) | 9 (7%) |
+| D) Only statement 2 is correct. | 78 (63%) | 80 (65%) |
 
 ---
 
 ## car_racing_03
 
 Correct answer: **D) Only statement 2 is correct.**  
-Overall accuracy: **63/129 (48.8%)**
+Overall accuracy: **133/248 (53.6%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 6 | 4.7% |
-| B) Neither of the two statements is correct. | 56 | 43.4% |
-| C) Only statement 1 is correct. | 4 | 3.1% |
-| D) Only statement 2 is correct. | 63 | 48.8% **correct** |
+| A) Both statements are correct. | 11 | 4.4% |
+| B) Neither of the two statements is correct. | 96 | 38.7% |
+| C) Only statement 1 is correct. | 8 | 3.2% |
+| D) Only statement 2 is correct. | 133 | 53.6% **correct** |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 2 (3%) | 4 (6%) |
-| B) Neither of the two statements is correct. | 25 (39%) | 31 (48%) |
-| C) Only statement 1 is correct. | 1 (2%) | 3 (5%) |
-| D) Only statement 2 is correct. **correct** | 36 (56%) | 27 (42%) |
+| A) Both statements are correct. | 4 (3%) | 7 (6%) |
+| B) Neither of the two statements is correct. | 44 (35%) | 52 (42%) |
+| C) Only statement 1 is correct. | 4 (3%) | 4 (3%) |
+| D) Only statement 2 is correct. **correct** | 72 (58%) | 61 (49%) |
 
 ---
 
 ## car_racing_05
 
 Correct answer: **C) Only statement 1 is correct.**  
-Overall accuracy: **41/129 (31.8%)**
+Overall accuracy: **78/248 (31.5%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 26 | 20.2% |
-| B) Neither of the two statements is correct. | 51 | 39.5% |
-| C) Only statement 1 is correct. | 41 | 31.8% **correct** |
-| D) Only statement 2 is correct. | 11 | 8.5% |
+| A) Both statements are correct. | 52 | 21.0% |
+| B) Neither of the two statements is correct. | 96 | 38.7% |
+| C) Only statement 1 is correct. | 78 | 31.5% **correct** |
+| D) Only statement 2 is correct. | 22 | 8.9% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 13 (20%) | 13 (20%) |
-| B) Neither of the two statements is correct. | 29 (45%) | 22 (34%) |
-| C) Only statement 1 is correct. **correct** | 20 (31%) | 21 (32%) |
-| D) Only statement 2 is correct. | 2 (3%) | 9 (14%) |
+| A) Both statements are correct. | 28 (23%) | 24 (19%) |
+| B) Neither of the two statements is correct. | 51 (41%) | 45 (36%) |
+| C) Only statement 1 is correct. **correct** | 38 (31%) | 40 (32%) |
+| D) Only statement 2 is correct. | 7 (6%) | 15 (12%) |
 
 ---
 
 ## graduation_party_01
 
 Correct answer: **D) Only statement 2 is correct.**  
-Overall accuracy: **90/129 (69.8%)**
+Overall accuracy: **176/248 (71.0%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 26 | 20.2% |
-| B) Neither of the two statements is correct. | 6 | 4.7% |
-| C) Only statement 1 is correct. | 7 | 5.4% |
-| D) Only statement 2 is correct. | 90 | 69.8% **correct** |
+| A) Both statements are correct. | 55 | 22.2% |
+| B) Neither of the two statements is correct. | 8 | 3.2% |
+| C) Only statement 1 is correct. | 9 | 3.6% |
+| D) Only statement 2 is correct. | 176 | 71.0% **correct** |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 10 (16%) | 16 (25%) |
-| B) Neither of the two statements is correct. | 2 (3%) | 4 (6%) |
-| C) Only statement 1 is correct. | 3 (5%) | 4 (6%) |
-| D) Only statement 2 is correct. **correct** | 49 (77%) | 41 (63%) |
+| A) Both statements are correct. | 23 (19%) | 32 (26%) |
+| B) Neither of the two statements is correct. | 3 (2%) | 5 (4%) |
+| C) Only statement 1 is correct. | 3 (2%) | 6 (5%) |
+| D) Only statement 2 is correct. **correct** | 95 (77%) | 81 (65%) |
 
 ---
 
 ## graduation_party_05
 
 Correct answer: **C) Only statement 1 is correct.**  
-Overall accuracy: **57/128 (44.5%)**
+Overall accuracy: **119/247 (48.2%)**
 
-### Overall (n=128)
+### Overall (n=247)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 9 | 7.0% |
-| B) Neither of the two statements is correct. | 56 | 43.8% |
-| C) Only statement 1 is correct. | 57 | 44.5% **correct** |
-| D) Only statement 2 is correct. | 6 | 4.7% |
+| A) Both statements are correct. | 12 | 4.9% |
+| B) Neither of the two statements is correct. | 109 | 44.1% |
+| C) Only statement 1 is correct. | 119 | 48.2% **correct** |
+| D) Only statement 2 is correct. | 7 | 2.8% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=64) |
+| Answer | ai (n=124) | ai-reliability (n=123) |
 |--------|---:|---:|
-| A) Both statements are correct. | 4 (6%) | 5 (8%) |
-| B) Neither of the two statements is correct. | 30 (47%) | 26 (41%) |
-| C) Only statement 1 is correct. **correct** | 27 (42%) | 30 (47%) |
-| D) Only statement 2 is correct. | 3 (5%) | 3 (5%) |
+| A) Both statements are correct. | 6 (5%) | 6 (5%) |
+| B) Neither of the two statements is correct. | 57 (46%) | 52 (42%) |
+| C) Only statement 1 is correct. **correct** | 57 (46%) | 62 (50%) |
+| D) Only statement 2 is correct. | 4 (3%) | 3 (2%) |
 
 ---
 
 ## graduation_party_06
 
 Correct answer: **B) Neither of the two statements is correct.**  
-Overall accuracy: **75/129 (58.1%)**
+Overall accuracy: **132/248 (53.2%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 5 | 3.9% |
-| B) Neither of the two statements is correct. | 75 | 58.1% **correct** |
-| C) Only statement 1 is correct. | 20 | 15.5% |
-| D) Only statement 2 is correct. | 29 | 22.5% |
+| A) Both statements are correct. | 9 | 3.6% |
+| B) Neither of the two statements is correct. | 132 | 53.2% **correct** |
+| C) Only statement 1 is correct. | 34 | 13.7% |
+| D) Only statement 2 is correct. | 73 | 29.4% |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 1 (2%) | 4 (6%) |
-| B) Neither of the two statements is correct. **correct** | 38 (59%) | 37 (57%) |
-| C) Only statement 1 is correct. | 6 (9%) | 14 (22%) |
-| D) Only statement 2 is correct. | 19 (30%) | 10 (15%) |
+| A) Both statements are correct. | 2 (2%) | 7 (6%) |
+| B) Neither of the two statements is correct. **correct** | 64 (52%) | 68 (55%) |
+| C) Only statement 1 is correct. | 13 (10%) | 21 (17%) |
+| D) Only statement 2 is correct. | 45 (36%) | 28 (23%) |
 
 ---
 
 ## graduation_party_07
 
 Correct answer: **D) Only statement 2 is correct.**  
-Overall accuracy: **37/129 (28.7%)**
+Overall accuracy: **75/248 (30.2%)**
 
-### Overall (n=129)
+### Overall (n=248)
 
 | Answer | Count | % |
 |--------|------:|---:|
-| A) Both statements are correct. | 11 | 8.5% |
-| B) Neither of the two statements is correct. | 54 | 41.9% |
-| C) Only statement 1 is correct. | 27 | 20.9% |
-| D) Only statement 2 is correct. | 37 | 28.7% **correct** |
+| A) Both statements are correct. | 21 | 8.5% |
+| B) Neither of the two statements is correct. | 111 | 44.8% |
+| C) Only statement 1 is correct. | 41 | 16.5% |
+| D) Only statement 2 is correct. | 75 | 30.2% **correct** |
 
 ### By condition
 
-| Answer | ai (n=64) | ai-reliability (n=65) |
+| Answer | ai (n=124) | ai-reliability (n=124) |
 |--------|---:|---:|
-| A) Both statements are correct. | 6 (9%) | 5 (8%) |
-| B) Neither of the two statements is correct. | 26 (41%) | 28 (43%) |
-| C) Only statement 1 is correct. | 12 (19%) | 15 (23%) |
-| D) Only statement 2 is correct. **correct** | 20 (31%) | 17 (26%) |
+| A) Both statements are correct. | 10 (8%) | 11 (9%) |
+| B) Neither of the two statements is correct. | 59 (48%) | 52 (42%) |
+| C) Only statement 1 is correct. | 13 (10%) | 28 (23%) |
+| D) Only statement 2 is correct. **correct** | 42 (34%) | 33 (27%) |
 
 ---
 
@@ -319,35 +319,35 @@ Overall accuracy: **37/129 (28.7%)**
 
 | Rank | Question | Correct | % | ai | ai-reliability | Dominant answer is correct? |
 |-----:|----------|--------:|---:|---:|---:|---|
-| 1 | car_racing_01 | 101/129 | 78.3% | 81% | 75% | Yes |
-| 2 | graduation_party_01 | 90/129 | 69.8% | 77% | 63% | Yes |
-| 3 | ypc_02 | 87/129 | 67.4% | 66% | 69% | Yes |
-| 4 | graduation_party_06 | 75/129 | 58.1% | 59% | 57% | Yes |
-| 5 | car_racing_03 | 63/129 | 48.8% | 56% | 42% | Yes |
-| 6 | graduation_party_05 | 57/128 | 44.5% | 42% | 47% | Yes |
-| 7 | ypc_05 | 42/129 | 32.6% | 28% | 37% | No |
-| 8 | car_racing_05 | 41/129 | 31.8% | 31% | 32% | No |
-| 9 | graduation_party_07 | 37/129 | 28.7% | 31% | 26% | No |
-| 10 | ypc_03 | 36/129 | 27.9% | 28% | 28% | No |
-| 11 | ypc_06 | 25/129 | 19.4% | 20% | 18% | No |
-| 12 | car_racing_02 | 22/129 | 17.1% | 25% | 9% | No |
-| | **Overall** | **676/1547** | **43.7%** | **45%** | **42%** | |
+| 1 | car_racing_01 | 204/248 | 82.3% | 86% | 79% | Yes |
+| 2 | graduation_party_01 | 176/248 | 71.0% | 77% | 65% | Yes |
+| 3 | ypc_02 | 171/248 | 69.0% | 68% | 70% | Yes |
+| 4 | car_racing_03 | 133/248 | 53.6% | 58% | 49% | Yes |
+| 5 | graduation_party_06 | 132/248 | 53.2% | 52% | 55% | Yes |
+| 6 | graduation_party_05 | 119/247 | 48.2% | 46% | 50% | Yes |
+| 7 | ypc_05 | 92/248 | 37.1% | 36% | 38% | No |
+| 8 | car_racing_05 | 78/248 | 31.5% | 31% | 32% | No |
+| 9 | graduation_party_07 | 75/248 | 30.2% | 34% | 27% | No |
+| 10 | ypc_03 | 59/248 | 23.8% | 23% | 25% | No |
+| 11 | ypc_06 | 48/248 | 19.4% | 18% | 20% | No |
+| 12 | car_racing_02 | 44/248 | 17.7% | 23% | 13% | No |
+| | **Overall** | **1331/2975** | **44.7%** | **46%** | **44%** | |
 
 ### Accuracy by topic
 
 | Topic | Questions | Mean accuracy |
 |-------|----------:|---------:|
-| ypc | 4 | 36.8% |
-| car_racing | 4 | 44.0% |
-| graduation_party | 4 | 50.3% |
+| ypc | 4 | 37.3% |
+| car_racing | 4 | 46.3% |
+| graduation_party | 4 | 50.7% |
 
 ### Key observations
 
-- **Overall accuracy: 43.7%** across 1547 question-answers from 129 participants.
-- **ai condition: 45%** vs **ai-reliability: 42%** — ai slightly higher.
-- **4 questions above 50%**: car_racing_01, graduation_party_01, ypc_02, graduation_party_06.
-- **2 questions below 25%** (at or below chance): car_racing_02, ypc_06.
+- **Overall accuracy: 44.7%** across 2975 question-answers from 248 participants.
+- **ai condition: 46%** vs **ai-reliability: 44%** — ai slightly higher.
+- **5 questions above 50%**: car_racing_01, graduation_party_01, ypc_02, car_racing_03, graduation_party_06.
+- **3 questions below 25%** (at or below chance): car_racing_02, ypc_06, ypc_03.
 - **6 questions where the most popular answer is wrong**: ypc_03, ypc_05, ypc_06, car_racing_02, car_racing_05, graduation_party_07.
 - Random-chance baseline (4 options): 25%.
-- The biggest condition gap is **car_racing_02** (ai 25% vs ai-reliability 9%).
-- **graduation_party** is the easiest topic (50.3%), **ypc** the hardest (36.8%).
+- The biggest condition gap is **graduation_party_01** (ai 77% vs ai-reliability 65%).
+- **graduation_party** is the easiest topic (50.7%), **ypc** the hardest (37.3%).
