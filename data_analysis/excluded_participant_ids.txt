@@ -1,0 +1,36 @@
+# Add one participant ID per line.
+# Blank lines and lines beginning with # are ignored.
+#
+# Example:
+# 0123456789abcdef
+
+# less than 30%
+
+56de005e6893b5000ce95d71
+6a12f9ea10383337fb6d1e8d
+6a158d6cdc77d53781df91dd
+63beebaa4c5884797ff00a98
+6a25d388fec497bcb43cbf44
+6a2213047c98121dd4e08cfe
+6287745dd285a8be832879dc
+67a9da49f62daef62d4f4d5c
+6a0ee010a00d40c9212e139e
+69fdced3c093b1d6f1b3b2d2
+5f319edf7543f7087932aa98
+6a05c98af666e623a7ba8f96
+6a2bb3fe61b303b997ef9284
+6a1ec9f0bcdd976510c2af44
+
+# 30-70% section starting here
+6a1d8a523e6779817d014374
+
+# Switching Applications
+6a0c5ad1f13f59bf0a03fffc
+6a1806979a036be32a527ff3
+6a18b6036aa5ef9ebce73f63
+
+# Using external AI
+69fdced3c093b1d6f1b3b2d2
+
+# Other
+6a1ec9f0bcdd976510c2af44
