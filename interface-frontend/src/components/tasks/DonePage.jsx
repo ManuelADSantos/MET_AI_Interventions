@@ -10,6 +10,7 @@ const DonePage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [prolificCode, setProlificCode] = useState('')
   const [prolificUrl, setProlificUrl] = useState('')
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     dispatch({ type: 'ALL_DONE' })
@@ -61,13 +62,39 @@ const DonePage = () => {
         <p className='text-red-500 my-4'>{errorMessage}</p>
         <Button color='danger' onClick={() => tryToSave()}>Try again</Button>
       </div>}
-      {/* Show thank-you message and Prolific redirect if save was successful */}
+      {/* Show completion instructions once save succeeds */}
       {saveSuccess === true && <div>
-        <p>Thank you for taking part in the study!</p> 
-        <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
-        <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>
-        <p className='font-bold my-4'>... OR copy and paste this code:</p>
-        <p className='font-mono p-4 bg-stone-200'>{prolificCode}</p>
+        <p>Thank you for taking part in the study!</p>
+        <p className='my-4 font-bold'>Please copy this completion code:</p>
+        <div className='flex items-center justify-center gap-2 my-2'>
+          <p className='font-mono p-4 bg-stone-200 select-all cursor-pointer'>{prolificCode}</p>
+          <Button size='sm' variant='flat' onClick={() => {
+            const copy = (text) => {
+              if (navigator.clipboard?.writeText) {
+                return navigator.clipboard.writeText(text).catch(() => fallback(text))
+              }
+              return fallback(text)
+            }
+            const fallback = (text) => {
+              const ta = document.createElement('textarea')
+              ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'
+              document.body.appendChild(ta); ta.select(); document.execCommand('copy')
+              document.body.removeChild(ta)
+            }
+            copy(prolificCode); setCopied(true); setTimeout(() => setCopied(false), 2000)
+          }}>
+            {copied ? 'Copied!' : 'Copy'}
+          </Button>
+        </div>
+        {import.meta.env.VITE_USE_AUTOPROCTOR === 'true'
+          ? <p className='text-xl font-semibold mt-8'>
+              Then press <strong>'Click After Submitting Test'</strong> to complete your session.
+            </p>
+          : <>
+              <p className='my-4 font-bold'>To register your participation on Prolific, navigate to the following URL:</p>
+              <p className='text-blue-500 hover:underline my-8'><a href={prolificUrl}>{prolificUrl}</a></p>
+            </>
+        }
       </div>}
     </div>
   )

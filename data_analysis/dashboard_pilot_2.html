@@ -85,7 +85,7 @@ td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
     <div class="card"><h2>Problem-count estimates: pre vs post</h2><div class="chartbox"><canvas id="c_estimates"></canvas></div><div class="sub" id="estNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>NASA-TLX workload (0–20)</h2><div class="chartbox"><canvas id="c_tlx"></canvas></div></div>
     <div class="card"><h2>UEQ-S user experience (−3 … +3)</h2><div class="chartbox"><canvas id="c_ueq"></canvas></div></div>
-    <div class="card"><h2>SUS usability (raw items, 1–5)</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
+    <div class="card"><h2>SUS usability (item contributions, 0–1)</h2><div class="chartbox"><canvas id="c_sus"></canvas></div><div class="sub" id="susNote" style="margin-top:8px"></div></div>
     <div class="card"><h2>Need for Cognition (1–5)</h2><div class="chartbox"><canvas id="c_nfc"></canvas></div></div>
     <div class="card"><h2>Trust in the AI system (1–5)</h2><div class="chartbox"><canvas id="c_trust"></canvas></div></div>
     <div class="card">
@@ -112,6 +112,7 @@ document.addEventListener('mouseover', e => { const el = e.target.closest('.tip'
 document.addEventListener('mouseout', e => { const el = e.target.closest('.tip'); if (!el) return; const tt = el.querySelector('.tt'); if (tt) tt.style.display = 'none'; });
 /* ---------- 1. Preprocess a raw data.json (pilot-2 layout) into dashboard-ready form ---------- */
 // ponytail: task IDs hardcoded to the pilot-2 study layout; edit here if the study changes again
+const SUS_LABELS = ['Use frequently','Unnecessarily complex','Easy to use','Need tech support','Well integrated','Too inconsistent','Quick to learn','Cumbersome','Felt confident','Lots to learn first'];
 const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customizations/correct_answers.md
   [6,  'ypc_02', 'Neither of the two statements is correct.'],
   [7,  'ypc_03', 'Only statement 2 is correct.'],
@@ -410,12 +411,13 @@ function render(D) {
         tooltip:{ callbacks:{ afterLabel:c => c.dataIndex < 4 ? 'Pragmatic quality' : 'Hedonic quality' }}},
       scales:{ x:{ min:-3, max:3, grid:{color:grid} }, y:{ grid:{display:false} } }}});
 
+  const susScored = D.susRaw.map((v, i) => +((i % 2 === 0 ? v - 1 : 5 - v) / 4).toFixed(2));
   chart('c_sus', { type:'bar', plugins:[barLabels],
-    data:{ labels:D.susRaw.map((_, i) => 'S' + (i + 1)), datasets:[{ data:D.susRaw,
-      backgroundColor:D.susRaw.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius:4 }]},
-    options:{ ...noAR, ...padV, plugins:{ legend:{display:false},
+    data:{ labels:SUS_LABELS, datasets:[{ data:susScored,
+      backgroundColor:SUS_LABELS.map((_, i) => i % 2 === 0 ? '#48bb78' : '#cbd5e0'), borderRadius:4 }]},
+    options:{ ...noAR, ...padH, indexAxis:'y', plugins:{ legend:{display:false},
         tooltip:{ callbacks:{ afterLabel:c => c.dataIndex % 2 === 0 ? 'Positive item' : 'Negative item (reverse-scored)' }}},
-      scales:{ y:{ min:0, max:5, grid:{color:grid} }, x:{ grid:{display:false} } }}});
+      scales:{ x:{ min:0, max:1, grid:{color:grid} }, y:{ grid:{display:false} } }}});
   document.getElementById('susNote').textContent = `SUS = ${D.sus} (≥68 above average).`;
 
   const nfcLabels = ['NFC1','NFC2','NFC3 (R)','NFC4 (R)','NFC5','NFC6'];
@@ -555,7 +557,7 @@ function buildTable(title, rows) {
       v == null ? '<td style="color:#a0aec0">–</td>'
       : v ? '<td style="color:#38a169;font-weight:700">✓</td>'
       : '<td style="color:#e53e3e">✗</td>').join('');
-    const susTip = r.susRaw ? r.susRaw.map((v,i) => 'S'+susIds[i]+': '+f(v)).join('\n') : '';
+    const susTip = r.susRaw ? r.susRaw.map((v,i) => SUS_LABELS[i]+': '+((i % 2 === 0 ? v - 1 : 5 - v) / 4).toFixed(2)).join('\n') : '';
     const ueqTip = r.ueq ? r.ueqItems.map((l,i) => l+': '+f(r.ueq[i])).join('\n') : '';
     const tlxTip = r.tlx ? Object.entries(r.tlx).map(([k,v]) => k+': '+f(v)).join('\n') : '';
     const nfcTip = r.nfc ? nfcLbl.map((l,i) => l+': '+f(r.nfc[i])).join('\n') : '';
@@ -576,8 +578,12 @@ function buildTable(title, rows) {
     const vals = arrs.map(a => a?.[i]).filter(v => v != null);
     return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '–';
   });
-  const mSus = avgArr(rows.map(r => r.susRaw), 10);
-  const mSusTip = mSus.map((v,i) => 'S'+susIds[i]+': '+v).join('\n');
+  const mSusTip = SUS_LABELS.map((lbl, i) => {
+    const vals = rows.map(r => r.susRaw?.[i]).filter(v => v != null);
+    if (!vals.length) return lbl + ': –';
+    const m = vals.map(v => (i % 2 === 0 ? v - 1 : 5 - v) / 4).reduce((a,b)=>a+b,0) / vals.length;
+    return lbl + ': ' + m.toFixed(2);
+  }).join('\n');
   const mUeq = avgArr(rows.map(r => r.ueq), 8);
   const mUeqTip = (rows[0]?.ueqItems||[]).map((l,i) => l+': '+mUeq[i]).join('\n');
   const tlxKeys = ['Mental','Physical','Temporal','Performance','Effort','Frustration'];
