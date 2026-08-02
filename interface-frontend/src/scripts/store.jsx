@@ -10,8 +10,7 @@ const init = {
   condition: undefined,
   chatEnabled: false,
   displayChatOnboarding: true,
-  chatUsedOnPage: false,
-  reliabilityWarningVisible: false
+  chatUsedOnPage: false
 }
 
 const store = createContext(init)
@@ -28,12 +27,10 @@ const StateProvider = ({ children }) => {
           return {...state, displayChatOnboarding: false}
       case 'TOGGLE_CHAT_USED':
         return {...state, chatUsedOnPage: action.payload.value}
-      case 'SHOW_RELIABILITY_WARNING':
-        return {...state, reliabilityWarningVisible: true}
       case 'NEXT_TASK':
-        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false, taskChatDraft: null}
+        return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false, taskChatDraft: null}
       case 'SET_TASK_INDEX':
-        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false, reliabilityWarningVisible: false, taskChatDraft: null}
+        return {...state, taskIndex: action.payload.index, chatEnabled: !!action.payload.chatEnabled, chatUsedOnPage: false, taskChatDraft: null}
       case 'TASK_ADDED_TO_CHAT':
         return {
           ...state,
@@ -86,27 +83,6 @@ const StateProvider = ({ children }) => {
         const resToStamp = state.tasks[action.payload.index] || {ts: undefined, responses: {}}
         const stampedRes = {...resToStamp, ts: action.payload.ts}
         return {...state, tasks: {...state.tasks, [action.payload.index]: stampedRes}}
-      case 'LOG_RELIABILITY_CARD_EVENT': {
-        const event = action.payload
-        const isPresented = event.type === 'reliability_card_presented'
-        if (isPresented && state.interactionLog.some((item) =>
-          item.type === 'reliability_card_presented' && item.taskId === event.taskId
-        )) return state
-
-        if (!isPresented) {
-          return {...state, interactionLog: [...state.interactionLog, event]}
-        }
-
-        const task = state.tasks[event.taskId] || {ts: undefined, responses: {}}
-        return {
-          ...state,
-          interactionLog: [...state.interactionLog, event],
-          tasks: {
-            ...state.tasks,
-            [event.taskId]: {...task, reliabilityShownAt: event.timestamp}
-          }
-        }
-      }
       case 'LOG_INTERACTION':
         return {...state, interactionLog: [...state.interactionLog, action.payload]}
       case 'UPDATE_MESSAGES':

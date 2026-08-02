@@ -179,10 +179,6 @@ copy_button_template: "{copyText}" # Copy-button template text
 enable_task_to_chat_button: true    # Show the task-and-scenario paste-to-chat button
 enable_task_text_copying: true      # Allow manual selection/copying of task and scenario text
 
-# Reliability card (ai-reliability condition)
-reliability_similarity_gate: false       # Require a task-similar prompt before showing the card
-reliability_similarity_threshold: 0.25   # Cosine similarity threshold (0 to 1)
-
 # Development
 dev_mode: true                     # Dev mode: skip ID validation, free page navigation, optional fields
 
@@ -224,7 +220,7 @@ Open `http://localhost:5173?condition=ai-limited`. The chat panel will appear (n
 
 ### Condition-specific UI components
 
-If a condition needs custom visual elements (e.g. confidence cards, reliability warnings), keep the logic self-contained. See `src/scripts/conditions.js` for the central condition registry. Load condition-specific config (JSON, etc.) via `import.meta.glob` rather than hardcoded imports, and guard rendering on the condition name so other conditions are unaffected.
+If a condition needs custom visual elements (e.g. confidence cards, a post-task reflection screen), keep the logic self-contained. See `src/scripts/conditions.js` for the central condition registry. Load condition-specific config (JSON, etc.) via `import.meta.glob` rather than hardcoded imports, and guard rendering on the condition name so other conditions are unaffected.
 
 ## AutoProctor Integration (Optional)
 

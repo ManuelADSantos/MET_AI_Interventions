@@ -1,20 +1,11 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useContext, useMemo, useRef } from 'react'
 import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime } from '@assistant-ui/react'
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
-import { cosineSimilarity, getTaskCopyableText } from '../../scripts/cosineSimilarity'
-import { resolveReliabilityWarning } from '../../scripts/reliabilityWarning'
 import { Thread } from '../thread'
-import reliabilityWarningsFile from '/customizations/reliability_warnings.json?raw'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
-const reliabilityWarningsConfig = JSON.parse(reliabilityWarningsFile)
-const reliabilitySimilarityGateEnabled = import.meta.env.VITE_RELIABILITY_SIMILARITY_GATE === 'true'
-const configuredSimilarityThreshold = Number(import.meta.env.VITE_RELIABILITY_SIMILARITY_THRESHOLD)
-const reliabilitySimilarityThreshold = Number.isFinite(configuredSimilarityThreshold)
-  ? Math.min(1, Math.max(0, configuredSimilarityThreshold))
-  : 0.25
 
 const partText = (part) => {
   if (!part) return ''
@@ -53,12 +44,10 @@ const ChatView = ({ task }) => {
   const ctxStore = useContext(store)
   const ctxStoreRef = useRef(ctxStore)
   const sourceIndexRef = useRef(sourceIndex)
-  const taskCopyableTextRef = useRef(getTaskCopyableText(task))
   const lastUserMessageIdRef = useRef(undefined)
 
   ctxStoreRef.current = ctxStore
   sourceIndexRef.current = sourceIndex
-  taskCopyableTextRef.current = getTaskCopyableText(task)
 
   const chatModel = useMemo(() => ({
     async *run({ messages, abortSignal }) {
@@ -87,33 +76,6 @@ const ChatView = ({ task }) => {
         ts: Date.now(),
         task: currentSourceIndex,
         ...(isNewPrompt ? {} : { regenerated: true })
-      }
-
-      if (currentStore.state.condition?.startsWith('ai-reliability')) {
-        let similarityMatched = true
-
-        if (reliabilitySimilarityGateEnabled) {
-          const similarity = cosineSimilarity(prompt.content, taskCopyableTextRef.current)
-          similarityMatched = similarity >= reliabilitySimilarityThreshold
-
-          if (isNewPrompt) {
-            currentStore.dispatch({
-              type: 'LOG_INTERACTION',
-              payload: {
-                type: 'reliability_similarity_test',
-                taskId: currentSourceIndex,
-                timestamp: prompt.ts,
-                similarity,
-                threshold: reliabilitySimilarityThreshold,
-                matched: similarityMatched
-              }
-            })
-          }
-        }
-
-        if (similarityMatched) {
-          currentStore.dispatch({ type: 'SHOW_RELIABILITY_WARNING' })
-        }
       }
 
       const addedDraft = currentStore.state.taskChatDraft
@@ -200,25 +162,6 @@ const ChatView = ({ task }) => {
 
   const runtime = useLocalRuntime(chatModel, runtimeOptions)
 
-  const resolvedWarning = useMemo(() => (
-    ctxStore.state.condition?.startsWith('ai-reliability')
-      ? resolveReliabilityWarning(reliabilityWarningsConfig, sourceIndex, ctxStore.state.participantId)
-      : null
-  ), [sourceIndex, ctxStore.state.participantId, ctxStore.state.condition])
-
-  const logReliabilityCardEvent = useCallback((type, state) => {
-    ctxStore.dispatch({
-      type: 'LOG_RELIABILITY_CARD_EVENT',
-      payload: {
-        type,
-        taskId: sourceIndex,
-        timestamp: Date.now(),
-        reliabilityLevel: resolvedWarning?.reliability?.label,
-        ...(state ? { state } : {})
-      }
-    })
-  }, [ctxStore.dispatch, sourceIndex, resolvedWarning?.reliability?.label])
-
   return (
     <div className='flex flex-1 flex-col justify-start items-center h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       {ctxStore.state.chatEnabled && (
@@ -229,11 +172,7 @@ const ChatView = ({ task }) => {
       <div className='min-h-0 w-full flex-1'>
         {ctxStore.state.chatEnabled && (
           <AssistantRuntimeProvider runtime={runtime}>
-            <Thread
-              warning={resolvedWarning}
-              warningVisible={ctxStore.state.reliabilityWarningVisible}
-              onReliabilityCardEvent={logReliabilityCardEvent}
-            />
+            <Thread />
           </AssistantRuntimeProvider>
         )}
       </div>

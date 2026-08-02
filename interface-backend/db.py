@@ -76,10 +76,12 @@ def issue_token(pid, condition):
 
 
 def consume_chat(token):
-    # ponytail: one atomic UPDATE is both the auth check and the spend counter
-    return bool(_run('''UPDATE sessions SET chat_count = chat_count + 1
-                        WHERE token = %s AND chat_count < %s RETURNING 1''',
-                     (token, CHAT_CAP), fetch=True))
+    # ponytail: one atomic UPDATE is auth check, spend counter and condition lookup.
+    # Returns the condition (always a non-empty string, see app.py issue_token) or None.
+    rows = _run('''UPDATE sessions SET chat_count = chat_count + 1
+                   WHERE token = %s AND chat_count < %s RETURNING condition''',
+                (token, CHAT_CAP), fetch=True)
+    return rows[0][0] if rows else None
 
 
 def get_session_condition(pid):

@@ -3,6 +3,7 @@ import { store } from '../../scripts/store'
 import { conditionHasChat } from '../../scripts/conditions'
 import TaskPage from './questions/TaskPage'
 import DonePage from './DonePage'
+import ReflectionPage from './ReflectionPage'
 
 const devMode = import.meta.env.VITE_DEV_MODE === 'true'
 
@@ -51,7 +52,14 @@ const TaskView = ({ tasks }) => {
               next={handleNextPage}
             />
           </>
-        : <DonePage />
+        /* ponytail: reflection gets one extra page after the last task; every other
+         * condition falls straight through to DonePage exactly as before */
+        : state.condition === 'reflection' && state.taskIndex === tasks.length
+          ? <ReflectionPage
+              sourceIndex={tasks[tasks.length - 1].sourceIndex + 1}
+              next={() => dispatch({ type: 'NEXT_TASK', payload: {} })}
+            />
+          : <DonePage />
       }
     </div>
   )

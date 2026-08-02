@@ -10,7 +10,6 @@ import {
   ReasoningText,
   ReasoningTrigger,
 } from "@/components/reasoning";
-import AiReliabilityWarningCard from "@/components/chat/AiReliabilityWarningCard";
 import { TooltipIconButton } from "@/components/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -43,7 +42,6 @@ import {
   RefreshCwIcon,
   SquareIcon,
 } from "lucide-react";
-import { AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 
 // Startup exposes a loading placeholder thread; treat it as a new chat so
@@ -52,12 +50,12 @@ const isNewChatView = (s) =>
   s.thread.messages.length === 0 &&
   (!s.thread.isLoading || s.threads.isLoading);
 
-export const Thread = ({ warning = null, warningVisible = false, onReliabilityCardEvent }) => {
+export const Thread = () => {
   const isEmpty = useAuiState(isNewChatView);
-  return <ThreadRoot isEmpty={isEmpty} warning={warning} warningVisible={warningVisible} onReliabilityCardEvent={onReliabilityCardEvent} />;
+  return <ThreadRoot isEmpty={isEmpty} />;
 };
 
-const ThreadRoot = ({ isEmpty, warning, warningVisible, onReliabilityCardEvent }) => {
+const ThreadRoot = ({ isEmpty }) => {
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root @container flex h-full flex-col bg-[#fafafa] text-[#0d0d0d]"
@@ -95,11 +93,6 @@ const ThreadRoot = ({ isEmpty, warning, warningVisible, onReliabilityCardEvent }
                 "sticky bottom-0 mt-auto rounded-t-[var(--composer-radius)]"
             )}>
             <ThreadScrollToBottom />
-            <AnimatePresence initial={false}>
-              {warningVisible && warning && (
-                <AiReliabilityWarningCard warning={warning} onInteraction={onReliabilityCardEvent} />
-              )}
-            </AnimatePresence>
             <TaskDraftBridge />
             <Composer />
             {/* <p className="text-center text-xs text-[#5d5d5d]">

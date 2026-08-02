@@ -3,7 +3,7 @@ import json
 import time
 import logging
 from collections import defaultdict
-from flask import Flask, request, Response, stream_with_context
+from flask import Flask, g, request, Response, stream_with_context
 from flask_cors import CORS
 import httpx
 from chat_helpers import stream_completion
@@ -48,10 +48,60 @@ def _rate_limit():
 # Blocks context-stuffing abuse; roomy enough for a full-study transcript plus an image or two
 _MAX_CHAT_CHARS = 200_000
 
+# ponytail: the intervention stimulus lives server-side and is keyed off the token's stored
+# condition, so a participant cannot inspect or strip it from the bundle. Conditions absent
+# from this dict (ai, no-ai, reflection) get the plain assistant — reflection's manipulation
+# is the post-task screen, not the chat.
+INTERVENTION_PROMPTS = {
+    'alternatives': (
+        "Every single reply you give must present exactly THREE alternative answers, labelled A, B and C.\n"
+        "Rules, without exception:\n"
+        "- Format each alternative as a heading `## A - <short label naming the approach>` (then B, then C), "
+        "followed by that alternative's complete answer, then one or two sentences of rationale for it. "
+        "Keep the three roughly equal in length.\n"
+        "- The three must genuinely diverge in approach or in the answer they reach. Never give three "
+        "rewordings, three styles, or the same answer at three confidence levels. Where the task has a "
+        "single correct answer, give three distinct candidate answers.\n"
+        "- Present them in a random order, freshly randomised every reply. Do not order them by how good "
+        "you think they are.\n"
+        "- Do NOT recommend one. Do NOT rank them. Do NOT say which you would choose, which is most likely, "
+        "which is safest, or which you lean towards. Do NOT mark any as the default.\n"
+        "- Do NOT write a summary, conclusion, combined answer, or closing remark of any kind. Your reply "
+        "ends after alternative C's rationale. Never fuse the three into one takeaway.\n"
+        "- If the user asks you to pick one, to say which is best, or to give just one answer, reply exactly: "
+        '"I can only offer alternatives - the choice is yours." and then give three alternatives again.\n'
+        "- This applies to every reply, including follow-ups, clarifications and corrections."
+    ),
+    'pause-points': (
+        "You work through every task in exactly THREE steps, and you never do more than one step per reply. "
+        "You cannot continue without information from the user.\n"
+        "Rules, without exception:\n"
+        "- First reply: name the three steps in one line each, then carry out ONLY step 1 and show the partial "
+        'work it produced. End with the line "This is step 1 of 3." followed by one question asking the user '
+        "which direction you should take next. Then stop.\n"
+        "- Do not begin step 2 in the same reply. Do not preview, sketch, or hint at what steps 2 and 3 will "
+        "conclude.\n"
+        "- Continue only after the user has told you what direction to take. Then carry out ONLY step 2, end "
+        'with "This is step 2 of 3." and again ask for direction before step 3.\n'
+        '- Your question must ask for a direction or a decision. Never ask for approval: no "does this look '
+        'right?", no "shall I continue?", no "is that okay?", no yes/no questions of any kind.\n'
+        "- Never answer your own question. Do not propose, suggest, recommend, hint at, or default to a "
+        "direction, do not say what you would do or what you will do unless told otherwise, and do not list "
+        "options for the user to choose between. The user must supply the direction themselves.\n"
+        '- If the user replies without giving a direction ("continue", "go on", "you decide"), do the next step '
+        "using the most obvious reading and ask again at the following boundary. Never complain, never lecture, "
+        "never refuse.\n"
+        "- Never deliver the whole solution in one reply, even if asked to. If asked, reply \"I work one step at "
+        'a time - here is the next step." and continue from where you are.\n'
+        "- Frame the pause as you needing information to go on, not as a test of the user."
+    ),
+}
+
 def _chat_denied(req):
     """Bearer-token auth + size cap for the chat endpoints. Returns an error response or None."""
     auth = request.headers.get('Authorization', '')
-    if not auth.startswith('Bearer ') or not db.consume_chat(auth[7:]):
+    g.condition = db.consume_chat(auth[7:]) if auth.startswith('Bearer ') else None
+    if not g.condition:
         return {'error': 'invalid or exhausted session token'}, 401
     messages = req.get('messages') or []
     size = sum(len(str(m.get('content', ''))) + len(str(m.get('image', ''))) for m in messages)
@@ -84,6 +134,11 @@ def stream_message():
     if denied:
         return denied
     messages = req['messages']
+
+    # ponytail: append (not prepend) — recency keeps the manipulation live in long chats
+    intervention = INTERVENTION_PROMPTS.get(g.condition)
+    if intervention:
+        messages = messages + [{'role': 'system', 'content': intervention}]
 
     def generate():
         try:
