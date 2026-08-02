@@ -6,6 +6,14 @@ const MAX_TRANSCRIPT_CHARS = 60_000
 
 const assistantText = (m) => m.choices?.[0]?.message?.content || m.content || ''
 
+/** Narrow the transcript to one task or one scenario. Prompts carry `task`, completions
+ * carry `survey_index` (see ChatView). `ids = null` means the whole study. */
+export const scopeMessages = (messages, ids) => {
+  if (!ids) return messages
+  const wanted = new Set(ids)
+  return messages.filter((m) => wanted.has(m.role === 'user' ? m.task : m.survey_index))
+}
+
 /** Flatten store.messages (user prompts + raw completion objects) into a plain transcript. */
 export const buildTranscript = (messages, limit = MAX_TRANSCRIPT_CHARS) => {
   const text = messages

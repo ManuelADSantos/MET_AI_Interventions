@@ -2,7 +2,7 @@
 // Run: docker compose exec frontend node /tests/test_reflection_summary.mjs
 
 import assert from 'node:assert'
-import { buildTranscript, contributionStats, coverage, parseSummary } from '/app/src/scripts/reflectionSummary.js'
+import { buildTranscript, contributionStats, coverage, parseSummary, scopeMessages } from '/app/src/scripts/reflectionSummary.js'
 
 // --- parseSummary: bare JSON, the documented happy path ---
 const bare = '{"problems":[{"item":"Spotting mutually exclusive constraints","covered":true}],"learning":[{"item":"Boolean logic over two statements","covered":false}]}'
@@ -59,5 +59,23 @@ assert.ok(t.includes('AI: Sure, here is A.'), 'assistant text comes out of choic
 const clipped = buildTranscript(messages, 40)
 assert.strictEqual(clipped.length, 40)
 assert.ok(t.endsWith(clipped), 'truncation keeps the most recent turns')
+
+// --- scopeMessages: prompts key off `task`, completions off `survey_index` ---
+const mixed = [
+  { role: 'user', content: 'q6', task: 6 },
+  { role: 'assistant', survey_index: 6, choices: [{ message: { content: 'a6' } }] },
+  { role: 'user', content: 'q7', task: 7 },
+  { role: 'assistant', survey_index: 7, choices: [{ message: { content: 'a7' } }] },
+  { role: 'user', content: 'q8', task: 8 },
+  { role: 'assistant', survey_index: 8, choices: [{ message: { content: 'a8' } }] }
+]
+assert.strictEqual(scopeMessages(mixed, null).length, 6, 'null scope = whole study')
+assert.strictEqual(scopeMessages(mixed, [7]).length, 2, 'single task keeps its prompt + reply')
+assert.deepStrictEqual(scopeMessages(mixed, [7]).map((m) => m.content || m.survey_index), ['q7', 7])
+assert.strictEqual(scopeMessages(mixed, [6, 7]).length, 4, 'scenario scope spans several tasks')
+assert.strictEqual(scopeMessages(mixed, [99]).length, 0, 'unmatched scope yields nothing')
+// a scoped reflection must not see other tasks' work
+assert.ok(!buildTranscript(scopeMessages(mixed, [7])).includes('q6'))
+assert.strictEqual(contributionStats(scopeMessages(mixed, [7])).aiReplies, 1)
 
 console.log('reflection summary: all assertions passed')

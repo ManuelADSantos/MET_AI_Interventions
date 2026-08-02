@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { Button, Spinner, Textarea } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
-import { buildTranscript, contributionStats, coverage, parseSummary } from '../../scripts/reflectionSummary'
+import { buildTranscript, contributionStats, coverage, parseSummary, scopeMessages } from '../../scripts/reflectionSummary'
 
 const MIN_CHARS = 200
 
@@ -26,7 +26,10 @@ const Item = ({ text, covered }) => (
   </li>
 )
 
-const ReflectionPage = ({ sourceIndex, next }) => {
+/** scopeIds: sourceIndexes this reflection covers, or null for the whole study.
+ *  storeKey: where the answers land in state.tasks.
+ *  final: only the end-of-study reflection asks the 0-12 estimate. */
+const ReflectionPage = ({ storeKey, scopeIds = null, final = false, label = '', next }) => {
   const { dispatch, state } = useContext(store)
   const [explainBack, setExplainBack] = useState('')
   const [withoutAi, setWithoutAi] = useState('')
@@ -35,25 +38,21 @@ const ReflectionPage = ({ sourceIndex, next }) => {
   const [rawFallback, setRawFallback] = useState('')
   const [postEstimate, setPostEstimate] = useState('')
 
-  const stats = contributionStats(state.messages)
+  const scoped = scopeMessages(state.messages, scopeIds)
+  const stats = contributionStats(scoped)
+  const partA = {
+    [`${storeKey}.1`]: { question: 'Explain back: what was the solution and why does it work?', answer: explainBack },
+    [`${storeKey}.2`]: { question: 'Could you do this again without AI? (0-100%)', answer: withoutAi }
+  }
 
   const submitPartA = async () => {
     setStage('loading')
-    dispatch({
-      type: 'UPDATE_RESPONSES',
-      payload: {
-        index: sourceIndex,
-        responses: {
-          [`${sourceIndex}.1`]: { question: 'Explain back: what was the solution and why does it work?', answer: explainBack },
-          [`${sourceIndex}.2`]: { question: 'Could you do this again without AI? (0-100%)', answer: withoutAi }
-        }
-      }
-    })
+    dispatch({ type: 'UPDATE_RESPONSES', payload: { index: storeKey, responses: partA } })
 
     try {
       let out = ''
       for await (const event of requestChatResponseStream([
-        { role: 'user', content: reviewerPrompt(buildTranscript(state.messages), explainBack) }
+        { role: 'user', content: reviewerPrompt(buildTranscript(scoped), explainBack) }
       ])) {
         if (event.type === 'delta') out = event.content || out + (event.delta || '')
         if (event.type === 'done') out = out || event.response?.choices?.[0]?.message?.content || ''
@@ -71,13 +70,12 @@ const ReflectionPage = ({ sourceIndex, next }) => {
     dispatch({
       type: 'UPDATE_RESPONSES',
       payload: {
-        index: sourceIndex,
+        index: storeKey,
         responses: {
-          [`${sourceIndex}.1`]: { question: 'Explain back: what was the solution and why does it work?', answer: explainBack },
-          [`${sourceIndex}.2`]: { question: 'Could you do this again without AI? (0-100%)', answer: withoutAi },
-          [`${sourceIndex}.3`]: { question: 'After the reflection: how many of the 12 problems could you solve without AI?', answer: postEstimate },
-          [`${sourceIndex}.4`]: { question: 'Reflection coverage (problems)', answer: summary ? coverage(summary.problems) : 'n/a' },
-          [`${sourceIndex}.5`]: { question: 'Reflection coverage (learning)', answer: summary ? coverage(summary.learning) : 'n/a' }
+          ...partA,
+          ...(final ? { [`${storeKey}.3`]: { question: 'After the reflection: how many of the 12 problems could you solve without AI?', answer: postEstimate } } : {}),
+          [`${storeKey}.4`]: { question: 'Reflection coverage (problems)', answer: summary ? coverage(summary.problems) : 'n/a' },
+          [`${storeKey}.5`]: { question: 'Reflection coverage (learning)', answer: summary ? coverage(summary.learning) : 'n/a' }
         }
       }
     })
@@ -87,10 +85,14 @@ const ReflectionPage = ({ sourceIndex, next }) => {
   if (stage === 'a') {
     return (
       <div className='flex flex-1 flex-col w-full overflow-auto'>
-        <h1 className='text-4xl font-bold mb-4'>Before we finish</h1>
-        <p className='mb-4'>The AI is no longer available, and you cannot go back to the conversation.</p>
+        <h1 className='text-4xl font-bold mb-4'>{final ? 'Before we finish' : 'Pause and reflect'}</h1>
+        <p className='mb-4'>
+          {final
+            ? 'The AI is no longer available, and you cannot go back to the conversation.'
+            : `Before moving on${label ? ` from ${label}` : ''}: answer from memory. Do not scroll back through the conversation.`}
+        </p>
 
-        <p className='font-semibold mb-2'>Could you do these tasks again without AI?</p>
+        <p className='font-semibold mb-2'>{final ? 'Could you do these tasks again without AI?' : 'Could you do this again without AI?'}</p>
         <input
           type='number' min={0} max={100} value={withoutAi}
           onChange={(e) => setWithoutAi(e.target.value)}
@@ -148,16 +150,18 @@ const ReflectionPage = ({ sourceIndex, next }) => {
       <h2 className='text-xl font-semibold mt-6 mb-2'>Where the work came from</h2>
       <p>You wrote {stats.words} words. The AI replied {stats.aiReplies} times. You re-prompted {stats.reprompts} times.</p>
 
-      <p className='font-semibold mt-8 mb-2'>Now that you have seen this: how many of the 12 problems could you solve on your own, without AI?</p>
-      <input
-        type='number' min={0} max={12} value={postEstimate}
-        onChange={(e) => setPostEstimate(e.target.value)}
-        className='mb-6 w-32 border border-stone-300 rounded px-2 py-1'
-        placeholder='0-12'
-      />
+      {final && <>
+        <p className='font-semibold mt-8 mb-2'>Now that you have seen this: how many of the 12 problems could you solve on your own, without AI?</p>
+        <input
+          type='number' min={0} max={12} value={postEstimate}
+          onChange={(e) => setPostEstimate(e.target.value)}
+          className='mb-6 w-32 border border-stone-300 rounded px-2 py-1'
+          placeholder='0-12'
+        />
+      </>}
 
-      <Button color='primary' className='self-end' isDisabled={postEstimate === ''} onClick={finish}>
-        Finish
+      <Button color='primary' className='self-end mt-8' isDisabled={final && postEstimate === ''} onClick={finish}>
+        {final ? 'Finish' : 'Continue'}
       </Button>
     </div>
   )
