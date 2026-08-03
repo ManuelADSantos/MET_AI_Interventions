@@ -3,8 +3,14 @@ import { Button, Spinner, Textarea } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
 import { buildTranscript, contributionStats, coverage, parseSummary, scopeMessages } from '../../scripts/reflectionSummary'
+import SliderQuestion from './questions/SliderQuestion'
 
 const MIN_CHARS = 200
+
+// ponytail: same component as the task pages' `$slider; 0; 100; Unsure; Certain`, so the thumb
+// stays hidden until touched (no anchoring) and the two look identical. SliderQuestion expects a
+// react-hook-form field; this page uses plain state, so pass the two properties it reads.
+const WITHOUT_AI_SLIDER = { min: 0, max: 100, minLabel: 'Definitely not', maxLabel: 'Definitely', additionalParams: ['tooltip%'] }
 
 const reviewerPrompt = (transcript, explainBack) =>
   `You are reviewing a transcript of someone solving planning puzzles with the help of an AI assistant. You are NOT the assistant they talked to and you have no stake in it. Be factual and neutral: no praise, no criticism, no score, no advice.
@@ -93,12 +99,13 @@ const ReflectionPage = ({ storeKey, scopeIds = null, final = false, label = '', 
         </p>
 
         <p className='font-semibold mb-2'>{final ? 'Could you do these tasks again without AI?' : 'Could you do this again without AI?'}</p>
-        <input
-          type='number' min={0} max={100} value={withoutAi}
-          onChange={(e) => setWithoutAi(e.target.value)}
-          className='mb-6 w-32 border border-stone-300 rounded px-2 py-1'
-          placeholder='0-100'
-        />
+        <div className='mb-6'>
+          <SliderQuestion
+            id='reflection-without-ai'
+            question={WITHOUT_AI_SLIDER}
+            field={{ value: withoutAi, onChange: (v) => setWithoutAi(String(v)) }}
+          />
+        </div>
 
         <p className='font-semibold mb-2'>
           In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
