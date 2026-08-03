@@ -106,39 +106,34 @@ Click **"Raw Editor"** and paste:
 ```json
 {
   "VITE_PROXY_URL": "https://your-backend-abc123.up.railway.app",
-  "VITE_PCTP_CONDITION": "ai",
-  "VITE_CHAT_ENABLED_BEGIN": "1",
-  "VITE_CHAT_ENABLED_END": "99",
   "VITE_ALLOW_IMAGES": "false",
   "VITE_DEV_MODE": "false",
   "VITE_SYSTEM_PROMPT": "You are a helpful logical reasoning assistant",
-  "VITE_COPY_BUTTON_PAGES": "1-99",
   "VITE_COPY_BUTTON_TEMPLATE": "{copyText}",
   "VITE_ENABLE_TASK_TO_CHAT_BUTTON": "true",
   "VITE_ENABLE_TASK_TEXT_COPYING": "true",
   "VITE_RANDOMIZE_TASKS": "true",
-  "VITE_REQUIRE_AI_PROMPT": "true",
-  "VITE_REQUIRE_AI_PROMPT_PAGES": "3-99",
+  "VITE_STUDY_INFO": "true",
+  "VITE_INTERVENTION_SIMILARITY_THRESHOLD": "0.25",
   "VITE_USE_AUTOPROCTOR": "false"
 }
 ```
 
+The condition is chosen per-participant from the URL (`?condition=pause_points`), not from an
+environment variable — see [Step 6: Prolific Integration](#step-6-prolific-integration).
+
 | Variable | What it does |
 |---|---|
 | `VITE_PROXY_URL` | **Required.** The backend's public URL from Step 3. Must include `https://` |
-| `VITE_PCTP_CONDITION` | `ai` (shows chat panel) or `no-ai` (questionnaire only). Can also be overridden per-participant via URL `?condition=no_ai` |
-| `VITE_CHAT_ENABLED_BEGIN` | First page (0-indexed) where the chat is available |
-| `VITE_CHAT_ENABLED_END` | Last page where the chat is available |
 | `VITE_ALLOW_IMAGES` | `true` or `false` — allow image attachments in chat |
-| `VITE_DEV_MODE` | `false` for production. `true` skips Prolific ID validation |
-| `VITE_SYSTEM_PROMPT` | The system prompt that defines AI behavior |
-| `VITE_COPY_BUTTON_PAGES` | Page range where tabs show a copy-to-clipboard button (e.g. `1-99` or `2,4,6`) |
+| `VITE_DEV_MODE` | `false` for production. `true` skips Prolific ID validation and shows the page-scrubbing slider |
+| `VITE_SYSTEM_PROMPT` | The system prompt that defines AI behavior. Interventions add their own on top, server-side |
 | `VITE_COPY_BUTTON_TEMPLATE` | Template for copied text. Placeholders: `{copyText}`, `{title}`, `{tabTitle}`, `{tabText}`, `{exerciseText}`, `{allTabsText}`, `{allCopyText}`, `{questionText}`, `{optionsText}` |
 | `VITE_ENABLE_TASK_TO_CHAT_BUTTON` | `true` to show or `false` to hide the task-and-scenario paste-to-chat button. Default `true` |
 | `VITE_ENABLE_TASK_TEXT_COPYING` | `true` to allow or `false` to prevent drag-selection and copying of task/scenario text. Default `true` |
 | `VITE_RANDOMIZE_TASKS` | `true` or `false` — shuffle task order |
-| `VITE_REQUIRE_AI_PROMPT` | `true` to require participants to prompt the AI at least once per question |
-| `VITE_REQUIRE_AI_PROMPT_PAGES` | Page range where the AI prompt requirement applies (e.g. `3-99`) |
+| `VITE_STUDY_INFO` | `false` to skip the study-information pages. Default `true` |
+| `VITE_INTERVENTION_SIMILARITY_THRESHOLD` | Minimum cosine similarity between the prompt and the task text before the `alternatives` / `pause-points` system prompt engages. Off-task prompts get the plain assistant. Default `0.25` |
 | `VITE_USE_AUTOPROCTOR` | `true` to enable AutoProctor proctoring (requires `AUTOPROCTOR_API_KEY` + `AUTOPROCTOR_TEST_LABEL` on the backend). Default `false` |
 
 ### Networking tab
@@ -170,11 +165,17 @@ Share the frontend URL with Prolific query parameters:
 https://your-frontend.up.railway.app/?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}
 ```
 
-To run multiple conditions, create separate Railway projects (or separate frontend services with different `VITE_PCTP_CONDITION`) and distribute the URLs accordingly. You can also override the condition per-participant via the URL:
+One deployment serves every condition. Append `&condition=<name>` to the URL you give each Prolific
+study — the condition is bound to the participant server-side at session start, so editing the URL
+mid-study cannot switch it:
 
 ```
-https://your-frontend.up.railway.app/?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}&condition=no_ai
+https://your-frontend.up.railway.app/?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}&condition=pause_points
 ```
+
+Available conditions are discovered from `customizations/tasks/<name>_tasks.md`, with `_` written as
+either `_` or `-` in the URL: `ai`, `no_ai`, `alternatives`, `pause_points`, `reflection`,
+`reflection_task`, `reflection_scenario`. Omitting the parameter gives `ai`.
 
 ---
 

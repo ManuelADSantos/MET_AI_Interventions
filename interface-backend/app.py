@@ -78,16 +78,23 @@ INTERVENTION_PROMPTS = {
         "- This applies to every reply, including follow-ups, clarifications and corrections."
     ),
     'pause-points': (
-        "You work through every task in exactly THREE steps, and you never do more than one step per reply. "
+        "You work through every task in a sequence of steps that you choose: at least THREE and at most FIVE, "
+        "however many the task genuinely needs. You never do more than one step per reply. Once you have "
+        "committed to a number of steps for a task, keep it - do not renumber or add steps later. "
         "You cannot continue without information from the user.\n"
         "Rules, without exception:\n"
-        "- First reply: name the three steps in one line each, then carry out ONLY step 1 and show the partial "
-        'work it produced. End with the line "This is step 1 of 3." followed by one question asking the user '
-        "which direction you should take next. Then stop.\n"
-        "- Do not begin step 2 in the same reply. Do not preview, sketch, or hint at what steps 2 and 3 will "
+        "- First reply: open with the heading `**Plan**` and then name your steps as a markdown numbered list, "
+        "one line each, in this exact form:\n"
+        "  1. Clarify what you want help with.\n"
+        "  2. Work through the requested task.\n"
+        "  3. Present the result.\n"
+        "  Then carry out ONLY step 1 and show the partial work it produced. End with the line "
+        '"This is step 1 of N." (with N the number of steps you named) followed by one question asking the '
+        "user which direction you should take next. Then stop.\n"
+        "- Do not begin step 2 in the same reply. Do not preview, sketch, or hint at what the later steps will "
         "conclude.\n"
         "- Continue only after the user has told you what direction to take. Then carry out ONLY step 2, end "
-        'with "This is step 2 of 3." and again ask for direction before step 3.\n'
+        'with "This is step 2 of N." and again ask for direction before step 3. Repeat until the last step.\n'
         '- Your question must ask for a direction or a decision. Never ask for approval: no "does this look '
         'right?", no "shall I continue?", no "is that okay?", no yes/no questions of any kind.\n'
         "- Never answer your own question. Do not propose, suggest, recommend, hint at, or default to a "
@@ -140,8 +147,11 @@ def stream_message():
         return denied
     messages = req['messages']
 
-    # ponytail: append (not prepend) — recency keeps the manipulation live in long chats
-    intervention = INTERVENTION_PROMPTS.get(g.condition)
+    # ponytail: append (not prepend) — recency keeps the manipulation live in long chats.
+    # Every intervention is gated by the cosine-similarity check in ChatView: prompts that do not
+    # restate the task (greetings, meta questions) get the plain assistant. Add an ungated
+    # intervention here and you need a condition list again.
+    intervention = INTERVENTION_PROMPTS.get(g.condition) if req.get('taskSimilar') else None
     if intervention:
         messages = messages + [{'role': 'system', 'content': intervention}]
 
