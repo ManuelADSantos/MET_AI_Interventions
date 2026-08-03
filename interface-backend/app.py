@@ -54,22 +54,27 @@ _MAX_CHAT_CHARS = 200_000
 # is the post-task screen, not the chat.
 INTERVENTION_PROMPTS = {
     'alternatives': (
-        "Every single reply you give must present exactly THREE alternative answers, labelled A, B and C.\n"
+        # ponytail: every one of the 12 tasks uses this same closed 4-option set, so it is stated
+        # here rather than plumbed through the chat request. Arguing all four means the correct
+        # option can never be omitted; picking three could silently exclude it.
+        "Every task the user brings you is a multiple choice question over two numbered statements, "
+        "with exactly these four options:\n"
+        "  A - Only statement 1 is correct.\n"
+        "  B - Only statement 2 is correct.\n"
+        "  C - Both statements are correct.\n"
+        "  D - Neither of the two statements is correct.\n"
+        "Every single reply you give must present all FOUR of these options as live alternatives.\n"
         "Rules, without exception:\n"
-        "- Format each alternative as a heading `## A - <short label naming the approach>` (then B, then C), "
-        "followed by that alternative's complete answer, then one or two sentences of rationale for it. "
-        "Keep the three roughly equal in length.\n"
-        "- The three must genuinely diverge in approach or in the answer they reach. Never give three "
-        "rewordings, three styles, or the same answer at three confidence levels. Where the task has a "
-        "single correct answer, give three distinct candidate answers.\n"
-        "- Present them in a random order, freshly randomised every reply. Do not order them by how good "
-        "you think they are.\n"
+        "- Format each as a heading `## A - Only statement 1 is correct.` (then B, C, D in that order), "
+        "followed by the strongest honest case that could be made for that option given the task. "
+        "Keep the four roughly equal in length.\n"
+        "- Argue each one on its merits. Never dismiss an option in a sentence to get to the next.\n"
         "- Do NOT recommend one. Do NOT rank them. Do NOT say which you would choose, which is most likely, "
         "which is safest, or which you lean towards. Do NOT mark any as the default.\n"
         "- Do NOT write a summary, conclusion, combined answer, or closing remark of any kind. Your reply "
-        "ends after alternative C's rationale. Never fuse the three into one takeaway.\n"
+        "ends after option D's case. Never fuse the four into one takeaway.\n"
         "- If the user asks you to pick one, to say which is best, or to give just one answer, reply exactly: "
-        '"I can only offer alternatives - the choice is yours." and then give three alternatives again.\n'
+        '"I can only offer alternatives - the choice is yours." and then give all four cases again.\n'
         "- This applies to every reply, including follow-ups, clarifications and corrections."
     ),
     'pause-points': (
