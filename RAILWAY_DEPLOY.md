@@ -114,7 +114,7 @@ Click **"Raw Editor"** and paste:
   "VITE_ENABLE_TASK_TEXT_COPYING": "true",
   "VITE_RANDOMIZE_TASKS": "true",
   "VITE_STUDY_INFO": "true",
-  "VITE_INTERVENTION_SIMILARITY_THRESHOLD": "0.25",
+  "VITE_INTERVENTION_SIMILARITY_THRESHOLD": "0.6",
   "VITE_USE_AUTOPROCTOR": "false"
 }
 ```
@@ -133,7 +133,7 @@ environment variable — see [Step 6: Prolific Integration](#step-6-prolific-int
 | `VITE_ENABLE_TASK_TEXT_COPYING` | `true` to allow or `false` to prevent drag-selection and copying of task/scenario text. Default `true` |
 | `VITE_RANDOMIZE_TASKS` | `true` or `false` — shuffle task order |
 | `VITE_STUDY_INFO` | `false` to skip the study-information pages. Default `true` |
-| `VITE_INTERVENTION_SIMILARITY_THRESHOLD` | Minimum cosine similarity between the prompt and the task text before the `alternatives` / `pause-points` system prompt engages. Off-task prompts get the plain assistant. Default `0.25` |
+| `VITE_INTERVENTION_SIMILARITY_THRESHOLD` | Fraction of the task question's distinctive words a prompt must carry before the `alternatives` / `pause-points` system prompt engages. Prompts that hold only the scenario, or nothing of the task, get the plain assistant. Default `0.6` |
 | `VITE_USE_AUTOPROCTOR` | `true` to enable AutoProctor proctoring (requires `AUTOPROCTOR_API_KEY` + `AUTOPROCTOR_TEST_LABEL` on the backend). Default `false` |
 
 ### Networking tab

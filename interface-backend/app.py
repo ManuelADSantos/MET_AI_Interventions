@@ -75,6 +75,9 @@ INTERVENTION_PROMPTS = {
         "ends after option D's case. Never fuse the four into one takeaway.\n"
         "- If the user asks you to pick one, to say which is best, or to give just one answer, reply exactly: "
         '"I can only offer alternatives - the choice is yours." and then give all four cases again.\n'
+        "- The two numbered statements come from the user, never from you. If their message does not "
+        "contain the question and both statements, do NOT present the options and do NOT guess what the "
+        "statements might say - ask them for the question, and nothing else.\n"
         "- This applies to every reply, including follow-ups, clarifications and corrections."
     ),
     'pause-points': (
@@ -148,10 +151,10 @@ def stream_message():
     messages = req['messages']
 
     # ponytail: append (not prepend) — recency keeps the manipulation live in long chats.
-    # Every intervention is gated by the cosine-similarity check in ChatView: prompts that do not
-    # restate the task (greetings, meta questions) get the plain assistant. Add an ungated
-    # intervention here and you need a condition list again.
-    intervention = INTERVENTION_PROMPTS.get(g.condition) if req.get('taskSimilar') else None
+    # Every intervention is gated by the question check in ChatView: prompts that do not carry the
+    # task's actual question (greetings, meta questions, the scenario pasted on its own) get the
+    # plain assistant. Add an ungated intervention here and you need a condition list again.
+    intervention = INTERVENTION_PROMPTS.get(g.condition) if req.get('hasTaskQuestion') else None
     if intervention:
         messages = messages + [{'role': 'system', 'content': intervention}]
 

@@ -11,7 +11,7 @@ study_info: true                   # Show the study-information pages before the
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
 # Interventions (see INTERVENTION_PROMPTS in interface-backend/app.py)
-intervention_similarity_threshold: 0.25  # min cosine similarity between prompt and task text before an intervention engages
+intervention_similarity_threshold: 0.6   # fraction of the task question's distinctive words a prompt must carry before an intervention engages (pasting the scenario alone is not enough)
 
 # Chat Availability
 allow_image_attachments: false     # Enable image uploads

@@ -3,20 +3,22 @@ import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
-import { cosineSimilarity, getTaskCopyableText } from '../../scripts/cosineSimilarity'
+import { questionCoverage, questionTerms } from '../../scripts/taskQuestion'
 import { Thread } from '../thread'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
-// ponytail: interventions only engage on prompts that actually restate the task. The score is
-// computed for every condition — cheaper than keeping a list of gated conditions in sync with
-// INTERVENTION_PROMPTS in app.py, and it gives the control arms the same measure as a covariate.
-// intervention_similarity_threshold in study.config.yml; 0.25 when unset.
+// ponytail: interventions only engage once the prompt carries the task's actual question. Pasting
+// the scenario alone is not enough: `alternatives` would argue four options over statements it has
+// never seen and invent them. The score is computed for every condition — cheaper than keeping a
+// list of gated conditions in sync with INTERVENTION_PROMPTS in app.py, and it gives the control
+// arms the same measure as a covariate.
+// intervention_similarity_threshold in study.config.yml; 0.6 when unset.
 // `|| NaN` because entrypoint.sh writes an empty value for a missing key, and Number('') is 0 —
 // which would silently engage the intervention on every prompt.
 const configuredThreshold = Number(import.meta.env.VITE_INTERVENTION_SIMILARITY_THRESHOLD || NaN)
-const SIMILARITY_THRESHOLD = Number.isFinite(configuredThreshold)
+const QUESTION_THRESHOLD = Number.isFinite(configuredThreshold)
   ? Math.min(1, Math.max(0, configuredThreshold))
-  : 0.25
+  : 0.6
 
 const partText = (part) => {
   if (!part) return ''
@@ -56,16 +58,16 @@ const ChatView = ({ task }) => {
   const ctxStoreRef = useRef(ctxStore)
   const sourceIndexRef = useRef(sourceIndex)
   const lastUserMessageIdRef = useRef(undefined)
-  const taskCopyableTextRef = useRef(getTaskCopyableText(task))
+  const questionTermsRef = useRef(questionTerms(task))
   // ponytail: latched per task — once engaged, the intervention has to survive follow-ups like
-  // "use the cheaper option", which score near zero against the task text and would drop it
+  // "use the cheaper option", which score near zero against the question and would drop it
   // mid-conversation (pause-points would abandon its step sequence, alternatives would collapse
   // back to a single answer).
   const engagedTasksRef = useRef(new Set())
 
   ctxStoreRef.current = ctxStore
   sourceIndexRef.current = sourceIndex
-  taskCopyableTextRef.current = getTaskCopyableText(task)
+  questionTermsRef.current = questionTerms(task)
 
   const chatModel = useMemo(() => ({
     async *run({ messages, abortSignal }) {
@@ -96,21 +98,21 @@ const ChatView = ({ task }) => {
         ...(isNewPrompt ? {} : { regenerated: true })
       }
 
-      let taskSimilar = engagedTasksRef.current.has(currentSourceIndex)
-      if (!taskSimilar) {
-        const similarity = cosineSimilarity(prompt.content, taskCopyableTextRef.current)
-        taskSimilar = similarity >= SIMILARITY_THRESHOLD
-        if (taskSimilar) engagedTasksRef.current.add(currentSourceIndex)
+      let hasTaskQuestion = engagedTasksRef.current.has(currentSourceIndex)
+      if (!hasTaskQuestion) {
+        const coverage = questionCoverage(prompt.content, questionTermsRef.current)
+        hasTaskQuestion = coverage >= QUESTION_THRESHOLD
+        if (hasTaskQuestion) engagedTasksRef.current.add(currentSourceIndex)
         if (isNewPrompt) {
           currentStore.dispatch({
             type: 'LOG_INTERACTION',
             payload: {
-              type: 'intervention_similarity_test',
+              type: 'intervention_gate_test',
               taskId: currentSourceIndex,
               timestamp: prompt.ts,
-              similarity,
-              threshold: SIMILARITY_THRESHOLD,
-              matched: taskSimilar
+              coverage,
+              threshold: QUESTION_THRESHOLD,
+              matched: hasTaskQuestion
             }
           })
         }
@@ -137,7 +139,7 @@ const ChatView = ({ task }) => {
         ...(replyContent ? [{ type: 'text', text: replyContent }] : [])
       ]
 
-      for await (const event of requestChatResponseStream(backendMessages, abortSignal, taskSimilar)) {
+      for await (const event of requestChatResponseStream(backendMessages, abortSignal, hasTaskQuestion)) {
         if (event.type === 'reasoning') {
           reasoningContent = event.reasoning || `${reasoningContent}${event.delta || ''}`
           yield { content: buildParts() }
