@@ -3,7 +3,6 @@ openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
 gpt_model: gpt-5.4-mini            # Model to use
 reasoning_effort: none            # Optional: none, low, medium, high, or xhigh for reasoning models
 base_url: https://api.openai.com/v1    # Optional: Custom API base URL (e.g., for Azure OpenAI)
-backend_url: ""                    # Optional: frontend -> backend URL. Empty uses http://<host>:5001 (docker-compose)
 
 # Study Settings
 randomize_tasks: true              # Shuffle tasks within sections and sections amongst themselves
