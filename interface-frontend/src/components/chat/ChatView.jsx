@@ -133,29 +133,38 @@ const ChatView = ({ task }) => {
       let finalResponse
       let replyContent = ''
       let reasoningContent = ''
+      let streamError
 
       const buildParts = () => [
         ...(reasoningContent ? [{ type: 'reasoning', text: reasoningContent }] : []),
         ...(replyContent ? [{ type: 'text', text: replyContent }] : [])
       ]
 
-      for await (const event of requestChatResponseStream(backendMessages, abortSignal, hasTaskQuestion)) {
-        if (event.type === 'reasoning') {
-          reasoningContent = event.reasoning || `${reasoningContent}${event.delta || ''}`
-          yield { content: buildParts() }
-        }
+      // ponytail: a failed or aborted call still has to reach the transcript. Letting it throw here
+      // skipped UPDATE_MESSAGES, so the prompt vanished from the saved data and a pause-points step
+      // sequence read as if the participant had never asked. Rethrown after the dispatch below, so the
+      // participant still sees the error and the page stays locked until a reply actually arrives.
+      try {
+        for await (const event of requestChatResponseStream(backendMessages, abortSignal, hasTaskQuestion)) {
+          if (event.type === 'reasoning') {
+            reasoningContent = event.reasoning || `${reasoningContent}${event.delta || ''}`
+            yield { content: buildParts() }
+          }
 
-        if (event.type === 'delta') {
-          replyContent = event.content || `${replyContent}${event.delta || ''}`
-          yield { content: buildParts() }
-        }
+          if (event.type === 'delta') {
+            replyContent = event.content || `${replyContent}${event.delta || ''}`
+            yield { content: buildParts() }
+          }
 
-        if (event.type === 'done') {
-          finalResponse = event.response
-          const message = finalResponse?.choices?.[0]?.message
-          reasoningContent = reasoningContent || message?.reasoning || ''
-          replyContent = replyContent || message?.content || ''
+          if (event.type === 'done') {
+            finalResponse = event.response
+            const message = finalResponse?.choices?.[0]?.message
+            reasoningContent = reasoningContent || message?.reasoning || ''
+            replyContent = replyContent || message?.content || ''
+          }
         }
+      } catch (e) {
+        streamError = String(e?.message || e)
       }
 
       if (!finalResponse) {
@@ -164,7 +173,7 @@ const ChatView = ({ task }) => {
             {
               index: 0,
               message: { role: 'assistant', content: replyContent, ...(reasoningContent ? { reasoning: reasoningContent } : {}) },
-              finish_reason: 'stop'
+              finish_reason: streamError ? 'error' : 'stop'
             }
           ]
         }
@@ -173,15 +182,21 @@ const ChatView = ({ task }) => {
       currentStore.dispatch({
         type: 'UPDATE_MESSAGES',
         payload: {
-          prompt,
+          // hasTaskQuestion is what gated the intervention server-side, so every prompt records
+          // whether the manipulation was applied to the reply it produced — no timestamp join
+          // against interactionLog, and regenerated prompts (which log nothing) are covered too.
+          prompt: { ...prompt, hasTaskQuestion },
           response: {
             role: 'assistant',
             ...finalResponse,
+            ...(streamError ? { error: streamError } : {}),
             render_complete: Date.now(),
             survey_index: currentSourceIndex
           }
         }
       })
+
+      if (streamError) throw new Error(streamError)
 
       /* Unlock progression only for a fresh prompt AND only if the participant is still on
        * the page where generation started — finishing (or regenerating) after they moved on
