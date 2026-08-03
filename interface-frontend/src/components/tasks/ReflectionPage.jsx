@@ -95,7 +95,7 @@ const ReflectionPage = ({ storeKey, scopeIds = null, final = false, label = '', 
         <p className='mb-4'>
           {final
             ? 'The AI is no longer available, and you cannot go back to the conversation.'
-            : `Before moving on ${label ? ` from ${label}` : ''} this scenario, answer from memory.`}
+            : `Before moving on ${label ? ` from the ${label}` : ''} scenario, answer from memory.`}
         </p>
 
         <p className='font-semibold mb-2'>{final ? 'Could you do these tasks again without AI?' : 'Could you do this task again without AI?'}</p>
