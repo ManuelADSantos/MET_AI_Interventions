@@ -109,7 +109,9 @@ const ReflectionPage = ({ storeKey, scopeIds = null, final = false, label = '', 
           placeholder='Write from memory.'
           variant='bordered'
         />
-        <p className='text-sm text-stone-500 mt-1 mb-4'>{explainBack.length} / {MIN_CHARS} characters minimum</p>
+        <p className='text-sm text-stone-500 mt-1 mb-4'>
+          <span className={explainBack.trim().length >= MIN_CHARS ? 'text-emerald-600 font-semibold' : 'text-red-600 font-semibold'}>{explainBack.length}</span> / {MIN_CHARS} characters minimum
+        </p>
 
         <Button
           color='primary' className='self-end'
