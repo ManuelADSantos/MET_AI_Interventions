@@ -1213,10 +1213,6 @@ The following should be taken into account when setting up the stalls:
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
-> The post task reflection shown in this study changed how I interact with the AI system.
-
-    $likert; 1; 5; Strongly disagree; Strongly agree
-
 > Which strategies did you use to solve the tasks, check your answers, or improve your performance, if any?
 
     $textarea?
