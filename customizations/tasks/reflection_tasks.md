@@ -1135,7 +1135,7 @@ The following should be taken into account when setting up the stalls:
 
 # Before we finish
 
-> The AI is no longer available, and you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do these tasks again without AI?
 

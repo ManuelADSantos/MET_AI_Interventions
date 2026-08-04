@@ -352,7 +352,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -470,7 +470,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -588,7 +588,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -706,7 +706,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -834,7 +834,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -958,7 +958,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -1082,7 +1082,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -1206,7 +1206,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -1334,7 +1334,7 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -1458,7 +1458,7 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -1582,7 +1582,7 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
@@ -1706,7 +1706,7 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> Answer from memory — you cannot go back to the conversation.
+> You cannot go back to the AI conversation.
 
 > Could you do this task again without AI?
 
