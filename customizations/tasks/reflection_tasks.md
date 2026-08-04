@@ -1133,6 +1133,28 @@ The following should be taken into account when setting up the stalls:
 
 %%
 
+# Before we finish
+
+> The AI is no longer available, and you cannot go back to the conversation.
+
+> Could you do these tasks again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
+# Before we finish
+
+> Now that you have seen this: how many of the 12 problems could you solve on your own, without AI?
+
+    $number; 0; 12
+
+%%
+
 %%
 # Post-Questionnaire
 

@@ -34,7 +34,15 @@ const QuestionWrapper = ({ id, question, formControl }) => {
       {fieldState.error && <p className='text-red-500 mb-2 ml-2'>{fieldState.error.message}</p>}
       {/* Render the appropriate component based on question type */}
       {question.type === 'text' && <Input id={id} name={id} className='w-5/6' variant='bordered' type="text" {...field}/>}
-      {question.type === 'textarea' && <Textarea id={id} name={id} className='w-5/6' variant='bordered' type="text" minRows={3} maxRows={8} {...field}/>}
+      {question.type === 'textarea' && <>
+        <Textarea id={id} name={id} className='w-5/6' variant='bordered' type="text" minRows={3} maxRows={8} {...field}/>
+        {/* Only a question that asks for a real minimum gets a counter — red under, green over */}
+        {question.minChars > 2 && <p className='text-sm text-stone-500 mt-1'>
+          <span className={String(field.value || '').trim().length >= question.minChars ? 'text-emerald-600 font-semibold' : 'text-red-600 font-semibold'}>
+            {String(field.value || '').length}
+          </span> / {question.minChars} characters minimum
+        </p>}
+      </>}
       {question.type === 'number' && <Input id={id} name={id} className='w-2/6' variant='bordered' type="number"
         onKeyDown={(e) => (['e', 'E', '+', '.'].includes(e.key) || (e.key === '-' && (question.min ?? 0) >= 0)) && e.preventDefault()}
         {...field}/>}
@@ -52,9 +60,12 @@ const validateAnswer = (v, question) => {
     case 'text':
       if (v.length < 3) return 'Must be at least 3 characters long.'
       return v.length <= 200 || 'Maximum 200 characters.'
-    case 'textarea':
-      if (v.length < 2) return 'Must be at least 2 characters long.'
-      return v.length <= 400 || 'Maximum 400 characters.'
+    case 'textarea': {
+      const min = question.minChars ?? 2
+      const max = question.maxChars ?? 400
+      if (v.trim().length < min) return `Must be at least ${min} characters long.`
+      return v.length <= max || `Maximum ${max} characters.`
+    }
     case 'number': {
       const min = question.min ?? 0
       const max = question.max ?? 999

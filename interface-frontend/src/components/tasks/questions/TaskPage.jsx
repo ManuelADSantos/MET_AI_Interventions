@@ -5,6 +5,7 @@ import { Button, Tabs, Tab, Tooltip } from '@nextui-org/react'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
 import RichText from './RichText'
+import ReflectionSummary from '../ReflectionSummary'
 
 
 const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n\nRelevant information:\n{tabText}\n\n{copyText}'
@@ -149,9 +150,12 @@ const TabCopyButton = ({ text }) => {
   )
 }
 
-const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, requireAiPrompt }) => {
+const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, requireAiPrompt, reflectSummary, scopeIds }) => {
   const [submitError, setSubmitError] = useState('')
   const [taskAddedToChat, setTaskAddedToChat] = useState(false)
+  // A :::reflect-summary page has a second stage: the AI's review of the transcript, shown once the
+  // page's own questions are in. Holds the explain-back answer the review is judged against.
+  const [reviewing, setReviewing] = useState(null)
   const ctxStore = useContext(store)
   const { handleSubmit, control } = useForm({
     mode: 'onSubmit'
@@ -259,9 +263,22 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
       type: 'UPDATE_RESPONSES',
       payload: {
         index: sourceIndex,
+        // ponytail: the backend scores the pages titled "Scenario: ..." — without the title it had to
+        // guess them as the longest consecutive run of sourceIndexes, which breaks the moment any page
+        // (a reflection, say) is interleaved between the tasks.
+        title,
         responses: mappedResponses
       }
     })
+
+    if (reflectSummary) {
+      // The longest free-text answer on the page is the explain-back the review is judged against
+      const written = Object.values(mappedResponses)
+        .map((r) => String(r.answer ?? ''))
+        .reduce((longest, answer) => (answer.length > longest.length ? answer : longest), '')
+      setReviewing(written)
+      return
+    }
     next()
   }
 
@@ -316,6 +333,18 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   }
 
   return null
+  }
+
+  if (reviewing !== null) {
+    return (
+      <ReflectionSummary
+        sourceIndex={sourceIndex}
+        scopeIds={scopeIds}
+        explainBack={reviewing}
+        isLast={isLast}
+        onContinue={next}
+      />
+    )
   }
 
   return (

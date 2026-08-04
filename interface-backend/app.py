@@ -178,29 +178,30 @@ def stream_message():
     return Response(stream_with_context(generate()), mimetype='application/x-ndjson')
 
 def evaluate_answers(tasks):
-    # The trial and every main exercise use answer item .1 and confidence item
-    # .2. The 12 main exercises are the longest consecutive source-index run;
-    # the trial is isolated and must not contribute to the score.
-    candidates = []
+    # The 12 main exercises are the pages titled "Scenario: ..." (the trial is "Trial: ..." and must
+    # not contribute to the score); their answer is item .1. TaskPage sends the title with every page.
+    # ponytail: the old version had to infer them as the longest consecutive run of sourceIndexes,
+    # which collapsed to one task as soon as reflection pages sat between the exercises. Falls back to
+    # the confidence-question heuristic for records saved before the title was sent.
+    main_task_ids = []
     for task_key, task_val in tasks.items():
         try:
             task_id = int(task_key)
         except (TypeError, ValueError):
             continue
-        responses = task_val.get('responses', {})
-        confidence = responses.get(f'{task_id}.2', {})
+        title = str(task_val.get('title') or '')
+        if title:
+            if title.startswith('Scenario:'):
+                main_task_ids.append(task_id)
+            continue
+        confidence = (task_val.get('responses') or {}).get(f'{task_id}.2', {})
         question = confidence.get('question', '') if isinstance(confidence, dict) else ''
         if 'confident' in str(question).lower():
-            candidates.append(task_id)
+            main_task_ids.append(task_id)
 
-    candidates.sort()
-    runs = []
-    for task_id in candidates:
-        if runs and task_id == runs[-1][-1] + 1:
-            runs[-1].append(task_id)
-        else:
-            runs.append([task_id])
-    main_task_ids = max(runs, key=len, default=[])[:len(right_choices)]
+    main_task_ids.sort()
+    # A legacy record includes the trial; drop it by keeping the last len(right_choices) ids
+    main_task_ids = main_task_ids[-len(right_choices):]
 
     results = {}
     for task_id, expected_answer in zip(main_task_ids, right_choices):

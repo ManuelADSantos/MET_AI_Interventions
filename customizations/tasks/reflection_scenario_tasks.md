@@ -533,6 +533,22 @@ If the following exercises mention "week", this always refers to a working week 
 
 %%
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do these tasks again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
+%%
+
 %% RANDOMIZE
 
 # Scenario: Incentive Car Racing
@@ -833,6 +849,22 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 %%
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do these tasks again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
+%%
+
 %% RANDOMIZE
 
 # Scenario: Graduation Party
@@ -1130,6 +1162,22 @@ The following should be taken into account when setting up the stalls:
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
 :::
+
+%%
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do these tasks again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 %%
 

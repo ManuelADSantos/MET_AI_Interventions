@@ -80,6 +80,7 @@ const StateProvider = ({ children }) => {
         const updatedRes = {
           ...resToUpdate,
           displayIndex: state.taskIndex,
+          ...(action.payload.title ? {title: action.payload.title} : {}),
           responses: action.payload.responses
         }
         return {...state, tasks: {...state.tasks, [action.payload.index]: updatedRes}}

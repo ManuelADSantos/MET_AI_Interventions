@@ -1,4 +1,4 @@
-/** Pure helpers for the post-task reflection screen (ReflectionPage.jsx).
+/** Pure helpers for the post-task reflection review (ReflectionSummary.jsx).
  * Kept out of the component so they can be asserted by tests/test_reflection_summary.mjs. */
 
 // /chat/stream rejects above 200k chars; stay well clear and keep the most recent turns

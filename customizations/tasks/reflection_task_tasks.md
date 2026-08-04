@@ -321,6 +321,20 @@ Each of the six consultants provides all services, except for two services: only
 If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 :::
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -390,6 +404,20 @@ Each of the six consultants provides all services, except for two services: only
 
 If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 :::
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 # Scenario: Young Professionals Consulting
 
@@ -461,6 +489,20 @@ Each of the six consultants provides all services, except for two services: only
 If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 :::
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -530,6 +572,20 @@ Each of the six consultants provides all services, except for two services: only
 
 If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 :::
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 %%
 
@@ -609,6 +665,20 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 :::
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -682,6 +752,20 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 :::
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 # Scenario: Incentive Car Racing
 
@@ -757,6 +841,20 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 :::
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -830,6 +928,20 @@ On these terms, you have a total of 10 trainers at your disposal:
 | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 :::
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 %%
 
@@ -909,6 +1021,20 @@ The following should be taken into account when setting up the stalls:
 | Set-up time | 25 min | 20 min | 45 min |
 :::
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -982,6 +1108,20 @@ The following should be taken into account when setting up the stalls:
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
 :::
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 # Scenario: Graduation Party
 
@@ -1057,6 +1197,20 @@ The following should be taken into account when setting up the stalls:
 | Set-up time | 25 min | 20 min | 45 min |
 :::
 
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
+
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1130,6 +1284,20 @@ The following should be taken into account when setting up the stalls:
 | Duration of the journey | 20 min | 20 min | 15 min |
 | Set-up time | 25 min | 20 min | 45 min |
 :::
+
+# Pause and reflect
+
+> Answer from memory — you cannot go back to the conversation.
+
+> Could you do this task again without AI?
+
+    $slider; 0; 100; Definitely not; Definitely; tooltip%
+
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 200; 4000
+
+:::reflect-summary
 
 %%
 
