@@ -11,7 +11,7 @@ sys.path.insert(0, '/app')
 
 from app import INTERVENTION_PROMPTS  # noqa: E402
 
-STEP_MARKER = 'This is step K of N.'   # analysis counts pauses by regexing 'This is step \\d+ of \\d+'
+STEP_MARKER = 'I believe this exercise can be solved in N steps — here is step K.'
 REFUSAL = 'I work one step at a time - here is the next step.'
 
 for condition, prompt in INTERVENTION_PROMPTS.items():

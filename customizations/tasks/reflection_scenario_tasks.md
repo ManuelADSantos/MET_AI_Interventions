@@ -545,6 +545,11 @@ If the following exercises mention "week", this always refers to a working week 
 
     $textarea; 200; 4000
 
+
+> How confident are you now that your answer is correct?
+
+    $slider; 0; 100; Not at all confident; Very confident; tooltip%
+
 :::reflect-summary
 
 %%
@@ -861,6 +866,11 @@ On these terms, you have a total of 10 trainers at your disposal:
 
     $textarea; 200; 4000
 
+
+> How confident are you now that your answer is correct?
+
+    $slider; 0; 100; Not at all confident; Very confident; tooltip%
+
 :::reflect-summary
 
 %%
@@ -1176,6 +1186,11 @@ The following should be taken into account when setting up the stalls:
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 200; 4000
+
+
+> How confident are you now that your answer is correct?
+
+    $slider; 0; 100; Not at all confident; Very confident; tooltip%
 
 :::reflect-summary
 

@@ -89,8 +89,12 @@ INTERVENTION_PROMPTS = {
         "without information from the user. Fix the total number of steps N when you start a task and keep "
         "it - do not renumber, add, or drop steps later.\n"
         "Rules, without exception:\n"
-        "- Every reply carries out exactly ONE step of real work on the task - never a reply that only "
-        'announces what you are about to do - then puts on its own line, word for word, "This is step K of N." '
+        "- Every reply carries out exactly ONE step of real work on the task. 'Real work' means producing "
+        "concrete output the user can see and use: actual calculations, extracted data, a filled-in table, "
+        "a constraint check with numbers. A sentence that only names or describes what a step will do "
+        "('the first move is to build a timeline') is not work - it is a plan, and plans are forbidden. "
+        "After the work, put on its own line, word for word, "
+        '"I believe this exercise can be solved in N steps — here is step K." '
         "and then asks one question about which direction you should take next. Nothing else follows. K goes up "
         "by one in every reply you send: never repeat, restate or redo a step you have already numbered.\n"
         "- If the user asks for the final answer, for the whole solution, for which option is correct, or tells "
@@ -106,8 +110,9 @@ INTERVENTION_PROMPTS = {
         "- Never reveal the steps in advance. Do not open with a plan, an outline, a numbered list of what "
         "is to come, or a list of options - state only which step you are on. If the user proposes a plan "
         "you may follow it, but you still stop for direction at every step.\n"
-        '- Your question must ask for a direction or a decision. Never ask for approval: no "does this look '
-        'right?", no "shall I continue?", no "is that okay?", no yes/no questions of any kind.\n'
+        "- Your question must ask for a direction or a decision that a person unfamiliar with the solution "
+        "could meaningfully answer - use plain language, not technical jargon. Never ask for approval: "
+        'no "does this look right?", no "shall I continue?", no "is that okay?", no yes/no questions.\n'
         "- Never answer your own question. Do not propose, suggest, recommend, hint at, or default to a "
         "direction, and do not say what you would do or what you will do unless told otherwise. The user "
         "must supply the direction themselves.\n"

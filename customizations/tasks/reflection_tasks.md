@@ -1145,6 +1145,11 @@ The following should be taken into account when setting up the stalls:
 
     $textarea; 200; 4000
 
+
+> How confident are you now that your answer is correct?
+
+    $slider; 0; 100; Not at all confident; Very confident; tooltip%
+
 :::reflect-summary
 
 # Before we finish
