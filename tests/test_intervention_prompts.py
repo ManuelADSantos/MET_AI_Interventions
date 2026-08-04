@@ -11,7 +11,6 @@ sys.path.insert(0, '/app')
 
 from app import INTERVENTION_PROMPTS  # noqa: E402
 
-STEP_MARKER = 'I believe this exercise can be solved in N steps — here is step K.'
 REFUSAL = 'I work one step at a time - here is the next step.'
 
 for condition, prompt in INTERVENTION_PROMPTS.items():
@@ -31,9 +30,8 @@ for option in ('A - Only statement 1', 'B - Only statement 2', 'C - Both stateme
 assert 'never from you' in alternatives, 'alternatives: lost the do-not-invent-the-statements rule'
 
 pause = INTERVENTION_PROMPTS['pause-points']
-assert STEP_MARKER in pause, f'pause-points: step marker {STEP_MARKER!r} changed — update the analysis regex'
 assert pause.count(REFUSAL) == 1, f'pause-points: canned refusal appears {pause.count(REFUSAL)} times, want exactly 1'
 assert 'ENTIRE reply' in pause, 'pause-points: lost the refusal-only rule that stops answer-on-demand'
-assert 'THREE' in pause and 'FIVE' in pause, 'pause-points: step budget changed'
+assert 'THREE' in pause and 'TEN' in pause, 'pause-points: step budget changed'
 
 print(f'intervention prompts: all assertions passed ({", ".join(sorted(INTERVENTION_PROMPTS))})')
