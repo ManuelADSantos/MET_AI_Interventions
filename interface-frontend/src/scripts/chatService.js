@@ -30,7 +30,7 @@ const mintChatToken = async () => {
  * @param {Array} messages The list of chat messages so far. Should include at least one message (prompt from user).
  * @returns The full API response containing the chat completion
  */
-const requestChatResponseStream = async function* (messages, signal, hasTaskQuestion = false) {
+const requestChatResponseStream = async function* (messages, signal, hasTaskQuestion = false, column = null) {
   const messagesToSend = messages.filter((m) => ['user', 'assistant'].includes(m.role))
   if (SYSTEM_PROMPT) {
     messagesToSend.unshift({ role: 'system', content: SYSTEM_PROMPT })
@@ -46,7 +46,8 @@ const requestChatResponseStream = async function* (messages, signal, hasTaskQues
     body: JSON.stringify({
       messages: messagesToSend,
       // Gates the intervention system prompt server-side (see app.py stream_message)
-      hasTaskQuestion
+      hasTaskQuestion,
+      ...(column ? { column } : {})
     })
   })
 

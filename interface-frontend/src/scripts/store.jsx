@@ -91,7 +91,9 @@ const StateProvider = ({ children }) => {
       case 'LOG_INTERACTION':
         return {...state, interactionLog: [...state.interactionLog, action.payload]}
       case 'UPDATE_MESSAGES':
+        // ponytail: dual-column alternatives appends response_b as a third entry
         const updatedMessages = [...state.messages, action.payload.prompt, action.payload.response]
+        if (action.payload.response_b) updatedMessages.push(action.payload.response_b)
         return {...state, messages: updatedMessages}
       case 'ALL_DONE':
         return {...state, chatEnabled: false}

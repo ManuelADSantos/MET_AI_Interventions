@@ -69,13 +69,16 @@ def as_chat_response(response = None, content = None, reasoning = None):
         'usage': response_data.get('usage')
     }
 
-def stream_completion(messages):
+def stream_completion(messages, temperature=None):
+    # ponytail: temperature override for dual-column alternatives mode
+    temp_kw = {'temperature': temperature} if temperature is not None else {}
     try:
         if use_responses_api:
             stream = gpt_client.responses.create(
                 model = str(gpt_model),
                 input = _format_input(messages, responses_api=True),
                 stream = True,
+                **temp_kw,
                 **responses_request_options
             )
 
@@ -116,6 +119,7 @@ def stream_completion(messages):
             model = str(gpt_model),
             messages = _format_input(messages),
             stream = True,
+            **temp_kw,
             **chat_request_options
         )
 

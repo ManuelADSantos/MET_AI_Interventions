@@ -5,6 +5,7 @@ import { checkParticipation } from "./scripts/dbService"
 import { mintChatToken } from "./scripts/chatService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
+import DualChatView from "./components/chat/DualChatView"
 import { Button, Card, CardBody, Input, CardHeader } from '@nextui-org/react'
 
 const urlParams = new URLSearchParams(window.location.search)
@@ -92,9 +93,10 @@ const App = ({ condition, tasks, directStartPid }) => {
       : <>
         <div className='flex flex-1 flex-row h-screen'>
           <TaskView tasks={tasks} />
-          {conditionHasChat(condition) && <ChatView
-            task={tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]}
-          />}
+          {conditionHasChat(condition) && (condition === 'alternatives'
+            ? <DualChatView task={tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]} />
+            : <ChatView task={tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]} />
+          )}
         </div>
       </>
       }

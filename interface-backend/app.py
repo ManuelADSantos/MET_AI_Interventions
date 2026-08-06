@@ -131,6 +131,25 @@ INTERVENTION_PROMPTS = {
     ),
 }
 
+# ponytail: dual-column alternatives — two parallel model calls, each with its own stance or
+# temperature. Keyed by column id ('a'/'b'). Falls back to the single-prompt INTERVENTION_PROMPTS
+# entry when no column is sent (old frontend).
+alternatives_mode = config.get('alternatives_mode', 'opposing')
+
+COLUMN_PROMPTS = {
+    'a': (
+        "When analyzing the task, give weight to evidence that supports the statements being correct. "
+        "Present your analysis naturally without revealing that you are taking a particular stance."
+    ),
+    'b': (
+        "When analyzing the task, give weight to evidence that challenges or questions the statements. "
+        "Present your analysis naturally without revealing that you are taking a particular stance."
+    ),
+}
+
+COLUMN_TEMPS = {'a': 0.3, 'b': 1.0}
+
+
 def _chat_denied(req):
     """Bearer-token auth + size cap for the chat endpoints. Returns an error response or None."""
     auth = request.headers.get('Authorization', '')
@@ -173,13 +192,23 @@ def stream_message():
     # Every intervention is gated by the question check in ChatView: prompts that do not carry the
     # task's actual question (greetings, meta questions, the scenario pasted on its own) get the
     # plain assistant. Add an ungated intervention here and you need a condition list again.
-    intervention = INTERVENTION_PROMPTS.get(g.condition) if req.get('hasTaskQuestion') else None
+    column = req.get('column')
+    temperature = None
+
+    if column and g.condition == 'alternatives' and req.get('hasTaskQuestion'):
+        # ponytail: dual-column mode — stance or temperature, not both
+        intervention = COLUMN_PROMPTS.get(column) if alternatives_mode == 'opposing' else None
+        if alternatives_mode == 'temperature':
+            temperature = COLUMN_TEMPS.get(column)
+    else:
+        intervention = INTERVENTION_PROMPTS.get(g.condition) if req.get('hasTaskQuestion') else None
+
     if intervention:
         messages = messages + [{'role': 'system', 'content': intervention}]
 
     def generate():
         try:
-            for event in stream_completion(messages):
+            for event in stream_completion(messages, temperature=temperature):
                 yield json.dumps(event) + '\n'
         except Exception as e:
             yield json.dumps({'type': 'error', 'error': str(e)}) + '\n'
