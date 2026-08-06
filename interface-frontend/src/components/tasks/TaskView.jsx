@@ -61,6 +61,7 @@ const TaskView = ({ tasks }) => {
               sourceIndex={tasks[state.taskIndex].sourceIndex}
               requireAiPrompt={tasks[state.taskIndex].requireAiPrompt}
               reflectSummary={tasks[state.taskIndex].reflectSummary}
+              predictAi={tasks[state.taskIndex].predictAi}
               scopeIds={scopeIds(state.taskIndex)}
               isLast={state.taskIndex === tasks.length - 1}
               next={advance}

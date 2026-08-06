@@ -308,6 +308,24 @@ Gate the Next button behind at least one AI prompt on a specific page:
 
 Place `:::require-ai-prompt` anywhere in the page block. Only applies to conditions with chat enabled (conditions not starting with `no-`). Ignored in dev mode and on the last page.
 
+### `:::predict-ai`
+
+Hides the page's questions until the participant predicts whether the AI assistant would solve the task correctly (used by the `prediction` condition):
+
+```markdown
+# Task Page
+
+:::predict-ai
+
+:::tab Exercise
+
+> Solve this problem.
+
+    $option; A; B; C
+```
+
+The prediction is stored as response key `{sourceIndex}.prediction` (the numbered answers keep their ids) and logged as an `ai_prediction` interaction event.
+
 ---
 
 ## Sections & Randomization

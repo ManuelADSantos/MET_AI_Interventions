@@ -13,6 +13,10 @@ import ReflectionSummary from '../ReflectionSummary'
 const defaultCopyTemplate = 'Please help me solve this task.\n\n{exerciseText}\n\nRelevant information:\n{tabText}\n\n{copyText}'
 const questionTypes = ['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider']
 
+// Prediction condition (:::predict-ai): the questions stay hidden until this forecast is locked in
+const predictionQuestion = 'If you asked the AI assistant to solve this task, would its answer be correct?'
+const predictionOptions = ['Yes — the AI would answer correctly', 'No — the AI would answer incorrectly']
+
 const decodeTemplate = (value) => String(value).replace(/\\n/g, '\n')
 
 const copyTemplate = decodeTemplate(import.meta.env.VITE_COPY_BUTTON_TEMPLATE || defaultCopyTemplate)
@@ -120,9 +124,12 @@ const TabCopyButton = ({ text }) => {
   )
 }
 
-const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, requireAiPrompt, reflectSummary, scopeIds }) => {
+const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, requireAiPrompt, reflectSummary, predictAi, scopeIds }) => {
   const [submitError, setSubmitError] = useState('')
   const [taskAddedToChat, setTaskAddedToChat] = useState(false)
+  // Prediction condition: the forecast is locked in before the page's questions appear
+  const [prediction, setPrediction] = useState(null)
+  const [predictionDraft, setPredictionDraft] = useState(null)
   // A :::reflect-summary page has a second stage: the AI's review of the transcript, shown once the
   // page's own questions are in. Holds the explain-back answer the review is judged against.
   const [reviewing, setReviewing] = useState(null)
@@ -153,6 +160,17 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   const primaryAnswerItem = exerciseItems.find((item) => item.type === 'option' || item.type === 'checkbox')
   const taskChatText = buildTaskChatDraft({ pageTitle: title, pageTabs, exerciseItems })
   const canAddTaskToChat = taskToChatButtonEnabled && ctxStore.state.chatEnabled && !!primaryAnswerItem && !!taskChatText
+
+  const firstQuestionItem = exerciseItems.find((item) => questionTypes.includes(item.type))
+  const predictionPending = predictAi && !!primaryAnswerItem && !prediction
+
+  const confirmPrediction = () => {
+    setPrediction(predictionDraft)
+    ctxStore.dispatch({
+      type: 'LOG_INTERACTION',
+      payload: { type: 'ai_prediction', taskId: sourceIndex, timestamp: Date.now(), prediction: predictionDraft }
+    })
+  }
 
   const handleAddTaskToChat = () => {
     window.dispatchEvent(new CustomEvent('study:add-task-to-chat', {
@@ -202,7 +220,12 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
     !isLast &&
     ctxStore.state.chatEnabled
 
-  const onSubmit = (pageResponses) => {    
+  const onSubmit = (pageResponses) => {
+    // The form has no registered fields while the questions are hidden, so it would submit empty
+    if (predictionPending) {
+      setSubmitError('Please make your prediction before answering.')
+      return
+    }
     const mappedResponses = {}
     /* Since we're using hook form at this level instead of in a child component, it also keeps track of
     * ALL of the responses instead ofjust the ones filled in to the currently visible questionnaire. 
@@ -225,6 +248,12 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
           }
         }
       })
+    }
+
+    // ponytail: '.prediction' key keeps the numbered '.1'/'.2' answers untouched — the backend
+    // scores '{id}.1', so the prediction must never shift the numbering.
+    if (predictAi && prediction) {
+      mappedResponses[`${sourceIndex}.prediction`] = { question: predictionQuestion, answer: prediction }
     }
 
     /* Attention checks no longer block progression: answers are recorded like any other
@@ -276,8 +305,33 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
   }
 
   if (['text', 'textarea', 'number', 'likert', 'option', 'checkbox', 'slider'].includes(item.type)) {
+    if (predictionPending) {
+      // Questions stay hidden until the forecast is locked in; the card takes the first one's place
+      if (item !== firstQuestionItem) return null
+      return (
+        <div key={i} className='w-full rounded-xl border-2 border-stone-300 bg-stone-50 p-5 my-2'>
+          <p className='font-bold mb-1'>Before you can answer, make a prediction.</p>
+          <p className='mb-3'>{predictionQuestion}</p>
+          {predictionOptions.map((option) => (
+            <label key={option} className='flex items-center mb-2 cursor-pointer'>
+              <input type='radio' name={`prediction-${sourceIndex}`} className='mr-3 h-5 w-5 accent-stone-700'
+                checked={predictionDraft === option} onChange={() => setPredictionDraft(option)} />
+              {option}
+            </label>
+          ))}
+          <Button className='mt-2' color='primary' size='sm' isDisabled={!predictionDraft} onClick={confirmPrediction}>
+            Confirm prediction
+          </Button>
+        </div>
+      )
+    }
     return (
       <div key={i} className='w-full'>
+        {predictAi && prediction && item === firstQuestionItem && (
+          <p className='text-sm text-stone-500 mb-2'>
+            Your prediction: <span className='font-semibold'>{prediction}</span>
+          </p>
+        )}
         {canAddTaskToChat && item === primaryAnswerItem && (
           <Tooltip content='Adds the scenario and current question to the chat input. You can edit it before sending.'>
             <Button
@@ -380,7 +434,7 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
-        {shouldShowNext && (
+        {shouldShowNext && !predictionPending && (
           <Button
             className={(shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? 'invisible' : ''}
             isDisabled={shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage}

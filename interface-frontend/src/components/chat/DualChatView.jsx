@@ -1,8 +1,8 @@
 import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Chip } from '@nextui-org/react'
-import { ArrowUpIcon, SquareIcon } from 'lucide-react'
+import { Button, Chip } from '@nextui-org/react'
+import { ArrowUpIcon, SquareIcon, SquarePen } from 'lucide-react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
 import { interventionGate, questionTerms, QUESTION_THRESHOLD } from '../../scripts/taskQuestion'
@@ -192,15 +192,32 @@ const DualChatView = ({ task }) => {
 
   const stop = () => abortRef.current?.abort()
 
+  // Clean chat: clears both columns. Past exchanges are already in the store, so the
+  // saved data keeps everything. Disabled while streaming so an aborted column can't
+  // append its partial reply into the freshly cleared view.
+  const handleNewChat = () => {
+    setMessagesA([])
+    setMessagesB([])
+    engagedRef.current.delete(sourceIndexRef.current)
+    ctxStore.dispatch({
+      type: 'LOG_INTERACTION',
+      payload: { type: 'chat_reset', taskId: sourceIndexRef.current, timestamp: Date.now() }
+    })
+  }
+
   if (!ctxStore.state.chatEnabled) {
     return <div className='flex flex-1 flex-col h-screen border-l border-[#e5e5e5] bg-[#fafafa]' />
   }
 
   return (
     <div className='flex flex-1 flex-col h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
-      <div className='flex justify-center items-center w-full py-3 gap-4 border-b border-[#e5e5e5]'>
+      <div className='relative flex justify-center items-center w-full py-3 gap-4 border-b border-[#e5e5e5]'>
         <Chip color='primary' variant='dot'>Perspective A</Chip>
         <Chip color='secondary' variant='dot'>Perspective B</Chip>
+        <Button size='sm' variant='light' className='absolute right-3' isDisabled={streaming}
+          onClick={handleNewChat} startContent={<SquarePen className='size-4' />}>
+          New chat
+        </Button>
       </div>
 
       <div className='flex flex-1 min-h-0'>

@@ -1,6 +1,7 @@
 import { useContext, useMemo, useRef } from 'react'
 import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime } from '@assistant-ui/react'
-import { Chip } from '@nextui-org/react'
+import { Button, Chip } from '@nextui-org/react'
+import { SquarePen } from 'lucide-react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
 import { interventionGate, questionTerms, QUESTION_THRESHOLD } from '../../scripts/taskQuestion'
@@ -203,11 +204,26 @@ const ChatView = ({ task }) => {
 
   const runtime = useLocalRuntime(chatModel, runtimeOptions)
 
+  // Clean chat: new empty thread. The transcript so far is already in the store
+  // (UPDATE_MESSAGES fires per exchange), so nothing is lost from the saved data.
+  const handleNewChat = () => {
+    engagedTasksRef.current.delete(sourceIndexRef.current)
+    ctxStoreRef.current.dispatch({
+      type: 'LOG_INTERACTION',
+      payload: { type: 'chat_reset', taskId: sourceIndexRef.current, timestamp: Date.now() }
+    })
+    runtime.threads.switchToNewThread()
+  }
+
   return (
     <div className='flex flex-1 flex-col justify-start items-center h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       {ctxStore.state.chatEnabled && (
-        <div className='flex justify-center items-center w-full bg-[#fafafa] py-3'>
+        <div className='relative flex justify-center items-center w-full bg-[#fafafa] py-3'>
           <Chip color='success' variant='dot'>AI Assistant</Chip>
+          <Button size='sm' variant='light' className='absolute right-3' onClick={handleNewChat}
+            startContent={<SquarePen className='size-4' />}>
+            New chat
+          </Button>
         </div>
       )}
       <div className='min-h-0 w-full flex-1'>

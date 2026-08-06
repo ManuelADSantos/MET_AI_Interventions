@@ -278,12 +278,15 @@ const extractCopyBlocks = (rawContent) => {
   // A page marked :::reflect-summary shows the AI's review of the transcript after its questions are
   // submitted, then a Continue button. It is the one part of a reflection that markdown cannot hold.
   const reflectSummary = /^\s*:::reflect-summary\s*$/m.test(String(rawContent))
+  // A page marked :::predict-ai hides its questions until the participant predicts whether the AI
+  // would solve the task correctly (the manipulation of the prediction condition).
+  const predictAi = /^\s*:::predict-ai\s*$/m.test(String(rawContent))
   const content = String(rawContent)
     .replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
     copyBlocks.push(copyText.trim())
     return ''
     })
-    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt|chat-enabled|reflect-summary)\s*$/gm, '')
+    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt|chat-enabled|reflect-summary|predict-ai)\s*$/gm, '')
     .replace(/^\s*:{2,3}next\s*$/gm, '')
 
   return {
@@ -293,7 +296,8 @@ const extractCopyBlocks = (rawContent) => {
     requireAiPrompt,
     chatEnabled,
     nextEnabled,
-    reflectSummary
+    reflectSummary,
+    predictAi
   }
 }
 
@@ -403,6 +407,7 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
           requireAiPrompt: parsedPageCopyBlocks.requireAiPrompt,
           chatEnabled: parsedPageCopyBlocks.chatEnabled,
           reflectSummary: parsedPageCopyBlocks.reflectSummary,
+          predictAi: parsedPageCopyBlocks.predictAi,
           content: pageContent,
           tabs: tabs || [
             {

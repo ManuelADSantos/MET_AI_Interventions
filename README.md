@@ -151,6 +151,7 @@ Text to copy into the AI chat.
 - `:::copy` ... `:::` adds copy-button text without displaying it as page content
 - `:::chat-enabled` shows the chat panel on this page (chat conditions only, ignored for `no-*` conditions)
 - `:::require-ai-prompt` gates the Next button behind at least one AI prompt (chat conditions only)
+- `:::predict-ai` hides the page's questions until the participant predicts whether the AI would solve the task correctly (`prediction` condition)
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
 - `%% SECTION` ... `%%` marks a block as a section but keeps its page order
 - A standalone `%% RANDOMIZE_SECTIONS` line anywhere in the file shuffles all marked
