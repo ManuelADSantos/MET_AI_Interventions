@@ -323,15 +323,18 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements about the effects of certain working times is or are correct?**
 
 > 1. If Emily, Jacob, and Lara work on Tuesdays, only two consultants will be available on Thursday mornings.
 > 2. If two consultants are to be available on Wednesday mornings and afternoons respectively, this will not be possible on a Friday in one and the same week.
-
-:::tab Scenario
 
 > Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
 
@@ -350,14 +353,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -430,15 +426,18 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements about possible cooperation is or are correct?**
 
 > 1. If in one and the same week Ben works on Tuesday afternoon and Jacob on Thursday the whole day, there will be no one in that week to accompany Tom to an appointment if necessary.
 > 2. If in one and the same week a client wants to book two half-days of that week with the same consultants respectively, there will be three consultant tandems that could meet this requirement.
-
-:::tab Scenario
 
 > Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
 
@@ -457,14 +456,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -537,15 +529,18 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?**
 
 > 1. If each day of the working week is to be staffed with consultants in the mornings and afternoons, personnel consulting may only be offered on a maximum of three days.
 > 2. If not every day of the working week needs to be staffed, both cost cutting consulting and personnel consulting can be offered on four days of the week.
-
-:::tab Scenario
 
 > Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
 
@@ -564,14 +559,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -644,15 +632,18 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Suppose — for this question only — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?**
 
 > 1. Up to four half-days per week may remain unstaffed.
 > 2. Up to three half-days per week can be respectively staffed with three consultants.
-
-:::tab Scenario
 
 > Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
 
@@ -671,18 +662,7 @@ If the following exercises mention "week", this always refers to a working week 
 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
-%%
-
-%% RANDOMIZE
-
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -759,15 +739,18 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements is or are correct?**
 
 > 1. No trainer is available without restrictions this weekend.
 > 2. The same number of trainers are available for each topic.
-
-:::tab Scenario
 
 > The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
@@ -788,14 +771,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -872,15 +848,18 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements is or are correct?**
 
 > 1. You cannot offer the topic of security at your Incentive Weekend.
 > 2. You cannot book Haschke von Hunstein as a trainer at all.
-
-:::tab Scenario
 
 > The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
@@ -901,14 +880,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -985,15 +957,18 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements is or are correct?**
 
 > 1. Unfortunately, you cannot avoid hiring even the most expensive coach.
 > 2. The cheapest option is to hire the same 3 coaches for Saturday and Sunday.
-
-:::tab Scenario
 
 > The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
@@ -1014,14 +989,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -1098,15 +1066,18 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements is or are correct?**
 
 > 1. The question of which topic you can implement most favourably depends on the difference in the fees of two trainers.
 > 2. The difference in the trainers' fees on the basis of which you choose the theme is 500 euros for the incentive.
-
-:::tab Scenario
 
 > The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
 
@@ -1127,18 +1098,7 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
-%%
-
-%% RANDOMIZE
-
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1215,15 +1175,18 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements about the beginning and end of the reconstruction measures is or are correct?**
 
 > 1. The helpers can start the third of the five set-up activities before 4.30 pm.
 > 2. In any case, the complete set-up is not finished until more than three hours after it has started.
-
-:::tab Scenario
 
 > A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
 >
@@ -1244,14 +1207,7 @@ The following should be taken into account when setting up the stalls:
 > | Duration of the journey | 20 min | 20 min | 15 min |
 > | Set-up time | 25 min | 20 min | 45 min |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1328,15 +1284,18 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Which of the following statements about payment of helpers is or are correct?**
 
 > 1. If the most efficient schedule is followed, 19 drink vouchers will be issued per helper.
 > 2. If the helpers gave up their breaks, a total of 18 vouchers could be saved.
-
-:::tab Scenario
 
 > A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
 >
@@ -1357,14 +1316,7 @@ The following should be taken into account when setting up the stalls:
 > | Duration of the journey | 20 min | 20 min | 15 min |
 > | Set-up time | 25 min | 20 min | 45 min |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1441,15 +1393,18 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Suppose — for this question only — that you have an additional team of ten helpers working in parallel with the first team. Which of the following statements is or are correct?**
 
 > 1. If you want to avoid unnecessary breaks in the workflow when using two teams, the first team must start work at 4 pm and the second team exactly 1.5 hours later.
 > 2. There is no change in the time required when using two teams of helpers compared to only one team.
-
-:::tab Scenario
 
 > A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
 >
@@ -1470,14 +1425,7 @@ The following should be taken into account when setting up the stalls:
 > | Duration of the journey | 20 min | 20 min | 15 min |
 > | Set-up time | 25 min | 20 min | 45 min |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1554,15 +1502,18 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Exercise
+:::tab Reflect
 
+> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+
+    $textarea; 100; 4000
+
+:::tab Task
 
 > **Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?**
 
 > 1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
 > 2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
-
-:::tab Scenario
 
 > A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
 >
@@ -1583,17 +1534,7 @@ The following should be taken into account when setting up the stalls:
 > | Duration of the journey | 20 min | 20 min | 15 min |
 > | Set-up time | 25 min | 20 min | 45 min |
 
-:::tab Reflect
-
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
-
-    $textarea; 100; 4000
-
 :::reflect-summary
-
-%%
-
-%%
 # Post-Questionnaire
 
 > ### Congratulations! 
