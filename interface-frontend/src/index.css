@@ -1,9 +1,31 @@
-@import "tw-shimmer";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
     font-size: calc(100% * 0.85);
+}
+
+/* ponytail: replaces the tw-shimmer dependency, which ships Tailwind v4 `@utility` syntax this
+   project's Tailwind 3.4 cannot compile — it emitted no `.shimmer` rule at all, so the reasoning
+   label's shimmer overlay rendered as plain duplicate text. One keyframe does the job. */
+@keyframes shimmer {
+    to { background-position: -200% 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg,
+        transparent 20%,
+        currentColor 50%,
+        transparent 80%) 100% 0 / 200% 100% no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: shimmer 2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer { animation: none; }
 }
 

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { store } from '../../scripts/store'
 import { saveToDatabase } from '../../scripts/dbService'
+import { copyToClipboard } from '../../lib/utils'
 import { Button, Spinner } from '@nextui-org/react'
 
 const DonePage = () => {
@@ -68,22 +69,11 @@ const DonePage = () => {
         <p className='my-4 font-bold'>Please copy this completion code:</p>
         <div className='flex items-center justify-center gap-2 my-2'>
           <p className='font-mono p-4 bg-stone-200 select-all cursor-pointer'>{prolificCode}</p>
-          <Button size='sm' variant='flat' onClick={() => {
-            const copy = (text) => {
-              if (navigator.clipboard?.writeText) {
-                return navigator.clipboard.writeText(text).catch(() => fallback(text))
-              }
-              return fallback(text)
-            }
-            const fallback = (text) => {
-              const ta = document.createElement('textarea')
-              ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'
-              document.body.appendChild(ta); ta.select(); document.execCommand('copy')
-              document.body.removeChild(ta)
-            }
-            copy(prolificCode); setCopied(true); setTimeout(() => setCopied(false), 2000)
+          <Button size='sm' variant='flat' onClick={async () => {
+            setCopied(await copyToClipboard(prolificCode) ? 'ok' : 'fail')
+            setTimeout(() => setCopied(false), 2000)
           }}>
-            {copied ? 'Copied!' : 'Copy'}
+            {copied === 'ok' ? 'Copied!' : copied === 'fail' ? 'Copy failed' : 'Copy'}
           </Button>
         </div>
         {import.meta.env.VITE_USE_AUTOPROCTOR === 'true'

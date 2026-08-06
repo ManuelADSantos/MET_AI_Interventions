@@ -3,7 +3,7 @@ import { AssistantRuntimeProvider, SimpleImageAttachmentAdapter, useLocalRuntime
 import { Chip } from '@nextui-org/react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
-import { questionCoverage, questionTerms } from '../../scripts/taskQuestion'
+import { interventionGate, questionTerms, QUESTION_THRESHOLD } from '../../scripts/taskQuestion'
 import { Thread } from '../thread'
 
 const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_ALLOW_IMAGES === 'true' : true
@@ -11,14 +11,7 @@ const enableImages = import.meta.env.VITE_ALLOW_IMAGES ? import.meta.env.VITE_AL
 // the scenario alone is not enough: `alternatives` would argue four options over statements it has
 // never seen and invent them. The score is computed for every condition — cheaper than keeping a
 // list of gated conditions in sync with INTERVENTION_PROMPTS in app.py, and it gives the control
-// arms the same measure as a covariate.
-// intervention_similarity_threshold in study.config.yml; 0.6 when unset.
-// `|| NaN` because entrypoint.sh writes an empty value for a missing key, and Number('') is 0 —
-// which would silently engage the intervention on every prompt.
-const configuredThreshold = Number(import.meta.env.VITE_INTERVENTION_SIMILARITY_THRESHOLD || NaN)
-const QUESTION_THRESHOLD = Number.isFinite(configuredThreshold)
-  ? Math.min(1, Math.max(0, configuredThreshold))
-  : 0.6
+// arms the same measure as a covariate. Gate lives in taskQuestion.js, shared with DualChatView.
 
 const partText = (part) => {
   if (!part) return ''
@@ -59,10 +52,6 @@ const ChatView = ({ task }) => {
   const sourceIndexRef = useRef(sourceIndex)
   const lastUserMessageIdRef = useRef(undefined)
   const questionTermsRef = useRef(questionTerms(task))
-  // ponytail: latched per task — once engaged, the intervention has to survive follow-ups like
-  // "use the cheaper option", which score near zero against the question and would drop it
-  // mid-conversation (pause-points would abandon its step sequence, alternatives would collapse
-  // back to a single answer).
   const engagedTasksRef = useRef(new Set())
 
   ctxStoreRef.current = ctxStore
@@ -98,24 +87,21 @@ const ChatView = ({ task }) => {
         ...(isNewPrompt ? {} : { regenerated: true })
       }
 
-      let hasTaskQuestion = engagedTasksRef.current.has(currentSourceIndex)
-      if (!hasTaskQuestion) {
-        const coverage = questionCoverage(prompt.content, questionTermsRef.current)
-        hasTaskQuestion = coverage >= QUESTION_THRESHOLD
-        if (hasTaskQuestion) engagedTasksRef.current.add(currentSourceIndex)
-        if (isNewPrompt) {
-          currentStore.dispatch({
-            type: 'LOG_INTERACTION',
-            payload: {
-              type: 'intervention_gate_test',
-              taskId: currentSourceIndex,
-              timestamp: prompt.ts,
-              coverage,
-              threshold: QUESTION_THRESHOLD,
-              matched: hasTaskQuestion
-            }
-          })
-        }
+      const { hasTaskQuestion, coverage } = interventionGate(
+        engagedTasksRef.current, currentSourceIndex, prompt.content, questionTermsRef.current
+      )
+      if (coverage !== null && isNewPrompt) {
+        currentStore.dispatch({
+          type: 'LOG_INTERACTION',
+          payload: {
+            type: 'intervention_gate_test',
+            taskId: currentSourceIndex,
+            timestamp: prompt.ts,
+            coverage,
+            threshold: QUESTION_THRESHOLD,
+            matched: hasTaskQuestion
+          }
+        })
       }
 
       const addedDraft = currentStore.state.taskChatDraft

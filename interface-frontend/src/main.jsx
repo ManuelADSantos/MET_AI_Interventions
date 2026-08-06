@@ -5,7 +5,6 @@ import SyncPage from './components/SyncPage.jsx'
 import { StateProvider } from './scripts/store.jsx'
 import { NextUIProvider } from '@nextui-org/react'
 import { tasksPerCondition } from './scripts/conditions'
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import './index.css'
 
 const urlParams = new URLSearchParams(window.location.search)

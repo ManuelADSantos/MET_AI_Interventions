@@ -70,7 +70,8 @@ def as_chat_response(response = None, content = None, reasoning = None):
     }
 
 def stream_completion(messages, temperature=None):
-    # ponytail: temperature override for dual-column alternatives mode
+    # ponytail: temperature override for the dual-column alternatives mode. Chat Completions only —
+    # reasoning models reject it on the Responses API, which app.py refuses to start with.
     temp_kw = {'temperature': temperature} if temperature is not None else {}
     try:
         if use_responses_api:
@@ -78,7 +79,6 @@ def stream_completion(messages, temperature=None):
                 model = str(gpt_model),
                 input = _format_input(messages, responses_api=True),
                 stream = True,
-                **temp_kw,
                 **responses_request_options
             )
 

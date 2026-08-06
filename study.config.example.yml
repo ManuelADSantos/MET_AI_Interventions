@@ -11,6 +11,7 @@ system_prompt: You are a helpful logical reasoning assistant          # system p
 
 # Interventions (see INTERVENTION_PROMPTS in interface-backend/app.py)
 intervention_similarity_threshold: 0.6   # fraction of the task question's distinctive words a prompt must carry before an intervention engages (pasting the scenario alone is not enough)
+alternatives_mode: opposing        # How the two columns of the `alternatives` dual chat diverge: `opposing` (each column gets a supporting/challenging stance prompt) or `temperature` (same prompt, 0.3 vs 1.0 — requires reasoning_effort: none)
 
 # Chat Availability
 allow_image_attachments: false     # Enable image uploads

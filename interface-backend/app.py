@@ -5,8 +5,9 @@ import logging
 from collections import defaultdict
 from flask import Flask, g, request, Response, stream_with_context
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 import httpx
-from chat_helpers import stream_completion
+from chat_helpers import stream_completion, use_responses_api
 from correct_answers import right_choices
 from config_loader import load_config
 import db
@@ -27,6 +28,16 @@ CORS(app, origins=os.environ.get('ALLOWED_ORIGIN', '*'))
 _rate = defaultdict(list)
 _RATE_WINDOW = 300  # 5 minutes
 _RATE_LIMITS = {'/chat': 30, '/token': 10, '/save': 10}  # per IP per window
+
+# ponytail: one handler replaces the try/except Exception -> 500 that every route below repeated.
+# HTTPExceptions (404/405, the 429 above) are re-raised so they keep their own status.
+@app.errorhandler(Exception)
+def _unhandled(e):
+    if isinstance(e, HTTPException):
+        return e
+    log.exception("[%s] %s", request.path, e)
+    return {'error': str(e)}, 500
+
 
 @app.before_request
 def _rate_limit():
@@ -135,6 +146,16 @@ INTERVENTION_PROMPTS = {
 # temperature. Keyed by column id ('a'/'b'). Falls back to the single-prompt INTERVENTION_PROMPTS
 # entry when no column is sent (old frontend).
 alternatives_mode = config.get('alternatives_mode', 'opposing')
+if alternatives_mode not in ('opposing', 'temperature'):
+    raise RuntimeError(f"alternatives_mode must be 'opposing' or 'temperature', got {alternatives_mode!r}")
+# OpenAI reasoning models reject `temperature` on the Responses API, so every dual-column request
+# would 400 and the condition would collect nothing. Fail at startup instead: temperature mode
+# needs `reasoning_effort: none` (or a non-OpenAI base_url) so the Chat Completions path is used.
+if alternatives_mode == 'temperature' and use_responses_api:
+    raise RuntimeError(
+        "alternatives_mode: temperature requires reasoning_effort: none — "
+        "reasoning models reject the temperature parameter on the Responses API"
+    )
 
 COLUMN_PROMPTS = {
     'a': (
@@ -165,15 +186,12 @@ def _chat_denied(req):
 
 @app.route('/token', methods=['POST'])
 def issue_token():
-    try:
-        req = request.get_json()
-        pid = str(req.get('id', '')).strip()[:128]
-        condition = str(req.get('condition', '')).strip()[:32]
-        if not pid or not condition:
-            return {'error': 'missing id or condition'}, 400
-        return {'token': db.issue_token(pid, condition)}, 200
-    except Exception as e:
-        return {'error': str(e)}, 500
+    req = request.get_json()
+    pid = str(req.get('id', '')).strip()[:128]
+    condition = str(req.get('condition', '')).strip()[:32]
+    if not pid or not condition:
+        return {'error': 'missing id or condition'}, 400
+    return {'token': db.issue_token(pid, condition)}, 200
 
 
 @app.route('/health')
@@ -196,10 +214,11 @@ def stream_message():
     temperature = None
 
     if column and g.condition == 'alternatives' and req.get('hasTaskQuestion'):
-        # ponytail: dual-column mode — stance or temperature, not both
-        intervention = COLUMN_PROMPTS.get(column) if alternatives_mode == 'opposing' else None
+        # ponytail: dual-column mode — stance or temperature, never both
         if alternatives_mode == 'temperature':
-            temperature = COLUMN_TEMPS.get(column)
+            intervention, temperature = None, COLUMN_TEMPS.get(column)
+        else:
+            intervention = COLUMN_PROMPTS.get(column)
     else:
         intervention = INTERVENTION_PROMPTS.get(g.condition) if req.get('hasTaskQuestion') else None
 
@@ -255,51 +274,45 @@ def evaluate_answers(tasks):
 
 @app.route('/save', methods = ['POST'])
 def save_data():
-    try:
-        req = request.get_json()
+    req = request.get_json()
 
-        correct_count, answer_results = evaluate_answers(req['tasks'])
-        total_questions = len(right_choices)
+    correct_count, answer_results = evaluate_answers(req['tasks'])
+    total_questions = len(right_choices)
 
-        # The condition registered at session start wins over the client-sent one,
-        # so editing the URL/payload mid-study can't switch a participant's condition
-        condition = db.get_session_condition(req['participantId']) or req['condition']
+    # The condition registered at session start wins over the client-sent one,
+    # so editing the URL/payload mid-study can't switch a participant's condition
+    condition = db.get_session_condition(req['participantId']) or req['condition']
 
-        record = {
-            'participantId': req['participantId'],
-            'messages': req['messages'],
-            'interactionLog': req.get('interactionLog', []),
-            'tasks': req['tasks'],
-            'condition': condition,
-            'studyId': req.get('studyId', ''),
-            'sessionId': req.get('sessionId', ''),
-            'correctAnswers': correct_count,
-            'totalQuestions': total_questions,
-            'answerResults': answer_results
-        }
+    record = {
+        'participantId': req['participantId'],
+        'messages': req['messages'],
+        'interactionLog': req.get('interactionLog', []),
+        'tasks': req['tasks'],
+        'condition': condition,
+        'studyId': req.get('studyId', ''),
+        'sessionId': req.get('sessionId', ''),
+        'correctAnswers': correct_count,
+        'totalQuestions': total_questions,
+        'answerResults': answer_results
+    }
 
-        db.save_participant(req['participantId'], condition, record)
+    db.save_participant(req['participantId'], condition, record)
 
-        return {
-            'message': 'OK',
-            'prolificCode': prolific_code,
-            'prolificUrl': prolific_url,
-            'correctAnswers': correct_count,
-            'totalQuestions': total_questions
-        }, 201
-    except Exception as e:
-        return {'error': str(e)}, 500
+    return {
+        'message': 'OK',
+        'prolificCode': prolific_code,
+        'prolificUrl': prolific_url,
+        'correctAnswers': correct_count,
+        'totalQuestions': total_questions
+    }, 201
 
 @app.route('/check_participation', methods = ['POST'])
 def check_participation():
-    try:
-        req = request.get_json()
-        pid = str(req['id'])
+    req = request.get_json()
+    pid = str(req['id'])
 
-        # Plain 200 + JSON body: 302/204 confused fetch/proxies and broke ID validation
-        return {'participated': db.has_participated(pid)}, 200
-    except Exception as e:
-        return {'error': str(e)}, 500
+    # Plain 200 + JSON body: 302/204 confused fetch/proxies and broke ID validation
+    return {'participated': db.has_participated(pid)}, 200
 
 @app.route('/export')
 def export_data():
@@ -355,19 +368,12 @@ def launch_consent():
     except httpx.RequestError as e:
         log.error("[launch_consent] AutoProctor unreachable: %s", e)
         return {'error': 'Proctoring service unreachable'}, 503
-    except Exception as e:
-        log.exception("[launch_consent] Error: %s", e)
-        return {'error': str(e)}, 500
 
 
 @app.route('/api/launch/session/<pid>', methods=['GET'])
 def get_session_state(pid):
     """Return the stored condition for a participant (used by SyncPage inside AutoProctor)."""
-    try:
-        condition = db.get_session_condition(pid)
-        if not condition:
-            return {'error': 'Participant not found'}, 404
-        return {'condition': condition}, 200
-    except Exception as e:
-        log.exception("[get_session_state] Error: %s", e)
-        return {'error': str(e)}, 500
+    condition = db.get_session_condition(pid)
+    if not condition:
+        return {'error': 'Participant not found'}, 404
+    return {'condition': condition}, 200

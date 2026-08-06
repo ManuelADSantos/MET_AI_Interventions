@@ -27,10 +27,9 @@ const StateProvider = ({ children }) => {
           return {...state, displayChatOnboarding: false}
       case 'TOGGLE_CHAT_USED':
         return {...state, chatUsedOnPage: action.payload.value}
-      // Interstitial reflection hides the chat AND its transcript — the explain-back is
-      // worthless if the participant can scroll back and copy. Restored on the next page.
-      case 'SET_CHAT_ENABLED':
-        return {...state, chatEnabled: action.payload.value}
+      // Interstitial reflection hides the chat AND its transcript — the explain-back is worthless
+      // if the participant can scroll back and copy. NEXT_TASK/SET_TASK_INDEX carry chatEnabled,
+      // so the page transition does it; no separate toggle action is needed.
       case 'NEXT_TASK':
         return {...state, taskIndex: state.taskIndex + 1, chatEnabled: !!action.payload?.chatEnabled, chatUsedOnPage: false, taskChatDraft: null}
       case 'SET_TASK_INDEX':

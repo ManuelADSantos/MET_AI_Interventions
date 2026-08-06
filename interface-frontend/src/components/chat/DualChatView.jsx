@@ -5,12 +5,7 @@ import { Chip } from '@nextui-org/react'
 import { ArrowUpIcon, SquareIcon } from 'lucide-react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
-import { questionCoverage, questionTerms } from '../../scripts/taskQuestion'
-
-const configuredThreshold = Number(import.meta.env.VITE_INTERVENTION_SIMILARITY_THRESHOLD || NaN)
-const QUESTION_THRESHOLD = Number.isFinite(configuredThreshold)
-  ? Math.min(1, Math.max(0, configuredThreshold))
-  : 0.6
+import { interventionGate, questionTerms, QUESTION_THRESHOLD } from '../../scripts/taskQuestion'
 
 // ponytail: markdown styles via Tailwind descendant selectors — no @tailwindcss/typography dep
 const md = [
@@ -32,7 +27,7 @@ const Md = ({ children }) => (
   </div>
 )
 
-const Column = forwardRef(({ label, messages, streamContent, streaming }, ref) => (
+const Column = forwardRef(({ messages, streamContent, streaming }, ref) => (
   <div ref={ref} className='flex-1 overflow-y-auto px-4 py-4 min-w-0'>
     <div className='flex flex-col gap-4 max-w-lg mx-auto'>
       {messages.map((msg, i) => (
@@ -41,7 +36,12 @@ const Column = forwardRef(({ label, messages, streamContent, streaming }, ref) =
             <div className='rounded-3xl bg-[#f4f4f4] px-5 py-2.5 text-[#0d0d0d] whitespace-pre-wrap'>{msg.content}</div>
           </div>
         ) : (
-          <div key={i} className='max-w-full'><Md>{msg.content}</Md></div>
+          <div key={i} className='max-w-full'>
+            <Md>{msg.content}</Md>
+            {/* A failed or aborted stream has to be visible — otherwise the column just looks
+                empty and the participant cannot tell the page is still locked. */}
+            {msg.error && <p className='mt-2 text-sm text-red-600'>{msg.error}</p>}
+          </div>
         )
       ))}
       {streaming && streamContent && <div className='max-w-full'><Md>{streamContent}</Md></div>}
@@ -54,6 +54,10 @@ const DualChatView = ({ task }) => {
   const sourceIndex = task?.sourceIndex
   const ctxStore = useContext(store)
   const engagedRef = useRef(new Set())
+  // Tracks the page the participant is on *now*, so a stream that finishes after they navigate
+  // cannot unlock a page they never prompted on (`sourceIndex` alone is captured in the closure).
+  const sourceIndexRef = useRef(sourceIndex)
+  sourceIndexRef.current = sourceIndex
   const colARef = useRef(null)
   const colBRef = useRef(null)
   const abortRef = useRef(null)
@@ -107,13 +111,10 @@ const DualChatView = ({ task }) => {
       ctxStore.dispatch({ type: 'DISMISS_ONBOARDING' })
     }
 
-    // Question coverage gate (same logic as ChatView)
-    let hasTaskQuestion = engagedRef.current.has(sourceIndex)
-    if (!hasTaskQuestion) {
-      const terms = questionTerms(task)
-      const coverage = questionCoverage(text, terms)
-      hasTaskQuestion = coverage >= QUESTION_THRESHOLD
-      if (hasTaskQuestion) engagedRef.current.add(sourceIndex)
+    const { hasTaskQuestion, coverage } = interventionGate(
+      engagedRef.current, sourceIndex, text, questionTerms(task)
+    )
+    if (coverage !== null) {
       ctxStore.dispatch({
         type: 'LOG_INTERACTION',
         payload: { type: 'intervention_gate_test', taskId: sourceIndex, timestamp: Date.now(), coverage, threshold: QUESTION_THRESHOLD, matched: hasTaskQuestion }
@@ -166,7 +167,7 @@ const DualChatView = ({ task }) => {
         response = { choices: [{ index: 0, message: { role: 'assistant', content }, finish_reason: error ? 'error' : 'stop' }] }
       }
 
-      setMsgs(prev => [...prev, { role: 'assistant', content }])
+      setMsgs(prev => [...prev, { role: 'assistant', content, ...(error ? { error } : {}) }])
       setStream('')
       return { role: 'assistant', column, ...response, ...(error ? { error } : {}), render_complete: Date.now(), survey_index: sourceIndex }
     }
@@ -183,7 +184,8 @@ const DualChatView = ({ task }) => {
       payload: { prompt: { ...prompt, hasTaskQuestion }, response: resA, response_b: resB }
     })
 
-    if (!resA.error && !resB.error && sourceIndex === task?.sourceIndex) {
+    // Unlock progression only if the participant is still on the page where generation started.
+    if (!resA.error && !resB.error && sourceIndexRef.current === sourceIndex) {
       ctxStore.dispatch({ type: 'TOGGLE_CHAT_USED', payload: { value: true } })
     }
   }
@@ -202,9 +204,9 @@ const DualChatView = ({ task }) => {
       </div>
 
       <div className='flex flex-1 min-h-0'>
-        <Column ref={colARef} label='A' messages={messagesA} streamContent={streamA} streaming={streaming} />
+        <Column ref={colARef} messages={messagesA} streamContent={streamA} streaming={streaming} />
         <div className='w-px bg-[#e5e5e5]' />
-        <Column ref={colBRef} label='B' messages={messagesB} streamContent={streamB} streaming={streaming} />
+        <Column ref={colBRef} messages={messagesB} streamContent={streamB} streaming={streaming} />
       </div>
 
       <div className='p-4 border-t border-[#e5e5e5]'>

@@ -23,3 +23,25 @@ export const questionCoverage = (prompt, terms) => {
   const promptTerms = new Set(tokenize(prompt))
   return terms.filter((term) => promptTerms.has(term)).length / terms.length
 }
+
+// intervention_similarity_threshold in study.config.yml; 0.6 when unset.
+// `|| NaN` because entrypoint.sh writes an empty value for a missing key, and Number('') is 0 —
+// which would silently engage the intervention on every prompt.
+const configuredThreshold = Number(import.meta.env.VITE_INTERVENTION_SIMILARITY_THRESHOLD || NaN)
+export const QUESTION_THRESHOLD = Number.isFinite(configuredThreshold)
+  ? Math.min(1, Math.max(0, configuredThreshold))
+  : 0.6
+
+// ponytail: shared by ChatView and DualChatView — both chat surfaces have to gate the intervention
+// identically or the conditions differ on *when* the manipulation engages, which is a confound.
+// Latched per task via the caller's Set: once engaged, the intervention has to survive follow-ups
+// like "use the cheaper option", which score near zero against the question and would otherwise
+// drop it mid-conversation (pause-points would abandon its step sequence, alternatives would
+// collapse back to a single answer). `coverage: null` means already latched — nothing to log.
+export const interventionGate = (engagedTasks, taskId, prompt, terms) => {
+  if (engagedTasks.has(taskId)) return { hasTaskQuestion: true, coverage: null }
+  const coverage = questionCoverage(prompt, terms)
+  const hasTaskQuestion = coverage >= QUESTION_THRESHOLD
+  if (hasTaskQuestion) engagedTasks.add(taskId)
+  return { hasTaskQuestion, coverage }
+}

@@ -2,6 +2,8 @@ import { useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { store } from '../../../scripts/store'
 import { Button, Tabs, Tab, Tooltip } from '@nextui-org/react'
+import { ClipboardCheck, CircleAlert, Copy, TriangleAlert, Info } from 'lucide-react'
+import { copyToClipboard } from '../../../lib/utils'
 import PlainContentWrapper from './PlainContentWrapper'
 import QuestionWrapper from './QuestionWrapper'
 import RichText from './RichText'
@@ -89,47 +91,11 @@ const buildTaskChatDraft = ({ pageTitle, pageTabs, exerciseItems }) => {
   return `${pageTitle}\n\nScenario:\n${scenarioText}\n\nQuestion and answer options:\n${questionText}`
 }
 
-const fallbackCopyText = (text) => {
-  const textarea = document.createElement('textarea')
-  textarea.value = text
-  textarea.setAttribute('readonly', '')
-  textarea.style.position = 'fixed'
-  textarea.style.opacity = '0'
-  textarea.style.pointerEvents = 'none'
-  document.body.appendChild(textarea)
-  textarea.select()
-  textarea.setSelectionRange(0, textarea.value.length)
-
-  try {
-    return document.execCommand('copy')
-  } finally {
-    textarea.remove()
-  }
-}
-
-const copyTextToClipboard = async (text) => {
-  if (window.isSecureContext && navigator.clipboard?.writeText) {
-    try {
-      await navigator.clipboard.writeText(text)
-      return true
-    } catch {
-      // Chrome can reject clipboard access because of site permissions; use
-      // the synchronous selection-based fallback below.
-    }
-  }
-
-  try {
-    return fallbackCopyText(text)
-  } catch {
-    return false
-  }
-}
-
 const TabCopyButton = ({ text }) => {
   const [copyStatus, setCopyStatus] = useState('idle')
 
   const handleCopy = async () => {
-    const copied = await copyTextToClipboard(text)
+    const copied = await copyToClipboard(text)
     setCopyStatus(copied ? 'copied' : 'error')
     setTimeout(() => setCopyStatus('idle'), 1500)
   }
@@ -144,7 +110,11 @@ const TabCopyButton = ({ text }) => {
         onClick={handleCopy}
         isIconOnly
       >
-        <i className={`bi ${copyStatus === 'copied' ? 'bi-clipboard-check text-emerald-700' : copyStatus === 'error' ? 'bi-exclamation-circle text-red-600' : 'bi-copy text-stone-500'} text-xl`}></i>
+        {copyStatus === 'copied'
+          ? <ClipboardCheck className='size-5 text-emerald-700' />
+          : copyStatus === 'error'
+            ? <CircleAlert className='size-5 text-red-600' />
+            : <Copy className='size-5 text-stone-500' />}
       </Button>
     </Tooltip>
   )
@@ -318,7 +288,9 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
               variant='flat' 
               onClick={handleAddTaskToChat}
             >
-              <i className={`bi ${taskAddedToChat ? 'bi-clipboard-check text-emerald-700' : 'bi-copy text-stone-500'}`}></i>
+              {taskAddedToChat
+                ? <ClipboardCheck className='size-4 text-emerald-700' />
+                : <Copy className='size-4 text-stone-500' />}
               {taskAddedToChat ? 'Pasted to chat' : 'Copy-paste task & scenario to chat'}
             </Button>
           </Tooltip>
@@ -399,12 +371,12 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
       <div className='w-full flex flex-row justify-between items-center mt-4'>
         {/* Display form error if some fields are invalid */}
         <p className='text-red-500 font-bold'>
-          {submitError.length > 0 && <i className="bi bi-exclamation-triangle text-xl mr-2"></i>}
+          {submitError.length > 0 && <TriangleAlert className='mr-2 inline size-5 align-text-bottom' />}
           {submitError}
         </p>
         {/* Display instruction to use chat if not used on this page yet */}
         <p className={`text-emerald-500 font-bold -mr-16 ${(shouldShowNext && shouldRequireAiPrompt && !ctxStore.state.chatUsedOnPage) ? '' : 'hidden'}`}>
-          <i className='bi bi-info-circle text-xl mr-2'></i>
+          <Info className='mr-2 inline size-5 align-text-bottom' />
           Prompt AI on the right at least once before continuing.
         </p>
         {/* Submit button (hidden if chat has not been used) */}
