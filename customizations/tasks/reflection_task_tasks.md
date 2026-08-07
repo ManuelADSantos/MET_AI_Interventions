@@ -663,6 +663,10 @@ If the following exercises mention "week", this always refers to a working week 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
 
+%%
+
+%% RANDOMIZE
+
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -1098,6 +1102,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
+
+%%
+
+%% RANDOMIZE
 
 # Scenario: Graduation Party
 
@@ -1535,6 +1543,9 @@ The following should be taken into account when setting up the stalls:
 > | Set-up time | 25 min | 20 min | 45 min |
 
 
+%%
+
+%%
 # Post-Questionnaire
 
 > ### Congratulations! 
