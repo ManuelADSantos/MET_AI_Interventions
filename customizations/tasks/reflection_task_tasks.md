@@ -325,7 +325,15 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -432,7 +440,15 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -539,7 +555,15 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -646,7 +670,15 @@ If the following exercises mention "week", this always refers to a working week 
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -759,7 +791,15 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -872,7 +912,15 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -985,7 +1033,15 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -1098,7 +1154,15 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -1213,7 +1277,15 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -1326,7 +1398,15 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -1439,7 +1519,15 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
@@ -1552,7 +1640,15 @@ The following should be taken into account when setting up the stalls:
 
 :::tab Reflect
 
-> In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
+> Justify your answer
+
+    $textarea; 100; 4000
+
+> Explain what were the steps you took to get to your answer
+
+    $textarea; 100; 4000
+
+> Explain how you considered AI advice. Did it influence your thought process?
 
     $textarea; 100; 4000
 
