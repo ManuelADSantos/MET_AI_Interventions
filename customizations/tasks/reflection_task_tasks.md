@@ -323,37 +323,10 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements about the effects of certain working times is or are correct?**
-
-> 1. If Emily, Jacob, and Lara work on Tuesdays, only two consultants will be available on Thursday mornings.
-> 2. If two consultants are to be available on Wednesday mornings and afternoons respectively, this will not be possible on a Friday in one and the same week.
-
-> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
-
-> The six consultants want to work for YPC at the following times:
-
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
-
-> These capacities are to be fully utilised.
-
-> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
-
-> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
-
-:::reflect-summary
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -426,37 +399,10 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements about possible cooperation is or are correct?**
-
-> 1. If in one and the same week Ben works on Tuesday afternoon and Jacob on Thursday the whole day, there will be no one in that week to accompany Tom to an appointment if necessary.
-> 2. If in one and the same week a client wants to book two half-days of that week with the same consultants respectively, there will be three consultant tandems that could meet this requirement.
-
-> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
-
-> The six consultants want to work for YPC at the following times:
-
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
-
-> These capacities are to be fully utilised.
-
-> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
-
-> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
-
-:::reflect-summary
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -529,37 +475,10 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements about the consulting in the fields of cost cutting and personnel is or are correct?**
-
-> 1. If each day of the working week is to be staffed with consultants in the mornings and afternoons, personnel consulting may only be offered on a maximum of three days.
-> 2. If not every day of the working week needs to be staffed, both cost cutting consulting and personnel consulting can be offered on four days of the week.
-
-> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
-
-> The six consultants want to work for YPC at the following times:
-
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
-
-> These capacities are to be fully utilised.
-
-> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
-
-> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
-
-:::reflect-summary
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -632,37 +551,10 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Suppose — for this question only — that the resource planning has gone completely wrong, even making full use of the capacities of the six consultants. Which of the following statements is or are correct in this case?**
-
-> 1. Up to four half-days per week may remain unstaffed.
-> 2. Up to three half-days per week can be respectively staffed with three consultants.
-
-> Six students in the Master's degree course of Economics have founded the students' business consulting company "Young Professionals Consulting" (YPC). Now it is a question of deciding which consulting capacities should be made available for each day.
-
-> The six consultants want to work for YPC at the following times:
-
-> - Emily: either Tuesday mornings and Thursday afternoons, or Friday mornings and afternoons
-> - Tom: Wednesday mornings and afternoons
-> - Jacob: one and a half consecutive days per week
-> - Lara: only in the morning, either Mondays and Tuesdays or Thursdays and Fridays
-> - Ben: two afternoons per week, but not on consecutive days
-> - Sara: Monday afternoons and Thursday mornings
-
-> These capacities are to be fully utilised.
-
-> Each of the six consultants provides all services, except for two services: only Tom and Lara offer cost cutting consulting, and only Emily and Ben offer personnel consulting.
-
-> If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
-
-:::reflect-summary
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -739,39 +631,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements is or are correct?**
-
-> 1. No trainer is available without restrictions this weekend.
-> 2. The same number of trainers are available for each topic.
-
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
-
-> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
-
-> On these terms, you have a total of 10 trainers at your disposal:
-
-> | Trainer | Themes | Availability | Cost |
-> |---|---|---|---:|
-> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
-> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
-> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
-> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
-> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
-> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
-> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
-> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
-
-:::reflect-summary
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -848,39 +711,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements is or are correct?**
-
-> 1. You cannot offer the topic of security at your Incentive Weekend.
-> 2. You cannot book Haschke von Hunstein as a trainer at all.
-
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
-
-> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
-
-> On these terms, you have a total of 10 trainers at your disposal:
-
-> | Trainer | Themes | Availability | Cost |
-> |---|---|---|---:|
-> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
-> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
-> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
-> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
-> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
-> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
-> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
-> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
-
-:::reflect-summary
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -957,39 +791,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements is or are correct?**
-
-> 1. Unfortunately, you cannot avoid hiring even the most expensive coach.
-> 2. The cheapest option is to hire the same 3 coaches for Saturday and Sunday.
-
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
-
-> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
-
-> On these terms, you have a total of 10 trainers at your disposal:
-
-> | Trainer | Themes | Availability | Cost |
-> |---|---|---|---:|
-> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
-> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
-> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
-> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
-> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
-> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
-> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
-> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
-
-:::reflect-summary
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -1066,39 +871,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements is or are correct?**
-
-> 1. The question of which topic you can implement most favourably depends on the difference in the fees of two trainers.
-> 2. The difference in the trainers' fees on the basis of which you choose the theme is 500 euros for the incentive.
-
-> The used car dealer Rusty Cars has had a high-turnover year. You are the sales manager and want to organise a rewarding and motivational incentive for your department. It includes a theory morning on Saturday, video-based training on Saturday afternoon, another theory morning on Sunday and then a course race with an award ceremony on Sunday afternoon. For this you need 3 trainers on each of the two days. Of course, all participating trainers must be present at the award ceremony.
-
-> You also need to decide which theme should be the focus: Performance, Security or Fun, as you need different vehicles for each theme. Unfortunately, you have to keep an eye on your budget and plan as cheaply as possible.
-
-> On these terms, you have a total of 10 trainers at your disposal:
-
-> | Trainer | Themes | Availability | Cost |
-> |---|---|---|---:|
-> | Toni Ausbremser | performance, fun | available Sat + Sun | 1000 Euro per day |
-> | Brett Brenner | performance, security | available Sat or Sun | 200 Euro per day |
-> | Carlo Carburetto | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Didier Drifter | security, fun | available only Sun | 500 Euro per day |
-> | Ettore Frugatti | performance, security | available Sat or Sun | 1000 Euro per day |
-> | Günter Hetzer | security, fun | available only Sun | 500 Euro per day |
-> | Waltraut Röhrle | performance, fun | available Sat + Sun | 750 Euro per day |
-> | Haschke von Hunstein | performance, fun | available only Sat | 100 Euro per day |
-> | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
-> | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
-
-:::reflect-summary
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1175,39 +951,10 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements about the beginning and end of the reconstruction measures is or are correct?**
-
-> 1. The helpers can start the third of the five set-up activities before 4.30 pm.
-> 2. In any case, the complete set-up is not finished until more than three hours after it has started.
-
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
->
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
->
-> The following should be taken into account when setting up the stalls:
->
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
-> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
-> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
-> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
->
-> | | Beer Cheers | Cocktails Rumba | Nice kebab |
-> |---|---|---|---|
-> | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
-
-:::reflect-summary
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1284,39 +1031,10 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Which of the following statements about payment of helpers is or are correct?**
-
-> 1. If the most efficient schedule is followed, 19 drink vouchers will be issued per helper.
-> 2. If the helpers gave up their breaks, a total of 18 vouchers could be saved.
-
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
->
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
->
-> The following should be taken into account when setting up the stalls:
->
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
-> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
-> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
-> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
->
-> | | Beer Cheers | Cocktails Rumba | Nice kebab |
-> |---|---|---|---|
-> | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
-
-:::reflect-summary
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1393,39 +1111,10 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Suppose — for this question only — that you have an additional team of ten helpers working in parallel with the first team. Which of the following statements is or are correct?**
-
-> 1. If you want to avoid unnecessary breaks in the workflow when using two teams, the first team must start work at 4 pm and the second team exactly 1.5 hours later.
-> 2. There is no change in the time required when using two teams of helpers compared to only one team.
-
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
->
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
->
-> The following should be taken into account when setting up the stalls:
->
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
-> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
-> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
-> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
->
-> | | Beer Cheers | Cocktails Rumba | Nice kebab |
-> |---|---|---|---|
-> | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
-
-:::reflect-summary
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1502,39 +1191,10 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
-:::tab Reflect
-
 > In your own words, explain what the solution was and why it works. What were the key problems that had to be solved here?
 
     $textarea; 100; 4000
 
-:::tab Task
-
-> **Suppose — for this question only — that you have an additional team of ten helpers available to work in parallel with your first team. Which of the following statements is or are correct?**
-
-> 1. Compared to the most efficient schedule using only one team of helpers, you can save more than a quarter of the time needed for the complete set-up with the help of the second team.
-> 2. If both teams are not to have any unnecessary breaks in the workflow, they work in parallel for a maximum of 30 minutes.
-
-> A graduating class organises their graduation party under the motto "Non scholae sed magistris". But the budget is tight and the helpers want to sacrifice as little time as possible. Therefore, they have agreed to take care of the organisation of the set-up of food and drink stands as well as the music system.
->
-> Two beverage distributors and a mobile kebab stand have made favourable offers and are also bringing stalls: "Cheers" beer trade, "Rumba" cocktail mixer and "Nice kebab". However, they all set conditions for the delivery time. They have ten helpers at their disposal for transporting and setting up the stalls.
->
-> The following should be taken into account when setting up the stalls:
->
-> 1. The party starts at 7 pm. The set-up must be completely finished by 6.30 pm.
-> 2. The ten helpers have time from 3 pm. They get 6 drink vouchers per hour and after every single set-up they are entitled to a 5 min (paid) break (unless it is the last set-up for the complete event).
-> 3. Beer trade "Cheers" can only be on site from 6 pm on the day of the party and the cocktail mixer from 5 pm. The supplier "Nice kebab" can leave at 3 pm at the earliest, but must be back in his restaurant at 5 pm at the latest.
-> 4. The helpers have to set up benches (35 minutes) and the music system (45 minutes) in between. However, the benches will not be delivered until 5.15 pm.
-> 5. Each of the five tasks (3 stands, the benches and the music system) must be done in one go.
-> 6. You must make the set-up as cost-effective as possible. It is therefore best to plan the entire set-up process in the shortest possible time and without unnecessary breaks, while adhering to all the specifications.
-> 7. In the following table you can see, for one thing, how long it takes the respective supplier to get to your venue and back again. This is also important because, to be on the safe side, you need to call and confirm the order 15 minutes before you arrive. Secondly, you can see the set-up time in the table, which indicates how long it takes the helpers to set up the respective sales stand.
->
-> | | Beer Cheers | Cocktails Rumba | Nice kebab |
-> |---|---|---|---|
-> | Duration of the journey | 20 min | 20 min | 15 min |
-> | Set-up time | 25 min | 20 min | 45 min |
-
-:::reflect-summary
 # Post-Questionnaire
 
 > ### Congratulations! 
