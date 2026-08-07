@@ -212,8 +212,6 @@ const DualChatView = ({ task }) => {
   return (
     <div className='flex flex-1 flex-col h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
       <div className='relative flex justify-center items-center w-full py-3 gap-4 border-b border-[#e5e5e5]'>
-        <Chip color='primary' variant='dot'>Perspective A</Chip>
-        <Chip color='secondary' variant='dot'>Perspective B</Chip>
         <Button size='sm' variant='light' className='absolute right-3' isDisabled={streaming}
           onClick={handleNewChat} startContent={<SquarePen className='size-4' />}>
           New chat
