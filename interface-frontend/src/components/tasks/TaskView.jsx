@@ -34,7 +34,7 @@ const TaskView = ({ tasks }) => {
   const devMax = tasks.length - 1
 
   return (
-    <div className='flex flex-1 flex-col justify-start items-center w-3/6 h-screen p-10 bg-stone-100'>
+    <div className={`flex flex-col justify-start items-center h-screen p-10 bg-stone-100 ${state.condition === 'alternatives' ? 'w-1/3' : 'flex-1 w-3/6'}`}>
       {/* ponytail: dev slider sits outside the page switch so it survives onto the reflection page */}
       {devMode && state.taskIndex <= devMax && (
         <div className='w-full mb-2'>
