@@ -249,7 +249,7 @@ The following student assistants are available for the event:
 
 %% RANDOMIZE_SECTIONS
 
-%% RANDOMIZE
+%% SECTION
 
 # Scenario: Young Professionals Consulting
 
@@ -354,6 +354,10 @@ If the following exercises mention "week", this always refers to a working week 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
 
+%%
+
+%% SECTION
+
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -456,6 +460,10 @@ If the following exercises mention "week", this always refers to a working week 
 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
+
+%%
+
+%% SECTION
 
 # Scenario: Young Professionals Consulting
 
@@ -560,6 +568,10 @@ If the following exercises mention "week", this always refers to a working week 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
 
+%%
+
+%% SECTION
+
 # Scenario: Young Professionals Consulting
 
 :::chat-enabled
@@ -663,9 +675,11 @@ If the following exercises mention "week", this always refers to a working week 
 > If the following exercises mention "week", this always refers to a working week from Mondays to Fridays.
 
 
+
+
 %%
 
-%% RANDOMIZE
+%% SECTION
 
 # Scenario: Incentive Car Racing
 
@@ -776,6 +790,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 
+%%
+
+%% SECTION
+
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -884,6 +902,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Igor Overtaker | all themes | available Sat + Sun | 1500 Euro per day |
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
+
+%%
+
+%% SECTION
 
 # Scenario: Incentive Car Racing
 
@@ -994,6 +1016,10 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 
+%%
+
+%% SECTION
+
 # Scenario: Incentive Car Racing
 
 :::chat-enabled
@@ -1103,9 +1129,11 @@ On these terms, you have a total of 10 trainers at your disposal:
 > | Kenzo Kabrio | security, fun | available Sat + Sun | 500 Euro per day |
 
 
+
+
 %%
 
-%% RANDOMIZE
+%% SECTION
 
 # Scenario: Graduation Party
 
@@ -1216,6 +1244,10 @@ The following should be taken into account when setting up the stalls:
 > | Set-up time | 25 min | 20 min | 45 min |
 
 
+%%
+
+%% SECTION
+
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1324,6 +1356,10 @@ The following should be taken into account when setting up the stalls:
 > | Duration of the journey | 20 min | 20 min | 15 min |
 > | Set-up time | 25 min | 20 min | 45 min |
 
+
+%%
+
+%% SECTION
 
 # Scenario: Graduation Party
 
@@ -1434,6 +1470,10 @@ The following should be taken into account when setting up the stalls:
 > | Set-up time | 25 min | 20 min | 45 min |
 
 
+%%
+
+%% SECTION
+
 # Scenario: Graduation Party
 
 :::chat-enabled
@@ -1541,6 +1581,7 @@ The following should be taken into account when setting up the stalls:
 > |---|---|---|---|
 > | Duration of the journey | 20 min | 20 min | 15 min |
 > | Set-up time | 25 min | 20 min | 45 min |
+
 
 
 %%
