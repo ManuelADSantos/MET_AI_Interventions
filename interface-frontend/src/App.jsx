@@ -93,10 +93,14 @@ const App = ({ condition, tasks, directStartPid }) => {
       : <>
         <div className='flex flex-1 flex-row h-screen'>
           <TaskView tasks={tasks} />
-          {conditionHasChat(condition) && (condition === 'alternatives'
-            ? <DualChatView task={tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]} />
-            : <ChatView task={tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]} />
-          )}
+          {conditionHasChat(condition) && (() => {
+            const task = tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]
+            // ponytail: trial task gets plain single chat — no intervention layout
+            const isTrial = task?.title?.startsWith('Trial')
+            return condition === 'alternatives' && !isTrial
+              ? <DualChatView task={task} />
+              : <ChatView task={task} />
+          })()}
         </div>
       </>
       }

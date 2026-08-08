@@ -122,8 +122,8 @@ const ChatView = ({ task }) => {
       let reasoningContent = ''
       let streamError
 
+      // ponytail: reasoning still saved in transcript but hidden from UI — it spoils step-by-step tasks
       const buildParts = () => [
-        ...(reasoningContent ? [{ type: 'reasoning', text: reasoningContent }] : []),
         ...(replyContent ? [{ type: 'text', text: replyContent }] : [])
       ]
 

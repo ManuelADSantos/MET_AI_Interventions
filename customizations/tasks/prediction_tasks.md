@@ -111,7 +111,6 @@
 
 :::chat-enabled
 :::require-ai-prompt
-:::predict-ai
 
 :::tab Exercise
 :::next
