@@ -211,17 +211,24 @@ const DualChatView = ({ task }) => {
 
   return (
     <div className='flex flex-1 flex-col h-screen border-l border-[#e5e5e5] bg-[#fafafa]'>
-      <div className='relative flex justify-center items-center w-full py-3 gap-4 border-b border-[#e5e5e5]'>
-        <Button size='sm' variant='light' className='absolute right-3' isDisabled={streaming}
+      <div className='flex justify-between items-center w-full px-4 py-3 border-b border-[#e5e5e5]'>
+        <Chip color='success' variant='dot'>AI Assistant</Chip>
+        <Button size='sm' variant='light' isDisabled={streaming}
           onClick={handleNewChat} startContent={<SquarePen className='size-4' />}>
           New chat
         </Button>
       </div>
 
       <div className='flex flex-1 min-h-0'>
-        <Column ref={colARef} messages={messagesA} streamContent={streamA} streaming={streaming} />
+        <div className='flex flex-col flex-1 min-w-0'>
+          <div className='text-center text-xs text-[#888] py-1 border-b border-[#e5e5e5] bg-[#fafafa]'>Response A</div>
+          <Column ref={colARef} messages={messagesA} streamContent={streamA} streaming={streaming} />
+        </div>
         <div className='w-px bg-[#e5e5e5]' />
-        <Column ref={colBRef} messages={messagesB} streamContent={streamB} streaming={streaming} />
+        <div className='flex flex-col flex-1 min-w-0'>
+          <div className='text-center text-xs text-[#888] py-1 border-b border-[#e5e5e5] bg-[#fafafa]'>Response B</div>
+          <Column ref={colBRef} messages={messagesB} streamContent={streamB} streaming={streaming} />
+        </div>
       </div>
 
       <div className='p-4 border-t border-[#e5e5e5]'>
