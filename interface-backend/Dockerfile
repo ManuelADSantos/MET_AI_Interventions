@@ -7,7 +7,7 @@ COPY interface-backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY interface-backend/ .
-COPY customizations/correct_answers.py ./correct_answers.py
+COPY customizations/questions/correct_answers.py ./correct_answers.py
 
 EXPOSE 5001
 
