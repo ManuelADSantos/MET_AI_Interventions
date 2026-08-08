@@ -10,7 +10,9 @@ const init = {
   condition: undefined,
   chatEnabled: false,
   displayChatOnboarding: true,
-  chatUsedOnPage: false
+  chatUsedOnPage: false,
+  // prediction condition: chat is blocked until the participant locks in their AI-correctness forecast
+  predictionPending: false
 }
 
 const store = createContext(init)
@@ -23,6 +25,8 @@ const StateProvider = ({ children }) => {
         return {...state, participantId: action.payload.id}
       case 'UPDATE_CONDITION':
         return {...state, condition: action.payload.condition}
+      case 'SET_PREDICTION_PENDING':
+        return { ...state, predictionPending: action.payload }
       case 'DISMISS_ONBOARDING':
           return {...state, displayChatOnboarding: false}
       case 'TOGGLE_CHAT_USED':

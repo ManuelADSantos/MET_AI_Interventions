@@ -226,11 +226,18 @@ const ChatView = ({ task }) => {
           </Button>
         </div>
       )}
-      <div className='min-h-0 w-full flex-1'>
+      <div className='relative min-h-0 w-full flex-1'>
         {ctxStore.state.chatEnabled && (
           <AssistantRuntimeProvider runtime={runtime}>
             <Thread />
           </AssistantRuntimeProvider>
+        )}
+        {ctxStore.state.chatEnabled && ctxStore.state.predictionPending && (
+          <div className='absolute inset-0 z-10 flex items-center justify-center bg-[#fafafa]/95'>
+            <p className='max-w-xs text-center text-stone-600'>
+              Lock in your prediction on the left before chatting with the AI assistant.
+            </p>
+          </div>
         )}
       </div>
     </div>

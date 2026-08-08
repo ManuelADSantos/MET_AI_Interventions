@@ -25,7 +25,7 @@ services:
       - "5001:5001"
     volumes:
       - ./study.config.yml:/study.config.yml:ro
-      - ./customizations/correct_answers.py:/app/correct_answers.py
+      - ./customizations/questions/correct_answers.py:/app/correct_answers.py
       - ./interface-backend:/app
       - ./tests:/tests:ro
     environment:

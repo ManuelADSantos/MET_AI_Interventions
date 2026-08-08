@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { store } from '../../../scripts/store'
 import { Button, Tabs, Tab, Tooltip } from '@nextui-org/react'
@@ -163,6 +163,13 @@ const TaskPage = ({ taskIndex, sourceIndex, title, items, tabs, next, isLast, re
 
   const firstQuestionItem = exerciseItems.find((item) => questionTypes.includes(item.type))
   const predictionPending = predictAi && !!primaryAnswerItem && !prediction
+
+  // The chat pane is gated on this flag: the prediction must be a prospective judgment,
+  // made before the participant sees any AI output on the task.
+  useEffect(() => {
+    ctxStore.dispatch({ type: 'SET_PREDICTION_PENDING', payload: predictionPending })
+    return () => ctxStore.dispatch({ type: 'SET_PREDICTION_PENDING', payload: false })
+  }, [predictionPending])
 
   const confirmPrediction = () => {
     setPrediction(predictionDraft)
