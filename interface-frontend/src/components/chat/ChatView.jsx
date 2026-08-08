@@ -122,8 +122,10 @@ const ChatView = ({ task }) => {
       let reasoningContent = ''
       let streamError
 
-      // ponytail: reasoning still saved in transcript but hidden from UI — it spoils step-by-step tasks
+      // ponytail: hide reasoning on pause-points — it spoils the step-by-step sequence
+      const showReasoning = currentStore.state.condition !== 'pause-points'
       const buildParts = () => [
+        ...(showReasoning && reasoningContent ? [{ type: 'reasoning', text: reasoningContent }] : []),
         ...(replyContent ? [{ type: 'text', text: replyContent }] : [])
       ]
 

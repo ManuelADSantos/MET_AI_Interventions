@@ -2,7 +2,7 @@ import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Button, Chip } from '@nextui-org/react'
-import { ArrowUpIcon, SquareIcon, SquarePen } from 'lucide-react'
+import { ArrowUpIcon, BrainIcon, ChevronDownIcon, SquareIcon, SquarePen } from 'lucide-react'
 import { store } from '../../scripts/store'
 import { requestChatResponseStream } from '../../scripts/chatService'
 import { interventionGate, questionTerms, QUESTION_THRESHOLD } from '../../scripts/taskQuestion'
@@ -27,7 +27,18 @@ const Md = ({ children }) => (
   </div>
 )
 
-const Column = forwardRef(({ messages, streamContent, streaming }, ref) => (
+const Reasoning = ({ text }) => (
+  <details className='mb-4 w-full rounded-lg border px-3 py-2 group'>
+    <summary className='cursor-pointer flex items-center gap-2 py-1 text-sm text-[#888] hover:text-[#0d0d0d] transition-colors list-none [&::-webkit-details-marker]:hidden'>
+      <BrainIcon className='size-4 shrink-0' />
+      <span>Reasoning</span>
+      <ChevronDownIcon className='size-4 shrink-0 transition-transform group-open:rotate-0 -rotate-90' />
+    </summary>
+    <div className='relative overflow-hidden max-h-64 overflow-y-auto pt-2 pb-2 ps-6 text-sm text-[#888] leading-relaxed whitespace-pre-wrap'>{text}</div>
+  </details>
+)
+
+const Column = forwardRef(({ messages, streamContent, streamReasoning, streaming }, ref) => (
   <div ref={ref} className='flex-1 overflow-y-auto px-4 py-4 min-w-0'>
     <div className='flex flex-col gap-4 max-w-lg mx-auto'>
       {messages.map((msg, i) => (
@@ -37,15 +48,15 @@ const Column = forwardRef(({ messages, streamContent, streaming }, ref) => (
           </div>
         ) : (
           <div key={i} className='max-w-full'>
+            {msg.reasoning && <Reasoning text={msg.reasoning} />}
             <Md>{msg.content}</Md>
-            {/* A failed or aborted stream has to be visible — otherwise the column just looks
-                empty and the participant cannot tell the page is still locked. */}
             {msg.error && <p className='mt-2 text-sm text-red-600'>{msg.error}</p>}
           </div>
         )
       ))}
+      {streaming && streamReasoning && !streamContent && <Reasoning text={streamReasoning} />}
       {streaming && streamContent && <div className='max-w-full'><Md>{streamContent}</Md></div>}
-      {streaming && !streamContent && <div className='py-2'><span className='animate-pulse text-xl text-[#0d0d0d]'>●</span></div>}
+      {streaming && !streamContent && !streamReasoning && <div className='py-2'><span className='animate-pulse text-xl text-[#0d0d0d]'>●</span></div>}
     </div>
   </div>
 ))
@@ -67,6 +78,8 @@ const DualChatView = ({ task }) => {
   const [messagesB, setMessagesB] = useState([])
   const [streamA, setStreamA] = useState('')
   const [streamB, setStreamB] = useState('')
+  const [reasoningA, setReasoningA] = useState('')
+  const [reasoningB, setReasoningB] = useState('')
   const [streaming, setStreaming] = useState(false)
   const [input, setInput] = useState('')
 
@@ -146,36 +159,59 @@ const DualChatView = ({ task }) => {
     const backendA = [...messagesA, userMsg].map(m => ({ role: m.role, content: m.content }))
     const backendB = [...messagesB, userMsg].map(m => ({ role: m.role, content: m.content }))
 
-    const streamCol = async (backendMsgs, setStream, setMsgs, column) => {
+    // ponytail: buffer both streams, flush to React on a shared rAF so columns appear in sync
+    const buf = { a: '', b: '', ra: '', rb: '', doneA: false, doneB: false }
+    let rafId = requestAnimationFrame(function tick () {
+      const bothStarted = (buf.a || buf.ra || buf.doneA) && (buf.b || buf.rb || buf.doneB)
+      if (bothStarted) { setStreamA(buf.a); setStreamB(buf.b); setReasoningA(buf.ra); setReasoningB(buf.rb) }
+      if (!buf.doneA || !buf.doneB) rafId = requestAnimationFrame(tick)
+    })
+
+    const streamCol = async (backendMsgs, bufKey, setMsgs, column) => {
       let content = ''
+      let reasoning = ''
       let response = null
       let error = null
+      const rKey = `r${bufKey}`
 
       try {
         for await (const event of requestChatResponseStream(backendMsgs, controller.signal, hasTaskQuestion, column)) {
+          if (event.type === 'reasoning') {
+            reasoning = event.reasoning || (reasoning + (event.delta || ''))
+            buf[rKey] = reasoning
+          }
           if (event.type === 'delta') {
             content = event.content || (content + (event.delta || ''))
-            setStream(content)
+            buf[bufKey] = content
           }
           if (event.type === 'done') response = event.response
         }
       } catch (e) {
+        if (controller.signal.aborted) return null
         error = String(e?.message || e)
       }
+
+      buf[bufKey] = ''
+      buf[rKey] = ''
+      buf[bufKey === 'a' ? 'doneA' : 'doneB'] = true
 
       if (!response) {
         response = { choices: [{ index: 0, message: { role: 'assistant', content }, finish_reason: error ? 'error' : 'stop' }] }
       }
 
-      setMsgs(prev => [...prev, { role: 'assistant', content, ...(error ? { error } : {}) }])
-      setStream('')
+      setMsgs(prev => [...prev, { role: 'assistant', content, ...(reasoning ? { reasoning } : {}), ...(error ? { error } : {}) }])
       return { role: 'assistant', column, ...response, ...(error ? { error } : {}), render_complete: Date.now(), survey_index: sourceIndex }
     }
 
     const [resA, resB] = await Promise.all([
-      streamCol(backendA, setStreamA, setMessagesA, 'a'),
-      streamCol(backendB, setStreamB, setMessagesB, 'b')
+      streamCol(backendA, 'a', setMessagesA, 'a'),
+      streamCol(backendB, 'b', setMessagesB, 'b')
     ])
+    cancelAnimationFrame(rafId)
+    setStreamA('')
+    setStreamB('')
+    setReasoningA('')
+    setReasoningB('')
 
     setStreaming(false)
 
@@ -222,12 +258,12 @@ const DualChatView = ({ task }) => {
       <div className='flex flex-1 min-h-0'>
         <div className='flex flex-col flex-1 min-w-0'>
           <div className='text-center text-xs text-[#888] py-1 border-b border-[#e5e5e5] bg-[#fafafa]'>Response A</div>
-          <Column ref={colARef} messages={messagesA} streamContent={streamA} streaming={streaming} />
+          <Column ref={colARef} messages={messagesA} streamContent={streamA} streamReasoning={reasoningA} streaming={streaming} />
         </div>
         <div className='w-px bg-[#e5e5e5]' />
         <div className='flex flex-col flex-1 min-w-0'>
           <div className='text-center text-xs text-[#888] py-1 border-b border-[#e5e5e5] bg-[#fafafa]'>Response B</div>
-          <Column ref={colBRef} messages={messagesB} streamContent={streamB} streaming={streaming} />
+          <Column ref={colBRef} messages={messagesB} streamContent={streamB} streamReasoning={reasoningB} streaming={streaming} />
         </div>
       </div>
 
