@@ -6,6 +6,8 @@ const tokenize = (text) => String(text || '')
 // remaining tabs hold the scenario, which the four tasks of a block share. Terms unique to the
 // Exercise are the question's signature, so a prompt that pasted only the scenario scores 0.
 export const questionTerms = (task) => {
+  // ponytail: trial task gets no intervention — it's for practice only
+  if (task?.title?.startsWith('Trial')) return []
   const copyBlocks = (task?.tabs || []).map((tab) => tab.copyText).filter(Boolean)
   if (!copyBlocks.length) return []
   const scenarioTerms = new Set(tokenize(copyBlocks.slice(1).join('\n')))
