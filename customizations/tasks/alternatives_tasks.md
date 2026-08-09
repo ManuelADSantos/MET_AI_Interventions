@@ -1,7 +1,6 @@
 # Introduction
 
 :::tab Instruction
-:::chat-enabled
 
 > ## Welcome!
 >

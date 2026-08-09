@@ -1,7 +1,6 @@
 # Introduction
 
 :::tab Instruction
-:::chat-enabled
 
 > ## Welcome!
 >
@@ -323,6 +322,8 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
+:::chat-enabled
+
 :::tab Reflect
 
 > Justify your answer
@@ -437,6 +438,8 @@ If the following exercises mention "week", this always refers to a working week 
 :::
 
 # Pause and reflect
+
+:::chat-enabled
 
 :::tab Reflect
 
@@ -553,6 +556,8 @@ If the following exercises mention "week", this always refers to a working week 
 
 # Pause and reflect
 
+:::chat-enabled
+
 :::tab Reflect
 
 > Justify your answer
@@ -667,6 +672,8 @@ If the following exercises mention "week", this always refers to a working week 
 :::
 
 # Pause and reflect
+
+:::chat-enabled
 
 :::tab Reflect
 
@@ -789,6 +796,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
+:::chat-enabled
+
 :::tab Reflect
 
 > Justify your answer
@@ -909,6 +918,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::
 
 # Pause and reflect
+
+:::chat-enabled
 
 :::tab Reflect
 
@@ -1031,6 +1042,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 
 # Pause and reflect
 
+:::chat-enabled
+
 :::tab Reflect
 
 > Justify your answer
@@ -1151,6 +1164,8 @@ On these terms, you have a total of 10 trainers at your disposal:
 :::
 
 # Pause and reflect
+
+:::chat-enabled
 
 :::tab Reflect
 
@@ -1275,6 +1290,8 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
+:::chat-enabled
+
 :::tab Reflect
 
 > Justify your answer
@@ -1395,6 +1412,8 @@ The following should be taken into account when setting up the stalls:
 :::
 
 # Pause and reflect
+
+:::chat-enabled
 
 :::tab Reflect
 
@@ -1517,6 +1536,8 @@ The following should be taken into account when setting up the stalls:
 
 # Pause and reflect
 
+:::chat-enabled
+
 :::tab Reflect
 
 > Justify your answer
@@ -1637,6 +1658,8 @@ The following should be taken into account when setting up the stalls:
 :::
 
 # Pause and reflect
+
+:::chat-enabled
 
 :::tab Reflect
 

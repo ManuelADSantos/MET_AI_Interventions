@@ -223,6 +223,7 @@ const ChatView = ({ task }) => {
         <div className='relative flex justify-center items-center w-full bg-[#fafafa] py-3'>
           <Chip color='success' variant='dot'>AI Assistant</Chip>
           <Button size='sm' variant='light' className='absolute right-3' onClick={handleNewChat}
+            isDisabled={!task?.requireAiPrompt}
             startContent={<SquarePen className='size-4' />}>
             New chat
           </Button>
@@ -235,9 +236,17 @@ const ChatView = ({ task }) => {
           </AssistantRuntimeProvider>
         )}
         {ctxStore.state.chatEnabled && ctxStore.state.predictionPending && (
-          <div className='absolute inset-0 z-10 flex items-center justify-center bg-[#fafafa]/95'>
+          <div className='absolute inset-0 z-10 flex items-center justify-center bg-[#fafafa]/80 backdrop-blur-sm'>
             <p className='max-w-xs text-center text-stone-600'>
               Lock in your prediction on the left before chatting with the AI assistant.
+            </p>
+          </div>
+        )}
+        {/* ponytail: reflection pages keep chat visible but blocked — thread persists across tasks */}
+        {ctxStore.state.chatEnabled && !task?.requireAiPrompt && (
+          <div className='absolute inset-0 z-10 flex items-center justify-center bg-[#fafafa]/80 backdrop-blur-sm'>
+            <p className='max-w-xs text-center text-stone-600'>
+              Complete the reflection on the left to continue.
             </p>
           </div>
         )}
