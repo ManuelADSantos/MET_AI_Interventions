@@ -1225,11 +1225,11 @@ The following should be taken into account when setting up the stalls:
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
-> The step by step reply shown in this study changed how I interacted with the AI.
+> The prediction stage shown in this study changed how I interacted with the AI.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
-> The multiple alternatives reply helped me evaluate the AI’s answer more carefully.
+> The prediction stage shown in this study helped me evaluate the AI’s answer more carefully.
 
     $likert; 1; 5; Strongly disagree; Strongly agree
 
@@ -1237,7 +1237,7 @@ The following should be taken into account when setting up the stalls:
 
     $textarea?
 
-> How, if at all, did the multiple alternatives reply changed the way you interacted with the AI?
+> How, if at all, did the prediction stage shown in this study changed the way you interacted with the AI?
 
     $textarea?
 
