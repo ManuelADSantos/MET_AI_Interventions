@@ -7,20 +7,26 @@ import json, collections, glob, os
 DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS = os.path.join(DIR, 'results')
 
-QUIZ_KEY = [
-    (6,'ypc_02','Neither of the two statements is correct.'),
-    (7,'ypc_03','Only statement 2 is correct.'),
-    (8,'ypc_05','Only statement 1 is correct.'),
-    (9,'ypc_06','Only statement 1 is correct.'),
-    (10,'car_racing_01','Neither of the two statements is correct.'),
-    (11,'car_racing_02','Both statements are correct.'),
-    (12,'car_racing_03','Only statement 2 is correct.'),
-    (13,'car_racing_05','Only statement 1 is correct.'),
-    (14,'graduation_party_01','Only statement 2 is correct.'),
-    (15,'graduation_party_05','Only statement 1 is correct.'),
-    (16,'graduation_party_06','Neither of the two statements is correct.'),
-    (17,'graduation_party_07','Only statement 2 is correct.'),
+QUIZ_QUESTIONS = [
+    ('ypc_02','Neither of the two statements is correct.'),
+    ('ypc_03','Only statement 2 is correct.'),
+    ('ypc_05','Only statement 1 is correct.'),
+    ('ypc_06','Only statement 1 is correct.'),
+    ('car_racing_01','Neither of the two statements is correct.'),
+    ('car_racing_02','Both statements are correct.'),
+    ('car_racing_03','Only statement 2 is correct.'),
+    ('car_racing_05','Only statement 1 is correct.'),
+    ('graduation_party_01','Only statement 2 is correct.'),
+    ('graduation_party_05','Only statement 1 is correct.'),
+    ('graduation_party_06','Neither of the two statements is correct.'),
+    ('graduation_party_07','Only statement 2 is correct.'),
 ]
+# ponytail: task IDs differ per condition; reflection-task interleaves justify tasks
+QUIZ_IDS_STANDARD = list(range(6, 18))
+QUIZ_IDS_REFLECTION = list(range(6, 29, 2))
+def quiz_ids_for(condition):
+    return QUIZ_IDS_REFLECTION if condition == 'reflection-task' else QUIZ_IDS_STANDARD
+
 OPTIONS = ['Both statements are correct.','Neither of the two statements is correct.','Only statement 1 is correct.','Only statement 2 is correct.']
 OPT_LETTER = {o: chr(65+i) for i,o in enumerate(OPTIONS)}
 
@@ -37,12 +43,18 @@ n_files = len(files)
 n_participants = len(participants)
 print(f"{n_files} files, {n_participants} participants")
 
+# Discover all conditions
+all_conds = sorted(set(p.get('condition','?') for p in participants if p.get('condition','?') != '?'))
+
 # Build per-question data
 chart_data = []
-for tid, name, correct_ans in QUIZ_KEY:
+for qi, (name, correct_ans) in enumerate(QUIZ_QUESTIONS):
     data_all = []
     for p in participants:
         cond = p.get('condition','?')
+        tids = quiz_ids_for(cond)
+        if qi >= len(tids): continue
+        tid = tids[qi]
         tasks = p.get('tasks',{})
         t = tasks.get(str(tid)) or tasks.get(tid)
         if not t: continue
@@ -54,16 +66,24 @@ for tid, name, correct_ans in QUIZ_KEY:
     n = len(data_all)
     overall = collections.Counter(a for _,a in data_all)
     n_correct = sum(1 for _,a in data_all if a == correct_ans)
-    ai_ans = [a for c,a in data_all if c=='ai']
-    rel_ans = [a for c,a in data_all if c=='ai-reliability']
+    # Per-condition stats
+    by_cond = {}
+    for c in all_conds:
+        c_ans = [a for cc,a in data_all if cc==c]
+        by_cond[c] = {
+            'n': len(c_ans),
+            'pct': round(100*sum(1 for a in c_ans if a==correct_ans)/len(c_ans),1) if c_ans else 0,
+            'dist': {o: sum(1 for a in c_ans if a==o) for o in OPTIONS},
+        }
     chart_data.append({
         'name': name, 'correct_ans': correct_ans, 'n': n, 'n_correct': n_correct,
-        'ai_pct': round(100*sum(1 for a in ai_ans if a==correct_ans)/len(ai_ans),1) if ai_ans else 0,
-        'rel_pct': round(100*sum(1 for a in rel_ans if a==correct_ans)/len(rel_ans),1) if rel_ans else 0,
         'dist': {o: overall.get(o,0) for o in OPTIONS},
-        'ai_n': len(ai_ans), 'rel_n': len(rel_ans),
-        'ai_dist': {o: sum(1 for a in ai_ans if a==o) for o in OPTIONS},
-        'rel_dist': {o: sum(1 for a in rel_ans if a==o) for o in OPTIONS},
+        'by_cond': by_cond,
+        # Keep ai/rel shortcuts for the HTML chart
+        'ai_pct': by_cond.get('ai',{}).get('pct',0), 'rel_pct': by_cond.get('ai-reliability',{}).get('pct',0),
+        'ai_n': by_cond.get('ai',{}).get('n',0), 'rel_n': by_cond.get('ai-reliability',{}).get('n',0),
+        'ai_dist': by_cond.get('ai',{}).get('dist',{o:0 for o in OPTIONS}),
+        'rel_dist': by_cond.get('ai-reliability',{}).get('dist',{o:0 for o in OPTIONS}),
     })
 
 # Compute summary stats
@@ -71,33 +91,36 @@ q_stats = []
 for cd in chart_data:
     most = max(cd['dist'].items(), key=lambda x: x[1])
     q_stats.append((cd['name'], cd['n'], cd['n_correct'], 100*cd['n_correct']/cd['n'],
-        cd['ai_pct'], cd['rel_pct'], most[0], 100*most[1]/cd['n'], most[0]==cd['correct_ans']))
+        {c: cd['by_cond'].get(c,{}).get('pct',0) for c in all_conds},
+        most[0], 100*most[1]/cd['n'], most[0]==cd['correct_ans']))
 
 overall_n = sum(s[1] for s in q_stats)
 overall_c = sum(s[2] for s in q_stats)
-ai_c = sum(cd['ai_pct']*cd['ai_n']/100 for cd in chart_data)
-ai_n = sum(cd['ai_n'] for cd in chart_data)
-rel_c = sum(cd['rel_pct']*cd['rel_n']/100 for cd in chart_data)
-rel_n = sum(cd['rel_n'] for cd in chart_data)
+
+# Per-condition totals
+cond_totals = {}
+for c in all_conds:
+    cn = sum(cd['by_cond'].get(c,{}).get('n',0) for cd in chart_data)
+    cc = sum(cd['by_cond'].get(c,{}).get('pct',0)*cd['by_cond'].get(c,{}).get('n',0)/100 for cd in chart_data)
+    cond_totals[c] = (cn, cc)
+
 easy = sorted([s for s in q_stats if s[3] >= 50], key=lambda x:-x[3])
 hard = sorted([s for s in q_stats if s[3] < 25], key=lambda x:x[3])
-wrong_dominant = [s for s in q_stats if not s[8]]
-cond_cmp = "ai slightly higher" if ai_c/ai_n > rel_c/rel_n else "ai-reliability slightly higher" if rel_c/rel_n > ai_c/ai_n else "identical"
-gaps = [(cd['name'], abs(cd['ai_pct']-cd['rel_pct']), cd['ai_pct'], cd['rel_pct']) for cd in chart_data]
-biggest = max(gaps, key=lambda x: x[1])
+wrong_dominant = [s for s in q_stats if not s[7]]
 topics = [('ypc', [s for s in q_stats if s[0].startswith('ypc')]),
           ('car_racing', [s for s in q_stats if s[0].startswith('car')]),
           ('graduation_party', [s for s in q_stats if s[0].startswith('grad')])]
 topic_pcts = {t: 100*sum(s[2] for s in qs)/sum(s[1] for s in qs) for t,qs in topics}
 
+cond_summary = ', '.join(f'**{c}: {100*cond_totals[c][1]/cond_totals[c][0]:.0f}%** (n={cond_totals[c][0]//12})'
+    for c in all_conds if cond_totals[c][0] > 0)
 observations = [
     f'**Overall accuracy: {100*overall_c/overall_n:.1f}%** across {overall_n} question-answers from {n_participants} participants.',
-    f'**ai condition: {100*ai_c/ai_n:.0f}%** vs **ai-reliability: {100*rel_c/rel_n:.0f}%** — {cond_cmp}.',
+    f'By condition: {cond_summary}.',
     f'**{len(easy)} questions above 50%**: {", ".join(s[0] for s in easy)}.' if easy else 'No questions above 50%.',
     f'**{len(hard)} questions below 25%** (at or below chance): {", ".join(s[0] for s in hard)}.' if hard else 'No questions below 25%.',
     f'**{len(wrong_dominant)} questions where the most popular answer is wrong**: {", ".join(s[0] for s in wrong_dominant)}.',
     'Random-chance baseline (4 options): 25%.',
-    f'The biggest condition gap is **{biggest[0]}** (ai {biggest[2]:.0f}% vs ai-reliability {biggest[3]:.0f}%).',
     f'**graduation_party** is the easiest topic ({topic_pcts["graduation_party"]:.1f}%), **ypc** the hardest ({topic_pcts["ypc"]:.1f}%).',
 ]
 
@@ -110,7 +133,6 @@ for o in OPTIONS:
     lines.append(f'| **{OPT_LETTER[o]}** | {o} |')
 lines += ['', '---', '']
 
-conds = sorted(set(p.get('condition','?') for p in participants if p.get('condition','?') != '?'))
 for cd in chart_data:
     name, correct_ans, n, n_correct = cd['name'], cd['correct_ans'], cd['n'], cd['n_correct']
     lines += [f'## {name}', '', f'Correct answer: **{OPT_LETTER[correct_ans]}) {correct_ans}**  ',
@@ -121,27 +143,31 @@ for cd in chart_data:
         mark = ' **correct**' if o == correct_ans else ''
         lines.append(f'| {OPT_LETTER[o]}) {o} | {c} | {100*c/n:.1f}%{mark} |')
     lines += ['', '### By condition', '']
-    hdr = '| Answer |' + '|'.join(f' {c} (n={cd["ai_n"] if c=="ai" else cd["rel_n"]}) ' for c in conds) + '|'
-    sep = '|--------|' + '|'.join('---:' for _ in conds) + '|'
+    hdr = '| Answer |' + '|'.join(f' {c} (n={cd["by_cond"].get(c,{}).get("n",0)}) ' for c in all_conds) + '|'
+    sep = '|--------|' + '|'.join('---:' for _ in all_conds) + '|'
     lines += [hdr, sep]
     for o in OPTIONS:
         cells = []
-        for c in conds:
-            d = cd['ai_dist'] if c=='ai' else cd['rel_dist']
-            tot = cd['ai_n'] if c=='ai' else cd['rel_n']
-            cnt = d.get(o, 0)
+        for c in all_conds:
+            bc = cd['by_cond'].get(c, {})
+            tot = bc.get('n', 0)
+            cnt = bc.get('dist', {}).get(o, 0)
             cells.append(f' {cnt} ({100*cnt/tot:.0f}%) ' if tot else ' – ')
         mark = ' **correct**' if o == correct_ans else ''
         lines.append(f'| {OPT_LETTER[o]}) {o}{mark} |{"|".join(cells)}|')
     lines += ['', '---', '']
 
+cond_hdrs = ' | '.join(c for c in all_conds)
+cond_seps = ' | '.join('---:' for _ in all_conds)
 lines += ['## Summary analysis', '', '### Accuracy ranking', '',
-    '| Rank | Question | Correct | % | ai | ai-reliability | Dominant answer is correct? |',
-    '|-----:|----------|--------:|---:|---:|---:|---|']
+    f'| Rank | Question | Correct | % | {cond_hdrs} | Dominant answer is correct? |',
+    f'|-----:|----------|--------:|---:| {cond_seps} |---|']
 for rank, s in enumerate(sorted(q_stats, key=lambda x: -x[3]), 1):
-    nm, n, nc, pct, ap, rp, _, _, cim = s
-    lines.append(f'| {rank} | {nm} | {nc}/{n} | {pct:.1f}% | {ap:.0f}% | {rp:.0f}% | {"Yes" if cim else "No"} |')
-lines.append(f'| | **Overall** | **{overall_c}/{overall_n}** | **{100*overall_c/overall_n:.1f}%** | **{100*ai_c/ai_n:.0f}%** | **{100*rel_c/rel_n:.0f}%** | |')
+    nm, n, nc, pct, cpcts, _, _, cim = s
+    cond_vals = ' | '.join(f'{cpcts.get(c,0):.0f}%' for c in all_conds)
+    lines.append(f'| {rank} | {nm} | {nc}/{n} | {pct:.1f}% | {cond_vals} | {"Yes" if cim else "No"} |')
+overall_cond_vals = ' | '.join(f'**{100*cond_totals[c][1]/cond_totals[c][0]:.0f}%**' if cond_totals[c][0] else '–' for c in all_conds)
+lines.append(f'| | **Overall** | **{overall_c}/{overall_n}** | **{100*overall_c/overall_n:.1f}%** | {overall_cond_vals} | |')
 lines += ['', '### Accuracy by topic', '', '| Topic | Questions | Mean accuracy |', '|-------|----------:|---------:|']
 for tname, qs in topics:
     tc = sum(s[2] for s in qs); tn = sum(s[1] for s in qs)
@@ -154,9 +180,13 @@ with open(os.path.join(DASHBOARDS, 'question_analysis.md'), 'w') as f:
 print(f"Wrote question_analysis.md ({len(lines)} lines)")
 
 # ── Write HTML ──
-obs_html = '\n'.join(f'    <li>{o.replace("**","<strong>",1).replace("**","</strong>",1).replace("**","<strong>",1).replace("**","</strong>",1).replace("**","<strong>",1).replace("**","</strong>",1)}</li>' for o in observations)
-ai_per = chart_data[0]['ai_n']
-rel_per = chart_data[0]['rel_n']
+import re
+def bold_to_strong(s):
+    return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
+obs_html = '\n'.join(f'    <li>{bold_to_strong(o)}</li>' for o in observations)
+cond_counts = {c: cond_totals[c][0]//12 for c in all_conds if cond_totals[c][0] > 0}
+subtitle_parts = ' · '.join(f'{c} (n={n})' for c,n in cond_counts.items())
+cond_options_html = '\n'.join(f'      <option value="{c}">{c} only</option>' for c in all_conds)
 
 html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -181,7 +211,7 @@ select {{ font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #
 <body>
 
 <h1>Question-level Answer Analysis</h1>
-<div class="sub">{n_files} response files · {n_participants} participants · 12 questions · ai (n={ai_per}) vs ai-reliability (n={rel_per})</div>
+<div class="sub">{n_files} response files · {n_participants} participants · 12 questions · {subtitle_parts}</div>
 
 <div class="card">
   <h2>Accuracy by question (% correct, sorted)</h2>
@@ -190,7 +220,7 @@ select {{ font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #
 
 <div class="grid">
   <div class="card">
-    <h2>ai vs ai-reliability accuracy</h2>
+    <h2>Accuracy by condition</h2>
     <div class="chartbox tall"><canvas id="c_condition"></canvas></div>
   </div>
   <div class="card">
@@ -205,8 +235,7 @@ select {{ font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #
     <select id="qPicker" onchange="renderDist()"></select>
     <select id="condPicker" onchange="renderDist()">
       <option value="all">All participants</option>
-      <option value="ai">ai only</option>
-      <option value="ai-reliability">ai-reliability only</option>
+{cond_options_html}
     </select>
   </div>
   <div class="chartbox"><canvas id="c_dist"></canvas></div>
@@ -257,11 +286,14 @@ new Chart(document.getElementById('c_accuracy'), {{ type:'bar', plugins:[barLabe
   options:{{ ...noAR, ...padH, indexAxis:'y', plugins:{{ legend:{{display:false}} }},
     scales:{{ x:{{ min:0, max:100, grid:{{color:grid}}, title:{{display:true,text:'% correct'}} }}, y:{{ grid:{{display:false}} }} }}}}}});
 
+const CONDS = {json.dumps(all_conds)};
+const COND_COLORS = ['#4c8bf5','#ed8936','#48bb78','#9f7aea','#fc8181','#38b2ac'];
 const byName = [...D].sort((a,b) => b.n_correct/b.n - a.n_correct/a.n);
 new Chart(document.getElementById('c_condition'), {{ type:'bar', plugins:[barLabels],
-  data:{{ labels:byName.map(q=>q.name), datasets:[
-    {{ label:'ai', data:byName.map(q=>q.ai_pct), backgroundColor:'#4c8bf5', borderRadius:4 }},
-    {{ label:'ai-reliability', data:byName.map(q=>q.rel_pct), backgroundColor:'#ed8936', borderRadius:4 }}]}},
+  data:{{ labels:byName.map(q=>q.name), datasets:CONDS.map((c,ci) => ({{
+    label:c, data:byName.map(q=>(q.by_cond[c]||{{}}).pct||0),
+    backgroundColor:COND_COLORS[ci % COND_COLORS.length], borderRadius:4
+  }})) }},
   options:{{ ...noAR, indexAxis:'y', plugins:{{ legend:{{position:'bottom'}} }},
     scales:{{ x:{{ min:0, max:100, grid:{{color:grid}} }}, y:{{ grid:{{display:false}} }} }}}}}});
 
@@ -284,7 +316,7 @@ function renderDist() {{
   if (distChart) distChart.destroy();
   const q = D[+picker.value];
   const cond = document.getElementById('condPicker').value;
-  const dist = cond === 'ai' ? q.ai_dist : cond === 'ai-reliability' ? q.rel_dist : q.dist;
+  const dist = cond === 'all' ? q.dist : (q.by_cond[cond]||{{}}).dist || {{}};
   const total = Object.values(dist).reduce((a,b)=>a+b,0);
   const colors = OPTIONS.map(o => o === q.correct_ans ? '#48bb78' : '#fc8181');
   distChart = new Chart(document.getElementById('c_dist'), {{ type:'bar',
