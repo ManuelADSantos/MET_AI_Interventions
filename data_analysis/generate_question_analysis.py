@@ -25,7 +25,7 @@ OPTIONS = ['Both statements are correct.','Neither of the two statements is corr
 OPT_LETTER = {o: chr(65+i) for i,o in enumerate(OPTIONS)}
 
 # Load all participants
-files = sorted(glob.glob(os.path.join(RESULTS, 'metai_*_responses.json')))
+files = sorted(glob.glob(os.path.join(RESULTS, 'real_*', '*.json')))
 participants = []
 for fname in files:
     with open(fname) as f:
@@ -148,7 +148,8 @@ for tname, qs in topics:
     lines.append(f'| {tname} | {len(qs)} | {100*tc/tn:.1f}% |')
 lines += ['', '### Key observations', ''] + [f'- {o}' for o in observations] + ['']
 
-with open(os.path.join(DIR, 'question_analysis.md'), 'w') as f:
+DASHBOARDS = os.path.join(DIR, 'exploration_dashboards')
+with open(os.path.join(DASHBOARDS, 'question_analysis.md'), 'w') as f:
     f.write('\n'.join(lines))
 print(f"Wrote question_analysis.md ({len(lines)} lines)")
 
@@ -299,6 +300,6 @@ renderDist();
 </body>
 </html>'''
 
-with open(os.path.join(DIR, 'question_analysis.html'), 'w') as f:
+with open(os.path.join(DASHBOARDS, 'question_analysis.html'), 'w') as f:
     f.write(html)
 print("Wrote question_analysis.html")
