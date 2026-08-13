@@ -114,23 +114,40 @@ document.addEventListener('mouseout', e => { const el = e.target.closest('.tip')
 /* ---------- 1. Preprocess a raw data.json into dashboard-ready form ---------- */
 // ponytail: task IDs hardcoded to the study layout; edit here if the study changes again
 const SUS_LABELS = ['Use frequently','Unnecessarily complex','Easy to use','Need tech support','Well integrated','Too inconsistent','Quick to learn','Cumbersome','Felt confident','Lots to learn first'];
-const QUIZ_KEY = [ // [taskId, question name, correct answer] — from customizations/correct_answers.md
-  [6,  'ypc_02', 'Neither of the two statements is correct.'],
-  [7,  'ypc_03', 'Only statement 2 is correct.'],
-  [8,  'ypc_05', 'Only statement 1 is correct.'],
-  [9,  'ypc_06', 'Only statement 1 is correct.'],
-  [10, 'car_racing_01', 'Neither of the two statements is correct.'],
-  [11, 'car_racing_02', 'Both statements are correct.'],
-  [12, 'car_racing_03', 'Only statement 2 is correct.'],
-  [13, 'car_racing_05', 'Only statement 1 is correct.'],
-  [14, 'graduation_party_01', 'Only statement 2 is correct.'],
-  [15, 'graduation_party_05', 'Only statement 1 is correct.'],
-  [16, 'graduation_party_06', 'Neither of the two statements is correct.'],
-  [17, 'graduation_party_07', 'Only statement 2 is correct.'],
+// ponytail: question names + correct answers are fixed; task IDs differ per condition layout
+const QUIZ_QUESTIONS = [ // [name, correctAnswer]
+  ['ypc_02', 'Neither of the two statements is correct.'],
+  ['ypc_03', 'Only statement 2 is correct.'],
+  ['ypc_05', 'Only statement 1 is correct.'],
+  ['ypc_06', 'Only statement 1 is correct.'],
+  ['car_racing_01', 'Neither of the two statements is correct.'],
+  ['car_racing_02', 'Both statements are correct.'],
+  ['car_racing_03', 'Only statement 2 is correct.'],
+  ['car_racing_05', 'Only statement 1 is correct.'],
+  ['graduation_party_01', 'Only statement 2 is correct.'],
+  ['graduation_party_05', 'Only statement 1 is correct.'],
+  ['graduation_party_06', 'Neither of the two statements is correct.'],
+  ['graduation_party_07', 'Only statement 2 is correct.'],
 ];
+// Standard layout: ai, ai-reliability, alternatives, pause-points, prediction (27 tasks)
+// Reflection-task layout: quiz at even IDs 6,8,...,28 with reflect tasks interleaved (39 tasks)
+const TASK_MAP = {
+  standard: { quiz: [6,7,8,9,10,11,12,13,14,15,16,17], post: 19, tlx: 20, postQ: 21, ueq: 22, sus: 23, nfc: 24, trust: 25 },
+  'reflection-task': { quiz: [6,8,10,12,14,16,18,20,22,24,26,28], post: 31, tlx: 32, postQ: 33, ueq: 34, sus: 35, nfc: 36, trust: 37 },
+};
+function getLayout(condition) { return TASK_MAP[condition] || TASK_MAP.standard; }
+function getQuizKey(condition) {
+  const layout = getLayout(condition);
+  return QUIZ_QUESTIONS.map(([name, correct], i) => [layout.quiz[i], name, correct]);
+}
+// ponytail: keep QUIZ_KEY as a default for summary table column headers
+const QUIZ_KEY = QUIZ_QUESTIONS.map(([name, correct], i) => [i + 6, name, correct]);
 
 function process(raw) {
   const tasks = raw.tasks || {};
+  const condition = raw.condition || '';
+  const layout = getLayout(condition);
+  const quizKey = getQuizKey(condition);
   const getRaw = (t, i) => tasks[t]?.responses?.[t + '.' + i]?.answer;
   const get = (t, i) => getRaw(t, i);
   const num = (t, i) => { const v = getRaw(t, i); return v != null ? +v : null; };
@@ -140,7 +157,7 @@ function process(raw) {
     if (t.displayIndex != null && t.ts) tsByDi[t.displayIndex] = t.ts;
 
   const quiz = [];
-  for (const [task, name, correctAnswer] of QUIZ_KEY) {
+  for (const [task, name, correctAnswer] of quizKey) {
     const t = tasks[task];
     if (!t) continue;
     const answer = get(task, 1);
@@ -152,60 +169,59 @@ function process(raw) {
   }
   quiz.sort((a, b) => a.di - b.di);
   quiz.forEach((q, i) => {
-    q.order = i + 1; // presentation order (#1–#12)
+    q.order = i + 1;
     const prev = i > 0 ? quiz[i-1].ts : tsByDi[q.di - 1];
     if (prev) q.dur = +((q.ts - prev) / 1000).toFixed(1);
   });
   quiz.sort((a, b) => a.task - b.task);
 
   const susIds = [1,2,3,4,5,6,7,9,10,11]; // item 8 is an attention check
-  const susRaw = susIds.map(i => num(23, i));
+  const susRaw = susIds.map(i => num(layout.sus, i));
   const sus = susRaw.some(v => v == null) ? null :
     susRaw.reduce((s, v, i) => s + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
 
   const ueqItems = ['obstructive→supportive','complicated→easy','inefficient→efficient','confusing→clear',
                     'boring→exciting','not interesting→interesting','conventional→inventive','usual→leading edge'];
-  const ueq = [...Array(8)].map((_, i) => { const v = num(22, i + 1); return v != null ? v - 4 : null; });
+  const ueq = [...Array(8)].map((_, i) => { const v = num(layout.ueq, i + 1); return v != null ? v - 4 : null; });
 
   const nfc = [...Array(6)].map((_, i) => {
-    const v = num(24, i + 1);
+    const v = num(layout.nfc, i + 1);
     if (v == null) return null;
-    return (i === 2 || i === 3) ? 6 - v : v; // items 3 & 4 reverse-scored
+    return (i === 2 || i === 3) ? 6 - v : v;
   });
 
-  const tlx = { Mental:num(20,1), Physical:num(20,2), Temporal:num(20,3),
-                Performance:num(20,4), Effort:num(20,5), Frustration:num(20,6) };
+  const tlx = { Mental:num(layout.tlx,1), Physical:num(layout.tlx,2), Temporal:num(layout.tlx,3),
+                Performance:num(layout.tlx,4), Effort:num(layout.tlx,5), Frustration:num(layout.tlx,6) };
 
   const trustItems = ['Confident in it','Predictable','Reliable','Feel safe relying','Efficient / quick',
                       'Wary of it (rev)','Better than novice','Like using it'];
-  const trust = [...Array(8)].map((_, i) => num(25, i + 1));
+  const trust = [...Array(8)].map((_, i) => num(layout.trust, i + 1));
 
   const messages = (raw.messages || []).map(m => m.role === 'user'
     ? { role:'user', task:m.task, ts:m.ts, text:m.content }
     : { role:'assistant', task:m.survey_index, ts:m.created * 1000,
         text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
 
-  // Post-task block (task 21) differs per condition — dump every item in order,
-  // Likert answers render as their number, free text as-is.
+  // Post-task block differs per condition — dump every item in order
   const openText = [];
   const profession = tasks[1]?.responses?.['1.3'];
   if (profession) openText.push({ label: profession.question || 'What is your profession?', answer: profession.answer });
-  Object.entries(tasks[21]?.responses || {})
+  Object.entries(tasks[layout.postQ]?.responses || {})
     .sort((a, b) => +a[0].split('.')[1] - +b[0].split('.')[1])
     .forEach(([, r]) => openText.push({ label: r.question || '(unlabelled item)', answer: r.answer }));
 
   const tsAll = Object.values(tsByDi);
   return {
-    meta: { condition: raw.condition, pid: raw.participantId,
+    meta: { condition, pid: raw.participantId,
             start: Math.min(...tsAll), end: Math.max(...tsAll, ...(messages.map(m => m.ts || 0))) },
     demo: { age:get(1,1), gender:get(1,2), profession:get(1,3),
             fluency:get(1,4), education:get(1,5), aiUse:get(1,6) },
     pre:  { withAI:get(4,1), withoutAI:get(4,2), aiAlone:get(4,3), selfPct:get(4,4), aiPct:get(4,5) },
-    post: { withAI:get(19,1), withoutAI:get(19,2), attn:get(19,3), aiAlone:get(19,4), selfPct:get(19,5), aiPct:get(19,6) },
+    post: { withAI:get(layout.post,1), withoutAI:get(layout.post,2), attn:get(layout.post,3), aiAlone:get(layout.post,4), selfPct:get(layout.post,5), aiPct:get(layout.post,6) },
     quiz, susRaw, sus, ueqItems, ueq,
     nfc, nfcMean: (() => { const v = nfc.filter(x => x != null); return v.length ? +(v.reduce((a,b)=>a+b,0) / v.length).toFixed(2) : null; })(),
     tlx, trustItems, trust,
-    attn: { instr: get(0,2) === 'C', post: String(get(19,3)) === '5', sus: +get(23,8) === 5 },
+    attn: { instr: get(0,2) === 'C', post: String(get(layout.post,3)) === '5', sus: +get(layout.sus,8) === 5 },
     reliabilityByTask: (() => {
       const m = {};
       for (const evt of (raw.interactionLog || [])) {
@@ -530,7 +546,7 @@ function toggleSummary() {
 }
 
 function participantRow(D) {
-  const qNames = QUIZ_KEY.map(k => k[1]);
+  const qNames = QUIZ_QUESTIONS.map(k => k[0]);
   const nC = D.quiz.filter(q => q.correct).length;
   const vc = D.quiz.filter(q => Number.isFinite(q.conf));
   const mc = vc.length ? +(vc.reduce((a,q) => a + q.conf, 0) / vc.length).toFixed(1) : null;
@@ -558,7 +574,7 @@ let summarySort = { col: null, asc: true };
 function sortSummary(col) { summarySort = { col, asc: summarySort.col === col ? !summarySort.asc : false }; renderSummary(); }
 
 function buildTable(title, rows) {
-  const qNames = QUIZ_KEY.map(k => k[1]);
+  const qNames = QUIZ_QUESTIONS.map(k => k[0]);
   const f = v => v == null ? '–' : v;
   // ponytail: inline sort for summary columns — clickable headers, nulls sink to bottom
   const sc = summarySort.col, ar = k => sc === k ? (summarySort.asc ? ' ▲' : ' ▼') : '';
