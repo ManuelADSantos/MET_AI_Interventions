@@ -52,7 +52,16 @@ const requestChatResponseStream = async function* (messages, signal, hasTaskQues
   })
 
   let token = sessionStorage.getItem('chatToken') || await mintChatToken()
-  let res = await send(token)
+  let res
+  try {
+    res = await send(token)
+  } catch (e) {
+    if (signal?.aborted) throw e
+    // ponytail: one retry on a network blip ("Failed to fetch") — flaky WiFi/VPNs on the
+    // participant side. A second failure surfaces in the chat as before.
+    await new Promise(r => setTimeout(r, 1500))
+    res = await send(token)
+  }
   if (res.status === 401) {
     token = await mintChatToken()
     res = await send(token)
