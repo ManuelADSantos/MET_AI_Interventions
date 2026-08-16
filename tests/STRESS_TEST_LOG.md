@@ -41,7 +41,9 @@ Per virtual participant: mint token (`/token`) → stream one chat response → 
 
 All 429s came from **our own backend**, `app.py _rate_limit()` — NOT Railway:
 per **IP**, per endpoint prefix, sliding **5-minute** window:
-`/chat` 30 · `/token` 10 · `/save` 10.
+`/chat` 90 · `/token` 10 · `/save` 30 (raised from 30/10/10 after these tests —
+/chat for NAT-sharing alternatives participants, /save because per-page checkpoints
+made saves ~10× more frequent than the single end-of-study save it was sized for).
 
 Consequences:
 - Load tests from one machine hit these limits long before any real bottleneck.
@@ -91,6 +93,19 @@ per-condition + per-question tables, and the HTML dashboard — confirming the s
 is analysis-ready. Key structural requirements the frontend must keep sending: each main task
 keyed by stable source index (6–17 standard, 6/8/…/28 reflection-task) with `title` starting
 `"Scenario:"` and `responses["{tid}.1"].answer` holding the multiple-choice answer.
+
+## 30 realistic participants ON PRODUCTION (paced)
+
+30 simulated participants against the live Railway deployment, arrivals staggered over
+20 minutes (real Prolific batches arrive this way; also required because all sim traffic
+shares one IP and the per-IP limiter would otherwise queue it — real participants on
+distinct IPs never wait). Each: real `/token` → 2 real OpenAI chat rounds (alternatives
+= 3 columns in parallel) → mid-study checkpoint → all 12 answers → final save.
+
+Result: **30/30 final saves (201), 100/100 chat streams, 0 errors**, scores 2–12 (avg
+7.7/12), 10 per condition, all 12 tasks + backend scoring present on every record.
+14 rate-limit waits absorbed across the run — all shared-IP artifacts. Wall: 21 min.
+All rows verified via /export, then deleted (DB back to 0/0, temp proxy removed).
 
 ## AutoProctor production handoff (browser walkthrough)
 

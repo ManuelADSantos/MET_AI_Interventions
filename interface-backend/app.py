@@ -28,8 +28,12 @@ CORS(app, origins=os.environ.get('ALLOWED_ORIGIN', '*'))
 _rate = defaultdict(list)
 _RATE_WINDOW = 300  # 5 minutes
 # ponytail: /chat at 90 gives NAT-sharing alternatives participants (3 hits/prompt) headroom;
-# OpenAI spend stays bounded by the per-token CHAT_MESSAGE_CAP regardless
-_RATE_LIMITS = {'/chat': 90, '/token': 10, '/save': 10}  # per IP per window
+# OpenAI spend stays bounded by the per-token CHAT_MESSAGE_CAP regardless.
+# /save at 30: per-page checkpoints made saves ~10x more frequent than the single
+# end-of-study save this limit was originally sized for (8 quick questionnaire pages
+# + final save + 3 auto-retries can hit 10 in one window). /token stays low — each
+# token carries a CHAT_MESSAGE_CAP budget, so minting rate is the real spend ceiling.
+_RATE_LIMITS = {'/chat': 90, '/token': 10, '/save': 30}  # per IP per window
 
 # ponytail: one handler replaces the try/except Exception -> 500 that every route below repeated.
 # HTTPExceptions (404/405, the 429 above) are re-raised so they keep their own status.
