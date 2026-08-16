@@ -517,7 +517,7 @@ async function loadFiles(files) {
       if (raw.participants) {
         raw.participants.forEach((p, i) => {
           try {
-            const pid = String(p?.participantId || '').slice(0, 16);
+            const pid = String(p?.participantId || '');
             // Checkpoint saves from crashed/abandoned sessions carry completed:false — keep them
             // inspectable but flagged, so they aren't mistaken for finished participants
             const flag = p?.completed === false ? ' [INCOMPLETE]' : '';
