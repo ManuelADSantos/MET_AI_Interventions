@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { store } from "./scripts/store"
 import { conditionHasChat } from "./scripts/conditions"
-import { checkParticipation } from "./scripts/dbService"
+import { checkParticipation, saveToDatabase } from "./scripts/dbService"
 import { mintChatToken } from "./scripts/chatService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
@@ -55,6 +55,23 @@ const App = ({ condition, tasks, directStartPid }) => {
     if (directStartPid) { startStudy(directStartPid); return }
     if (urlPid) submitId(urlPid)
   }, [])
+
+  // ponytail: fire-and-forget checkpoint on every page turn — a crashed tab now costs
+  // one page of data, not the participant's hour. Errors ignored; next turn retries.
+  useEffect(() => {
+    const s = ctxStore.state
+    if (s.taskIndex < 1 || !s.participantId) return
+    saveToDatabase({
+      participantId: s.participantId,
+      condition: s.condition,
+      messages: s.messages,
+      interactionLog: s.interactionLog,
+      tasks: s.tasks,
+      studyId: urlParams.get('STUDY_ID') || '',
+      sessionId: urlParams.get('SESSION_ID') || '',
+      completed: false
+    })
+  }, [ctxStore.state.taskIndex])
 
   // ponytail: warn on accidental page close/refresh once the study has started (skip in dev mode)
   useEffect(() => {

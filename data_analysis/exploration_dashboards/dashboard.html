@@ -518,7 +518,10 @@ async function loadFiles(files) {
         raw.participants.forEach((p, i) => {
           try {
             const pid = String(p?.participantId || '').slice(0, 16);
-            store.push({ label: `${f.name} — #${i+1} ${pid} (${p?.condition || '?'})`, data: process(p) });
+            // Checkpoint saves from crashed/abandoned sessions carry completed:false — keep them
+            // inspectable but flagged, so they aren't mistaken for finished participants
+            const flag = p?.completed === false ? ' [INCOMPLETE]' : '';
+            store.push({ label: `${f.name} — #${i+1} ${pid} (${p?.condition || '?'})${flag}`, data: process(p) });
           } catch (e) { console.warn(`Skipped participant #${i+1}: ${e.message}`); }
         });
       } else {

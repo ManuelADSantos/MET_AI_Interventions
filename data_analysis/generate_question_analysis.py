@@ -37,7 +37,11 @@ for fname in files:
     with open(fname) as f:
         data = json.load(f)
     for p in data.get('participants', [data] if 'tasks' in data else []):
-        participants.append(p)
+        # ponytail: exports now include mid-study checkpoints (completed=false) from
+        # crashed/abandoned sessions; only finished participants belong in the analysis.
+        # Records without the flag predate checkpointing = completed.
+        if p.get('completed', True):
+            participants.append(p)
 
 n_files = len(files)
 n_participants = len(participants)

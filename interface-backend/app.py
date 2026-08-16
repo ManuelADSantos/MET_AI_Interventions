@@ -356,7 +356,9 @@ def save_data():
         'sessionId': req.get('sessionId', ''),
         'correctAnswers': correct_count,
         'totalQuestions': total_questions,
-        'answerResults': answer_results
+        'answerResults': answer_results,
+        # Mid-study checkpoints send completed=false; the final DonePage save omits it (= true)
+        'completed': bool(req.get('completed', True))
     }
 
     db.save_participant(req['participantId'], condition, record)
