@@ -51,10 +51,16 @@ const requestChatResponseStream = async function* (messages, signal, hasTaskQues
     })
   })
 
-  let res = await send(sessionStorage.getItem('chatToken') || await mintChatToken())
+  let token = sessionStorage.getItem('chatToken') || await mintChatToken()
+  let res = await send(token)
   if (res.status === 401) {
-    // Token unknown to the server (e.g. backend redeploy) — re-mint once and retry
-    res = await send(await mintChatToken())
+    token = await mintChatToken()
+    res = await send(token)
+  }
+  // ponytail: single retry after 2s on rate-limit — Railway caps ~10 concurrent per endpoint
+  if (res.status === 429) {
+    await new Promise(r => setTimeout(r, 2000))
+    res = await send(token)
   }
 
   if (!res.ok || !res.body) {

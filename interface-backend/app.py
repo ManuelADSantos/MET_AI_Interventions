@@ -333,7 +333,13 @@ def evaluate_answers(tasks):
 def save_data():
     req = request.get_json()
 
-    correct_count, answer_results = evaluate_answers(req['tasks'])
+    # ponytail: evaluate_answers must never block the save — a crash here left participants
+    # staring at an infinite spinner with no completion code and no retry button
+    try:
+        correct_count, answer_results = evaluate_answers(req.get('tasks') or {})
+    except Exception as e:
+        log.error('[save] evaluate_answers failed for %s: %s', req.get('participantId'), e)
+        correct_count, answer_results = 0, {}
     total_questions = len(right_choices)
 
     # The condition registered at session start wins over the client-sent one,
@@ -342,9 +348,9 @@ def save_data():
 
     record = {
         'participantId': req['participantId'],
-        'messages': req['messages'],
+        'messages': req.get('messages', []),
         'interactionLog': req.get('interactionLog', []),
-        'tasks': req['tasks'],
+        'tasks': req.get('tasks', {}),
         'condition': condition,
         'studyId': req.get('studyId', ''),
         'sessionId': req.get('sessionId', ''),

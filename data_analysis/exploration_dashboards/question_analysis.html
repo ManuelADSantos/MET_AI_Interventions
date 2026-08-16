@@ -14,7 +14,7 @@ h1 { font-size:20px; margin-bottom:4px; } h2 { font-size:15px; margin-bottom:10p
 .grid { display:grid; gap:14px; grid-template-columns:1fr 1fr; }
 @media (max-width:900px) { .grid { grid-template-columns:1fr; } }
 .chartbox { position:relative; height:320px; }
-.tall { height:400px; }
+.tall { height:700px; }
 select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; margin-bottom:12px; }
 </style>
 </head>
@@ -97,7 +97,7 @@ const chanceLine = { id:'chanceLine', afterDraw(ch) {
   const ctx = ch.ctx; ctx.save(); ctx.setLineDash([5,3]); ctx.strokeStyle='#e53e3e'; ctx.lineWidth=1;
   ctx.beginPath(); ctx.moveTo(x, ch.chartArea.top); ctx.lineTo(x, ch.chartArea.bottom); ctx.stroke();
   ctx.fillStyle='#e53e3e'; ctx.font='9px sans-serif'; ctx.textAlign='left';
-  ctx.fillText('chance (25%)', x+3, ch.chartArea.top+10); ctx.restore();
+  ctx.fillText('chance (25%)', x+3, ch.chartArea.top-4); ctx.restore();
 }};
 new Chart(document.getElementById('c_accuracy'), { type:'bar', plugins:[barLabels, chanceLine],
   data:{ labels:sorted.map(q=>q.name), datasets:[{ data:sorted.map(q=>+(100*q.n_correct/q.n).toFixed(1)),

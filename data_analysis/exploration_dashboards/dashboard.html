@@ -161,9 +161,10 @@ function process(raw) {
     const t = tasks[task];
     if (!t) continue;
     const answer = get(task, 1);
+    const prediction = get(task, 'prediction');
     quiz.push({
       task, name, di: t.displayIndex, ts: t.ts,
-      answer, conf: num(task, 2),
+      answer, conf: num(task, 2), prediction,
       correctAnswer, correct: answer === correctAnswer, dur: null
     });
   }
@@ -279,10 +280,14 @@ let lastRenderParams = {};
 function renderTables() {
   if (!lastD) return;
   const sorted = sortByOrder ? [...lastD.quiz].sort((a, b) => a.order - b.order) : lastD.quiz;
+  const hasPred = sorted.some(q => q.prediction != null);
   document.getElementById('ansTable').innerHTML =
-    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th></tr>' +
+    '<tr><th>Question</th><th>Shown as</th><th>Answer</th><th>Conf</th><th>✓</th><th>Time</th>' +
+    (hasPred ? '<th>AI Prediction</th>' : '') + '</tr>' +
     sorted.map(q => `<tr><td>${q.name}</td><td>#${q.order}</td><td>${esc(q.answer)}</td><td>${q.conf ?? '–'}%</td>` +
-      `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td></tr>`).join('');
+      `<td>${q.correct ? '✓' : '<span style="color:#e53e3e">✗</span>'}</td><td>${q.dur ?? '–'} s</td>` +
+      (hasPred ? `<td>${q.prediction?.startsWith('Yes') ? '✓ Yes' : '<span style="color:#e53e3e">✗ No</span>'}</td>` : '') +
+      '</tr>').join('');
   const relCard = document.getElementById('reliabilityCard');
   if (lastD.reliabilityByTask && Object.keys(lastD.reliabilityByTask).length) {
     relCard.style.display = 'block';
@@ -337,10 +342,13 @@ function render(D) {
   const ueqVals = D.ueq.filter(v => !isNaN(v));
   const ueqMean = ueqVals.length ? (ueqVals.reduce((a,b) => a + b, 0) / ueqVals.length).toFixed(2) : '–';
 
+  const predYes = D.quiz.filter(q => q.prediction?.startsWith('Yes')).length;
+  const hasPredKpi = D.quiz.some(q => q.prediction != null);
   document.getElementById('kpis').innerHTML = [
     { v:`${nCorrect}/${D.quiz.length} (${Math.round(100*nCorrect/D.quiz.length)}%)`, l:'Correct', cls:nCorrect === 0 ? 'bad' : '' },
     { v:meanConf + '%', l:'Mean confidence' },
     { v:sensitivityText, l:'Metacog. sensitivity', cls:sensitivity == null ? '' : sensitivity >= 0 ? 'good' : 'bad', title:sensitivityTitle },
+    ...(hasPredKpi ? [{ v:`${predYes}/${D.quiz.length}`, l:'Predicted AI correct' }] : []),
     { v:D.sus ?? '–', l:'SUS score', cls:D.sus >= 68 ? 'good' : '' },
     { v:ueqMean, l:'UEQ-S mean (−3…+3)', cls:ueqMean !== '–' && +ueqMean > 0.8 ? 'good' : ueqMean !== '–' && +ueqMean < -0.8 ? 'bad' : '' },
     { v:tlxMean, l:'TLX mean (0–20)' },
