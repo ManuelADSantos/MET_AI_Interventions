@@ -59,6 +59,57 @@ path (30 concurrent OpenAI streams) returns in ~2 s. Real ceilings, in order: gu
 (128; alternatives streams cost 3/participant), then DB pool. Bump `WEB_THREADS` env var
 before code changes if 100+ simultaneous is ever needed.
 
+## Realistic end-to-end simulation (30 & 60 simultaneous participants)
+
+Goal: simulate real participants — mint token → real `/chat/stream` (OpenAI) → checkpoint
+saves → answer all 12 questions with a realistic accuracy spread → final save — then run the
+analysis pipeline on the generated replies.
+
+**Why this ran against the LOCAL stack, not production:** the per-IP limiter keys on the
+client IP, and Railway's edge **overwrites** a client-sent `X-Real-Ip` with the true edge IP
+(verified: 12 requests with unique spoofed IPs all bucketed under one real IP). So a faithful
+"60 distinct participants" test is impossible from a single machine against production — you
+only exercise your own IP's limiter. Locally there is no edge, so `X-Real-Ip` is honored and
+each virtual participant gets its own IP bucket — exactly what 60 real users look like. The
+local stack runs the **identical** `app.py`/`db.py` (gunicorn 2×64 threads; local DB pool 10
+vs prod 20). Production infra concurrency was validated separately (30 live OpenAI streams).
+
+Results (local, `scratchpad/sim.py`, distinct IP per participant, real OpenAI calls):
+
+| Scenario | Final save 201 | Concurrent chat streams | Stream errors | Wall clock | Backend score range |
+|---|---|---|---|---|---|
+| 30 simultaneous | 30/30 | 100 | 0 | 6.5 s | 5–11 /12 |
+| 60 simultaneous | 60/60 | 200 | 0 | 7.8 s | 1–11 /12 |
+
+(alternatives participants issue 3 concurrent column streams per prompt, so 60 participants =
+up to 180 in-flight streams; all completed, avg ~5.4 s per participant end-to-end.)
+
+**Analysis pipeline check:** exported the 60 generated records, ran
+`generate_question_analysis.py` in an isolated copy (so real pilot data in `results/real_*`
+was untouched). It produced a valid report — 720 question-answers, 58.3% overall accuracy,
+per-condition + per-question tables, and the HTML dashboard — confirming the saved data shape
+is analysis-ready. Key structural requirements the frontend must keep sending: each main task
+keyed by stable source index (6–17 standard, 6/8/…/28 reflection-task) with `title` starting
+`"Scenario:"` and `responses["{tid}.1"].answer` holding the multiple-choice answer.
+
+## AutoProctor production handoff (browser walkthrough)
+
+Walked the real participant entry (`?PROLIFIC_PID=...&condition=alternatives`) in production:
+
+1. Consent flow renders (study info → monitoring notice → agreement); PID copy box, both
+   checkboxes gate the start button correctly.
+2. "Agree & Start Study" → `POST /api/launch/consent` called the real AutoProctor API and
+   returned a unique URL; browser redirected to autoproctor.co showing the **correct test**
+   ("Solving organising and planning tasks with AI").
+3. AutoProctor's own browser gate ("Cannot Load Test on This Browser — use Chrome") stopped
+   the automated browser there — expected; real participants on Chrome proceed.
+4. SyncPage server seam verified directly: `GET /api/launch/session/<pid>` returns the
+   registered condition (`alternatives`) for a consented pid, 404 for unknown pids.
+
+Not automatable: AutoProctor's Chrome + screen-share device checks and the in-iframe study
+run. Verify once by hand in Chrome before launch (2 min): enter through the Prolific URL,
+pass the device check, confirm the study loads and the first checkpoint save appears.
+
 ## Reproducing
 
 Single save:
