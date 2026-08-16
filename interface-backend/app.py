@@ -27,7 +27,9 @@ CORS(app, origins=os.environ.get('ALLOWED_ORIGIN', '*'))
 # ponytail: per-worker in-memory rate limit, Redis/DB if cross-worker sharing needed
 _rate = defaultdict(list)
 _RATE_WINDOW = 300  # 5 minutes
-_RATE_LIMITS = {'/chat': 30, '/token': 10, '/save': 10}  # per IP per window
+# ponytail: /chat at 90 gives NAT-sharing alternatives participants (3 hits/prompt) headroom;
+# OpenAI spend stays bounded by the per-token CHAT_MESSAGE_CAP regardless
+_RATE_LIMITS = {'/chat': 90, '/token': 10, '/save': 10}  # per IP per window
 
 # ponytail: one handler replaces the try/except Exception -> 500 that every route below repeated.
 # HTTPExceptions (404/405, the 429 above) are re-raised so they keep their own status.

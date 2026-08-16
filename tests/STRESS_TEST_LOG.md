@@ -50,7 +50,7 @@ Consequences:
 - Real participants (distinct IPs) sit far under every limit: ~2 token mints,
   ~3 saves/window, a handful of chat calls per session.
 - Known squeeze: two `alternatives` participants behind the same NAT share the `/chat` bucket
-  (3 hits per prompt each). Raise `'/chat': 30` in `app.py` if this ever shows up in the field.
+  (3 hits per prompt each). `/chat` was raised 30 → 90 after this test run to cover that case.
 
 ## Capacity conclusion
 
