@@ -80,4 +80,4 @@ customizations/tasks/img/*
 evaluation/evaluation/runs/*
 evaluation/*.txt
 
-*/all_data.json
+all_data.json
