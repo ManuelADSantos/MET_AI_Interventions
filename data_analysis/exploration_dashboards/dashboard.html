@@ -198,7 +198,8 @@ function process(raw) {
                       'Wary of it (rev)','Better than novice','Like using it'];
   const trust = [...Array(8)].map((_, i) => num(layout.trust, i + 1));
 
-  const messages = (raw.messages || []).map(m => m.role === 'user'
+  // ponytail: sources contain literal nulls in messages (42 across 19 alternatives participants)
+  const messages = (raw.messages || []).filter(Boolean).map(m => m.role === 'user'
     ? { role:'user', task:m.task, ts:m.ts, text:m.content }
     : { role:'assistant', task:m.survey_index, ts:m.created * 1000,
         text:m.choices?.[0]?.message?.content || '', tokens:m.usage?.total_tokens });
