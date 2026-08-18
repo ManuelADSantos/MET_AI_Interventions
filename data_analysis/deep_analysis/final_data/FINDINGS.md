@@ -4,7 +4,11 @@ Findings from the merged final dataset (`data_analysis/results/data/final_data/`
 five conditions of the study. Every number in this document is produced by
 [`deep_analysis_notebook.ipynb`](deep_analysis_notebook.ipynb) in this folder (§3.5 additionally
 by [`pairwise_tests_notebook.ipynb`](pairwise_tests_notebook.ipynb)); run the notebooks top to
-bottom to regenerate them.
+bottom to regenerate them. An independent **R replication** of the confirmatory
+intervention-vs-baseline tests (performance and metacognition) and the pairwise tests is provided
+in [`hypothesis_tests.R`](hypothesis_tests.R) (base R, no package dependencies; console log in
+[`hypothesis_tests_R_output.txt`](hypothesis_tests_R_output.txt)) — it reproduces the Python
+results exactly.
 
 **Analysis conventions.** Analysis sample n = 917 (see §1). Group comparisons are Welch's *t*
 against the `ai` baseline with Hedges' *g* (95% CI) and Holm correction within each outcome
