@@ -78,5 +78,3 @@ customizations/tasks/img/*
 # Model evaluation outputs
 evaluation/evaluation/runs/*
 evaluation/*.txt
-
-data_analysis/results/*

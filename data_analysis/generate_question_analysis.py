@@ -31,7 +31,7 @@ OPTIONS = ['Both statements are correct.','Neither of the two statements is corr
 OPT_LETTER = {o: chr(65+i) for i,o in enumerate(OPTIONS)}
 
 # Load all participants
-files = sorted(glob.glob(os.path.join(RESULTS, 'real_*', '*.json')))
+files = sorted(glob.glob(os.path.join(RESULTS, 'data', 'real_*', '*.json')))
 participants = []
 for fname in files:
     with open(fname) as f:
