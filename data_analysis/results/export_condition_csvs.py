@@ -16,8 +16,8 @@ OPTIONS = ['Both statements are correct.', 'Neither of the two statements is cor
 OPT_LETTER = {o: chr(65 + i) for i, o in enumerate(OPTIONS)}
 
 # Task IDs per layout (see dashboard.html TASK_MAP)
-STD = {'quiz': list(range(6, 18)), 'post': 19, 'tlx': 20, 'ueq': 22, 'sus': 23, 'nfc': 24, 'trust': 25}
-REFL = {'quiz': list(range(6, 29, 2)), 'post': 31, 'tlx': 32, 'ueq': 34, 'sus': 35, 'nfc': 36, 'trust': 37}
+STD = {'quiz': list(range(6, 18)), 'post': 19, 'tlx': 20, 'postq': 21, 'ueq': 22, 'sus': 23, 'nfc': 24, 'trust': 25}
+REFL = {'quiz': list(range(6, 29, 2)), 'post': 31, 'tlx': 32, 'postq': 33, 'ueq': 34, 'sus': 35, 'nfc': 36, 'trust': 37}
 
 def row(p):
     L = REFL if p['condition'] == 'reflection-task' else STD
@@ -48,14 +48,27 @@ def row(p):
     r['metacog_sensitivity'] = (round(sum(confs_correct)/len(confs_correct) - sum(confs_wrong)/len(confs_wrong), 2)
                                 if confs_correct and confs_wrong else '')
 
+    # Each scale: raw items (unreversed, as answered) followed by its aggregate
+    def items(scale, n):
+        vals = []
+        for i in range(1, n + 1):
+            v = num(L[scale], i)
+            r[f'{scale}_{i}'] = v if v is not None else ''
+            vals.append(v)
+        return vals
+
     # SUS: items 1-7,9-11 (8 = attention check); alternate v-1 / 5-v by position, sum * 2.5
-    sus_vals = [num(L['sus'], i) for i in [1, 2, 3, 4, 5, 6, 7, 9, 10, 11]]
-    r['sus'] = ('' if any(v is None for v in sus_vals)
-                else round(sum(v - 1 if i % 2 == 0 else 5 - v for i, v in enumerate(sus_vals)) * 2.5, 1))
-    r['ueq_mean'] = mean([v - 4 for i in range(1, 9) if (v := num(L['ueq'], i)) is not None])
-    r['tlx_mean'] = mean([v for i in range(1, 7) if (v := num(L['tlx'], i)) is not None])
-    r['nfc_mean'] = mean([(6 - v if i in (3, 4) else v) for i in range(1, 7) if (v := num(L['nfc'], i)) is not None])
-    r['trust_mean'] = mean([(6 - v if i == 6 else v) for i in range(1, 9) if (v := num(L['trust'], i)) is not None])
+    sus = [v for i, v in enumerate(items('sus', 11), 1) if i != 8]
+    r['sus_aggregate'] = ('' if any(v is None for v in sus)
+                          else round(sum(v - 1 if i % 2 == 0 else 5 - v for i, v in enumerate(sus)) * 2.5, 1))
+    ueq = items('ueq', 8)
+    r['ueq_aggregate'] = mean([v - 4 for v in ueq if v is not None])
+    tlx = items('tlx', 6)
+    r['tlx_aggregate'] = mean([v for v in tlx if v is not None])
+    nfc = items('nfc', 6)
+    r['nfc_aggregate'] = mean([(6 - v if i in (3, 4) else v) for i, v in enumerate(nfc, 1) if v is not None])
+    trust = items('trust', 8)
+    r['trust_aggregate'] = mean([(6 - v if i == 6 else v) for i, v in enumerate(trust, 1) if v is not None])
 
     r['attn_instruction'] = int(get(0, 2) == 'C')
     r['attn_post'] = int(str(get(L['post'], 3)) == '5')
@@ -66,6 +79,15 @@ def row(p):
                     ('post_with_ai', L['post'], 1), ('post_without_ai', L['post'], 2), ('post_ai_alone', L['post'], 4)]:
         v = get(t, i)
         r[k] = v if v is not None else ''
+
+    # Post-questionnaire block (open text + Likert; items differ per condition).
+    # Column header = the full question text itself.
+    postq = tasks.get(str(L['postq']), {}).get('responses', {})
+    for key in sorted(postq, key=lambda k: int(k.split('.')[1])):
+        i = key.split('.')[1]
+        q = (postq[key].get('question') or '').strip() or f'postq_{i}'
+        col = q if q not in r else f'{q} ({i})'  # guard against duplicate question text
+        r[col] = postq[key].get('answer', '')
     return r
 
 for f in sorted(glob.glob(f'{FD}/*.json')):
@@ -75,10 +97,11 @@ for f in sorted(glob.glob(f'{FD}/*.json')):
     with open(f) as fh:
         parts = json.load(fh)['participants']
     rows = [row(p) for p in parts]
+    fields = list(dict.fromkeys(k for r in rows for k in r))  # union, first-seen order
     out = f'{FD}/{stem}.csv'
     with open(out, 'w', newline='') as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=fields, restval='')
         w.writeheader()
         w.writerows(rows)
     assert len(rows) == len(parts), stem  # every participant exported
-    print(f'{stem}.csv: {len(rows)} rows')
+    print(f'{stem}.csv: {len(rows)} rows, {len(fields)} columns')
