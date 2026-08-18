@@ -78,3 +78,5 @@ customizations/tasks/img/*
 # Model evaluation outputs
 evaluation/evaluation/runs/*
 evaluation/*.txt
+
+*/all_data.json
