@@ -2,8 +2,9 @@
 
 Findings from the merged final dataset (`data_analysis/results/data/final_data/`), covering all
 five conditions of the study. Every number in this document is produced by
-[`deep_analysis_notebook.ipynb`](deep_analysis_notebook.ipynb) in this folder; run that notebook
-top to bottom to regenerate them.
+[`deep_analysis_notebook.ipynb`](deep_analysis_notebook.ipynb) in this folder (§3.5 additionally
+by [`pairwise_tests_notebook.ipynb`](pairwise_tests_notebook.ipynb)); run the notebooks top to
+bottom to regenerate them.
 
 **Analysis conventions.** Analysis sample n = 917 (see §1). Group comparisons are Welch's *t*
 against the `ai` baseline with Hedges' *g* (95% CI) and Holm correction within each outcome
@@ -111,6 +112,30 @@ all are n.s. (Holm p = 1.000), but **two-sided, three interventions score signif
 | Alternatives | 5.20 | −0.22 [−0.43, −0.02] | .033 |
 | Pause points | 4.49 | −0.57 [−0.77, −0.36] | < .001 |
 | Reflection task | 5.52 | −0.03 [−0.23, +0.18] | .792 |
+
+### 3.5 Pairwise comparisons between all conditions
+
+[`pairwise_tests_notebook.ipynb`](pairwise_tests_notebook.ipynb) runs two-sided Welch t-tests for
+**all 10 condition pairs** on 15 outcomes (150 tests, Holm-corrected within outcome, Mann–Whitney
+robustness checks, cross-wave pairs flagged). 80 tests are Holm-significant — 36 of them between
+same-wave conditions, where the cohort confound cannot operate. The same-wave results sharpen the
+baseline comparisons of §3.1–3.4:
+
+* **The pause-points performance cost is condition-specific, not a wave artifact:** pause points
+  scores below the two other wave-2 interventions (vs alternatives g = −0.40, vs reflection
+  g = −0.56, both Holm p < .05), mirroring its cross-wave deficit vs baseline (g = −0.57).
+* **Alternatives leads the interventions on metacognitive accuracy:** smaller estimation error
+  than pause points (g = −0.29) and reflection (g = −0.47), and better confidence discrimination
+  than reflection (g = +0.30) — all same-wave.
+* **Interaction cost ordering (same-wave):** pause points forces the most prompts (vs
+  alternatives g = +1.22, vs reflection g = +0.85); reflection is the heaviest workload
+  (TLX vs alternatives g = +0.69, vs pause points g = +0.64) and the slowest, while pause points
+  is the worst on usability even among interventions (SUS vs alternatives g = −0.37, vs
+  reflection g = −0.64).
+* **Trust (same-wave):** reflection preserves trust better than alternatives (g = +0.61) and
+  pause points (g = +0.47).
+* Welch and Mann–Whitney conclusions disagree on only 9 of 150 tests at the Holm-corrected
+  threshold; the full test table is exported as `pairwise_condition_tests.csv`.
 
 ## 4. Calibration detail
 
