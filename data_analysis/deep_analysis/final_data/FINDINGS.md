@@ -47,10 +47,13 @@ available, but the confound cannot be fully removed by analysis.
   (`customizations/questions/correct_answers.py`, the module the backend imported at runtime)
   reproduces the backend's stored `answerResults` exactly: **0 mismatches across 11,100 scored
   items**.
-* **The convenience CSVs' correctness columns are defective.** `export_condition_csvs.py`
-  hard-codes an answer key that differs from the canonical key on **8 of 12 items**, so the
-  `*_correct`, `n_correct` and `metacog_sensitivity` columns in `final_data/*.csv` are wrong and
-  are not used anywhere in this analysis. All metrics derive from the JSON exports.
+* **The convenience CSVs' correctness columns are fixed and verified.** The original
+  `export_condition_csvs.py` scored against a hard-coded key that was wrong on 8 of 12 items;
+  it now takes correctness from each record's own `answerResults` (asserting
+  `n_correct == correctAnswers` per row), and the regenerated CSVs verify cleanly: 0/11,100
+  per-question mismatches vs `answerResults`, 0/925 `n_correct` mismatches, derived confidence
+  columns recompute exactly, and re-running the exporter reproduces the committed files
+  byte-for-byte. All metrics in this analysis are nevertheless derived from the JSON exports.
 * **Repeated participation is already handled.** 38 participants took part in two conditions
   across the waves. `final_data` keeps exactly one record per participant — always the earliest
   run (verified against the raw wave exports) — so their analyzed data is their first, clean
@@ -217,9 +220,10 @@ alternatives × Trust on discrimination (+2.95, p = .017) — are hypothesis-gen
    reliability cards, alternatives, pause points) lower trust in the AI. Pause points buys its
    modest metacognitive gain at the largest usability and performance cost; alternatives delivers
    the largest calibration gain at a doubled AI-token cost and the largest trust drop.
-4. **Data quality is solid** after verification (§2), with one standing defect: the correctness
-   columns in the exported CSVs use a wrong answer key and must not be analyzed until
-   `export_condition_csvs.py` is fixed and the CSVs regenerated.
+4. **Data quality is solid** after verification (§2). The one defect found during this analysis —
+   CSV correctness columns built from a wrong answer key — has been fixed at the source
+   (`export_condition_csvs.py` now scores from each record's `answerResults`) and the
+   regenerated CSVs verify with zero mismatches.
 
 ## 10. Limitations
 

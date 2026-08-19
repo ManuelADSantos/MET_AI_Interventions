@@ -84,13 +84,12 @@ baseline?** (directional Welch t, Holm-corrected)
 | 1 | Backend scoring (`answerResults`) internally consistent: present for 925/925 records, 12 boolean entries each, sum equals stored `correctAnswers` in 925/925 | ✅ verified |
 | 2 | `answerResults` matches the canonical key recomputation (11,100 items) | ✅ verified, 0 mismatches |
 | 3 | `final_data` deduplication: one record per participant, earliest run kept for all 38 repeats | ✅ verified against raw wave exports |
-| 4 | **Convenience CSVs' correctness columns** (`*_correct`, `n_correct`, `metacog_sensitivity`): `export_condition_csvs.py` scores against a hard-coded key that is wrong on 8/12 items. As of 2026-08-19 the committed CSVs disagree with `answerResults` on **4,971/11,100** per-question values and **856/925** `n_correct` values | ⚠️ **OPEN** — do not analyze these columns |
-| 5 | Announced fix for #4 (source correctness from each record's `answerResults`; assert `n_correct == correctAnswers` per row) | not yet in the repository on any branch (checked 2026-08-19); the design is sound and all its premises verify (#1) — needs to be committed, CSVs regenerated, and re-verified |
+| 4 | **Convenience CSVs' correctness columns** (`*_correct`, `n_correct`, `metacog_sensitivity`): the original `export_condition_csvs.py` scored against a hard-coded key that was wrong on 8/12 items (the committed CSVs disagreed with `answerResults` on 4,971/11,100 per-question values) | ✅ **fixed** — exporter now sources correctness from each record's own `answerResults` and asserts `n_correct == correctAnswers` per row |
+| 5 | Regenerated CSVs verified (2026-08-19): per-question vs `answerResults` **0/11,100** mismatches; `n_correct` vs `correctAnswers` **0/925**; `mean_confidence` and `metacog_sensitivity` recompute exactly from the corrected flags; headers/row counts unchanged; re-running the exporter reproduces the committed files byte-for-byte | ✅ verified |
 
-No analysis in this package uses the defective CSV columns: every metric is derived from the
-JSON records (or from `participant_metrics.csv`, which the primary notebook derives from the
-JSONs). When #5 lands, refresh the defect notes in `deep_analysis_notebook.ipynb` (integrity
-check 2, module P summary) and `FINDINGS.md` (§2, §9).
+Every metric in this package is derived from the JSON records (or from
+`participant_metrics.csv`, which the primary notebook derives from the JSONs); the CSVs are a
+convenience view, now consistent with the same ground truth.
 
 ## Reproducing
 
