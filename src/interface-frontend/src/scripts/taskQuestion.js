@@ -29,7 +29,7 @@ export const questionCoverage = (prompt, terms) => {
 // intervention_similarity_threshold in study.config.yml; 0.6 when unset.
 // `|| NaN` because entrypoint.sh writes an empty value for a missing key, and Number('') is 0 —
 // which would silently engage the intervention on every prompt.
-const configuredThreshold = Number(import.meta.env.VITE_INTERVENTION_SIMILARITY_THRESHOLD || NaN)
+const configuredThreshold = Number(import.meta.env?.VITE_INTERVENTION_SIMILARITY_THRESHOLD || NaN)
 export const QUESTION_THRESHOLD = Number.isFinite(configuredThreshold)
   ? Math.min(1, Math.max(0, configuredThreshold))
   : 0.6

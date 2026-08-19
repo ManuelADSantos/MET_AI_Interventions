@@ -2,33 +2,22 @@
 """Regenerate question_analysis.md and question_analysis.html from response JSONs.
 Usage: python3 generate_question_analysis.py
 """
-import json, collections, glob, os
+import json, collections, glob, os, sys
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS = os.path.join(DIR, 'results')
+sys.path.insert(0, os.path.join(DIR, '..', 'src', 'customizations', 'questions'))
+from correct_answers import CORRECT_ANSWERS, LETTER_TO_TEXT, ANSWER_OPTIONS, TEXT_TO_LETTER  # noqa: E402
 
-QUIZ_QUESTIONS = [
-    ('ypc_02','Neither of the two statements is correct.'),
-    ('ypc_03','Only statement 2 is correct.'),
-    ('ypc_05','Only statement 1 is correct.'),
-    ('ypc_06','Only statement 1 is correct.'),
-    ('car_racing_01','Neither of the two statements is correct.'),
-    ('car_racing_02','Both statements are correct.'),
-    ('car_racing_03','Only statement 2 is correct.'),
-    ('car_racing_05','Only statement 1 is correct.'),
-    ('graduation_party_01','Only statement 2 is correct.'),
-    ('graduation_party_05','Only statement 1 is correct.'),
-    ('graduation_party_06','Neither of the two statements is correct.'),
-    ('graduation_party_07','Only statement 2 is correct.'),
-]
+QUIZ_QUESTIONS = [(qid, LETTER_TO_TEXT[letter]) for qid, letter in CORRECT_ANSWERS.items()]
 # ponytail: task IDs differ per condition; reflection-task interleaves justify tasks
 QUIZ_IDS_STANDARD = list(range(6, 18))
 QUIZ_IDS_REFLECTION = list(range(6, 29, 2))
 def quiz_ids_for(condition):
     return QUIZ_IDS_REFLECTION if condition == 'reflection-task' else QUIZ_IDS_STANDARD
 
-OPTIONS = ['Both statements are correct.','Neither of the two statements is correct.','Only statement 1 is correct.','Only statement 2 is correct.']
-OPT_LETTER = {o: chr(65+i) for i,o in enumerate(OPTIONS)}
+OPTIONS = ANSWER_OPTIONS
+OPT_LETTER = TEXT_TO_LETTER
 
 # ponytail: read from cleaned final_data (duplicates already removed, all batches merged)
 files = sorted(f for f in glob.glob(os.path.join(RESULTS, 'data', 'final_data', '*.json'))
@@ -187,6 +176,10 @@ obs_html = '\n'.join(f'    <li>{bold_to_strong(o)}</li>' for o in observations)
 cond_counts = {c: cond_totals[c][0]//12 for c in all_conds if cond_totals[c][0] > 0}
 subtitle_parts = ' · '.join(f'{c} (n={n})' for c,n in cond_counts.items())
 cond_options_html = '\n'.join(f'      <option value="{c}">{c} only</option>' for c in all_conds)
+_SHORT = {"Only statement 1 is correct.": "Only stmt 1", "Only statement 2 is correct.": "Only stmt 2",
+          "Both statements are correct.": "Both correct", "Neither of the two statements is correct.": "Neither correct"}
+opt_short_js = json.dumps([_SHORT[o] for o in OPTIONS])
+opt_js = json.dumps(OPTIONS)
 
 html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -251,9 +244,9 @@ select {{ font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #
 <script>
 const D = {json.dumps(chart_data)};
 
-const OPTIONS = ['Both statements are correct.','Neither of the two statements is correct.','Only statement 1 is correct.','Only statement 2 is correct.'];
-const OPT_SHORT = ['Both correct','Neither correct','Only stmt 1','Only stmt 2'];
-const OPT_COLORS = ['#ed8936','#4c8bf5','#48bb78','#9f7aea'];
+const OPTIONS = {opt_js};
+const OPT_SHORT = {opt_short_js};
+const OPT_COLORS = ['#48bb78','#9f7aea','#ed8936','#4c8bf5'];
 const grid = '#eef1f5', noAR = {{ responsive:true, maintainAspectRatio:false }};
 const padH = {{ layout:{{ padding:{{ right:36 }} }} }};
 

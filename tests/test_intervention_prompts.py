@@ -11,7 +11,7 @@ sys.path.insert(0, '/app')
 
 from app import INTERVENTION_PROMPTS  # noqa: E402
 
-REFUSAL = 'I work one step at a time - here is the next step.'
+REFUSAL = 'I work one step at a time, so the full answer comes at the end rather than in one go.'
 
 for condition, prompt in INTERVENTION_PROMPTS.items():
     lines = [line for line in prompt.split('\n') if line.strip()]

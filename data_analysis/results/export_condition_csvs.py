@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 """Flatten final_data/*.json into one CSV per condition (one row per participant)."""
-import csv, glob, json, os
+import csv, glob, json, os, sys
 
-FD = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'final_data')
+HERE = os.path.dirname(os.path.abspath(__file__))
+FD = os.path.join(HERE, 'data', 'final_data')
+sys.path.insert(0, os.path.join(HERE, '..', '..', 'src', 'customizations', 'questions'))
+from correct_answers import CORRECT_ANSWERS, ANSWER_OPTIONS, TEXT_TO_LETTER  # noqa: E402
 
-# Question names in task order; correctness comes from each record's own
-# answerResults (the study app's verdict) — no hard-coded answer key.
-QUIZ = ['ypc_02', 'ypc_03', 'ypc_05', 'ypc_06',
-        'car_racing_01', 'car_racing_02', 'car_racing_03', 'car_racing_05',
-        'graduation_party_01', 'graduation_party_05', 'graduation_party_06', 'graduation_party_07']
-OPTIONS = ['Both statements are correct.', 'Neither of the two statements is correct.',
-           'Only statement 1 is correct.', 'Only statement 2 is correct.']
-OPT_LETTER = {o: chr(65 + i) for i, o in enumerate(OPTIONS)}
+QUIZ = list(CORRECT_ANSWERS.keys())
+OPTIONS = ANSWER_OPTIONS
+OPT_LETTER = TEXT_TO_LETTER
 
 # Task IDs per layout (see dashboard.html TASK_MAP)
 STD = {'quiz': list(range(6, 18)), 'post': 19, 'tlx': 20, 'postq': 21, 'ueq': 22, 'sus': 23, 'nfc': 24, 'trust': 25}

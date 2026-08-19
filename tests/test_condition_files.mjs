@@ -25,6 +25,8 @@ const scenarioPages = (name) => readFileSync(`${DIR}/${name}`, 'utf8')
   .filter((page) => page.startsWith('# Scenario: '))
   // a reflection page inserted after a task is part of the next chunk's split, so cut at any %%
   .map((page) => page.split('\n%%')[0].split('\n# ')[0].trimEnd())
+  // strip condition-specific directives so stimulus text can be compared across arms
+  .map((page) => page.replace(/^:::predict-ai\n/gm, ''))
 
 const reference = scenarioPages(REFERENCE)
 assert.strictEqual(reference.length, 12, `${REFERENCE}: expected 12 scenario pages, got ${reference.length}`)
