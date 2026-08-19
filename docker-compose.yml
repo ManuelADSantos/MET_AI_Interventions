@@ -2,14 +2,14 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: interface-frontend/Dockerfile
+      dockerfile: src/interface-frontend/Dockerfile
     ports:
       - "5173:5173"
     volumes:
       - ./study.config.yml:/study.config.yml:ro
-      - ./customizations/tasks:/app/customizations:ro
-      - ./interface-frontend/src:/app/src
-      - ./interface-frontend/vite.config.js:/app/vite.config.js
+      - ./src/customizations/tasks:/app/customizations:ro
+      - ./src/interface-frontend/src:/app/src
+      - ./src/interface-frontend/vite.config.js:/app/vite.config.js
       - ./tests:/tests:ro
       - /app/node_modules
     depends_on:
@@ -18,15 +18,15 @@ services:
   backend:
     build:
       context: .
-      dockerfile: interface-backend/Dockerfile
+      dockerfile: src/interface-backend/Dockerfile
     # Dev uses gunicorn too, so local stress tests resemble Railway; --reload keeps hot-reload
     command: gunicorn --reload --workers 2 --threads 64 --timeout 180 --bind 0.0.0.0:5001 app:app
     ports:
       - "5001:5001"
     volumes:
       - ./study.config.yml:/study.config.yml:ro
-      - ./customizations/questions/correct_answers.py:/app/correct_answers.py
-      - ./interface-backend:/app
+      - ./src/customizations/questions/correct_answers.py:/app/correct_answers.py
+      - ./src/interface-backend:/app
       - ./tests:/tests:ro
     environment:
       - DATABASE_URL=postgresql://study:study@db:5432/study

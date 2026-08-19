@@ -4,7 +4,7 @@ Does the pause-points prompt cost the assistant its accuracy?
 Runs the 12 main tasks through the model twice - once as the `ai` baseline (config
 system_prompt only, one turn) and once as `pause-points` (the intervention appended as a system
 message on every turn, exactly as app.py does it) - with a scripted participant answering the
-pauses. Scores the assistant's final answer against customizations/correct_answers.py and counts
+pauses. Scores the assistant's final answer against src/customizations/questions/correct_answers.py and counts
 rule violations in the transcript.
 
 What this measures: the quality of what the participant is given. It is NOT the study's DV.
@@ -69,7 +69,7 @@ def load_config():
 def load_intervention(name):
     # ponytail: parsed out of app.py rather than imported, so the eval always tests the live
     # stimulus without dragging flask and the db connection into a host-side script.
-    tree = ast.parse((ROOT / "interface-backend" / "app.py").read_text())
+    tree = ast.parse((ROOT / "src" / "interface-backend" / "app.py").read_text())
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "INTERVENTION_PROMPTS":
             return ast.literal_eval(node.value)[name]
@@ -78,13 +78,13 @@ def load_intervention(name):
 
 def load_key():
     ns = {}
-    exec((ROOT / "customizations" / "correct_answers.py").read_text(), ns)
+    exec((ROOT / "src" / "customizations" / "questions" / "correct_answers.py").read_text(), ns)
     return ns["right_choices"]
 
 
 def load_tasks():
     """Each `# Scenario:` page holds two :::copy blocks - the exercise, then the scenario."""
-    text = (ROOT / "customizations" / "tasks" / "ai_tasks.md").read_text()
+    text = (ROOT / "src" / "customizations" / "tasks" / "ai_tasks.md").read_text()
     tasks = []
     for section in re.split(r"^# ", text, flags=re.M)[1:]:
         if not section.startswith("Scenario:"):

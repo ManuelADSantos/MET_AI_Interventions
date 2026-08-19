@@ -54,19 +54,19 @@ All customization is done by editing files on your computer. Changes take effect
 
 | What to Change | File to Edit | Notes |
 |----------------|--------------|-------|
-| Survey questions & instructions | `customizations/tasks/<condition>_tasks.md` | Uses taskParser markdown format (see below) |
-| Study info / consent page | `customizations/tasks/*_studyinfo_example.md` | First page participants see |
-| Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
+| Survey questions & instructions | `src/customizations/tasks/<condition>_tasks.md` | Uses taskParser markdown format (see below) |
+| Study info / consent page | `src/customizations/tasks/*_studyinfo_example.md` | First page participants see |
+| Correct answers for scoring | `src/customizations/questions/correct_answers.py` | Python list of correct answers |
 | GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
 | Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `ai` |
 | Which pages show chat | `:::chat-enabled` in task `.md` file | Per-page directive |
 | Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
-| UI components (advanced) | `interface-frontend/src/components/` | React components with hot-reload |
+| UI components (advanced) | `src/interface-frontend/src/components/` | React components with hot-reload |
 
 ### Task File Format
 
-Task files use a markdown-based format. See [`customizations/examples.md`](customizations/examples.md) for a full reference, or `customizations/tasks/ai_tasks.md` for a working example.
+Task files use a markdown-based format. See [`src/customizations/examples.md`](src/customizations/examples.md) for a full reference, or `src/customizations/tasks/ai_tasks.md` for a working example.
 
 ```markdown
 # Page Title
@@ -193,11 +193,11 @@ export_token: ""                   # Set a secret to enable GET /export?token=<s
 
 ## Adding Conditions
 
-Conditions are auto-discovered from `customizations/tasks/` — no code changes needed.
+Conditions are auto-discovered from `src/customizations/tasks/` — no code changes needed.
 
 ### Steps
 
-1. **Create a task file** in `customizations/tasks/`:
+1. **Create a task file** in `src/customizations/tasks/`:
    - `<name>_tasks.md` — the survey/task pages (required)
    - `study_info/<name>_studyinfo.md` — consent / intro pages (optional)
 
@@ -213,8 +213,8 @@ Conditions are auto-discovered from `customizations/tasks/` — no code changes 
 To add a condition called `ai-limited`:
 
 ```
-customizations/tasks/ai_limited_tasks.md              # task pages (required)
-customizations/tasks/study_info/ai_limited_studyinfo.md  # consent pages (optional)
+src/customizations/tasks/ai_limited_tasks.md              # task pages (required)
+src/customizations/tasks/study_info/ai_limited_studyinfo.md  # consent pages (optional)
 ```
 
 Open `http://localhost:5173?condition=ai-limited`. The chat panel will appear (name doesn't start with `no-`).
@@ -287,8 +287,8 @@ The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), 
 - Make sure you've saved the file after editing
 
 ### Changes not appearing
-- **Frontend source** (`interface-frontend/src/`): Hot-reloads instantly via Vite HMR — no rebuild needed.
-- **Task files** (`customizations/tasks/`): Also hot-reloaded (mounted into the container).
+- **Frontend source** (`src/interface-frontend/src/`): Hot-reloads instantly via Vite HMR — no rebuild needed.
+- **Task files** (`src/customizations/tasks/`): Also hot-reloaded (mounted into the container).
 - **`study.config.yml`**: Requires a restart (`docker compose down && docker compose up`).
 - **`package.json` or `Dockerfile` changes**: Require a rebuild (`docker compose up --build`).
 
@@ -345,23 +345,27 @@ AI_study/
 ├── study.config.example.yml      # Config template (copy to study.config.yml)
 ├── study.config.yml              # Your configuration (created during setup, gitignored)
 ├── docker-compose.yml            # Docker orchestration (frontend, backend, db)
-├── customizations/               # Student workspace for editing
-│   ├── tasks/                    # Task + study info markdown files
-│   └── correct_answers.py        # Answer key for scoring
+├── src/
+│   ├── customizations/           # Student workspace for editing
+│   │   ├── tasks/                # Task + study info markdown files
+│   │   └── questions/            # Answer key (correct_answers.py) + question reference
+│   ├── interface-backend/        # Flask backend
+│   │   ├── Dockerfile
+│   │   ├── app.py
+│   │   ├── db.py                 # Postgres persistence
+│   │   ├── chat_helpers.py
+│   │   ├── config_loader.py
+│   │   └── requirements.txt
+│   └── interface-frontend/       # React + Vite frontend
+│       ├── Dockerfile
+│       ├── entrypoint.sh
+│       ├── package.json
+│       ├── vite.config.js
+│       └── src/
 ├── tests/                        # Endpoint, parser and stress tests
-├── interface-backend/            # Flask backend
-│   ├── Dockerfile
-│   ├── app.py
-│   ├── db.py                     # Postgres persistence
-│   ├── chat_helpers.py
-│   ├── config_loader.py
-│   └── requirements.txt
-└── interface-frontend/           # React + Vite frontend
-    ├── Dockerfile
-    ├── entrypoint.sh
-    ├── package.json
-    ├── vite.config.js
-    └── src/
+├── data_analysis/                # Study data, notebooks, reports
+├── model_evaluation/             # Model-accuracy evaluation harness + results
+└── info/                         # Deployment/cost docs, Prolific distributions
 ```
 
 ## Security Notes

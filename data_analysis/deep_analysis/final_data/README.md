@@ -33,7 +33,7 @@ All notebooks are committed executed (outputs included). Generated tables/figure
 ## Analysis conventions (shared across deliverables)
 
 * **Scoring ground truth**: the canonical answer key
-  (`customizations/questions/correct_answers.py`) — verified to reproduce the backend's stored
+  (`src/customizations/questions/correct_answers.py`) — verified to reproduce the backend's stored
   `answerResults` bit-for-bit for all 925 records (0 mismatches / 11,100 scored items).
 * **Analysis sample n = 917** of 925: excluded are participants failing >1 of 4 embedded
   attention checks (7), answering <12 problems (0), or finishing in <10 minutes (1). A wave-1

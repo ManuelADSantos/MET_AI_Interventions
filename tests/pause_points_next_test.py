@@ -5,7 +5,7 @@ task, then answers every step question with "NEXT" until the model concludes) an
 the plain assistant as baseline. Uses the real prompt + streaming path imported from /app.
 
     docker compose exec -T backend python /tests/pause_points_next_test.py \
-        < customizations/tasks/pause_points_tasks.md
+        < src/customizations/tasks/pause_points_tasks.md
 
 Full transcripts land in /tmp/pause_next_results.json inside the container:
     docker compose cp backend:/tmp/pause_next_results.json .

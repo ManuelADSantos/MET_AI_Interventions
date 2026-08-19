@@ -10,7 +10,11 @@ def load_config():
     Returns a dictionary with all configuration values.
     Exits if the config file is missing or if the API key is not set.
     """
-    config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'study.config.yml')
+    # In Docker the config is mounted one level above /app; a local (non-Docker) run
+    # finds it at the repo root, two levels above src/interface-backend/.
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [os.path.join(here, up, 'study.config.yml') for up in ('..', os.path.join('..', '..'))]
+    config_path = next((p for p in candidates if os.path.exists(p)), candidates[0])
 
     if not os.path.exists(config_path):
         # No config file (e.g. Railway) — fall back to environment variables

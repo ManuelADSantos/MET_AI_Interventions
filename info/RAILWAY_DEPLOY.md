@@ -33,9 +33,9 @@
 ### Settings tab
 
 - **Source** → Root Directory: leave as `/` (both Dockerfiles use repo root as build context)
-- **Build** → Builder: should auto-detect the Dockerfile. If not, set to `Dockerfile` and set the Dockerfile path to `interface-backend/Dockerfile`
+- **Build** → Builder: should auto-detect the Dockerfile. If not, set to `Dockerfile` and set the Dockerfile path to `src/interface-backend/Dockerfile`
 
-> If your repo has `railway.json` files (this one does), Railway reads them automatically. The backend's `interface-backend/railway.json` sets the Dockerfile path and health check for you.
+> If your repo has `railway.json` files (this one does), Railway reads them automatically. The backend's `src/interface-backend/railway.json` sets the Dockerfile path and health check for you.
 
 ### Variables tab
 
@@ -97,7 +97,7 @@ Click **"Raw Editor"** and paste the following JSON, then fill in your values:
 
 ### Settings tab
 
-Same as backend — root directory `/`, Dockerfile auto-detected from `interface-frontend/railway.json`.
+Same as backend — root directory `/`, Dockerfile auto-detected from `src/interface-frontend/railway.json`.
 
 ### Variables tab
 
@@ -173,7 +173,7 @@ mid-study cannot switch it:
 https://your-frontend.up.railway.app/?PROLIFIC_PID={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}&condition=pause_points
 ```
 
-Available conditions are discovered from `customizations/tasks/<name>_tasks.md`, with `_` written as
+Available conditions are discovered from `src/customizations/tasks/<name>_tasks.md`, with `_` written as
 either `_` or `-` in the URL: `ai`, `no_ai`, `alternatives`, `pause_points`, `reflection`,
 `reflection_task`, `reflection_scenario`. Omitting the parameter gives `ai`.
 

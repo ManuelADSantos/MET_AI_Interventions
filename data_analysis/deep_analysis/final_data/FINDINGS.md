@@ -44,7 +44,7 @@ available, but the confound cannot be fully removed by analysis.
 ## 2. Data integrity
 
 * **Scoring is verified.** Recomputing every answer against the canonical key
-  (`customizations/questions/correct_answers.py`, the module the backend imported at runtime)
+  (`src/customizations/questions/correct_answers.py`, the module the backend imported at runtime)
   reproduces the backend's stored `answerResults` exactly: **0 mismatches across 11,100 scored
   items**.
 * **The convenience CSVs' correctness columns are fixed and verified.** The original

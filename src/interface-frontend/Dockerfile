@@ -6,14 +6,14 @@ WORKDIR /app
 # Install dos2unix to handle Windows line endings
 RUN apk add --no-cache dos2unix
 
-COPY interface-frontend/package*.json interface-frontend/.npmrc ./
+COPY src/interface-frontend/package*.json src/interface-frontend/.npmrc ./
 RUN npm install
 
-COPY interface-frontend/entrypoint.sh /entrypoint.sh
+COPY src/interface-frontend/entrypoint.sh /entrypoint.sh
 RUN dos2unix /entrypoint.sh && chmod +x /entrypoint.sh
 
-COPY interface-frontend/ .
-COPY customizations/tasks/ ./customizations/
+COPY src/interface-frontend/ .
+COPY src/customizations/tasks/ ./customizations/
 
 EXPOSE 5173
 
