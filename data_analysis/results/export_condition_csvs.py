@@ -4,13 +4,11 @@ import csv, glob, json, os
 
 FD = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'final_data')
 
-QUIZ = [('ypc_02', 'Only statement 1 is correct.'), ('ypc_03', 'Only statement 2 is correct.'),
-        ('ypc_05', 'Both statements are correct.'), ('ypc_06', 'Only statement 2 is correct.'),
-        ('car_racing_01', 'Only statement 1 is correct.'), ('car_racing_02', 'Only statement 2 is correct.'),
-        ('car_racing_03', 'Both statements are correct.'), ('car_racing_05', 'Only statement 1 is correct.'),
-        ('graduation_party_01', 'Neither of the two statements is correct.'),
-        ('graduation_party_05', 'Only statement 1 is correct.'),
-        ('graduation_party_06', 'Both statements are correct.'), ('graduation_party_07', 'Only statement 2 is correct.')]
+# Question names in task order; correctness comes from each record's own
+# answerResults (the study app's verdict) — no hard-coded answer key.
+QUIZ = ['ypc_02', 'ypc_03', 'ypc_05', 'ypc_06',
+        'car_racing_01', 'car_racing_02', 'car_racing_03', 'car_racing_05',
+        'graduation_party_01', 'graduation_party_05', 'graduation_party_06', 'graduation_party_07']
 OPTIONS = ['Both statements are correct.', 'Neither of the two statements is correct.',
            'Only statement 1 is correct.', 'Only statement 2 is correct.']
 OPT_LETTER = {o: chr(65 + i) for i, o in enumerate(OPTIONS)}
@@ -33,15 +31,16 @@ def row(p):
 
     confs_correct, confs_wrong = [], []
     n_correct = 0
-    for (name, correct_ans), tid in zip(QUIZ, L['quiz']):
+    for name, tid in zip(QUIZ, L['quiz']):
         ans, conf = get(tid, 1), num(tid, 2)
-        ok = ans == correct_ans
+        ok = bool(p['answerResults'][f'{tid}.1'])
         n_correct += ok
         (confs_correct if ok else confs_wrong).append(conf) if conf is not None else None
         r[f'{name}_answer'] = OPT_LETTER.get(ans, '')
         r[f'{name}_correct'] = int(ok)
         r[f'{name}_confidence'] = conf if conf is not None else ''
 
+    assert n_correct == p['correctAnswers'], p['participantId']  # app's own tally must agree
     r['n_correct'] = n_correct
     all_confs = confs_correct + confs_wrong
     r['mean_confidence'] = mean(all_confs)
