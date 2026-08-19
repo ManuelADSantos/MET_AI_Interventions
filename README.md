@@ -46,7 +46,10 @@
 
 5. **Stop the application**
    - Press `Ctrl+C` in the terminal where Docker Compose is running
-   - Or run: `docker compose down -v --rmi local`
+   - Or run:
+   ```bash
+    docker compose down -v --rmi local
+   ```
 
 ## Customizing Your Study
 
