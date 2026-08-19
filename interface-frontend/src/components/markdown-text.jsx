@@ -12,10 +12,10 @@ import { CheckIcon, CopyIcon } from "lucide-react";
 import { TooltipIconButton } from "@/components/tooltip-icon-button";
 import { cn } from "@/lib/utils";
 
-const MarkdownTextImpl = () => {
+const MarkdownTextImpl = ({ remarkPlugins = [remarkGfm] }) => {
   return (
     <MarkdownTextPrimitive
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={remarkPlugins}
       className="aui-md"
       components={defaultComponents}
       defer />

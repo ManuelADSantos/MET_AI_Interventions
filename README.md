@@ -59,14 +59,14 @@ All customization is done by editing files on your computer. Changes take effect
 | Correct answers for scoring | `customizations/correct_answers.py` | Python list of correct answers |
 | GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
 | ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
-| Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `no-ai` |
+| Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `ai` |
 | Which pages show chat | `:::chat-enabled` in task `.md` file | Per-page directive |
 | Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
 | UI components (advanced) | `interface-frontend/src/components/` | React components with hot-reload |
 
 ### Task File Format
 
-Task files use a markdown-based format. See [`customizations/tasks/examples.md`](customizations/tasks/examples.md) for a full reference, or `customizations/tasks/ai_tasks.md` for a working example.
+Task files use a markdown-based format. See [`customizations/examples.md`](customizations/examples.md) for a full reference, or `customizations/tasks/ai_tasks.md` for a working example.
 
 ```markdown
 # Page Title
@@ -140,6 +140,7 @@ Text to copy into the AI chat.
 - `##` creates a section heading within a page
 - `> text` displays paragraph text to the participant
 - `$option; A; B; C` creates radio buttons (semicolon-separated; `Other` or a `*`-suffixed option opens a text field)
+- `$checkbox; A; B; C` creates checkboxes for multi-select (same syntax as `$option`, stores an array)
 - `$slider; min; max; lowLabel; highLabel` creates a slider (append `; tooltip` or `; tooltip%` to show the selected value)
 - `$likert; min; max; lowLabel; highLabel` creates a Likert scale
 - `$number` creates a number input (optionally `$number; min; max`, defaults 0–999)
@@ -150,6 +151,7 @@ Text to copy into the AI chat.
 - `:::copy` ... `:::` adds copy-button text without displaying it as page content
 - `:::chat-enabled` shows the chat panel on this page (chat conditions only, ignored for `no-*` conditions)
 - `:::require-ai-prompt` gates the Next button behind at least one AI prompt (chat conditions only)
+- `:::predict-ai` hides the page's questions until the participant predicts whether the AI would solve the task correctly (`prediction` condition)
 - `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
 - `%% SECTION` ... `%%` marks a block as a section but keeps its page order
 - A standalone `%% RANDOMIZE_SECTIONS` line anywhere in the file shuffles all marked
@@ -169,11 +171,14 @@ base_url: https://api.openai.com/v1    # Optional: Custom API base URL
 
 # Study Settings
 randomize_tasks: true              # Shuffle tasks within sections
+study_info: true                   # Show study info pages (false to skip them)
 system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
 
 # Chat Availability
 allow_image_attachments: false     # Enable image uploads
 copy_button_template: "{copyText}" # Copy-button template text
+enable_task_to_chat_button: true    # Show the task-and-scenario paste-to-chat button
+enable_task_text_copying: true      # Allow manual selection/copying of task and scenario text
 
 # Development
 dev_mode: true                     # Dev mode: skip ID validation, free page navigation, optional fields
@@ -196,7 +201,7 @@ Conditions are auto-discovered from `customizations/tasks/` — no code changes 
    - `<name>_tasks.md` — the survey/task pages (required)
    - `study_info/<name>_studyinfo.md` — consent / intro pages (optional)
 
-2. **Set the condition** via URL query parameter: `?condition=<name>` (defaults to `no-ai` if omitted)
+2. **Set the condition** via URL query parameter: `?condition=<name>` (defaults to `ai` if omitted)
 
 ### Naming conventions
 
@@ -216,7 +221,7 @@ Open `http://localhost:5173?condition=ai-limited`. The chat panel will appear (n
 
 ### Condition-specific UI components
 
-If a condition needs custom visual elements (e.g. confidence cards, reliability warnings), keep the logic self-contained. See `src/scripts/conditions.js` for the central condition registry. Load condition-specific config (JSON, etc.) via `import.meta.glob` rather than hardcoded imports, and guard rendering on the condition name so other conditions are unaffected.
+If a condition needs custom visual elements (e.g. confidence cards, a post-task reflection screen), keep the logic self-contained. See `src/scripts/conditions.js` for the central condition registry. Load condition-specific config (JSON, etc.) via `import.meta.glob` rather than hardcoded imports, and guard rendering on the condition name so other conditions are unaffected.
 
 ## AutoProctor Integration (Optional)
 

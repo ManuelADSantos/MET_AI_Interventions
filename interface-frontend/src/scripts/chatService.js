@@ -30,7 +30,7 @@ const mintChatToken = async () => {
  * @param {Array} messages The list of chat messages so far. Should include at least one message (prompt from user).
  * @returns The full API response containing the chat completion
  */
-const requestChatResponseStream = async function* (messages, signal) {
+const requestChatResponseStream = async function* (messages, signal, hasTaskQuestion = false, column = null) {
   const messagesToSend = messages.filter((m) => ['user', 'assistant'].includes(m.role))
   if (SYSTEM_PROMPT) {
     messagesToSend.unshift({ role: 'system', content: SYSTEM_PROMPT })
@@ -44,14 +44,32 @@ const requestChatResponseStream = async function* (messages, signal) {
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
-      messages: messagesToSend
+      messages: messagesToSend,
+      // Gates the intervention system prompt server-side (see app.py stream_message)
+      hasTaskQuestion,
+      ...(column ? { column } : {})
     })
   })
 
-  let res = await send(sessionStorage.getItem('chatToken') || await mintChatToken())
+  let token = sessionStorage.getItem('chatToken') || await mintChatToken()
+  let res
+  try {
+    res = await send(token)
+  } catch (e) {
+    if (signal?.aborted) throw e
+    // ponytail: one retry on a network blip ("Failed to fetch") — flaky WiFi/VPNs on the
+    // participant side. A second failure surfaces in the chat as before.
+    await new Promise(r => setTimeout(r, 1500))
+    res = await send(token)
+  }
   if (res.status === 401) {
-    // Token unknown to the server (e.g. backend redeploy) — re-mint once and retry
-    res = await send(await mintChatToken())
+    token = await mintChatToken()
+    res = await send(token)
+  }
+  // ponytail: single retry after 2s on rate-limit — Railway caps ~10 concurrent per endpoint
+  if (res.status === 429) {
+    await new Promise(r => setTimeout(r, 2000))
+    res = await send(token)
   }
 
   if (!res.ok || !res.body) {

@@ -31,7 +31,7 @@ const SliderQuestion = ({id, question, field}) => {
         inputRef={field.ref}
         showTooltip={!!tooltipParam}
         tooltipValueFormatOptions={tooltipParam === 'tooltip%' ? { style: 'unit', unit: 'percent' } : undefined}
-        classNames={hasValue ? {} : { thumb: 'opacity-0' }}
+        classNames={hasValue ? { track: 'h-3', thumb: 'w-6 h-6' } : { track: 'h-3', thumb: 'w-6 h-6 opacity-0' }}
       />
       <span className='shrink-0'>{question.maxLabel}</span>
     </div>

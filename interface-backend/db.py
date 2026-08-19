@@ -41,16 +41,22 @@ def init():
 
 
 def save_participant(pid, condition, record):
-    # ponytail: upsert so a retry after a network hiccup never loses a participant's data
+    # ponytail: upsert so a retry after a network hiccup never loses a participant's data.
+    # The WHERE stops a slow mid-study checkpoint landing late from clobbering the final record.
     _run('''INSERT INTO participants (participant_id, condition, data)
             VALUES (%s, %s, %s)
             ON CONFLICT (participant_id)
-            DO UPDATE SET data = EXCLUDED.data, condition = EXCLUDED.condition, saved_at = now()''',
+            DO UPDATE SET data = EXCLUDED.data, condition = EXCLUDED.condition, saved_at = now()
+            WHERE NOT COALESCE((participants.data->>'completed')::boolean, true)
+               OR COALESCE((EXCLUDED.data->>'completed')::boolean, true)''',
          (pid, condition, Json(record)))
 
 
 def has_participated(pid):
-    return bool(_run('SELECT 1 FROM participants WHERE participant_id = %s', (pid,), fetch=True))
+    # Checkpoint rows (completed=false) don't count: a participant whose tab crashed
+    # mid-study can re-enter instead of being locked out. Legacy rows lack the flag = completed.
+    return bool(_run('''SELECT 1 FROM participants WHERE participant_id = %s
+                        AND COALESCE((data->>'completed')::boolean, true)''', (pid,), fetch=True))
 
 
 def create_session(pid, condition):
@@ -76,10 +82,12 @@ def issue_token(pid, condition):
 
 
 def consume_chat(token):
-    # ponytail: one atomic UPDATE is both the auth check and the spend counter
-    return bool(_run('''UPDATE sessions SET chat_count = chat_count + 1
-                        WHERE token = %s AND chat_count < %s RETURNING 1''',
-                     (token, CHAT_CAP), fetch=True))
+    # ponytail: one atomic UPDATE is auth check, spend counter and condition lookup.
+    # Returns the condition (always a non-empty string, see app.py issue_token) or None.
+    rows = _run('''UPDATE sessions SET chat_count = chat_count + 1
+                   WHERE token = %s AND chat_count < %s RETURNING condition''',
+                (token, CHAT_CAP), fetch=True)
+    return rows[0][0] if rows else None
 
 
 def get_session_condition(pid):

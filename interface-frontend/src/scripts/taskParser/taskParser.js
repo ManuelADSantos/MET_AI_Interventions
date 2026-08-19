@@ -76,7 +76,7 @@ const parseContentItems = (rawContent) => {
       }
     }
 
-    if (questionType === 'option') {
+    if (questionType === 'option' || questionType === 'checkbox') {
       return {
         question: questionText,
         type: questionType,
@@ -85,6 +85,23 @@ const parseContentItems = (rawContent) => {
         options: afterDollar.split(';').length > 1
           ? afterDollar.split(';').slice(1).map((o) => o.trim())
           : ['Yes', 'No']
+      }
+    }
+
+    // `$textarea; 200; 4000` sets a character minimum and maximum. The minimum drives the
+    // red/green counter in QuestionWrapper; the default max of 400 is too short for an
+    // explain-back answer, so a reflection page raises it.
+    if (questionType === 'textarea') {
+      const [min, max] = afterDollar.split(';').slice(1).map((p) => parseInt(p.trim()))
+      return {
+        question: questionText,
+        type: questionType,
+        required: isRequired,
+        subtitle,
+        // isFinite, not isNaN: a bare `$textarea` has no params at all, so these are undefined
+        // rather than NaN, and Number.isNaN(undefined) is false
+        minChars: Number.isFinite(min) ? min : 2,
+        maxChars: Number.isFinite(max) ? max : 400
       }
     }
 
@@ -257,19 +274,30 @@ const extractCopyBlocks = (rawContent) => {
   const copyDisabled = /^\s*:::(copy-disabled|no-copy)\s*$/m.test(String(rawContent))
   const requireAiPrompt = /^\s*:::require-ai-prompt\s*$/m.test(String(rawContent))
   const chatEnabled = /^\s*:::chat-enabled\s*$/m.test(String(rawContent))
+  const nextEnabled = /^\s*:{2,3}next\s*$/m.test(String(rawContent))
+  // A page marked :::reflect-summary shows the AI's review of the transcript after its questions are
+  // submitted, then a Continue button. It is the one part of a reflection that markdown cannot hold.
+  const reflectSummary = /^\s*:::reflect-summary\s*$/m.test(String(rawContent))
+  // A page marked :::predict-ai hides its questions until the participant predicts whether the AI
+  // would solve the task correctly (the manipulation of the prediction condition).
+  const predictAi = /^\s*:::predict-ai\s*$/m.test(String(rawContent))
   const content = String(rawContent)
     .replace(/:::copy\s*\n([\s\S]*?)\n:::/g, (_, copyText) => {
     copyBlocks.push(copyText.trim())
     return ''
     })
-    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt|chat-enabled)\s*$/gm, '')
+    .replace(/^\s*:::(copy-disabled|no-copy|require-ai-prompt|chat-enabled|reflect-summary|predict-ai)\s*$/gm, '')
+    .replace(/^\s*:{2,3}next\s*$/gm, '')
 
   return {
     content,
     copyText: copyBlocks.join('\n\n'),
     copyDisabled,
     requireAiPrompt,
-    chatEnabled
+    chatEnabled,
+    nextEnabled,
+    reflectSummary,
+    predictAi
   }
 }
 
@@ -293,7 +321,8 @@ const parseTabs = (rawPageContent) => {
       title,
       content: parseContentItems(visibleBody),
       copyText: parsedCopyBlocks.copyText,
-      copyDisabled: parsedCopyBlocks.copyDisabled
+      copyDisabled: parsedCopyBlocks.copyDisabled,
+      nextEnabled: parsedCopyBlocks.nextEnabled
     }
   })
 }
@@ -306,6 +335,18 @@ const shuffle = (items) => {
     ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
   }
   return shuffled
+}
+
+/** A :::reflect-summary page belongs to the page in front of it, so the two shuffle as one unit —
+ *  plain shuffling would separate a reflection from the task it asks the participant to recall. */
+const shuffleKeepingReflections = (pages) => {
+  if (!pages.some((page) => page.reflectSummary)) return shuffle(pages)
+  const groups = []
+  pages.forEach((page) => {
+    if (page.reflectSummary && groups.length) groups[groups.length - 1].push(page)
+    else groups.push([page])
+  })
+  return shuffle(groups).flat()
 }
 
 /** Load & parse tasks
@@ -365,13 +406,16 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
           copyDisabled: parsedPageCopyBlocks.copyDisabled,
           requireAiPrompt: parsedPageCopyBlocks.requireAiPrompt,
           chatEnabled: parsedPageCopyBlocks.chatEnabled,
+          reflectSummary: parsedPageCopyBlocks.reflectSummary,
+          predictAi: parsedPageCopyBlocks.predictAi,
           content: pageContent,
           tabs: tabs || [
             {
               title: 'Exercise',
               content: pageContent,
               copyText: parsedPageCopyBlocks.copyText,
-              copyDisabled: parsedPageCopyBlocks.copyDisabled
+              copyDisabled: parsedPageCopyBlocks.copyDisabled,
+              nextEnabled: true
             }
           ]
         }
@@ -380,7 +424,7 @@ const loadTasks = (tasks, { randomize = true } = {}) => {
       pagesSoFar += pages.length // Add the number of pages parsed to the count
 
       sections.push({
-        pages: isRandom ? shuffle(pages) : pages,
+        pages: isRandom ? shuffleKeepingReflections(pages) : pages,
         isSection
       })
     }

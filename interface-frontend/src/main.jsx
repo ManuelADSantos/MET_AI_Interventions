@@ -5,12 +5,12 @@ import SyncPage from './components/SyncPage.jsx'
 import { StateProvider } from './scripts/store.jsx'
 import { NextUIProvider } from '@nextui-org/react'
 import { tasksPerCondition } from './scripts/conditions'
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import './index.css'
 
 const urlParams = new URLSearchParams(window.location.search)
-// ponytail: condition comes from URL only — ?condition=ai or ?condition=no_ai
-const condition = urlParams.get('condition')?.replace('_', '-') || 'ai'
+// ponytail: URL → sessionStorage → fallback 'ai'; survives refresh after URL is stripped
+const condition = urlParams.get('condition')?.replaceAll('_', '-') || sessionStorage.getItem('condition') || 'ai'
+sessionStorage.setItem('condition', condition)
 
 // Strip Prolific params from the address bar so participants can't read or tweak them
 // mid-study (App.jsx captured them at import time, before this line runs)

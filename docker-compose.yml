@@ -7,7 +7,7 @@ services:
       - "5173:5173"
     volumes:
       - ./study.config.yml:/study.config.yml:ro
-      - ./customizations/tasks:/app/public:ro
+      - ./customizations/tasks:/app/customizations:ro
       - ./interface-frontend/src:/app/src
       - ./interface-frontend/vite.config.js:/app/vite.config.js
       - ./tests:/tests:ro
@@ -25,7 +25,7 @@ services:
       - "5001:5001"
     volumes:
       - ./study.config.yml:/study.config.yml:ro
-      - ./customizations/correct_answers.py:/app/correct_answers.py
+      - ./customizations/questions/correct_answers.py:/app/correct_answers.py
       - ./interface-backend:/app
       - ./tests:/tests:ro
     environment:

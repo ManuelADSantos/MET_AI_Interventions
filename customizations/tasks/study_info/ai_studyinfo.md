@@ -21,19 +21,19 @@
 
 > Your data will be processed in accordance with applicable data protection regulations. If you have questions about the study or your data, you can contact:
 
-> - Dr. Robin Welsch
-> - Aalto University, School of Science, Department of Computer Science
-> - robin.welsch@aalto.fi
+> Dr. Robin Welsch
+> Institution: Aalto University, School of Science, Department of Computer Science
+> E-mail: robin.welsch@aalto.fi
 
 ## Consent
 
 > By continuing with the study, you confirm that:
 
-> - You have read and understood the information above.
-> - You are at least **18 years old**.
-> - You understand that your participation is voluntary.
-> - You understand that your responses and AI interactions may be used for research purposes.
-> - You agree to take part in this study.
+> You have read and understood the information above.
+> You are at least **18 years old**.
+> You understand that your participation is voluntary.
+> You understand that your responses and AI interactions may be used for research purposes.
+> You agree to take part in this study.
 
 > I agree to take part in this study
 

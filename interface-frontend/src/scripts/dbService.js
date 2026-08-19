@@ -2,12 +2,16 @@ const baseURL = import.meta.env.VITE_PROXY_URL || `http://${window.location.host
 
 const saveToDatabase = async (data) => {
   try {
+    // ponytail: 60s timeout — Railway's gateway times out at 30s on free/starter, returning HTML
+    // that res.json() can't parse, hanging the spinner forever. The AbortSignal ensures the fetch
+    // rejects cleanly so the retry button appears.
     const res = await fetch(`${baseURL}/save`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }, 
-      body: JSON.stringify(data)
+      },
+      body: JSON.stringify(data),
+      signal: AbortSignal.timeout(60_000)
     })
 
     if (!res.ok) {
@@ -19,6 +23,7 @@ const saveToDatabase = async (data) => {
 
     return response
   } catch (e) {
+    if (e.name === 'TimeoutError') return { error: 'The request timed out. Please click "Try again".' }
     return {'error': e.message}
   }
 }

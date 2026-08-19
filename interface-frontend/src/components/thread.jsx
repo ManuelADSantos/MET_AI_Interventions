@@ -13,6 +13,7 @@ import {
 import { TooltipIconButton } from "@/components/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { store } from "@/scripts/store";
 import {
   ActionBarMorePrimitive,
   ActionBarPrimitive,
@@ -22,8 +23,8 @@ import {
   ErrorPrimitive,
   groupPartByType,
   MessagePrimitive,
-  SuggestionPrimitive,
   ThreadPrimitive,
+  useAui,
   useAuiState,
   useThreadViewport,
 } from "@assistant-ui/react";
@@ -40,7 +41,7 @@ import {
   RefreshCwIcon,
   SquareIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // Startup exposes a loading placeholder thread; treat it as a new chat so
 // the composer mounts centered. Loads after startup keep the docked layout.
@@ -54,7 +55,6 @@ export const Thread = () => {
 };
 
 const ThreadRoot = ({ isEmpty }) => {
-
   return (
     <ThreadPrimitive.Root
       className="aui-root aui-thread-root @container flex h-full flex-col bg-[#fafafa] text-[#0d0d0d]"
@@ -92,19 +92,62 @@ const ThreadRoot = ({ isEmpty }) => {
                 "sticky bottom-0 mt-auto rounded-t-[var(--composer-radius)]"
             )}>
             <ThreadScrollToBottom />
+            <TaskDraftBridge />
             <Composer />
             {/* <p className="text-center text-xs text-[#5d5d5d]">
               AI can make mistakes. Check important info.
               KEEP THIS FOR REFERENCE
             </p> */}
-            <AuiIf condition={(s) => isNewChatView(s) && s.composer.isEmpty}>
-              <ThreadSuggestions />
-            </AuiIf>
           </ThreadPrimitive.ViewportFooter>
         </div>
       </ThreadPrimitive.Viewport>
     </ThreadPrimitive.Root>
   );
+};
+
+const TaskDraftBridge = () => {
+  const aui = useAui();
+  const ctxStore = useContext(store);
+  const composerText = useAuiState((s) => s.composer.text);
+  const composerTextRef = useRef(composerText);
+  composerTextRef.current = composerText;
+
+  useEffect(() => {
+    const handleTaskDraft = (event) => {
+      const { text, focusOnly, onInserted } = event.detail || {};
+
+      if (!focusOnly && text) {
+        const existingText = composerTextRef.current?.trim();
+        const nextText = existingText ? `${existingText}\n\n${text}` : text;
+        aui.composer().setText(nextText);
+        composerTextRef.current = nextText;
+        onInserted?.(nextText);
+      }
+
+      requestAnimationFrame(() => {
+        const input = document.querySelector('.aui-composer-input');
+        input?.focus();
+        input?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    };
+
+    window.addEventListener('study:add-task-to-chat', handleTaskDraft);
+    return () => window.removeEventListener('study:add-task-to-chat', handleTaskDraft);
+  }, [aui]);
+
+  useEffect(() => {
+    const handleDraftEdited = () => {
+      const draft = ctxStore.state.taskChatDraft;
+      if (draft && !draft.editedBeforeSend) {
+        ctxStore.dispatch({ type: 'TASK_CHAT_DRAFT_EDITED', payload: { taskId: draft.taskId } });
+      }
+    };
+
+    window.addEventListener('study:task-chat-draft-edited', handleDraftEdited);
+    return () => window.removeEventListener('study:task-chat-draft-edited', handleDraftEdited);
+  }, [ctxStore.state.taskChatDraft, ctxStore.dispatch]);
+
+  return null;
 };
 
 const ThreadMessage = () => {
@@ -188,33 +231,6 @@ const ThreadWelcome = () => {
   );
 };
 
-const ThreadSuggestions = () => {
-  return (
-    <div
-      className="aui-thread-welcome-suggestions flex w-full flex-wrap items-center justify-center gap-2 px-4">
-      <ThreadPrimitive.Suggestions>
-        {() => <ThreadSuggestionItem />}
-      </ThreadPrimitive.Suggestions>
-    </div>
-  );
-};
-
-const ThreadSuggestionItem = () => {
-  return (
-    <div
-      className="aui-thread-welcome-suggestion-display fade-in slide-in-from-bottom-2 animate-in fill-mode-both duration-200">
-      <SuggestionPrimitive.Trigger send asChild>
-        <Button
-          variant="ghost"
-          className="aui-thread-welcome-suggestion text-foreground hover:bg-muted border-border/60 h-auto gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-normal whitespace-nowrap transition-colors">
-          <SuggestionPrimitive.Title className="aui-thread-welcome-suggestion-text-1" />
-          <SuggestionPrimitive.Description className="aui-thread-welcome-suggestion-text-2 empty:hidden" />
-        </Button>
-      </SuggestionPrimitive.Trigger>
-    </div>
-  );
-};
-
 const Composer = () => {
   return (
     <ComposerPrimitive.Root className="aui-composer-root relative flex w-full flex-col">
@@ -228,6 +244,7 @@ const Composer = () => {
             className="aui-composer-input max-h-32 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 text-base leading-6 text-[#0d0d0d] outline-none placeholder:text-[#6f6f6f]"
             rows={1}
             autoFocus
+            onInput={() => window.dispatchEvent(new CustomEvent('study:task-chat-draft-edited'))}
             aria-label="Message input" />
           <ComposerAction />
         </div>
@@ -315,8 +332,6 @@ const AssistantMessage = () => {
                 return <MarkdownText />;
               case "reasoning":
                 return <Reasoning {...part} />;
-              case "data":
-                return part.dataRendererUI;
               case "indicator":
                 return (
                   <span

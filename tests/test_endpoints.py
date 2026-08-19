@@ -15,6 +15,7 @@ import urllib.error
 BACKEND_URL = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:5001"
 PID = f"__test_{uuid.uuid4().hex[:12]}__"
 
+# Titles mark the scored pages; answers match right_choices[0:2] (D, B), third is wrong → 2 correct
 PAYLOAD = {
     "participantId": PID,
     "condition": "ai",
@@ -23,14 +24,14 @@ PAYLOAD = {
         {"role": "assistant", "content": "Logical reasoning is rational analysis of arguments."}
     ],
     "tasks": {
-        "4": {"ts": 1700000010000, "displayIndex": 4, "responses": {
-            "4.1": {"question": "Life imitates art...", "answer": "Soon after the advent of color television, white shirts became less popular as dressy attire for men, and pastel-colored shirts began to sell well."},
+        "4": {"ts": 1700000010000, "displayIndex": 4, "title": "Scenario: Young Professionals Consulting", "responses": {
+            "4.1": {"question": "Please indicate your answer.", "answer": "Neither of the two statements is correct."},
             "4.2": {"question": "Confidence?", "answer": 75}}},
-        "5": {"ts": 1700000020000, "displayIndex": 5, "responses": {
-            "5.1": {"question": "Federal workers...", "answer": "Federal pay is out of line."},
+        "5": {"ts": 1700000020000, "displayIndex": 5, "title": "Scenario: Young Professionals Consulting", "responses": {
+            "5.1": {"question": "Please indicate your answer.", "answer": "Only statement 2 is correct."},
             "5.2": {"question": "Confidence?", "answer": 60}}},
-        "6": {"ts": 1700000030000, "displayIndex": 6, "responses": {
-            "6.1": {"question": "No high jumper...", "answer": "This is a wrong answer"},
+        "6": {"ts": 1700000030000, "displayIndex": 6, "title": "Scenario: Young Professionals Consulting", "responses": {
+            "6.1": {"question": "Please indicate your answer.", "answer": "This is a wrong answer"},
             "6.2": {"question": "Confidence?", "answer": 30}}}
     }
 }
@@ -81,7 +82,7 @@ test("returns 201", status == 201, f"got {status}")
 test("message is OK", body.get("message") == "OK", f"got {body.get('message')}")
 test("has prolificCode", "prolificCode" in body)
 test("correct answers == 2", body.get("correctAnswers") == 2, f"got {body.get('correctAnswers')}")
-test("total questions == 20", body.get("totalQuestions") == 20, f"got {body.get('totalQuestions')}")
+test("total questions == 12", body.get("totalQuestions") == 12, f"got {body.get('totalQuestions')}")
 
 print("\n3. Saved ID is now a participant...")
 status, body = post_json("/check_participation", {"id": PID})

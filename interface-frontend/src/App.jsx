@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react"
 import { store } from "./scripts/store"
 import { conditionHasChat } from "./scripts/conditions"
-import { checkParticipation } from "./scripts/dbService"
+import { checkParticipation, saveToDatabase } from "./scripts/dbService"
 import { mintChatToken } from "./scripts/chatService"
 import TaskView from './components/tasks/TaskView'
 import ChatView from "./components/chat/ChatView"
+import DualChatView from "./components/chat/DualChatView"
 import { Button, Card, CardBody, Input, CardHeader } from '@nextui-org/react'
 
 const urlParams = new URLSearchParams(window.location.search)
@@ -14,6 +15,8 @@ const App = ({ condition, tasks, directStartPid }) => {
   const [idGiven, setIdGiven] = useState(false)
   const [idError, setIdError] = useState('')
   const ctxStore = useContext(store)
+
+  if (!tasks?.length) return <div className='flex justify-center items-center h-screen bg-neutral-100'><p className='text-red-500 font-bold'>Unknown condition "{condition}". Check the URL.</p></div>
 
   const startStudy = (pid) => {
     // Registers the session server-side (binds pid→condition) and warms the chat token;
@@ -53,6 +56,23 @@ const App = ({ condition, tasks, directStartPid }) => {
     if (urlPid) submitId(urlPid)
   }, [])
 
+  // ponytail: fire-and-forget checkpoint on every page turn — a crashed tab now costs
+  // one page of data, not the participant's hour. Errors ignored; next turn retries.
+  useEffect(() => {
+    const s = ctxStore.state
+    if (s.taskIndex < 1 || !s.participantId) return
+    saveToDatabase({
+      participantId: s.participantId,
+      condition: s.condition,
+      messages: s.messages,
+      interactionLog: s.interactionLog,
+      tasks: s.tasks,
+      studyId: urlParams.get('STUDY_ID') || '',
+      sessionId: urlParams.get('SESSION_ID') || '',
+      completed: false
+    })
+  }, [ctxStore.state.taskIndex])
+
   // ponytail: warn on accidental page close/refresh once the study has started (skip in dev mode)
   useEffect(() => {
     if (!idGiven || import.meta.env.VITE_DEV_MODE === 'true') return
@@ -90,11 +110,14 @@ const App = ({ condition, tasks, directStartPid }) => {
       : <>
         <div className='flex flex-1 flex-row h-screen'>
           <TaskView tasks={tasks} />
-          {conditionHasChat(condition) && <ChatView sourceIndex={
-            tasks[ctxStore.state.taskIndex]
-            ? tasks[ctxStore.state.taskIndex].sourceIndex
-            : tasks[ctxStore.state.taskIndex - 1].sourceIndex
-          } />}
+          {conditionHasChat(condition) && (() => {
+            const task = tasks[ctxStore.state.taskIndex] || tasks[ctxStore.state.taskIndex - 1]
+            // ponytail: trial task gets plain single chat — no intervention layout
+            const isTrial = task?.title?.startsWith('Trial')
+            return condition === 'alternatives' && !isTrial
+              ? <DualChatView task={task} />
+              : <ChatView task={task} />
+          })()}
         </div>
       </>
       }

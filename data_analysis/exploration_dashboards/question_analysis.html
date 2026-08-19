@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question-level Answer Analysis</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; }
+body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background:#f6f7f9; color:#1a202c; padding:20px; font-size:14px; max-width:1200px; margin:0 auto; }
+h1 { font-size:20px; margin-bottom:4px; } h2 { font-size:15px; margin-bottom:10px; color:#2d3748; }
+.sub { color:#718096; font-size:12px; margin-bottom:16px; }
+.card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:14px; }
+.grid { display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+@media (max-width:900px) { .grid { grid-template-columns:1fr; } }
+.chartbox { position:relative; height:320px; }
+.tall { height:700px; }
+select { font-size:13px; padding:4px 8px; border-radius:6px; border:1px solid #cbd5e0; margin-bottom:12px; }
+</style>
+</head>
+<body>
+
+<h1>Question-level Answer Analysis</h1>
+<div class="sub">9 response files · 914 participants · 12 questions · ai (n=190) · ai-reliability (n=184) · alternatives (n=180) · pause-points (n=187) · reflection-task (n=173)</div>
+
+<div class="card">
+  <h2>Accuracy by question (% correct, sorted)</h2>
+  <div class="chartbox tall"><canvas id="c_accuracy"></canvas></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Accuracy by condition</h2>
+    <div class="chartbox tall"><canvas id="c_condition"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Accuracy by topic</h2>
+    <div class="chartbox"><canvas id="c_topic"></canvas></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Answer distribution per question</h2>
+  <div>
+    <select id="qPicker" onchange="renderDist()"></select>
+    <select id="condPicker" onchange="renderDist()">
+      <option value="all">All participants</option>
+      <option value="ai">ai only</option>
+      <option value="ai-reliability">ai-reliability only</option>
+      <option value="alternatives">alternatives only</option>
+      <option value="pause-points">pause-points only</option>
+      <option value="reflection-task">reflection-task only</option>
+    </select>
+  </div>
+  <div class="chartbox"><canvas id="c_dist"></canvas></div>
+</div>
+
+<div class="card">
+  <h2>Key observations</h2>
+  <ul style="margin:0;padding-left:20px;line-height:1.8;color:#2d3748">
+    <li><strong>Overall accuracy: 43.3%</strong> across 10968 question-answers from 914 participants.</li>
+    <li>By condition: <strong>ai: 46%</strong> (n=190), <strong>ai-reliability: 43%</strong> (n=184), <strong>alternatives: 44%</strong> (n=180), <strong>pause-points: 37%</strong> (n=187), <strong>reflection-task: 46%</strong> (n=173).</li>
+    <li><strong>5 questions above 50%</strong>: car_racing_01, graduation_party_01, ypc_02, car_racing_03, graduation_party_06.</li>
+    <li><strong>3 questions below 25%</strong> (at or below chance): ypc_06, car_racing_02, ypc_03.</li>
+    <li><strong>7 questions where the most popular answer is wrong</strong>: ypc_03, ypc_05, ypc_06, car_racing_02, car_racing_05, graduation_party_05, graduation_party_07.</li>
+    <li>Random-chance baseline (4 options): 25%.</li>
+    <li><strong>graduation_party</strong> is the easiest topic (47.8%), <strong>ypc</strong> the hardest (35.9%).</li>
+  </ul>
+</div>
+
+<script>
+const D = [{"name": "ypc_02", "correct_ans": "Neither of the two statements is correct.", "n": 914, "n_correct": 601, "dist": {"Both statements are correct.": 58, "Neither of the two statements is correct.": 601, "Only statement 1 is correct.": 185, "Only statement 2 is correct.": 70}, "by_cond": {"ai": {"n": 190, "pct": 63.7, "dist": {"Both statements are correct.": 10, "Neither of the two statements is correct.": 121, "Only statement 1 is correct.": 48, "Only statement 2 is correct.": 11}}, "ai-reliability": {"n": 184, "pct": 64.7, "dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 119, "Only statement 1 is correct.": 38, "Only statement 2 is correct.": 15}}, "alternatives": {"n": 180, "pct": 68.3, "dist": {"Both statements are correct.": 10, "Neither of the two statements is correct.": 123, "Only statement 1 is correct.": 35, "Only statement 2 is correct.": 12}}, "pause-points": {"n": 187, "pct": 55.6, "dist": {"Both statements are correct.": 22, "Neither of the two statements is correct.": 104, "Only statement 1 is correct.": 40, "Only statement 2 is correct.": 21}}, "reflection-task": {"n": 173, "pct": 77.5, "dist": {"Both statements are correct.": 4, "Neither of the two statements is correct.": 134, "Only statement 1 is correct.": 24, "Only statement 2 is correct.": 11}}}, "ai_pct": 63.7, "rel_pct": 64.7, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 10, "Neither of the two statements is correct.": 121, "Only statement 1 is correct.": 48, "Only statement 2 is correct.": 11}, "rel_dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 119, "Only statement 1 is correct.": 38, "Only statement 2 is correct.": 15}}, {"name": "ypc_03", "correct_ans": "Only statement 2 is correct.", "n": 914, "n_correct": 226, "dist": {"Both statements are correct.": 174, "Neither of the two statements is correct.": 212, "Only statement 1 is correct.": 302, "Only statement 2 is correct.": 226}, "by_cond": {"ai": {"n": 190, "pct": 28.4, "dist": {"Both statements are correct.": 36, "Neither of the two statements is correct.": 32, "Only statement 1 is correct.": 68, "Only statement 2 is correct.": 54}}, "ai-reliability": {"n": 184, "pct": 23.4, "dist": {"Both statements are correct.": 34, "Neither of the two statements is correct.": 47, "Only statement 1 is correct.": 60, "Only statement 2 is correct.": 43}}, "alternatives": {"n": 180, "pct": 24.4, "dist": {"Both statements are correct.": 30, "Neither of the two statements is correct.": 45, "Only statement 1 is correct.": 61, "Only statement 2 is correct.": 44}}, "pause-points": {"n": 187, "pct": 27.3, "dist": {"Both statements are correct.": 40, "Neither of the two statements is correct.": 46, "Only statement 1 is correct.": 50, "Only statement 2 is correct.": 51}}, "reflection-task": {"n": 173, "pct": 19.7, "dist": {"Both statements are correct.": 34, "Neither of the two statements is correct.": 42, "Only statement 1 is correct.": 63, "Only statement 2 is correct.": 34}}}, "ai_pct": 28.4, "rel_pct": 23.4, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 36, "Neither of the two statements is correct.": 32, "Only statement 1 is correct.": 68, "Only statement 2 is correct.": 54}, "rel_dist": {"Both statements are correct.": 34, "Neither of the two statements is correct.": 47, "Only statement 1 is correct.": 60, "Only statement 2 is correct.": 43}}, {"name": "ypc_05", "correct_ans": "Only statement 1 is correct.", "n": 914, "n_correct": 319, "dist": {"Both statements are correct.": 63, "Neither of the two statements is correct.": 462, "Only statement 1 is correct.": 319, "Only statement 2 is correct.": 70}, "by_cond": {"ai": {"n": 190, "pct": 39.5, "dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 91, "Only statement 1 is correct.": 75, "Only statement 2 is correct.": 12}}, "ai-reliability": {"n": 184, "pct": 31.0, "dist": {"Both statements are correct.": 8, "Neither of the two statements is correct.": 101, "Only statement 1 is correct.": 57, "Only statement 2 is correct.": 18}}, "alternatives": {"n": 180, "pct": 33.9, "dist": {"Both statements are correct.": 13, "Neither of the two statements is correct.": 97, "Only statement 1 is correct.": 61, "Only statement 2 is correct.": 9}}, "pause-points": {"n": 187, "pct": 31.0, "dist": {"Both statements are correct.": 27, "Neither of the two statements is correct.": 78, "Only statement 1 is correct.": 58, "Only statement 2 is correct.": 24}}, "reflection-task": {"n": 173, "pct": 39.3, "dist": {"Both statements are correct.": 3, "Neither of the two statements is correct.": 95, "Only statement 1 is correct.": 68, "Only statement 2 is correct.": 7}}}, "ai_pct": 39.5, "rel_pct": 31.0, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 91, "Only statement 1 is correct.": 75, "Only statement 2 is correct.": 12}, "rel_dist": {"Both statements are correct.": 8, "Neither of the two statements is correct.": 101, "Only statement 1 is correct.": 57, "Only statement 2 is correct.": 18}}, {"name": "ypc_06", "correct_ans": "Only statement 1 is correct.", "n": 914, "n_correct": 165, "dist": {"Both statements are correct.": 188, "Neither of the two statements is correct.": 258, "Only statement 1 is correct.": 165, "Only statement 2 is correct.": 303}, "by_cond": {"ai": {"n": 190, "pct": 20.0, "dist": {"Both statements are correct.": 40, "Neither of the two statements is correct.": 49, "Only statement 1 is correct.": 38, "Only statement 2 is correct.": 63}}, "ai-reliability": {"n": 184, "pct": 18.5, "dist": {"Both statements are correct.": 45, "Neither of the two statements is correct.": 33, "Only statement 1 is correct.": 34, "Only statement 2 is correct.": 72}}, "alternatives": {"n": 180, "pct": 21.1, "dist": {"Both statements are correct.": 32, "Neither of the two statements is correct.": 59, "Only statement 1 is correct.": 38, "Only statement 2 is correct.": 51}}, "pause-points": {"n": 187, "pct": 17.1, "dist": {"Both statements are correct.": 39, "Neither of the two statements is correct.": 50, "Only statement 1 is correct.": 32, "Only statement 2 is correct.": 66}}, "reflection-task": {"n": 173, "pct": 13.3, "dist": {"Both statements are correct.": 32, "Neither of the two statements is correct.": 67, "Only statement 1 is correct.": 23, "Only statement 2 is correct.": 51}}}, "ai_pct": 20.0, "rel_pct": 18.5, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 40, "Neither of the two statements is correct.": 49, "Only statement 1 is correct.": 38, "Only statement 2 is correct.": 63}, "rel_dist": {"Both statements are correct.": 45, "Neither of the two statements is correct.": 33, "Only statement 1 is correct.": 34, "Only statement 2 is correct.": 72}}, {"name": "car_racing_01", "correct_ans": "Neither of the two statements is correct.", "n": 914, "n_correct": 730, "dist": {"Both statements are correct.": 22, "Neither of the two statements is correct.": 730, "Only statement 1 is correct.": 133, "Only statement 2 is correct.": 29}, "by_cond": {"ai": {"n": 190, "pct": 84.7, "dist": {"Both statements are correct.": 3, "Neither of the two statements is correct.": 161, "Only statement 1 is correct.": 25, "Only statement 2 is correct.": 1}}, "ai-reliability": {"n": 184, "pct": 83.7, "dist": {"Both statements are correct.": 1, "Neither of the two statements is correct.": 154, "Only statement 1 is correct.": 25, "Only statement 2 is correct.": 4}}, "alternatives": {"n": 180, "pct": 81.1, "dist": {"Both statements are correct.": 4, "Neither of the two statements is correct.": 146, "Only statement 1 is correct.": 22, "Only statement 2 is correct.": 8}}, "pause-points": {"n": 187, "pct": 65.8, "dist": {"Both statements are correct.": 9, "Neither of the two statements is correct.": 123, "Only statement 1 is correct.": 43, "Only statement 2 is correct.": 12}}, "reflection-task": {"n": 173, "pct": 84.4, "dist": {"Both statements are correct.": 5, "Neither of the two statements is correct.": 146, "Only statement 1 is correct.": 18, "Only statement 2 is correct.": 4}}}, "ai_pct": 84.7, "rel_pct": 83.7, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 3, "Neither of the two statements is correct.": 161, "Only statement 1 is correct.": 25, "Only statement 2 is correct.": 1}, "rel_dist": {"Both statements are correct.": 1, "Neither of the two statements is correct.": 154, "Only statement 1 is correct.": 25, "Only statement 2 is correct.": 4}}, {"name": "car_racing_02", "correct_ans": "Both statements are correct.", "n": 914, "n_correct": 178, "dist": {"Both statements are correct.": 178, "Neither of the two statements is correct.": 192, "Only statement 1 is correct.": 52, "Only statement 2 is correct.": 492}, "by_cond": {"ai": {"n": 190, "pct": 20.0, "dist": {"Both statements are correct.": 38, "Neither of the two statements is correct.": 23, "Only statement 1 is correct.": 7, "Only statement 2 is correct.": 122}}, "ai-reliability": {"n": 184, "pct": 20.1, "dist": {"Both statements are correct.": 37, "Neither of the two statements is correct.": 30, "Only statement 1 is correct.": 9, "Only statement 2 is correct.": 108}}, "alternatives": {"n": 180, "pct": 16.1, "dist": {"Both statements are correct.": 29, "Neither of the two statements is correct.": 36, "Only statement 1 is correct.": 10, "Only statement 2 is correct.": 105}}, "pause-points": {"n": 187, "pct": 17.1, "dist": {"Both statements are correct.": 32, "Neither of the two statements is correct.": 83, "Only statement 1 is correct.": 20, "Only statement 2 is correct.": 52}}, "reflection-task": {"n": 173, "pct": 24.3, "dist": {"Both statements are correct.": 42, "Neither of the two statements is correct.": 20, "Only statement 1 is correct.": 6, "Only statement 2 is correct.": 105}}}, "ai_pct": 20.0, "rel_pct": 20.1, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 38, "Neither of the two statements is correct.": 23, "Only statement 1 is correct.": 7, "Only statement 2 is correct.": 122}, "rel_dist": {"Both statements are correct.": 37, "Neither of the two statements is correct.": 30, "Only statement 1 is correct.": 9, "Only statement 2 is correct.": 108}}, {"name": "car_racing_03", "correct_ans": "Only statement 2 is correct.", "n": 914, "n_correct": 475, "dist": {"Both statements are correct.": 42, "Neither of the two statements is correct.": 351, "Only statement 1 is correct.": 46, "Only statement 2 is correct.": 475}, "by_cond": {"ai": {"n": 190, "pct": 56.8, "dist": {"Both statements are correct.": 7, "Neither of the two statements is correct.": 68, "Only statement 1 is correct.": 7, "Only statement 2 is correct.": 108}}, "ai-reliability": {"n": 184, "pct": 53.3, "dist": {"Both statements are correct.": 10, "Neither of the two statements is correct.": 70, "Only statement 1 is correct.": 6, "Only statement 2 is correct.": 98}}, "alternatives": {"n": 180, "pct": 51.7, "dist": {"Both statements are correct.": 6, "Neither of the two statements is correct.": 73, "Only statement 1 is correct.": 8, "Only statement 2 is correct.": 93}}, "pause-points": {"n": 187, "pct": 41.2, "dist": {"Both statements are correct.": 17, "Neither of the two statements is correct.": 77, "Only statement 1 is correct.": 16, "Only statement 2 is correct.": 77}}, "reflection-task": {"n": 173, "pct": 57.2, "dist": {"Both statements are correct.": 2, "Neither of the two statements is correct.": 63, "Only statement 1 is correct.": 9, "Only statement 2 is correct.": 99}}}, "ai_pct": 56.8, "rel_pct": 53.3, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 7, "Neither of the two statements is correct.": 68, "Only statement 1 is correct.": 7, "Only statement 2 is correct.": 108}, "rel_dist": {"Both statements are correct.": 10, "Neither of the two statements is correct.": 70, "Only statement 1 is correct.": 6, "Only statement 2 is correct.": 98}}, {"name": "car_racing_05", "correct_ans": "Only statement 1 is correct.", "n": 914, "n_correct": 305, "dist": {"Both statements are correct.": 156, "Neither of the two statements is correct.": 361, "Only statement 1 is correct.": 305, "Only statement 2 is correct.": 92}, "by_cond": {"ai": {"n": 190, "pct": 35.8, "dist": {"Both statements are correct.": 38, "Neither of the two statements is correct.": 70, "Only statement 1 is correct.": 68, "Only statement 2 is correct.": 14}}, "ai-reliability": {"n": 184, "pct": 32.6, "dist": {"Both statements are correct.": 35, "Neither of the two statements is correct.": 70, "Only statement 1 is correct.": 60, "Only statement 2 is correct.": 19}}, "alternatives": {"n": 180, "pct": 36.1, "dist": {"Both statements are correct.": 29, "Neither of the two statements is correct.": 63, "Only statement 1 is correct.": 65, "Only statement 2 is correct.": 23}}, "pause-points": {"n": 187, "pct": 33.2, "dist": {"Both statements are correct.": 25, "Neither of the two statements is correct.": 79, "Only statement 1 is correct.": 62, "Only statement 2 is correct.": 21}}, "reflection-task": {"n": 173, "pct": 28.9, "dist": {"Both statements are correct.": 29, "Neither of the two statements is correct.": 79, "Only statement 1 is correct.": 50, "Only statement 2 is correct.": 15}}}, "ai_pct": 35.8, "rel_pct": 32.6, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 38, "Neither of the two statements is correct.": 70, "Only statement 1 is correct.": 68, "Only statement 2 is correct.": 14}, "rel_dist": {"Both statements are correct.": 35, "Neither of the two statements is correct.": 70, "Only statement 1 is correct.": 60, "Only statement 2 is correct.": 19}}, {"name": "graduation_party_01", "correct_ans": "Only statement 2 is correct.", "n": 914, "n_correct": 653, "dist": {"Both statements are correct.": 160, "Neither of the two statements is correct.": 53, "Only statement 1 is correct.": 48, "Only statement 2 is correct.": 653}, "by_cond": {"ai": {"n": 190, "pct": 78.9, "dist": {"Both statements are correct.": 30, "Neither of the two statements is correct.": 6, "Only statement 1 is correct.": 4, "Only statement 2 is correct.": 150}}, "ai-reliability": {"n": 184, "pct": 68.5, "dist": {"Both statements are correct.": 39, "Neither of the two statements is correct.": 9, "Only statement 1 is correct.": 10, "Only statement 2 is correct.": 126}}, "alternatives": {"n": 180, "pct": 75.0, "dist": {"Both statements are correct.": 29, "Neither of the two statements is correct.": 3, "Only statement 1 is correct.": 13, "Only statement 2 is correct.": 135}}, "pause-points": {"n": 187, "pct": 58.3, "dist": {"Both statements are correct.": 34, "Neither of the two statements is correct.": 27, "Only statement 1 is correct.": 17, "Only statement 2 is correct.": 109}}, "reflection-task": {"n": 173, "pct": 76.9, "dist": {"Both statements are correct.": 28, "Neither of the two statements is correct.": 8, "Only statement 1 is correct.": 4, "Only statement 2 is correct.": 133}}}, "ai_pct": 78.9, "rel_pct": 68.5, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 30, "Neither of the two statements is correct.": 6, "Only statement 1 is correct.": 4, "Only statement 2 is correct.": 150}, "rel_dist": {"Both statements are correct.": 39, "Neither of the two statements is correct.": 9, "Only statement 1 is correct.": 10, "Only statement 2 is correct.": 126}}, {"name": "graduation_party_05", "correct_ans": "Only statement 1 is correct.", "n": 914, "n_correct": 384, "dist": {"Both statements are correct.": 40, "Neither of the two statements is correct.": 460, "Only statement 1 is correct.": 384, "Only statement 2 is correct.": 30}, "by_cond": {"ai": {"n": 190, "pct": 44.2, "dist": {"Both statements are correct.": 9, "Neither of the two statements is correct.": 89, "Only statement 1 is correct.": 84, "Only statement 2 is correct.": 8}}, "ai-reliability": {"n": 184, "pct": 46.2, "dist": {"Both statements are correct.": 6, "Neither of the two statements is correct.": 85, "Only statement 1 is correct.": 85, "Only statement 2 is correct.": 8}}, "alternatives": {"n": 180, "pct": 41.1, "dist": {"Both statements are correct.": 8, "Neither of the two statements is correct.": 96, "Only statement 1 is correct.": 74, "Only statement 2 is correct.": 2}}, "pause-points": {"n": 187, "pct": 34.2, "dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 101, "Only statement 1 is correct.": 64, "Only statement 2 is correct.": 10}}, "reflection-task": {"n": 173, "pct": 44.5, "dist": {"Both statements are correct.": 5, "Neither of the two statements is correct.": 89, "Only statement 1 is correct.": 77, "Only statement 2 is correct.": 2}}}, "ai_pct": 44.2, "rel_pct": 46.2, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 9, "Neither of the two statements is correct.": 89, "Only statement 1 is correct.": 84, "Only statement 2 is correct.": 8}, "rel_dist": {"Both statements are correct.": 6, "Neither of the two statements is correct.": 85, "Only statement 1 is correct.": 85, "Only statement 2 is correct.": 8}}, {"name": "graduation_party_06", "correct_ans": "Neither of the two statements is correct.", "n": 914, "n_correct": 473, "dist": {"Both statements are correct.": 40, "Neither of the two statements is correct.": 473, "Only statement 1 is correct.": 122, "Only statement 2 is correct.": 279}, "by_cond": {"ai": {"n": 190, "pct": 54.7, "dist": {"Both statements are correct.": 3, "Neither of the two statements is correct.": 104, "Only statement 1 is correct.": 20, "Only statement 2 is correct.": 63}}, "ai-reliability": {"n": 184, "pct": 52.7, "dist": {"Both statements are correct.": 8, "Neither of the two statements is correct.": 97, "Only statement 1 is correct.": 29, "Only statement 2 is correct.": 50}}, "alternatives": {"n": 180, "pct": 51.1, "dist": {"Both statements are correct.": 3, "Neither of the two statements is correct.": 92, "Only statement 1 is correct.": 21, "Only statement 2 is correct.": 64}}, "pause-points": {"n": 187, "pct": 45.5, "dist": {"Both statements are correct.": 21, "Neither of the two statements is correct.": 85, "Only statement 1 is correct.": 33, "Only statement 2 is correct.": 48}}, "reflection-task": {"n": 173, "pct": 54.9, "dist": {"Both statements are correct.": 5, "Neither of the two statements is correct.": 95, "Only statement 1 is correct.": 19, "Only statement 2 is correct.": 54}}}, "ai_pct": 54.7, "rel_pct": 52.7, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 3, "Neither of the two statements is correct.": 104, "Only statement 1 is correct.": 20, "Only statement 2 is correct.": 63}, "rel_dist": {"Both statements are correct.": 8, "Neither of the two statements is correct.": 97, "Only statement 1 is correct.": 29, "Only statement 2 is correct.": 50}}, {"name": "graduation_party_07", "correct_ans": "Only statement 2 is correct.", "n": 914, "n_correct": 238, "dist": {"Both statements are correct.": 81, "Neither of the two statements is correct.": 467, "Only statement 1 is correct.": 128, "Only statement 2 is correct.": 238}, "by_cond": {"ai": {"n": 190, "pct": 31.1, "dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 93, "Only statement 1 is correct.": 26, "Only statement 2 is correct.": 59}}, "ai-reliability": {"n": 184, "pct": 24.5, "dist": {"Both statements are correct.": 18, "Neither of the two statements is correct.": 88, "Only statement 1 is correct.": 33, "Only statement 2 is correct.": 45}}, "alternatives": {"n": 180, "pct": 22.8, "dist": {"Both statements are correct.": 14, "Neither of the two statements is correct.": 101, "Only statement 1 is correct.": 24, "Only statement 2 is correct.": 41}}, "pause-points": {"n": 187, "pct": 20.9, "dist": {"Both statements are correct.": 27, "Neither of the two statements is correct.": 88, "Only statement 1 is correct.": 33, "Only statement 2 is correct.": 39}}, "reflection-task": {"n": 173, "pct": 31.2, "dist": {"Both statements are correct.": 10, "Neither of the two statements is correct.": 97, "Only statement 1 is correct.": 12, "Only statement 2 is correct.": 54}}}, "ai_pct": 31.1, "rel_pct": 24.5, "ai_n": 190, "rel_n": 184, "ai_dist": {"Both statements are correct.": 12, "Neither of the two statements is correct.": 93, "Only statement 1 is correct.": 26, "Only statement 2 is correct.": 59}, "rel_dist": {"Both statements are correct.": 18, "Neither of the two statements is correct.": 88, "Only statement 1 is correct.": 33, "Only statement 2 is correct.": 45}}];
+
+const OPTIONS = ['Both statements are correct.','Neither of the two statements is correct.','Only statement 1 is correct.','Only statement 2 is correct.'];
+const OPT_SHORT = ['Both correct','Neither correct','Only stmt 1','Only stmt 2'];
+const OPT_COLORS = ['#ed8936','#4c8bf5','#48bb78','#9f7aea'];
+const grid = '#eef1f5', noAR = { responsive:true, maintainAspectRatio:false };
+const padH = { layout:{ padding:{ right:36 } } };
+
+Chart.defaults.font.size = 11; Chart.defaults.color = '#4a5568';
+const barLabels = { id:'barLabels', afterDatasetsDraw(chart) {
+  const ctx = chart.ctx; ctx.save(); ctx.font = '10px sans-serif'; ctx.fillStyle = '#4a5568';
+  chart.data.datasets.forEach((ds, di) => {
+    chart.getDatasetMeta(di).data.forEach((bar, i) => {
+      const v = ds.data[i]; if (v == null) return;
+      if (chart.options.indexAxis === 'y') {
+        ctx.textBaseline = 'middle'; ctx.textAlign = v < 0 ? 'right' : 'left';
+        ctx.fillText(v + '%', bar.x + (v < 0 ? -4 : 4), bar.y);
+      } else { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(v + '%', bar.x, bar.y - 4); }
+    });
+  }); ctx.restore();
+}};
+
+const sorted = [...D].sort((a,b) => b.n_correct/b.n - a.n_correct/a.n);
+const chanceLine = { id:'chanceLine', afterDraw(ch) {
+  const x = ch.scales.x.getPixelForValue(25);
+  const ctx = ch.ctx; ctx.save(); ctx.setLineDash([5,3]); ctx.strokeStyle='#e53e3e'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x, ch.chartArea.top); ctx.lineTo(x, ch.chartArea.bottom); ctx.stroke();
+  ctx.fillStyle='#e53e3e'; ctx.font='9px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('chance (25%)', x+3, ch.chartArea.top-4); ctx.restore();
+}};
+new Chart(document.getElementById('c_accuracy'), { type:'bar', plugins:[barLabels, chanceLine],
+  data:{ labels:sorted.map(q=>q.name), datasets:[{ data:sorted.map(q=>+(100*q.n_correct/q.n).toFixed(1)),
+    backgroundColor:sorted.map(q=>100*q.n_correct/q.n >= 50 ? '#48bb78' : 100*q.n_correct/q.n < 25 ? '#fc8181' : '#ecc94b'),
+    borderRadius:4 }]},
+  options:{ ...noAR, ...padH, indexAxis:'y', plugins:{ legend:{display:false} },
+    scales:{ x:{ min:0, max:100, grid:{color:grid}, title:{display:true,text:'% correct'} }, y:{ grid:{display:false} } }}});
+
+const CONDS = ["ai", "ai-reliability", "alternatives", "pause-points", "reflection-task"];
+const COND_COLORS = ['#4c8bf5','#ed8936','#48bb78','#9f7aea','#fc8181','#38b2ac'];
+const byName = [...D].sort((a,b) => b.n_correct/b.n - a.n_correct/a.n);
+new Chart(document.getElementById('c_condition'), { type:'bar', plugins:[barLabels],
+  data:{ labels:byName.map(q=>q.name), datasets:CONDS.map((c,ci) => ({
+    label:c, data:byName.map(q=>(q.by_cond[c]||{}).pct||0),
+    backgroundColor:COND_COLORS[ci % COND_COLORS.length], borderRadius:4
+  })) },
+  options:{ ...noAR, indexAxis:'y', plugins:{ legend:{position:'bottom'} },
+    scales:{ x:{ min:0, max:100, grid:{color:grid} }, y:{ grid:{display:false} } }}});
+
+const topicData = [
+  {name:'ypc', qs:D.filter(q=>q.name.startsWith('ypc'))},
+  {name:'car_racing', qs:D.filter(q=>q.name.startsWith('car'))},
+  {name:'graduation_party', qs:D.filter(q=>q.name.startsWith('grad'))}];
+new Chart(document.getElementById('c_topic'), { type:'bar', plugins:[barLabels],
+  data:{ labels:topicData.map(t=>t.name), datasets:[{ data:topicData.map(t => {
+    const c = t.qs.reduce((s,q)=>s+q.n_correct,0), n = t.qs.reduce((s,q)=>s+q.n,0);
+    return +(100*c/n).toFixed(1);
+  }), backgroundColor:['#4c8bf5','#ed8936','#48bb78'], borderRadius:4 }]},
+  options:{ ...noAR, layout:{padding:{top:14}}, plugins:{ legend:{display:false} },
+    scales:{ y:{ min:0, max:100, grid:{color:grid}, title:{display:true,text:'% correct'} }, x:{ grid:{display:false} } }}});
+
+const picker = document.getElementById('qPicker');
+picker.innerHTML = D.map((q,i) => `<option value="${i}">${q.name}</option>`).join('');
+let distChart = null;
+function renderDist() {
+  if (distChart) distChart.destroy();
+  const q = D[+picker.value];
+  const cond = document.getElementById('condPicker').value;
+  const dist = cond === 'all' ? q.dist : (q.by_cond[cond]||{}).dist || {};
+  const total = Object.values(dist).reduce((a,b)=>a+b,0);
+  const colors = OPTIONS.map(o => o === q.correct_ans ? '#48bb78' : '#fc8181');
+  distChart = new Chart(document.getElementById('c_dist'), { type:'bar',
+    data:{ labels:OPT_SHORT, datasets:[{ data:OPTIONS.map(o => +(100*(dist[o]||0)/total).toFixed(1)),
+      backgroundColor:colors, borderRadius:4 }]},
+    options:{ ...noAR, layout:{padding:{top:14}}, plugins:{ legend:{display:false},
+      tooltip:{ callbacks:{ afterLabel:c => OPTIONS[c.dataIndex] === q.correct_ans ? '← correct answer' : '',
+        label:c => `${c.raw}% (${dist[OPTIONS[c.dataIndex]]||0} participants)` }}},
+      scales:{ y:{ min:0, max:100, grid:{color:grid}, title:{display:true,text:'% of participants'} }, x:{ grid:{display:false} } }}});
+}
+renderDist();
+</script>
+</body>
+</html>

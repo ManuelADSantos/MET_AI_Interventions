@@ -15,7 +15,7 @@ def load_config():
     if not os.path.exists(config_path):
         # No config file (e.g. Railway) — fall back to environment variables
         env_keys = ('openai_api_key', 'gpt_model', 'reasoning_effort', 'base_url', 'completion_code',
-                    'completion_url', 'export_token')
+                    'completion_url', 'export_token', 'alternatives_mode')
         config = {k: os.environ[k.upper()] for k in env_keys if os.environ.get(k.upper())}
         if config.get('openai_api_key'):
             return config

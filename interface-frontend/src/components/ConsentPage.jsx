@@ -1,9 +1,11 @@
 import { useState, useMemo } from 'react'
 import { Button, Card, CardBody, Checkbox } from '@nextui-org/react'
+import { Monitor, IdCard } from 'lucide-react'
+import { copyToClipboard } from '../lib/utils'
 import loadTasks from '../scripts/taskParser/taskParser'
 
 // ponytail: auto-discover study info files by condition name
-const studyInfoFiles = import.meta.glob('/public/study_info/*_studyinfo.md', { query: '?raw', import: 'default', eager: true })
+const studyInfoFiles = import.meta.glob('/customizations/study_info/*_studyinfo.md', { query: '?raw', import: 'default', eager: true })
 
 const baseURL = import.meta.env.VITE_PROXY_URL || ''
 
@@ -36,11 +38,9 @@ function ContentBlock({ block }) {
 function CopyPidButton({ pid }) {
   const [copied, setCopied] = useState(false)
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(pid)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
-    } catch { /* user can manually copy */ }
+    if (!await copyToClipboard(pid)) return // the ID is shown next to the button; copy by hand
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2500)
   }
   return (
     <div className="bg-white border border-stone-300 rounded-lg p-4">
@@ -65,7 +65,7 @@ export default function ConsentPage({ prolificPid, prolificStudyId, prolificSess
   const [error, setError] = useState('')
 
   const allSteps = useMemo(() => {
-    const key = `/public/study_info/${condition.replace(/-/g, '_')}_studyinfo.md`
+    const key = `/customizations/study_info/${condition.replace(/-/g, '_')}_studyinfo.md`
     const raw = studyInfoFiles[key] || ''
     const parsed = loadTasks(raw)
 
@@ -160,7 +160,7 @@ export default function ConsentPage({ prolificPid, prolificStudyId, prolificSess
                 <p>Proctoring data is processed under AutoProctor's privacy policy and deleted after the study review period.</p>
                 <div className="mt-2 rounded-lg border-2 border-amber-400 bg-amber-50 p-4 space-y-2">
                   <p className="font-bold text-amber-900 flex items-center gap-2">
-                    <i className="bi bi-display text-lg" /> Screen access is required
+                    <Monitor className='size-5' /> Screen access is required
                   </p>
                   <p className="text-amber-800">
                     When prompted by your browser, you <strong>must grant screen access</strong> for the study to proceed.
@@ -186,7 +186,7 @@ export default function ConsentPage({ prolificPid, prolificStudyId, prolificSess
                 <div className="mt-6 pt-5 border-t border-stone-200 space-y-4">
                   <div className="rounded-lg border-2 border-yellow-400 bg-yellow-50 p-4 space-y-3">
                     <p className="font-bold text-stone-900 flex items-center gap-2">
-                      <i className="bi bi-person-badge-fill text-lg" /> Do not use your real name in AutoProctor
+                      <IdCard className='size-5' /> Do not use your real name in AutoProctor
                     </p>
                     <p className="text-stone-800 text-sm leading-relaxed">
                       When AutoProctor opens, it will ask for your name.{' '}

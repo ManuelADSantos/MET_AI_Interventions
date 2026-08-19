@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { cva } from "class-variance-authority";
+import remarkGfm from "remark-gfm";
 import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import { useScrollLock, useAuiState } from "@assistant-ui/react";
 import { MarkdownText } from "@/components/markdown-text";
@@ -20,6 +21,53 @@ import {
 import { cn } from "@/lib/utils";
 
 const ANIMATION_DURATION = 200;
+
+const nodeText = (node) => {
+  if (node?.type === "text") return node.value;
+  return node?.children?.map(nodeText).join("") ?? "";
+};
+
+// Reasoning summaries occasionally omit the newline before a bold section title,
+// causing Markdown to render it at the end of the preceding paragraph. Split only
+// title-like bold runs; ordinary emphasis in the middle of a sentence stays inline.
+const remarkReasoningSectionBreaks = () => (tree) => {
+  const visit = (node) => {
+    if (!node?.children) return;
+
+    const nextChildren = [];
+    for (const child of node.children) {
+      if (child.type !== "paragraph") {
+        visit(child);
+        nextChildren.push(child);
+        continue;
+      }
+
+      let paragraphChildren = [];
+      for (const inline of child.children ?? []) {
+        const previousText = nodeText(paragraphChildren.at(-1));
+        const title = inline.type === "strong" ? nodeText(inline).trim() : "";
+        const isMissingSectionBreak =
+          paragraphChildren.length > 0 &&
+          /[.!?;:)]\s*$/.test(previousText) &&
+          title.length > 0 &&
+          title.length <= 80 &&
+          (/:$/.test(title) || title.split(/\s+/).length <= 8);
+
+        if (isMissingSectionBreak) {
+          nextChildren.push({ ...child, children: paragraphChildren });
+          paragraphChildren = [];
+        }
+        paragraphChildren.push(inline);
+      }
+      if (paragraphChildren.length) {
+        nextChildren.push({ ...child, children: paragraphChildren });
+      }
+    }
+    node.children = nextChildren;
+  };
+
+  visit(tree);
+};
 
 const ReasoningPreviewContext = createContext(false);
 
@@ -256,7 +304,9 @@ function ReasoningText({
   );
 }
 
-const ReasoningImpl = () => <MarkdownText />;
+const reasoningRemarkPlugins = [remarkGfm, remarkReasoningSectionBreaks];
+
+const ReasoningImpl = () => <MarkdownText remarkPlugins={reasoningRemarkPlugins} />;
 
 const Reasoning = memo(ReasoningImpl);
 Reasoning.displayName = "Reasoning";

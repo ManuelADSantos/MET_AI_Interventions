@@ -1,0 +1,88 @@
+Analysis sample: 917 of 925 participants (exclusions from the Python export)
+
+             ai  ai-reliability    alternatives    pause-points reflection-task 
+            187             182             181             184             183 
+
+=====================================================================
+CONFIRMATORY: intervention vs baseline, directional Welch t, Holm within outcome
+=====================================================================
+
+Actual score (0-12) (expected greater than baseline; baseline mean 5.57)
+  Reliability cards  mean  5.18  diff -0.39  t(364.8) = -2.18  p = .985  Holm p 1.000  g = -0.23 [-0.43, -0.02]  n.s.
+  Alternatives       mean  5.20  diff -0.37  t(359.4) = -2.14  p = .983  Holm p 1.000  g = -0.22 [-0.43, -0.02]  n.s. [cross-wave]
+  Pause points       mean  4.49  diff -1.08  t(364.0) = -5.46  p 1.000  Holm p 1.000  g = -0.57 [-0.77, -0.36]  n.s. [cross-wave]
+  Reflection task    mean  5.52  diff -0.05  t(366.2) = -0.26  p = .604  Holm p 1.000  g = -0.03 [-0.23, +0.18]  n.s. [cross-wave]
+
+Metacognitive accuracy |est - actual| (expected less than baseline; baseline mean 4.42)
+  Reliability cards  mean  3.35  diff -1.07  t(365.9) = -4.42  p < .001  Holm p < .001  g = -0.46 [-0.67, -0.25]  SIGNIFICANT
+  Alternatives       mean  2.96  diff -1.46  t(357.5) = -6.31  p < .001  Holm p < .001  g = -0.65 [-0.86, -0.44]  SIGNIFICANT [cross-wave]
+  Pause points       mean  3.61  diff -0.81  t(368.7) = -3.20  p < .001  Holm p = .002  g = -0.33 [-0.54, -0.13]  SIGNIFICANT [cross-wave]
+  Reflection task    mean  4.03  diff -0.39  t(367.2) = -1.53  p = .064  Holm p = .064  g = -0.16 [-0.36, +0.05]  n.s. [cross-wave]
+
+Confidence discrimination (pp) (expected greater than baseline; baseline mean 2.34)
+  Reliability cards  mean  7.74  diff +5.40  t(326.4) = +4.76  p < .001  Holm p < .001  g = +0.50 [+0.29, +0.70]  SIGNIFICANT
+  Alternatives       mean  5.59  diff +3.25  t(309.4) = +2.71  p = .004  Holm p = .011  g = +0.28 [+0.08, +0.49]  SIGNIFICANT [cross-wave]
+  Pause points       mean  3.14  diff +0.80  t(341.0) = +0.74  p = .231  Holm p = .462  g = +0.08 [-0.13, +0.28]  n.s. [cross-wave]
+  Reflection task    mean  2.10  diff -0.23  t(366.3) = -0.25  p = .597  Holm p = .597  g = -0.03 [-0.23, +0.18]  n.s. [cross-wave]
+
+Opposite-direction effects (directional test n.s., two-sided p < .05):
+  Actual score (0-12), Reliability cards: g = -0.23, two-sided p = .030 - direction OPPOSITE to hypothesis
+  Actual score (0-12), Alternatives: g = -0.22, two-sided p = .033 - direction OPPOSITE to hypothesis
+  Actual score (0-12), Pause points: g = -0.57, two-sided p < .001 - direction OPPOSITE to hypothesis
+
+=====================================================================
+HYPOTHESIS VERDICT PER INTERVENTION
+(improves performance and/or metacognition vs the ai baseline?)
+=====================================================================
+ intervention      improves_performance performance_note  
+ Reliability cards FALSE                two-sided REVERSED
+ Alternatives      FALSE                two-sided REVERSED
+ Pause points      FALSE                two-sided REVERSED
+ Reflection task   FALSE                no                
+ improves_metacognition
+  TRUE                 
+  TRUE                 
+  TRUE                 
+ FALSE                 
+ metacognition_measures                                               
+ Metacognitive accuracy |est - actual|; Confidence discrimination (pp)
+ Metacognitive accuracy |est - actual|; Confidence discrimination (pp)
+ Metacognitive accuracy |est - actual|                                
+                                                                      
+ hypothesis_supported
+  TRUE               
+  TRUE               
+  TRUE               
+ FALSE               
+
+=====================================================================
+EXPLORATORY: all 10 condition pairs, two-sided Welch t, Holm within outcome
+=====================================================================
+
+Actual score (0-12) - Holm-significant pairs:
+  AI (baseline) > Pause points (g = +0.57, Holm p < .001) [cross-wave]
+  Reliability cards > Pause points (g = +0.38, Holm p = .002) [cross-wave]
+  Alternatives > Pause points (g = +0.40, Holm p = .001)
+  Pause points < Reflection task (g = -0.56, Holm p < .001)
+
+Metacognitive accuracy |est - actual| - Holm-significant pairs:
+  AI (baseline) > Reliability cards (g = +0.46, Holm p < .001)
+  AI (baseline) > Alternatives (g = +0.65, Holm p < .001) [cross-wave]
+  AI (baseline) > Pause points (g = +0.33, Holm p = .011) [cross-wave]
+  Reliability cards < Reflection task (g = -0.29, Holm p = .033) [cross-wave]
+  Alternatives < Pause points (g = -0.29, Holm p = .033)
+  Alternatives < Reflection task (g = -0.47, Holm p < .001)
+
+Confidence discrimination (pp) - Holm-significant pairs:
+  AI (baseline) < Reliability cards (g = -0.50, Holm p < .001)
+  AI (baseline) < Alternatives (g = -0.28, Holm p = .043) [cross-wave]
+  Reliability cards > Pause points (g = +0.38, Holm p = .003) [cross-wave]
+  Reliability cards > Reflection task (g = +0.51, Holm p < .001) [cross-wave]
+  Alternatives > Reflection task (g = +0.30, Holm p = .033)
+
+Wrote: notebook_analysis_output/r_confirmatory_vs_baseline.csv
+       notebook_analysis_output/r_hypothesis_verdicts.csv
+       notebook_analysis_output/r_pairwise_tests.csv
+       notebook_analysis_output/r_effect_sizes_vs_baseline.png
+
+R 4.3.3 | executed 2026-08-18 20:57 UTC

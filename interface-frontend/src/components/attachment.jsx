@@ -116,20 +116,10 @@ const AttachmentUI = () => {
   const aui = useAui();
   const isComposer = aui.attachment.source !== "message";
 
-  const isImage = useAuiState((s) => s.attachment.type === "image");
-  const typeLabel = useAuiState((s) => {
-    const type = s.attachment.type;
-    switch (type) {
-      case "image":
-        return "Image";
-      case "document":
-        return "Document";
-      case "file":
-        return "File";
-      default:
-        return type;
-    }
-  });
+  // ponytail: ChatView wires only SimpleImageAttachmentAdapter, so the type is always "image".
+  // Bring back the document/file switch if a non-image adapter is ever added.
+  const isImage = true;
+  const typeLabel = "Image";
 
   return (
     <Tooltip>
