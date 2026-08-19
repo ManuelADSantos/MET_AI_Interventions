@@ -30,22 +30,17 @@ def quiz_ids_for(condition):
 OPTIONS = ['Both statements are correct.','Neither of the two statements is correct.','Only statement 1 is correct.','Only statement 2 is correct.']
 OPT_LETTER = {o: chr(65+i) for i,o in enumerate(OPTIONS)}
 
-# Load all participants
-files = sorted(glob.glob(os.path.join(RESULTS, 'data', 'real_*', '*.json')))
+# ponytail: read from cleaned final_data (duplicates already removed, all batches merged)
+files = sorted(f for f in glob.glob(os.path.join(RESULTS, 'data', 'final_data', '*.json'))
+               if not f.endswith('all_data.json'))
 participants = []
 for fname in files:
     with open(fname) as f:
-        data = json.load(f)
-    for p in data.get('participants', [data] if 'tasks' in data else []):
-        # ponytail: exports now include mid-study checkpoints (completed=false) from
-        # crashed/abandoned sessions; only finished participants belong in the analysis.
-        # Records without the flag predate checkpointing = completed.
-        if p.get('completed', True):
-            participants.append(p)
+        participants.extend(json.load(f)['participants'])
 
 n_files = len(files)
 n_participants = len(participants)
-print(f"{n_files} files, {n_participants} participants")
+print(f"{n_files} condition files, {n_participants} participants")
 
 # Discover all conditions
 all_conds = sorted(set(p.get('condition','?') for p in participants if p.get('condition','?') != '?'))
@@ -65,19 +60,20 @@ for qi, (name, correct_ans) in enumerate(QUIZ_QUESTIONS):
         for k,v in (t.get('responses') or {}).items():
             if k.endswith('.1'):
                 ans = v.get('answer') if isinstance(v,dict) else v
-                data_all.append((cond, ans))
+                ok = bool(p.get('answerResults', {}).get(f'{tid}.1', False))
+                data_all.append((cond, ans, ok))
                 break
     n = len(data_all)
-    overall = collections.Counter(a for _,a in data_all)
-    n_correct = sum(1 for _,a in data_all if a == correct_ans)
+    overall = collections.Counter(a for _,a,_ in data_all)
+    n_correct = sum(1 for _,_,ok in data_all if ok)
     # Per-condition stats
     by_cond = {}
     for c in all_conds:
-        c_ans = [a for cc,a in data_all if cc==c]
+        c_rows = [(a,ok) for cc,a,ok in data_all if cc==c]
         by_cond[c] = {
-            'n': len(c_ans),
-            'pct': round(100*sum(1 for a in c_ans if a==correct_ans)/len(c_ans),1) if c_ans else 0,
-            'dist': {o: sum(1 for a in c_ans if a==o) for o in OPTIONS},
+            'n': len(c_rows),
+            'pct': round(100*sum(1 for _,ok in c_rows if ok)/len(c_rows),1) if c_rows else 0,
+            'dist': {o: sum(1 for a,_ in c_rows if a==o) for o in OPTIONS},
         }
     chart_data.append({
         'name': name, 'correct_ans': correct_ans, 'n': n, 'n_correct': n_correct,
