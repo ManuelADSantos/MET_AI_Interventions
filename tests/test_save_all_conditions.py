@@ -20,8 +20,7 @@ from correct_answers import right_choices   # noqa: E402
 
 BACKEND_URL = "http://localhost:5001"
 
-CONDITIONS = ['ai', 'no-ai', 'alternatives', 'pause-points', 'prediction',
-              'reflection', 'reflection-task', 'reflection-scenario']
+CONDITIONS = ['ai', 'ai-reliability', 'alternatives', 'pause-points', 'reflection-task']
 
 passed = failed = 0
 
@@ -42,11 +41,7 @@ def build_payload(pid, condition):
             f"{tid}.1": {"question": "Please indicate your answer.", "answer": right},
             f"{tid}.2": {"question": "How confident are you that your answer is correct?", "answer": 80},
         }
-        if condition == 'prediction':
-            responses[f"{tid}.prediction"] = {
-                "question": "If you asked the AI assistant to solve this task, would its answer be correct?",
-                "answer": "Yes — the AI would answer correctly"}
-        if condition.startswith('reflection'):
+        if condition == 'reflection-task':
             responses[f"{tid}.3"] = {"question": "Explain the AI's reasoning in your own words.",
                                      "answer": "It checked each constraint against the schedule."}
         tasks[tid] = {"ts": 1700000000000 + i, "displayIndex": int(tid),
@@ -54,23 +49,18 @@ def build_payload(pid, condition):
 
     prompt = {"role": "user", "content": "Here is the task...", "ts": 1700000001000, "task": 5,
               "hasTaskQuestion": True}
-    if condition == 'no-ai':
-        messages = []
-    elif condition == 'alternatives':
+    if condition == 'alternatives':
         messages = [prompt,
                     {"role": "assistant", "column": "a", "choices": [], "survey_index": 5},
                     {"role": "assistant", "column": "b", "choices": [], "survey_index": 5}]
     else:
         messages = [prompt, {"role": "assistant", "choices": [], "survey_index": 5}]
 
-    log = [] if condition == 'no-ai' else [
+    log = [
         {"type": "intervention_gate_test", "taskId": 5, "timestamp": 1700000001000,
          "coverage": 0.9, "threshold": 0.6, "matched": True},
         {"type": "chat_reset", "taskId": 5, "timestamp": 1700000002000},
     ]
-    if condition == 'prediction':
-        log.append({"type": "ai_prediction", "taskId": 5, "timestamp": 1700000000500,
-                    "prediction": "Yes — the AI would answer correctly"})
 
     return {"participantId": pid, "condition": condition, "messages": messages,
             "interactionLog": log, "tasks": tasks, "studyId": "study-x", "sessionId": "session-y"}
