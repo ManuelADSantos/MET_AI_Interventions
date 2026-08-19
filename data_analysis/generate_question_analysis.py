@@ -5,7 +5,7 @@ Usage: python3 generate_question_analysis.py
 import json, collections, glob, os, sys
 
 DIR = os.path.dirname(os.path.abspath(__file__))
-RESULTS = os.path.join(DIR, 'results')
+RESULTS = os.path.join(DIR, 'raw_data')
 sys.path.insert(0, os.path.join(DIR, '..', 'src', 'customizations', 'questions'))
 from correct_answers import CORRECT_ANSWERS, LETTER_TO_TEXT, ANSWER_OPTIONS, TEXT_TO_LETTER  # noqa: E402
 

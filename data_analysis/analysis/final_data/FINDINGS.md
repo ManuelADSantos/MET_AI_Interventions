@@ -1,6 +1,6 @@
 # MET-AI Interventions — Results Analysis (Final Dataset)
 
-Findings from the merged final dataset (`data_analysis/results/data/final_data/`), covering all
+Findings from the merged final dataset (`data_analysis/raw_data/data/final_data/`), covering all
 five conditions of the study. Every number in this document is produced by
 [`deep_analysis_notebook.ipynb`](deep_analysis_notebook.ipynb) in this folder (§3.5 additionally
 by [`pairwise_tests_notebook.ipynb`](pairwise_tests_notebook.ipynb)); run the notebooks top to

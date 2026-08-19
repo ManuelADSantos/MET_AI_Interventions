@@ -1,7 +1,7 @@
 # Final-Dataset Analysis Package
 
 Entry point for the analysis of the merged final dataset
-(`data_analysis/results/data/final_data/`) — all five conditions of the MET-AI interventions
+(`data_analysis/raw_data/data/final_data/`) — all five conditions of the MET-AI interventions
 study. This file indexes the deliverables, records the verified data-quality facts and open
 issues, and summarizes what the analyses concluded. Last updated 2026-08-19.
 
