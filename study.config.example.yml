@@ -1,7 +1,7 @@
 # API Settings
 openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
 gpt_model: gpt-5.4-mini            # Model to use
-reasoning_effort: none            # Optional: none, low, medium, high, or xhigh for reasoning models
+reasoning_effort: low            # Optional: none, low, medium, high, or xhigh for reasoning models
 base_url: https://api.openai.com/v1    # Optional: Custom API base URL (e.g., for Azure OpenAI)
 
 # Study Settings
@@ -16,7 +16,7 @@ alternatives_mode: opposing        # How the two columns of the `alternatives` d
 # Chat Availability
 allow_image_attachments: false     # Enable image uploads
 copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
-enable_task_to_chat_button: true    # Show the "Copy-paste task & scenario to chat" button
+enable_task_to_chat_button: false    # Show the "Copy-paste task & scenario to chat" button
 enable_task_text_copying: true      # Allow drag-selection and copying of task/scenario text
 
 # Proctoring (optional)
@@ -30,4 +30,4 @@ completion_code: COMPLETE          # Code shown at end
 completion_url: ""                 # Redirect URL (optional)
 
 # Data export
-export_token: ""                   # Set a secret to enable GET /export?token=<secret>; empty disables it
+export_token: "EXPORT_TOKEN"                   # Set a secret to enable GET /export?token=<secret>; empty disables it
