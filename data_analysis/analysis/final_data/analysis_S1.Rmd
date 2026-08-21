@@ -1,0 +1,1373 @@
+---
+title: "MET-AI Interventions -- Study 1 Analysis"
+author: "Manuel Dionisio dos Santos"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    theme: flatly
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo       = TRUE,
+  message    = FALSE,
+  warning    = FALSE,
+  fig.width  = 9,
+  fig.height = 6,
+  fig.retina = 2,
+  dpi        = 150
+)
+```
+
+# Step 1 -- Setup
+
+We begin by loading packages and defining helper functions, colours, and the
+APA-style plotting theme used throughout.
+
+```{r packages}
+library(tidyverse)
+library(here)
+library(knitr)
+library(effectsize)
+library(rstatix)
+library(psych)
+library(lavaan)
+library(patchwork)
+library(ggdist)
+library(emmeans)
+library(DescTools)
+library(car)
+```
+
+```{r here-anchor}
+here::i_am("data_analysis/deep_analysis/final_data/analysis_S1.Rmd")
+```
+
+## APA theme
+
+```{r apatheme}
+apatheme <- theme_bw(base_size = 12) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border     = element_blank(),
+    axis.line        = element_line(colour = "black", linewidth = 0.4),
+    strip.background = element_rect(fill = "grey95", colour = NA),
+    strip.text       = element_text(face = "bold"),
+    legend.position  = "bottom",
+    plot.title       = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle    = element_text(hjust = 0.5)
+  )
+```
+
+## Helper functions
+
+```{r helpers}
+# Significance stars
+sig_stars <- function(p) {
+  case_when(
+    p < .001 ~ "***",
+    p < .01  ~ "**",
+    p < .05  ~ "*",
+    p < .10  ~ "†",
+    TRUE     ~ ""
+  )
+}
+
+# APA-formatted p-value
+fmt_p <- function(p) {
+  ifelse(!is.finite(p), "--",
+    ifelse(p < .001, "< .001",
+      sub("0\\.", "= .", sprintf("%.3f", p))))
+}
+
+# Hedges' g with bias correction (small-sample correction factor J)
+cohen_d_pooled <- function(x, y, conf_level = 0.95) {
+  nx <- length(x); ny <- length(y)
+  mx <- mean(x, na.rm = TRUE); my <- mean(y, na.rm = TRUE)
+  sx <- sd(x, na.rm = TRUE); sy <- sd(y, na.rm = TRUE)
+  df_pool <- nx + ny - 2
+  s_pool  <- sqrt(((nx - 1) * sx^2 + (ny - 1) * sy^2) / df_pool)
+  d       <- (mx - my) / s_pool
+  # Hedges' g correction factor
+  J       <- 1 - 3 / (4 * df_pool - 1)
+  g       <- d * J
+  se_g    <- sqrt((nx + ny) / (nx * ny) + g^2 / (2 * df_pool))
+  z_crit  <- qnorm(0.5 + conf_level / 2)
+  ci_lo   <- g - z_crit * se_g
+  ci_hi   <- g + z_crit * se_g
+  c(g = g, ci_lo = ci_lo, ci_hi = ci_hi)
+}
+```
+
+## Condition definitions and colour palette
+
+```{r condition-defs}
+COND_LEVELS <- c("ai", "ai-reliability", "alternatives",
+                 "pause-points", "reflection-task")
+
+COND_NAMES <- c(
+  "ai"              = "AI (baseline)",
+  "ai-reliability"  = "Reliability cards",
+  "alternatives"    = "Alternatives",
+  "pause-points"    = "Pause points",
+  "reflection-task" = "Reflection task"
+)
+
+COND_COLOURS <- c(
+  "ai"              = "#2a78d6",
+  "ai-reliability"  = "#eb6834",
+  "alternatives"    = "#1baf7a",
+  "pause-points"    = "#eda100",
+  "reflection-task" = "#e87ba4"
+)
+```
+
+
+# Step 2 -- Load the data
+
+## Participant-level data
+
+```{r load-csv}
+df_raw <- read_csv(
+  here("data_analysis", "deep_analysis", "final_data",
+       "notebook_analysis_output", "participant_metrics.csv"),
+  show_col_types = FALSE
+)
+cat("Rows in CSV:", nrow(df_raw), "\n")
+df_raw %>% count(condition) %>% kable(caption = "Rows per condition (before exclusions)")
+```
+
+## Trial-level data from JSONs
+
+We load all five condition JSONs and reshape to one row per participant per
+item (tasks 6--17), with columns for correctness and confidence.
+
+```{r load-json}
+json_dir <- here("data_analysis", "results", "data", "final_data")
+cond_files <- c("ai" = "ai.json", "ai-reliability" = "ai_reliability.json",
+                "alternatives" = "alternatives.json",
+                "pause-points" = "pause_points.json",
+                "reflection-task" = "reflection_task.json")
+
+parse_trials <- function(path, cond_label) {
+  raw <- jsonlite::fromJSON(path, simplifyVector = FALSE)
+  map_dfr(raw$participants, function(p) {
+    pid <- p$participantId
+    ar  <- p$answerResults
+    tasks <- p$tasks
+    map_dfr(6:17, function(item) {
+      ans_key  <- paste0(item, ".1")
+      conf_key <- paste0(item, ".2")
+      correct  <- as.integer(isTRUE(ar[[ans_key]]))
+      conf_val <- NA_real_
+      tk <- tasks[[as.character(item)]]
+      if (!is.null(tk) && !is.null(tk$responses[[conf_key]])) {
+        conf_val <- as.numeric(tk$responses[[conf_key]]$answer)
+      }
+      tibble(pid = pid, cond = cond_label, item = item,
+             correct = correct, confidence = conf_val)
+    })
+  })
+}
+
+trials_all <- map_dfr(names(cond_files), function(cond) {
+  parse_trials(file.path(json_dir, cond_files[[cond]]), cond)
+})
+trials_all <- trials_all %>% mutate(conf01 = confidence / 100)
+
+cat("Trial-level rows:", nrow(trials_all), "\n")
+trials_all %>% count(cond) %>% kable(caption = "Trial rows per condition")
+```
+
+
+# Step 3 -- Exclusions
+
+The CSV carries pre-computed exclusion flags. We keep participants where
+`exclude_primary == FALSE`. The primary flag absorbs the attention-check and
+fast-completion rules.
+
+```{r exclusions}
+# Ensure logical
+df_raw <- df_raw %>%
+  mutate(across(starts_with("exclude_"), ~ as.logical(.)))
+
+# Report exclusions per rule
+cat("Exclusion counts:\n")
+df_raw %>%
+  summarise(
+    exclude_attention  = sum(exclude_attention, na.rm = TRUE),
+    exclude_fast       = sum(exclude_fast, na.rm = TRUE),
+    exclude_manual     = sum(exclude_manual, na.rm = TRUE),
+    exclude_repeat     = sum(exclude_repeat, na.rm = TRUE),
+    exclude_incomplete = sum(exclude_incomplete, na.rm = TRUE),
+    exclude_primary    = sum(exclude_primary, na.rm = TRUE)
+  ) %>% pivot_longer(everything(), names_to = "rule", values_to = "n") %>%
+  kable()
+
+# Apply primary exclusion
+df <- df_raw %>% filter(!exclude_primary)
+cat("\nAnalysis sample:", nrow(df), "of", nrow(df_raw), "participants\n")
+
+df %>% count(condition) %>%
+  kable(caption = "Analysis sample per condition")
+```
+
+Also filter the trial-level data to the analysis sample.
+
+```{r filter-trials}
+analysis_pids <- unique(df$participant_id)
+trials <- trials_all %>% filter(pid %in% analysis_pids)
+cat("Trial-level rows after exclusions:", nrow(trials), "\n")
+```
+
+
+# Step 4 -- Add outcome variables
+
+We derive the three headline outcomes: objective proportion correct,
+perceived proportion correct (from the post-task estimate), and the signed
+overestimation gap.
+
+```{r outcomes}
+df <- df %>%
+  mutate(
+    pc_obj     = actual_score / 12,
+    pc_per     = post_with_ai / 12,
+    diffobjper = post_with_ai - actual_score,
+    abs_error  = absolute_estimation_error,
+    condition  = factor(condition, levels = COND_LEVELS)
+  )
+
+df %>%
+  group_by(condition) %>%
+  summarise(
+    n       = n(),
+    M_obj   = round(mean(pc_obj), 3),
+    M_per   = round(mean(pc_per), 3),
+    M_overest = round(mean(diffobjper), 2),
+    .groups = "drop"
+  ) %>% kable(caption = "Quick check: headline means")
+```
+
+
+# Step 5 -- Describe the sample
+
+## 5.1 Age
+
+```{r age-desc}
+age_by_cond <- df %>%
+  group_by(condition) %>%
+  summarise(
+    n    = n(),
+    M    = round(mean(age, na.rm = TRUE), 1),
+    SD   = round(sd(age, na.rm = TRUE), 1),
+    Min  = min(age, na.rm = TRUE),
+    Max  = max(age, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+age_overall <- df %>%
+  summarise(
+    condition = "Overall",
+    n    = n(),
+    M    = round(mean(age, na.rm = TRUE), 1),
+    SD   = round(sd(age, na.rm = TRUE), 1),
+    Min  = min(age, na.rm = TRUE),
+    Max  = max(age, na.rm = TRUE)
+  )
+
+bind_rows(age_by_cond, age_overall) %>%
+  kable(caption = "Age by condition")
+```
+
+## 5.2 Completion time
+
+```{r time-desc}
+df %>%
+  group_by(condition) %>%
+  summarise(
+    n      = n(),
+    M_min  = round(mean(completion_minutes, na.rm = TRUE), 1),
+    SD_min = round(sd(completion_minutes, na.rm = TRUE), 1),
+    Mdn    = round(median(completion_minutes, na.rm = TRUE), 1),
+    Min    = round(min(completion_minutes, na.rm = TRUE), 1),
+    Max    = round(max(completion_minutes, na.rm = TRUE), 1),
+    .groups = "drop"
+  ) %>% kable(caption = "Completion time (minutes) by condition")
+```
+
+## 5.3 Gender
+
+```{r gender-desc}
+df %>% count(condition, gender) %>%
+  pivot_wider(names_from = gender, values_from = n, values_fill = 0) %>%
+  kable(caption = "Gender by condition")
+```
+
+## 5.4 Education
+
+```{r education-desc}
+df %>% count(condition, education) %>%
+  pivot_wider(names_from = condition, values_from = n, values_fill = 0) %>%
+  kable(caption = "Education by condition")
+```
+
+## 5.5 English fluency
+
+```{r fluency-desc}
+df %>% count(condition, fluency) %>%
+  pivot_wider(names_from = condition, values_from = n, values_fill = 0) %>%
+  kable(caption = "Fluency by condition")
+```
+
+## 5.6 AI use frequency
+
+```{r ai-use-desc}
+df %>% count(ai_use_label) %>%
+  mutate(pct = round(100 * n / sum(n), 1)) %>%
+  kable(caption = "AI use frequency across the sample")
+```
+
+Does habitual AI use predict performance?
+
+```{r ai-use-score}
+df %>%
+  group_by(ai_use_label) %>%
+  summarise(
+    n       = n(),
+    M_score = round(mean(actual_score, na.rm = TRUE), 2),
+    SD      = round(sd(actual_score, na.rm = TRUE), 2),
+    .groups = "drop"
+  ) %>% arrange(desc(M_score)) %>%
+  kable(caption = "Mean score by AI-use frequency")
+
+cor_test_ai <- cor.test(df$ai_use_frequency, df$actual_score, method = "pearson")
+cat(sprintf("Pearson r(AI-use frequency, actual score) = %.3f, p %s\n",
+            cor_test_ai$estimate, fmt_p(cor_test_ai$p.value)))
+```
+
+
+# Step 6 -- Achieved performance, perceived performance, and overestimation
+
+## 6.1 Descriptives
+
+```{r step6-desc}
+desc_main <- df %>%
+  group_by(condition) %>%
+  summarise(
+    n              = n(),
+    M_achieved     = mean(actual_score),
+    SD_achieved    = sd(actual_score),
+    M_perceived    = mean(post_with_ai),
+    SD_perceived   = sd(post_with_ai),
+    M_overest      = mean(diffobjper),
+    SD_overest     = sd(diffobjper),
+    M_abs_error    = mean(abs_error),
+    SD_abs_error   = sd(abs_error),
+    .groups = "drop"
+  )
+desc_main %>%
+  mutate(across(where(is.numeric) & !matches("^n$"), ~ round(., 2))) %>%
+  kable(caption = "Descriptives: achieved, perceived, overestimation")
+```
+
+## 6.2 One-sample t-tests: overestimation vs zero
+
+Is each condition's mean overestimation significantly different from zero?
+
+```{r onesample-overest}
+onesamp_overest <- df %>%
+  group_by(condition) %>%
+  summarise(
+    n     = n(),
+    M     = mean(diffobjper),
+    SD    = sd(diffobjper),
+    test  = list(t.test(diffobjper, mu = 0)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    t_val = map_dbl(test, ~ .x$statistic),
+    df    = map_dbl(test, ~ .x$parameter),
+    p     = map_dbl(test, ~ .x$p.value),
+    d     = M / SD,
+    stars = sig_stars(p)
+  ) %>%
+  select(-test)
+
+onesamp_overest %>%
+  mutate(across(c(M, SD, t_val, d), ~ round(., 3)),
+         p_fmt = fmt_p(p)) %>%
+  kable(caption = "One-sample t-test: overestimation vs 0 per condition")
+```
+
+## 6.3 One-way ANOVAs
+
+We run one-way ANOVAs for achieved performance, perceived performance, and
+overestimation. Each uses the five-level condition factor and reports
+eta-squared as the effect size.
+
+```{r anova-achieved}
+aov_achieved <- aov(actual_score ~ condition, data = df)
+cat("--- ANOVA: Achieved performance ---\n")
+summary(aov_achieved)
+eta_achieved <- effectsize::eta_squared(aov_achieved, partial = FALSE, ci = 0.95)
+print(eta_achieved)
+```
+
+```{r anova-perceived}
+aov_perceived <- aov(post_with_ai ~ condition, data = df)
+cat("--- ANOVA: Perceived performance ---\n")
+summary(aov_perceived)
+eta_perceived <- effectsize::eta_squared(aov_perceived, partial = FALSE, ci = 0.95)
+print(eta_perceived)
+```
+
+```{r anova-overest}
+aov_overest <- aov(diffobjper ~ condition, data = df)
+cat("--- ANOVA: Overestimation ---\n")
+summary(aov_overest)
+eta_overest <- effectsize::eta_squared(aov_overest, partial = FALSE, ci = 0.95)
+print(eta_overest)
+```
+
+## 6.4 Pairwise Welch t-tests with Hedges' g
+
+We compare every pair of conditions (10 pairs) for each of the three
+outcomes. Each test is a Welch (unequal-variance) two-sided t-test, with
+Hedges' g and Holm correction within the outcome family.
+
+```{r run-ttest-helper}
+run_ttest <- function(data, outcome, cond_a, cond_b) {
+  x <- data %>% filter(condition == cond_a) %>% pull(!!sym(outcome))
+  y <- data %>% filter(condition == cond_b) %>% pull(!!sym(outcome))
+  x <- x[is.finite(x)]; y <- y[is.finite(y)]
+  tt <- t.test(x, y, var.equal = FALSE)
+  g  <- cohen_d_pooled(x, y)
+  tibble(
+    outcome  = outcome,
+    cond_a   = cond_a,
+    cond_b   = cond_b,
+    n_a      = length(x),
+    n_b      = length(y),
+    mean_a   = mean(x),
+    mean_b   = mean(y),
+    diff     = mean(x) - mean(y),
+    t        = unname(tt$statistic),
+    df       = unname(tt$parameter),
+    p        = tt$p.value,
+    hedges_g = unname(g["g"]),
+    g_ci_lo  = unname(g["ci_lo"]),
+    g_ci_hi  = unname(g["ci_hi"])
+  )
+}
+```
+
+```{r pairwise-tests}
+pairs <- combn(COND_LEVELS, 2, simplify = FALSE)
+outcomes_main <- c("actual_score", "post_with_ai", "diffobjper")
+
+pairwise_results <- map_dfr(outcomes_main, function(outcome) {
+  res <- map_dfr(pairs, function(pr) run_ttest(df, outcome, pr[1], pr[2]))
+  res$p_holm <- p.adjust(res$p, method = "holm")
+  res$stars  <- sig_stars(res$p_holm)
+  res
+})
+
+pairwise_results %>%
+  mutate(
+    across(c(mean_a, mean_b, diff, t, hedges_g, g_ci_lo, g_ci_hi),
+           ~ round(., 3)),
+    p_fmt      = fmt_p(p),
+    p_holm_fmt = fmt_p(p_holm)
+  ) %>%
+  select(outcome, cond_a, cond_b, diff, t, df, p_fmt, p_holm_fmt,
+         hedges_g, g_ci_lo, g_ci_hi, stars) %>%
+  kable(caption = "Pairwise Welch t-tests with Holm correction and Hedges' g")
+```
+
+## 6.5 Tukey post-hocs from the ANOVA
+
+```{r tukey-achieved}
+cat("--- Tukey HSD: Achieved performance ---\n")
+TukeyHSD(aov_achieved) %>% print()
+```
+
+```{r tukey-perceived}
+cat("--- Tukey HSD: Perceived performance ---\n")
+TukeyHSD(aov_perceived) %>% print()
+```
+
+```{r tukey-overest}
+cat("--- Tukey HSD: Overestimation ---\n")
+TukeyHSD(aov_overest) %>% print()
+```
+
+## 6.6 Within-condition correlation: perceived vs achieved
+
+How well does each condition's participants' perceived performance track
+their actual performance? This captures individual-level calibration slope.
+
+```{r corr-perceived-actual}
+corr_by_cond <- df %>%
+  group_by(condition) %>%
+  summarise(
+    r      = cor(post_with_ai, actual_score, use = "complete.obs"),
+    test   = list(cor.test(post_with_ai, actual_score)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    p     = map_dbl(test, ~ .x$p.value),
+    ci_lo = map_dbl(test, ~ .x$conf.int[1]),
+    ci_hi = map_dbl(test, ~ .x$conf.int[2]),
+    stars = sig_stars(p)
+  ) %>% select(-test)
+
+corr_by_cond %>%
+  mutate(across(c(r, ci_lo, ci_hi), ~ round(., 3)),
+         p_fmt = fmt_p(p)) %>%
+  kable(caption = "Pearson r: perceived vs achieved, by condition")
+```
+
+
+# Step 7 -- Trial-level metacognitive sensitivity
+
+Working from the trial-level data (one row per participant per item), we
+compute four per-participant metacognitive indices and then compare them
+across conditions.
+
+## 7.1 Per-participant metacognitive indices
+
+```{r trial-indices}
+# Ensure trial data also uses only analysis sample
+trials_analysis <- trials %>%
+  filter(pid %in% analysis_pids) %>%
+  mutate(cond = factor(cond, levels = COND_LEVELS))
+
+trial_metrics <- trials_analysis %>%
+  group_by(pid, cond) %>%
+  summarise(
+    n_trials        = n(),
+    accuracy        = mean(correct, na.rm = TRUE),
+    mean_conf       = mean(confidence, na.rm = TRUE),
+    mean_conf_corr  = mean(confidence[correct == 1], na.rm = TRUE),
+    mean_conf_incor = mean(confidence[correct == 0], na.rm = TRUE),
+    conf_discrim    = mean_conf_corr - mean_conf_incor,
+    calibration     = mean(confidence, na.rm = TRUE) / 100 - accuracy,
+    brier           = mean((conf01 - correct)^2, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Type-2 AUROC (area under the type-2 ROC curve)
+# For each participant, use confidence as a predictor of correctness
+compute_auroc2 <- function(correct, confidence) {
+  if (length(unique(correct)) < 2) return(NA_real_)
+  n1 <- sum(correct == 1)
+  n0 <- sum(correct == 0)
+  if (n1 == 0 | n0 == 0) return(NA_real_)
+  conf_correct   <- confidence[correct == 1]
+  conf_incorrect <- confidence[correct == 0]
+  # Mann-Whitney U approach
+  u <- 0
+  for (cc in conf_correct) {
+    u <- u + sum(cc > conf_incorrect) + 0.5 * sum(cc == conf_incorrect)
+  }
+  u / (n1 * n0)
+}
+
+auroc2_df <- trials_analysis %>%
+  group_by(pid, cond) %>%
+  summarise(
+    auroc2 = compute_auroc2(correct, confidence),
+    .groups = "drop"
+  )
+
+trial_metrics <- trial_metrics %>%
+  left_join(auroc2_df, by = c("pid", "cond"))
+
+# Descriptives
+trial_metrics %>%
+  group_by(cond) %>%
+  summarise(
+    n             = n(),
+    M_discrim     = round(mean(conf_discrim, na.rm = TRUE), 2),
+    SD_discrim    = round(sd(conf_discrim, na.rm = TRUE), 2),
+    M_auroc2      = round(mean(auroc2, na.rm = TRUE), 3),
+    SD_auroc2     = round(sd(auroc2, na.rm = TRUE), 3),
+    M_calibration = round(mean(calibration, na.rm = TRUE), 3),
+    SD_calibration = round(sd(calibration, na.rm = TRUE), 3),
+    M_brier       = round(mean(brier, na.rm = TRUE), 3),
+    SD_brier      = round(sd(brier, na.rm = TRUE), 3),
+    .groups = "drop"
+  ) %>% kable(caption = "Metacognitive indices from trial-level data")
+```
+
+## 7.2 Paired comparison: confidence correct vs incorrect within condition
+
+Within each condition, is mean confidence higher on correct trials than on
+incorrect trials (a necessary condition for metacognitive sensitivity)?
+
+```{r paired-conf}
+paired_conf <- trial_metrics %>%
+  group_by(cond) %>%
+  summarise(
+    n     = n(),
+    M_corr   = mean(mean_conf_corr, na.rm = TRUE),
+    M_incorr = mean(mean_conf_incor, na.rm = TRUE),
+    diff     = M_corr - M_incorr,
+    test     = list(t.test(mean_conf_corr, mean_conf_incor, paired = TRUE)),
+    .groups  = "drop"
+  ) %>%
+  mutate(
+    t_val = map_dbl(test, ~ .x$statistic),
+    df    = map_dbl(test, ~ .x$parameter),
+    p     = map_dbl(test, ~ .x$p.value),
+    stars = sig_stars(p)
+  ) %>% select(-test)
+
+paired_conf %>%
+  mutate(across(c(M_corr, M_incorr, diff, t_val), ~ round(., 2)),
+         p_fmt = fmt_p(p)) %>%
+  kable(caption = "Paired t: confidence correct vs incorrect per condition")
+```
+
+## 7.3 ANOVA + Tukey for each metacognitive index
+
+```{r anova-discrim}
+cat("--- ANOVA: Confidence discrimination ---\n")
+aov_discrim <- aov(conf_discrim ~ cond, data = trial_metrics)
+summary(aov_discrim)
+effectsize::eta_squared(aov_discrim, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_discrim) %>% print()
+```
+
+```{r anova-auroc2}
+cat("--- ANOVA: Type-2 AUROC ---\n")
+aov_auroc <- aov(auroc2 ~ cond, data = trial_metrics)
+summary(aov_auroc)
+effectsize::eta_squared(aov_auroc, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_auroc) %>% print()
+```
+
+```{r anova-calibration}
+cat("--- ANOVA: Calibration (overconfidence) ---\n")
+aov_calib <- aov(calibration ~ cond, data = trial_metrics)
+summary(aov_calib)
+effectsize::eta_squared(aov_calib, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_calib) %>% print()
+```
+
+```{r anova-brier}
+cat("--- ANOVA: Brier score ---\n")
+aov_brier <- aov(brier ~ cond, data = trial_metrics)
+summary(aov_brier)
+effectsize::eta_squared(aov_brier, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_brier) %>% print()
+```
+
+
+# Step 8 -- Post-task questionnaires
+
+For each self-report scale we report descriptives per condition, a one-way
+ANOVA with eta-squared, and Tukey post-hocs. Item-level reliability
+(Cronbach's alpha) cannot be computed from the participant-level CSV because
+it contains only scale composites; this is noted where relevant.
+
+## 8.1 NASA-TLX (workload)
+
+`tlx_mean` is the unweighted mean of the six subscales (1--21 scale).
+
+```{r tlx}
+cat("=== NASA-TLX (workload) ===\n")
+df %>% group_by(condition) %>%
+  summarise(n = n(), M = round(mean(tlx_mean), 2), SD = round(sd(tlx_mean), 2),
+            .groups = "drop") %>%
+  kable(caption = "NASA-TLX mean by condition")
+
+aov_tlx <- aov(tlx_mean ~ condition, data = df)
+summary(aov_tlx)
+effectsize::eta_squared(aov_tlx, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_tlx) %>% print()
+```
+
+## 8.2 Trust
+
+`trust_mean` is the mean of the trust items (1--5 scale). We also test
+whether each condition's mean differs from the scale midpoint (3).
+
+```{r trust}
+cat("=== Trust ===\n")
+df %>% group_by(condition) %>%
+  summarise(n = n(), M = round(mean(trust_mean), 2), SD = round(sd(trust_mean), 2),
+            .groups = "drop") %>%
+  kable(caption = "Trust mean by condition")
+
+aov_trust <- aov(trust_mean ~ condition, data = df)
+summary(aov_trust)
+effectsize::eta_squared(aov_trust, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_trust) %>% print()
+```
+
+One-sample t-test: trust vs midpoint (3) per condition.
+
+```{r trust-midpoint}
+trust_mid <- df %>%
+  group_by(condition) %>%
+  summarise(
+    n    = n(),
+    M    = mean(trust_mean),
+    SD   = sd(trust_mean),
+    test = list(t.test(trust_mean, mu = 3)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    t_val = map_dbl(test, ~ .x$statistic),
+    df    = map_dbl(test, ~ .x$parameter),
+    p     = map_dbl(test, ~ .x$p.value),
+    d     = (M - 3) / SD,
+    stars = sig_stars(p)
+  ) %>% select(-test)
+
+trust_mid %>%
+  mutate(across(c(M, SD, t_val, d), ~ round(., 3)),
+         p_fmt = fmt_p(p)) %>%
+  kable(caption = "Trust vs midpoint (3) per condition")
+```
+
+## 8.3 SUS (System Usability Scale)
+
+```{r sus}
+cat("=== SUS ===\n")
+df %>% group_by(condition) %>%
+  summarise(n = n(), M = round(mean(sus_score), 2), SD = round(sd(sus_score), 2),
+            .groups = "drop") %>%
+  kable(caption = "SUS score by condition")
+
+aov_sus <- aov(sus_score ~ condition, data = df)
+summary(aov_sus)
+effectsize::eta_squared(aov_sus, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_sus) %>% print()
+```
+
+## 8.4 UEQ-S (User Experience Questionnaire -- Short)
+
+The UEQ-S yields an overall score and two subscales: pragmatic quality and
+hedonic quality.
+
+```{r ueq}
+cat("=== UEQ-S ===\n")
+df %>% group_by(condition) %>%
+  summarise(
+    n          = n(),
+    M_overall  = round(mean(ueq_overall), 2),
+    SD_overall = round(sd(ueq_overall), 2),
+    M_prag     = round(mean(ueq_pragmatic), 2),
+    SD_prag    = round(sd(ueq_pragmatic), 2),
+    M_hed      = round(mean(ueq_hedonic), 2),
+    SD_hed     = round(sd(ueq_hedonic), 2),
+    .groups    = "drop"
+  ) %>% kable(caption = "UEQ-S by condition")
+
+for (ueq_var in c("ueq_overall", "ueq_pragmatic", "ueq_hedonic")) {
+  cat(sprintf("\n--- ANOVA: %s ---\n", ueq_var))
+  a <- aov(reformulate("condition", ueq_var), data = df)
+  print(summary(a))
+  print(effectsize::eta_squared(a, partial = FALSE, ci = 0.95))
+  cat("Tukey HSD:\n")
+  print(TukeyHSD(a))
+}
+```
+
+## 8.5 Need for Cognition (NFC)
+
+```{r nfc}
+cat("=== Need for Cognition ===\n")
+df %>% group_by(condition) %>%
+  summarise(n = n(), M = round(mean(nfc_mean), 2), SD = round(sd(nfc_mean), 2),
+            .groups = "drop") %>%
+  kable(caption = "NFC mean by condition")
+
+aov_nfc <- aov(nfc_mean ~ condition, data = df)
+summary(aov_nfc)
+effectsize::eta_squared(aov_nfc, partial = FALSE, ci = 0.95) %>% print()
+cat("\nTukey HSD:\n")
+TukeyHSD(aov_nfc) %>% print()
+```
+
+## 8.6 Note on reliability
+
+Item-level Cronbach's alpha cannot be computed from the participant-level
+CSV because it contains only scale composites (mean scores). The item-level
+data for questionnaire scales resides in the JSON files' survey sections.
+For the present analysis we report scale-level descriptives only and note
+this limitation.
+
+
+# Step 9 -- Mediation analysis
+
+We test whether the effect of intervention condition on overestimation
+(diffobjper) is mediated through (a) trust in the AI and (b) hedonic user
+experience, using a parallel mediation model in lavaan with bootstrapped
+confidence intervals.
+
+## 9.1 Setup: dummy codes and z-standardisation
+
+```{r mediation-prep}
+# Create dummy codes (baseline = ai)
+df <- df %>%
+  mutate(
+    d_reliability = as.numeric(condition == "ai-reliability"),
+    d_alternatives = as.numeric(condition == "alternatives"),
+    d_pause       = as.numeric(condition == "pause-points"),
+    d_reflection  = as.numeric(condition == "reflection-task"),
+    # z-standardise mediators and outcome
+    z_trust       = as.numeric(scale(trust_mean)),
+    z_hedonic     = as.numeric(scale(ueq_hedonic)),
+    z_diffobjper  = as.numeric(scale(diffobjper))
+  )
+```
+
+## 9.2 Parallel mediation model
+
+```{r mediation-model}
+med_model <- '
+  # a paths: condition dummies -> mediators
+  z_trust   ~ a1_rel*d_reliability + a1_alt*d_alternatives +
+              a1_pau*d_pause + a1_ref*d_reflection
+  z_hedonic ~ a2_rel*d_reliability + a2_alt*d_alternatives +
+              a2_pau*d_pause + a2_ref*d_reflection
+
+  # b paths: mediators -> outcome
+  z_diffobjper ~ b1*z_trust + b2*z_hedonic
+
+  # c-prime paths: direct effects
+  z_diffobjper ~ cp_rel*d_reliability + cp_alt*d_alternatives +
+                 cp_pau*d_pause + cp_ref*d_reflection
+
+  # Indirect effects via trust
+  ind_trust_rel := a1_rel * b1
+  ind_trust_alt := a1_alt * b1
+  ind_trust_pau := a1_pau * b1
+  ind_trust_ref := a1_ref * b1
+
+  # Indirect effects via hedonic
+  ind_hed_rel := a2_rel * b2
+  ind_hed_alt := a2_alt * b2
+  ind_hed_pau := a2_pau * b2
+  ind_hed_ref := a2_ref * b2
+
+  # Total indirect per condition
+  total_ind_rel := ind_trust_rel + ind_hed_rel
+  total_ind_alt := ind_trust_alt + ind_hed_alt
+  total_ind_pau := ind_trust_pau + ind_hed_pau
+  total_ind_ref := ind_trust_ref + ind_hed_ref
+
+  # Total effects per condition
+  total_rel := cp_rel + total_ind_rel
+  total_alt := cp_alt + total_ind_alt
+  total_pau := cp_pau + total_ind_pau
+  total_ref := cp_ref + total_ind_ref
+'
+
+set.seed(42)
+med_fit <- sem(med_model, data = df, se = "bootstrap", bootstrap = 5000)
+
+cat("--- Mediation model summary ---\n")
+summary(med_fit, standardized = TRUE, ci = TRUE)
+```
+
+```{r mediation-params}
+cat("\n--- Parameter estimates with bootstrapped CIs ---\n")
+parameterEstimates(med_fit, boot.ci.type = "perc", standardized = TRUE) %>%
+  filter(op %in% c("~", ":=")) %>%
+  mutate(across(c(est, se, ci.lower, ci.upper, std.all), ~ round(., 4))) %>%
+  kable(caption = "Mediation parameter estimates")
+```
+
+## 9.3 Sensitivity: single-mediator models
+
+```{r mediation-trust-only}
+med_trust_only <- '
+  z_trust      ~ a_rel*d_reliability + a_alt*d_alternatives +
+                 a_pau*d_pause + a_ref*d_reflection
+  z_diffobjper ~ b*z_trust +
+                 cp_rel*d_reliability + cp_alt*d_alternatives +
+                 cp_pau*d_pause + cp_ref*d_reflection
+  ind_rel := a_rel * b
+  ind_alt := a_alt * b
+  ind_pau := a_pau * b
+  ind_ref := a_ref * b
+'
+set.seed(42)
+fit_trust_only <- sem(med_trust_only, data = df, se = "bootstrap", bootstrap = 5000)
+cat("--- Trust-only mediation ---\n")
+parameterEstimates(fit_trust_only, boot.ci.type = "perc") %>%
+  filter(op == ":=") %>%
+  mutate(across(c(est, se, ci.lower, ci.upper), ~ round(., 4))) %>%
+  kable(caption = "Indirect effects: trust-only model")
+```
+
+```{r mediation-hedonic-only}
+med_hed_only <- '
+  z_hedonic    ~ a_rel*d_reliability + a_alt*d_alternatives +
+                 a_pau*d_pause + a_ref*d_reflection
+  z_diffobjper ~ b*z_hedonic +
+                 cp_rel*d_reliability + cp_alt*d_alternatives +
+                 cp_pau*d_pause + cp_ref*d_reflection
+  ind_rel := a_rel * b
+  ind_alt := a_alt * b
+  ind_pau := a_pau * b
+  ind_ref := a_ref * b
+'
+set.seed(42)
+fit_hed_only <- sem(med_hed_only, data = df, se = "bootstrap", bootstrap = 5000)
+cat("--- Hedonic-only mediation ---\n")
+parameterEstimates(fit_hed_only, boot.ci.type = "perc") %>%
+  filter(op == ":=") %>%
+  mutate(across(c(est, se, ci.lower, ci.upper), ~ round(., 4))) %>%
+  kable(caption = "Indirect effects: hedonic-only model")
+```
+
+## 9.4 Collinearity diagnostics
+
+```{r collinearity}
+cat("--- VIF for the mediation predictors ---\n")
+lm_vif <- lm(z_diffobjper ~ d_reliability + d_alternatives + d_pause +
+                d_reflection + z_trust + z_hedonic, data = df)
+car::vif(lm_vif)
+cat("\nCorrelation between mediators:\n")
+cor(df$z_trust, df$z_hedonic, use = "complete.obs") %>%
+  round(3) %>% cat("\n")
+```
+
+
+# Step 10 -- Figures
+
+## 10.1 Raincloud plot: actual score by condition
+
+```{r fig-raincloud, fig.width=10, fig.height=6}
+p_rain <- df %>%
+  ggplot(aes(x = condition, y = actual_score, fill = condition,
+             colour = condition)) +
+  ggdist::stat_halfeye(
+    adjust = 0.8, width = 0.5, .width = 0,
+    justification = -0.2, point_colour = NA, alpha = 0.7
+  ) +
+  geom_boxplot(width = 0.15, outlier.shape = NA, alpha = 0.5,
+               colour = "grey30") +
+  geom_jitter(width = 0.08, alpha = 0.2, size = 0.8) +
+  scale_fill_manual(values = COND_COLOURS, labels = COND_NAMES) +
+  scale_colour_manual(values = COND_COLOURS, labels = COND_NAMES) +
+  scale_x_discrete(labels = COND_NAMES) +
+  labs(
+    title = "Achieved Performance by Condition",
+    x = NULL, y = "Actual score (0-12)"
+  ) +
+  apatheme +
+  theme(legend.position = "none")
+p_rain
+```
+
+## 10.2 Grouped bars: achieved vs perceived by condition
+
+```{r fig-grouped-bars, fig.width=10, fig.height=6}
+bar_long <- df %>%
+  select(condition, Achieved = actual_score, Perceived = post_with_ai) %>%
+  pivot_longer(-condition, names_to = "measure", values_to = "value") %>%
+  group_by(condition, measure) %>%
+  summarise(M = mean(value), SE = sd(value) / sqrt(n()), .groups = "drop")
+
+p_bars <- bar_long %>%
+  ggplot(aes(x = condition, y = M, fill = measure)) +
+  geom_col(position = position_dodge(0.8), width = 0.7, alpha = 0.85) +
+  geom_errorbar(
+    aes(ymin = M - SE, ymax = M + SE),
+    position = position_dodge(0.8), width = 0.2, linewidth = 0.4
+  ) +
+  scale_x_discrete(labels = COND_NAMES) +
+  scale_fill_manual(values = c("Achieved" = "#4a4a4a", "Perceived" = "#aaaaaa")) +
+  labs(
+    title = "Achieved vs Perceived Performance",
+    x = NULL, y = "Number of items (0-12)", fill = NULL
+  ) +
+  apatheme
+p_bars
+```
+
+## 10.3 Bar chart: overestimation by condition
+
+```{r fig-overest-bars, fig.width=9, fig.height=5}
+overest_bar <- df %>%
+  group_by(condition) %>%
+  summarise(M = mean(diffobjper), SE = sd(diffobjper) / sqrt(n()),
+            .groups = "drop")
+
+p_overest <- overest_bar %>%
+  ggplot(aes(x = condition, y = M, fill = condition)) +
+  geom_col(width = 0.6, alpha = 0.85) +
+  geom_errorbar(aes(ymin = M - SE, ymax = M + SE), width = 0.15,
+                linewidth = 0.4) +
+  geom_hline(yintercept = 0, linetype = "dashed", colour = "grey50") +
+  scale_fill_manual(values = COND_COLOURS) +
+  scale_x_discrete(labels = COND_NAMES) +
+  labs(
+    title = "Overestimation by Condition",
+    subtitle = "Post-task perceived - actual score",
+    x = NULL, y = "Overestimation (items)"
+  ) +
+  apatheme + theme(legend.position = "none")
+p_overest
+```
+
+## 10.4 Scatter: perceived vs achieved, faceted by condition
+
+```{r fig-scatter-calibration, fig.width=12, fig.height=5}
+p_scatter <- df %>%
+  ggplot(aes(x = actual_score, y = post_with_ai, colour = condition)) +
+  geom_jitter(width = 0.3, height = 0.3, alpha = 0.35, size = 1.2) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed",
+              colour = "grey40") +
+  geom_smooth(method = "lm", se = TRUE, linewidth = 0.8, alpha = 0.2) +
+  facet_wrap(~ condition, nrow = 1, labeller = labeller(
+    condition = COND_NAMES)) +
+  scale_colour_manual(values = COND_COLOURS) +
+  labs(
+    title = "Perceived vs Achieved Performance",
+    subtitle = "Dashed line = perfect calibration",
+    x = "Actual score (0-12)", y = "Post-task perceived score (0-12)"
+  ) +
+  coord_equal(xlim = c(0, 12), ylim = c(0, 12)) +
+  apatheme + theme(legend.position = "none")
+p_scatter
+```
+
+## 10.5 Combined figure: achieved-vs-perceived + overestimation
+
+```{r fig-combined, fig.width=14, fig.height=6}
+p_combined <- p_bars + p_overest +
+  plot_layout(widths = c(1.2, 1)) +
+  plot_annotation(
+    title = "Performance Perception Across Conditions",
+    theme = theme(plot.title = element_text(face = "bold", size = 14,
+                                             hjust = 0.5))
+  )
+p_combined
+```
+
+
+# Step 11 -- Preregistered directional hypotheses
+
+The study preregistered that each intervention condition improves either
+performance or metacognitive calibration relative to the plain-AI baseline.
+We operationalise this with three directional tests per intervention:
+
+1. **Achieved score**: intervention > baseline (Welch t, one-sided)
+2. **Absolute estimation error**: intervention < baseline (lower = better)
+3. **Confidence discrimination**: intervention > baseline (higher = better)
+
+Each test is a one-sided Welch t with Hedges' g. Within each outcome family
+(4 interventions), we apply the Holm correction.
+
+```{r directional-helper}
+run_directional <- function(data, outcome, cond_int, cond_base, direction) {
+  # direction: "greater" means intervention > baseline;
+  #            "less"    means intervention < baseline
+  x <- data %>% filter(condition == cond_int) %>% pull(!!sym(outcome))
+  y <- data %>% filter(condition == cond_base) %>% pull(!!sym(outcome))
+  x <- x[is.finite(x)]; y <- y[is.finite(y)]
+  tt_dir  <- t.test(x, y, alternative = direction, var.equal = FALSE)
+  tt_two  <- t.test(x, y, alternative = "two.sided", var.equal = FALSE)
+  g       <- cohen_d_pooled(x, y)
+  tibble(
+    outcome    = outcome,
+    intervention = cond_int,
+    baseline   = cond_base,
+    direction  = direction,
+    n_int      = length(x),
+    n_base     = length(y),
+    mean_int   = mean(x),
+    mean_base  = mean(y),
+    diff       = mean(x) - mean(y),
+    t          = unname(tt_dir$statistic),
+    df         = unname(tt_dir$parameter),
+    p_dir      = tt_dir$p.value,
+    p_two      = tt_two$p.value,
+    hedges_g   = unname(g["g"]),
+    g_ci_lo    = unname(g["ci_lo"]),
+    g_ci_hi    = unname(g["ci_hi"])
+  )
+}
+```
+
+```{r directional-tests}
+interventions <- c("ai-reliability", "alternatives", "pause-points", "reflection-task")
+
+hypotheses <- tribble(
+  ~outcome,                    ~direction,
+  "actual_score",              "greater",
+  "absolute_estimation_error", "less",
+  "confidence_discrimination", "greater"
+)
+
+directional_results <- map_dfr(seq_len(nrow(hypotheses)), function(h) {
+  out <- hypotheses$outcome[h]
+  dir <- hypotheses$direction[h]
+  res <- map_dfr(interventions, function(int) {
+    run_directional(df, out, int, "ai", dir)
+  })
+  res$p_holm <- p.adjust(res$p_dir, method = "holm")
+  res
+})
+
+directional_results <- directional_results %>%
+  mutate(
+    significant = p_holm < 0.05,
+    stars       = sig_stars(p_holm)
+  )
+
+directional_results %>%
+  mutate(
+    across(c(mean_int, mean_base, diff, t, hedges_g, g_ci_lo, g_ci_hi),
+           ~ round(., 3)),
+    p_dir_fmt  = fmt_p(p_dir),
+    p_holm_fmt = fmt_p(p_holm)
+  ) %>%
+  select(outcome, intervention, diff, t, df, p_dir_fmt, p_holm_fmt,
+         hedges_g, g_ci_lo, g_ci_hi, significant, stars) %>%
+  kable(caption = "Directional hypothesis tests: each intervention vs AI baseline")
+```
+
+## 11.1 Interpretation with the IU decision logic
+
+For each intervention we classify the evidence using a simple heuristic:
+
+- **Supported**: at least one directional test significant after Holm
+  correction in the hypothesised direction.
+- **Not supported**: no directional test significant.
+- **Reversed**: the two-sided test is significant but the effect is in the
+  opposite direction to the hypothesis.
+
+```{r hypothesis-verdicts}
+verdict_table <- directional_results %>%
+  group_by(intervention) %>%
+  summarise(
+    any_supported = any(significant),
+    supported_outcomes = paste(outcome[significant], collapse = "; "),
+    any_reversed = any(!significant & p_two < 0.05 & (
+      (direction == "greater" & diff < 0) |
+      (direction == "less" & diff > 0)
+    )),
+    reversed_outcomes = paste(
+      outcome[!significant & p_two < 0.05 & (
+        (direction == "greater" & diff < 0) |
+        (direction == "less" & diff > 0))],
+      collapse = "; "),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    verdict = case_when(
+      any_supported ~ "Supported",
+      any_reversed  ~ "Not supported (reversed effect found)",
+      TRUE          ~ "Not supported"
+    )
+  )
+
+verdict_table %>%
+  kable(caption = "Hypothesis verdict per intervention")
+```
+
+## 11.2 Omnibus ordering test
+
+If we hypothesise that interventions collectively improve metacognitive
+calibration (absolute estimation error), we can test whether condition
+predicts this outcome with a Jonckheere-Terpstra trend test ordered by the
+expected benefit: ai < reflection-task < pause-points < ai-reliability <
+alternatives.
+
+```{r omnibus-jt}
+# Order from worst expected to best expected metacognitive calibration
+jt_order <- c("ai", "reflection-task", "pause-points",
+              "ai-reliability", "alternatives")
+
+df_jt <- df %>%
+  mutate(cond_ordered = factor(condition, levels = jt_order, ordered = TRUE))
+
+jt_result <- DescTools::JonckheereTerpstraTest(
+  df_jt$absolute_estimation_error,
+  as.numeric(df_jt$cond_ordered),
+  alternative = "decreasing"
+)
+cat("Jonckheere-Terpstra trend test (absolute estimation error, ordered):\n")
+print(jt_result)
+```
+
+
+# Step 12 -- Wave sensitivity
+
+Waves 1 and 2 were collected at different times, creating a potential
+confound for between-wave comparisons. Wave 2 contains the alternatives,
+pause-points, and reflection-task conditions plus 5 baseline (ai)
+participants. Here we restrict to wave-2 data only and re-run the headline
+comparisons to check robustness.
+
+```{r wave-sensitivity}
+df_w2 <- df %>% filter(wave == 2)
+cat("Wave-2 only sample:\n")
+df_w2 %>% count(condition) %>% kable()
+```
+
+Note: the wave-2 baseline group has only `r sum(df_w2$condition == "ai")`
+participants. We compare the three wave-2 interventions against this small
+baseline for robustness checking, but note the severe power limitation.
+
+```{r wave2-tests}
+w2_interventions <- c("alternatives", "pause-points", "reflection-task")
+w2_outcomes <- c("actual_score", "absolute_estimation_error",
+                 "confidence_discrimination")
+w2_directions <- c("greater", "less", "greater")
+
+w2_results <- map_dfr(seq_along(w2_outcomes), function(h) {
+  res <- map_dfr(w2_interventions, function(int) {
+    run_directional(df_w2, w2_outcomes[h], int, "ai", w2_directions[h])
+  })
+  res$p_holm <- p.adjust(res$p_dir, method = "holm")
+  res
+})
+
+w2_results <- w2_results %>%
+  mutate(significant = p_holm < 0.05, stars = sig_stars(p_holm))
+
+w2_results %>%
+  mutate(
+    across(c(mean_int, mean_base, diff, t, hedges_g, g_ci_lo, g_ci_hi),
+           ~ round(., 3)),
+    p_dir_fmt  = fmt_p(p_dir),
+    p_holm_fmt = fmt_p(p_holm)
+  ) %>%
+  select(outcome, intervention, n_int, n_base, diff, t, df,
+         p_dir_fmt, p_holm_fmt, hedges_g, g_ci_lo, g_ci_hi, significant) %>%
+  kable(caption = "Wave-2 only: directional tests vs wave-2 baseline (n = 5)")
+```
+
+We also compare the three wave-2 interventions against each other (since
+they share the same wave and are thus free of the wave confound).
+
+```{r wave2-pairwise}
+w2_pairs <- combn(w2_interventions, 2, simplify = FALSE)
+
+w2_pairwise <- map_dfr(w2_outcomes, function(outcome) {
+  res <- map_dfr(w2_pairs, function(pr) run_ttest(df_w2, outcome, pr[1], pr[2]))
+  res$p_holm <- p.adjust(res$p, method = "holm")
+  res$stars  <- sig_stars(res$p_holm)
+  res
+})
+
+w2_pairwise %>%
+  mutate(
+    across(c(diff, t, hedges_g, g_ci_lo, g_ci_hi), ~ round(., 3)),
+    p_holm_fmt = fmt_p(p_holm)
+  ) %>%
+  select(outcome, cond_a, cond_b, diff, t, df, p_holm_fmt,
+         hedges_g, g_ci_lo, g_ci_hi, stars) %>%
+  kable(caption = "Wave-2: pairwise comparisons among interventions")
+```
+
+
+# Step 13 -- Precision check / paper reference card
+
+Every key statistic printed at full precision for copy-checking. The `chk`
+helper formats each value with its label.
+
+```{r precision-card}
+chk <- function(label, value, digits = 6) {
+  cat(sprintf("%-55s %s\n", label,
+              formatC(value, format = "f", digits = digits)))
+}
+
+cat("============================================================\n")
+cat("PAPER REFERENCE CARD -- key statistics at full precision\n")
+cat("============================================================\n\n")
+
+cat("--- Sample ---\n")
+chk("N total (CSV rows)", nrow(df_raw), 0)
+chk("N analysis sample", nrow(df), 0)
+
+cat("\n--- Achieved performance (actual_score) ---\n")
+for (cond in COND_LEVELS) {
+  x <- df %>% filter(condition == cond) %>% pull(actual_score)
+  chk(paste0("  ", COND_NAMES[cond], " M"), mean(x))
+  chk(paste0("  ", COND_NAMES[cond], " SD"), sd(x))
+}
+anova_f_ach <- summary(aov_achieved)[[1]]
+chk("  ANOVA F", anova_f_ach$`F value`[1])
+chk("  ANOVA p", anova_f_ach$`Pr(>F)`[1])
+chk("  eta-squared", eta_achieved$Eta2[1])
+
+cat("\n--- Perceived performance (post_with_ai) ---\n")
+for (cond in COND_LEVELS) {
+  x <- df %>% filter(condition == cond) %>% pull(post_with_ai)
+  chk(paste0("  ", COND_NAMES[cond], " M"), mean(x))
+  chk(paste0("  ", COND_NAMES[cond], " SD"), sd(x))
+}
+anova_f_per <- summary(aov_perceived)[[1]]
+chk("  ANOVA F", anova_f_per$`F value`[1])
+chk("  ANOVA p", anova_f_per$`Pr(>F)`[1])
+chk("  eta-squared", eta_perceived$Eta2[1])
+
+cat("\n--- Overestimation (diffobjper) ---\n")
+for (cond in COND_LEVELS) {
+  x <- df %>% filter(condition == cond) %>% pull(diffobjper)
+  chk(paste0("  ", COND_NAMES[cond], " M"), mean(x))
+  chk(paste0("  ", COND_NAMES[cond], " SD"), sd(x))
+}
+anova_f_ov <- summary(aov_overest)[[1]]
+chk("  ANOVA F", anova_f_ov$`F value`[1])
+chk("  ANOVA p", anova_f_ov$`Pr(>F)`[1])
+chk("  eta-squared", eta_overest$Eta2[1])
+
+cat("\n--- Directional tests vs baseline ---\n")
+for (i in seq_len(nrow(directional_results))) {
+  r <- directional_results[i, ]
+  cat(sprintf("  %-20s %-30s  g = %+.6f  p_holm = %.6f\n",
+              r$intervention, r$outcome, r$hedges_g, r$p_holm))
+}
+
+cat("\n--- Questionnaires ---\n")
+for (scale in c("tlx_mean", "trust_mean", "sus_score", "ueq_overall",
+                "ueq_pragmatic", "ueq_hedonic", "nfc_mean")) {
+  for (cond in COND_LEVELS) {
+    x <- df %>% filter(condition == cond) %>% pull(!!sym(scale))
+    chk(paste0("  ", scale, " ", COND_NAMES[cond], " M"), mean(x))
+  }
+}
+
+cat("\n--- Mediation: indirect effects (parallel model) ---\n")
+pe <- parameterEstimates(med_fit, boot.ci.type = "perc")
+indirect_rows <- pe %>% filter(grepl("^ind_", lhs))
+for (i in seq_len(nrow(indirect_rows))) {
+  r <- indirect_rows[i, ]
+  cat(sprintf("  %-25s est = %+.6f  CI [%+.6f, %+.6f]\n",
+              r$lhs, r$est, r$ci.lower, r$ci.upper))
+}
+
+cat("\n============================================================\n")
+cat(sprintf("R %s | rendered %s\n", getRversion(),
+            format(Sys.time(), "%Y-%m-%d %H:%M %Z")))
+```
+
+
+---
+
+*End of analysis. All code is self-contained and intended to run from the
+repository root with `here::i_am()` anchoring file paths.*
