@@ -46,7 +46,7 @@ Add `Other` as a choice to allow free-text input:
 Any option ending with `*` also triggers a free-text input, using the text before `*` as the label. Append a custom placeholder after `*`:
 
 ```markdown
-> What is your favourite colour?
+> What is your favorite color?
 
     $option?;
     Red;
