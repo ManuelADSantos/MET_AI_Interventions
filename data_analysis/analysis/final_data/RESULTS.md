@@ -64,14 +64,36 @@ All analysis metrics derive from the JSON records, not the convenience CSVs.
 
 ## 4. Confirmatory outcomes
 
-Omnibus differences are significant for all four families:
+Omnibus differences across the five conditions are significant for all four
+families, on both the parametric and the non-parametric test:
 
-| Outcome | Welch F (df) | p | KW ε² |
-|---|---|---|---|
-| Metacognitive accuracy \|post estimate − actual\| | 11.87 (4, 455.5) | < .001 | .038 |
-| Confidence discrimination | 8.08 (4, 452.0) | < .001 | .032 |
-| Prompts per completed task | 54.06 (4, 447.9) | < .001 | .302 |
-| Actual score | 9.44 (4, 455.4) | < .001 | .048 |
+| Outcome | Welch *F* | df | *p* | KW *H* | KW *p* | ε² |
+|---|---|---|---|---|---|---|
+| Metacognitive accuracy \|post estimate − actual\| | 11.87 | 4, 455.5 | 3.5 × 10⁻⁹ | 38.76 | < .001 | .038 |
+| Confidence discrimination | 8.08 | 4, 452.0 | 2.7 × 10⁻⁶ | 33.40 | < .001 | .032 |
+| Prompts per completed task | 54.06 | 4, 447.9 | 3.6 × 10⁻³⁷ | 279.01 | < .001 | .302 |
+| Actual score | 9.44 | 4, 455.4 | 2.4 × 10⁻⁷ | 47.35 | < .001 | .048 |
+
+**Why Welch's rather than classical ANOVA.** Group variances are unequal, so the
+homoscedasticity assumption of classical ANOVA does not hold. Brown–Forsythe
+tests reject equal variance for confidence discrimination (*p* = 2.5 × 10⁻⁸,
+SDs 8.92–13.59), prompts per task (*p* = 5.2 × 10⁻³⁰, SDs 0.70–2.06) and
+estimation error (*p* = .011, SDs 2.01–2.48); actual score is borderline
+(*p* = .052, SDs 1.53–2.00). Welch's *F* does not assume equal variances, which
+is also why the denominator df are fractional. Kruskal–Wallis is reported
+alongside as an assumption-free check, and agrees on all four outcomes.
+
+Effect sizes are small for the three substantive outcomes (ε² = .032–.048) and
+large only for prompts per task (ε² = .302), where the difference is largely
+mechanical — the interventions' interaction designs require different numbers of
+turns. A significant omnibus here says the five conditions are not
+interchangeable; it does not say which differ, which is what §4.1–4.4 test.
+
+> **Verification.** These four omnibus tests were recomputed independently from
+> `participant_metrics.csv` (pingouin `welch_anova` + scipy `kruskal`) rather
+> than carried over from an earlier report. All four reproduce the primary
+> notebook's values exactly — *F*, denominator df, and ε² — to the precision
+> shown.
 
 Descriptives, M (SD):
 
