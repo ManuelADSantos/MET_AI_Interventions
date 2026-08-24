@@ -80,3 +80,7 @@ src/customizations/tasks/img/*
 notebook_analysis_output/
 
 all_data.json
+# Knitted R Markdown output (regenerate with rmarkdown::render)
+data_analysis/analysis/final_data/analysis_S1.html
+data_analysis/analysis/final_data/analysis_S1.knit.md
+data_analysis/analysis/final_data/analysis_S1_files/
