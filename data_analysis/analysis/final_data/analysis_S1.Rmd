@@ -38,14 +38,22 @@ library(rstatix)
 library(psych)
 library(lavaan)
 library(patchwork)
-library(ggdist)
 library(emmeans)
-library(DescTools)
 library(car)
 ```
 
+`ggdist` (half-eye geom) and `DescTools` (Jonckheere-Terpstra) are **optional** —
+each has a self-contained fallback, so the document knits without them.
+
+```{r optional-packages}
+HAS_GGDIST    <- requireNamespace("ggdist",    quietly = TRUE)
+HAS_DESCTOOLS <- requireNamespace("DescTools", quietly = TRUE)
+cat("ggdist:   ", if (HAS_GGDIST)    "available" else "absent - using geom_violin fallback",   "\n")
+cat("DescTools:", if (HAS_DESCTOOLS) "available" else "absent - using built-in JT fallback", "\n")
+```
+
 ```{r here-anchor}
-here::i_am("data_analysis/deep_analysis/final_data/analysis_S1.Rmd")
+here::i_am("data_analysis/analysis/final_data/analysis_S1.Rmd")
 ```
 
 ## APA theme
@@ -135,7 +143,7 @@ COND_COLOURS <- c(
 
 ```{r load-csv}
 df_raw <- read_csv(
-  here("data_analysis", "deep_analysis", "final_data",
+  here("data_analysis", "analysis", "final_data",
        "notebook_analysis_output", "participant_metrics.csv"),
   show_col_types = FALSE
 )
@@ -149,7 +157,7 @@ We load all five condition JSONs and reshape to one row per participant per
 item (tasks 6--17), with columns for correctness and confidence.
 
 ```{r load-json}
-json_dir <- here("data_analysis", "results", "data", "final_data")
+json_dir <- here("data_analysis", "raw_data", "data", "final_data")
 cond_files <- c("ai" = "ai.json", "ai-reliability" = "ai_reliability.json",
                 "alternatives" = "alternatives.json",
                 "pause-points" = "pause_points.json",
@@ -956,14 +964,27 @@ cor(df$z_trust, df$z_hedonic, use = "complete.obs") %>%
 
 ## 10.1 Raincloud plot: actual score by condition
 
-```{r fig-raincloud, fig.width=10, fig.height=6}
-p_rain <- df %>%
-  ggplot(aes(x = condition, y = actual_score, fill = condition,
-             colour = condition)) +
+> `ggdist` gives the half-eye (one-sided violin) that makes this a true
+> raincloud. Where it is unavailable the chunk falls back to a symmetric
+> `geom_violin`, which shows the same distribution with a different silhouette.
+
+```{r raincloud-layer}
+# ggdist is optional; HAS_GGDIST is set in Step 1
+distribution_layer <- if (HAS_GGDIST) {
   ggdist::stat_halfeye(
     adjust = 0.8, width = 0.5, .width = 0,
     justification = -0.2, point_colour = NA, alpha = 0.7
-  ) +
+  )
+} else {
+  geom_violin(width = 0.7, alpha = 0.6, colour = NA, trim = TRUE)
+}
+```
+
+```{r fig-raincloud-plot, fig.width=10, fig.height=6}
+p_rain <- df %>%
+  ggplot(aes(x = condition, y = actual_score, fill = condition,
+             colour = condition)) +
+  distribution_layer +
   geom_boxplot(width = 0.15, outlier.shape = NA, alpha = 0.5,
                colour = "grey30") +
   geom_jitter(width = 0.08, alpha = 0.2, size = 0.8) +
@@ -1203,13 +1224,70 @@ jt_order <- c("ai", "reflection-task", "pause-points",
 df_jt <- df %>%
   mutate(cond_ordered = factor(condition, levels = jt_order, ordered = TRUE))
 
-jt_result <- DescTools::JonckheereTerpstraTest(
-  df_jt$absolute_estimation_error,
-  as.numeric(df_jt$cond_ordered),
-  alternative = "decreasing"
-)
-cat("Jonckheere-Terpstra trend test (absolute estimation error, ordered):\n")
-print(jt_result)
+# Self-contained Jonckheere-Terpstra, used when DescTools is unavailable.
+# JT = sum over ordered group pairs i<j of the Mann-Whitney U (ties = 0.5),
+# with the standard large-sample normal approximation.
+jt_test_base <- function(x, g, alternative = c("decreasing", "increasing")) {
+  alternative <- match.arg(alternative)
+  ok <- !is.na(x) & !is.na(g)
+  x <- x[ok]; g <- as.integer(g[ok])
+  grps <- split(x, g)
+  k <- length(grps); n <- lengths(grps); N <- sum(n)
+
+  JT <- 0
+  for (i in seq_len(k - 1)) for (j in (i + 1):k) {
+    outer_cmp <- outer(grps[[i]], grps[[j]], function(a, b) (a < b) + 0.5 * (a == b))
+    JT <- JT + sum(outer_cmp)
+  }
+  EJT   <- (N^2 - sum(n^2)) / 4
+  VarJT <- (N^2 * (2 * N + 3) - sum(n^2 * (2 * n + 3))) / 72
+  z     <- (JT - EJT) / sqrt(VarJT)
+  # "decreasing" = values fall across the ordering => JT below expectation
+  p <- if (alternative == "decreasing") pnorm(z) else pnorm(z, lower.tail = FALSE)
+  list(JT = JT, EJT = EJT, sd = sqrt(VarJT), z = z, p.value = p,
+       alternative = alternative)
+}
+
+if (HAS_DESCTOOLS) {
+  jt_result <- DescTools::JonckheereTerpstraTest(
+    df_jt$absolute_estimation_error,
+    as.numeric(df_jt$cond_ordered),
+    alternative = "decreasing"
+  )
+  cat("Jonckheere-Terpstra trend test (DescTools):\n")
+  print(jt_result)
+} else {
+  jt_result <- jt_test_base(
+    df_jt$absolute_estimation_error,
+    as.numeric(df_jt$cond_ordered),
+    alternative = "decreasing"
+  )
+  cat("Jonckheere-Terpstra trend test (built-in fallback):\n")
+  cat(sprintf("  JT = %.0f (expected %.0f under H0, SD = %.0f)\n",
+              jt_result$JT, jt_result$EJT, jt_result$sd))
+  cat(sprintf("  z = %.3f, p %s (alternative: %s)\n",
+              jt_result$z, fmt_p(jt_result$p.value), jt_result$alternative))
+}
+```
+
+The fallback is verified against a permutation null, which needs no external
+package and no distributional assumption:
+
+```{r jt-validation}
+set.seed(42)
+obs <- jt_test_base(df_jt$absolute_estimation_error,
+                    as.numeric(df_jt$cond_ordered))$JT
+grp <- as.numeric(df_jt$cond_ordered)
+perm <- replicate(2000, {
+  jt_test_base(df_jt$absolute_estimation_error, sample(grp))$JT
+})
+cat(sprintf("Permutation null: mean = %.0f, SD = %.0f  (analytic: %.0f, %.0f)\n",
+            mean(perm), sd(perm),
+            jt_test_base(df_jt$absolute_estimation_error, grp)$EJT,
+            jt_test_base(df_jt$absolute_estimation_error, grp)$sd))
+cat(sprintf("Permutation p (decreasing) = %.4f   analytic p = %.4f\n",
+            mean(perm <= obs),
+            jt_test_base(df_jt$absolute_estimation_error, grp)$p.value))
 ```
 
 

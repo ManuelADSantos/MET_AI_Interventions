@@ -68,9 +68,20 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=UserWarning, module="seaborn")
 
 # ---- paths ------------------------------------------------------------------
-NOTEBOOK_DIR = Path("/home/user/MET_AI_Interventions/data_analysis/deep_analysis/final_data")
+# Anchored on the repo root so the notebook runs from any working directory.
+def _find_repo_root(start: Path) -> Path:
+    for cand in (start, *start.parents):
+        if (cand / ".git").exists():
+            return cand
+    raise RuntimeError(f"repo root (.git) not found above {start}")
+
+REPO_ROOT    = _find_repo_root(Path.cwd().resolve())
+NOTEBOOK_DIR = REPO_ROOT / "data_analysis" / "analysis" / "final_data"
 OUTPUT_DIR   = NOTEBOOK_DIR / "notebook_analysis_output"
-DATA_DIR     = Path("/home/user/MET_AI_Interventions/data_analysis/results/data/final_data")
+DATA_DIR     = REPO_ROOT / "data_analysis" / "raw_data" / "data" / "final_data"
+
+for _p, _label in ((NOTEBOOK_DIR, "NOTEBOOK_DIR"), (DATA_DIR, "DATA_DIR")):
+    assert _p.is_dir(), f"{_label} not found: {_p}"
 
 # ---- condition constants ----------------------------------------------------
 COND_ORDER   = ["ai", "ai-reliability", "alternatives", "pause-points", "reflection-task"]
