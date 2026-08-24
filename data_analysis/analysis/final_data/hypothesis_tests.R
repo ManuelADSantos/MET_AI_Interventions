@@ -30,8 +30,8 @@
 # CAVEAT
 #   `ai` and `ai-reliability` were collected in July 2026, the other three interventions
 #   in August 2026, so intervention-vs-baseline contrasts for alternatives, pause-points,
-#   and reflection-task are also cross-wave comparisons (see FINDINGS.md section 1 and
-#   deep_analysis_notebook.ipynb modules B and O).
+#   and reflection-task are also cross-wave comparisons (see RESULTS.md sections 2 and 9,
+#   and deep_analysis_notebook.ipynb modules B and O).
 # =====================================================================================
 
 ALPHA <- 0.05
