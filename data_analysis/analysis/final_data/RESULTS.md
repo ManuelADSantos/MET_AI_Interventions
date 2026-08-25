@@ -13,17 +13,23 @@ it changes the conclusion. Omnibus = Welch's ANOVA + Kruskal–Wallis (ε²). α
 
 Does each intervention improve performance and/or metacognition vs baseline?
 
-| Intervention | Performance | Metacognition | Hypothesis |
-|---|---|---|---|
-| Reliability cards | no (two-sided *reversed*, g = −0.23) | **yes** — error g = −0.46, discrimination g = +0.50 | **supported via metacognition** |
-| Alternatives | no (two-sided reversed, g = −0.22) | **yes** — error g = −0.65, discrimination g = +0.28 | **supported via metacognition** |
-| Pause points | no (two-sided reversed, g = −0.57) | partial — error g = −0.33 only | **partially supported** |
-| Reflection task | no (g = −0.03) | no (error p = .064; discrimination n.s.) | **not supported** |
+| Intervention | Performance | BF₀₊ | Metacognition | Hypothesis |
+|---|---|---|---|---|
+| Reliability cards | no (two-sided *reversed*, g = −0.23) | 27.0 | **yes** — error g = −0.46, discrimination g = +0.50 | **supported via metacognition** |
+| Alternatives | no (two-sided reversed, g = −0.22) | 26.5 | **yes** — error g = −0.65, discrimination g = +0.28 | **supported via metacognition** |
+| Pause points | no (two-sided reversed, g = −0.57) | 58.2 | partial — error g = −0.33 only | **partially supported** |
+| Reflection task | no (g = −0.03) | 10.6 | no (error p = .064; discrimination n.s.) | **not supported** |
+
+BF₀₊ = JZS Bayes factor for "no improvement" over the preregistered improvement hypothesis —
+strong evidence against a performance gain in every condition. A strict no-difference null holds
+only for reflection (BF₀₁ = 8.4, TOST-equivalent at |g| < .3); reliability cards and alternatives
+are inconclusive between no effect and a small cost (BF₀₁ ≈ 1); pause points is a real deficit
+(§11.1).
 
 Three headline facts:
 
-1. **Metacognition improves; performance does not.** No intervention raises accuracy; pause points
-   lowers it (g = −0.57).
+1. **Metacognition improves; performance does not.** No intervention raises accuracy (BF₀₊ ≥ 10.6);
+   pause points lowers it (g = −0.57).
 2. **The mechanism is mostly deflated self-estimates**, not insight — post-study estimates drop
    1.6–2.2 items in the effective interventions vs 0.5 in baseline. Exception: reliability cards
    and alternatives also sharpen item-level discrimination, which deflation alone cannot produce.
