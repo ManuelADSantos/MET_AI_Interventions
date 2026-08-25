@@ -349,6 +349,29 @@ vs 5.2) with lower confidence (M = 62 vs 72).
 r = 0.07 (p = .043). Score by gender: women 5.16, men 5.22 (n = 466/442). Education spans
 M = 5.01–5.61 across six levels with no ordered trend.
 
+**10.17 UX scales are tightly coupled to each other — and to overconfidence — mainly at baseline;
+every intervention loosens both.** Pooled (n = 917), SUS, UEQ-pragmatic, and Trust form one
+evaluative cluster (r = .61–.74; TLX opposes it, r = −.22 to −.34; NFC is independent of all,
+r ≤ .24 — trait check ✅). Within conditions, both couplings are strongest in plain AI chat:
+
+| Pearson r | ai | ai-rel | alt | pause | refl |
+|---|---|---|---|---|---|
+| SUS × Trust | **.74** | .59 | .58 | .61 | .54 |
+| UEQ-prag × Trust | **.70** | .57 | .57 | .62 | .56 |
+| UEQ-prag × TLX | **−.44** | −.28 | −.22 | −.29 | −.18 |
+| Trust × signed estimation error | **.49** | .38 | .37 | .36 | .35 |
+| SUS × signed estimation error | **.43** | .26 | .24 | .22 | .20 |
+
+Twelve of 60 Fisher z comparisons of intervention r vs baseline r reach p < .05 (3 expected by
+chance), and all twelve are attenuations; only SUS × Trust under reflection survives Holm across
+the 60 tests (p = .0008), so read this as one consistent pattern, not twelve effects. It is not a
+wave artifact: ai-reliability (wave 1, concurrent with baseline) attenuates as much as the wave-2
+conditions. No scale correlates with actual score in any condition (all |r| ≤ .18) — satisfaction
+measures track overconfidence, not competence (generalizing 10.4 from Trust to SUS and UEQ), and
+every intervention roughly halves that link. One further decoupling: TLX × mean confidence is
+−.38 at baseline (felt workload lowers confidence) but +.01 under reliability cards, where
+confidence appears anchored to the card information rather than felt effort.
+
 ---
 
 ## 11. Limitations
