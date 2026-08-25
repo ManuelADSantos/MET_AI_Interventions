@@ -25,6 +25,7 @@ vs baseline.
 | [`rahnev_metrics_notebook.ipynb`](rahnev_metrics_notebook.ipynb) | Implements Rahnev's (2025) 17 metacognition measures; applies the 4 computable ones, validates the SDT family on simulation | raw JSONs |
 | [`hypothesis_tests.R`](hypothesis_tests.R) | Base-R replication of the confirmatory + pairwise tests — reproduces the Python results exactly. Log: [`hypothesis_tests_R_output.txt`](hypothesis_tests_R_output.txt) | `participant_metrics.csv` |
 | [`followup_analyses.py`](followup_analyses.py) | Meeting action items: temporal/trial-split analysis, easy-vs-hard × condition, Dunning–Kruger, trial-level mixed models (GEE/MixedLM), Bayesian assertion of the performance null (results in `RESULTS.md` §11) | both metrics CSVs |
+| [`meeting_analyses.py`](meeting_analyses.py) | Independent replication of §11 with alternative operationalizations (pooled-difficulty split, items-metric DK modulation, linear-probability mixed model) — agreements noted inline in §11 | both metrics CSVs |
 
 Notebooks are committed executed. Generated tables and figures go to `notebook_analysis_output/`
 (gitignored, regenerated on run). Run commands in [`METHODS.md`](METHODS.md) §7.
