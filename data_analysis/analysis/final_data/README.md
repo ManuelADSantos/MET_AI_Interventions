@@ -31,17 +31,21 @@ Notebooks are committed executed. Generated tables and figures go to `notebook_a
 
 ## Headline
 
-| Intervention | Performance | Metacognition | Verdict |
-|---|---|---|---|
-| Reliability cards | reversed (g = −0.23) | error g = −0.46, discrimination g = +0.50 | **supported via metacognition** |
-| Alternatives | reversed (g = −0.22) | error g = −0.65, discrimination g = +0.28 | **supported via metacognition** |
-| Pause points | reversed (g = −0.57) | error g = −0.33 only | **partially supported** |
-| Reflection task | null (g = −0.03) | null | **not supported** |
+| Intervention | Performance | BF₀₊ | Metacognition | Verdict |
+|---|---|---|---|---|
+| Reliability cards | reversed (g = −0.23) | 27.0 | error g = −0.46, discrimination g = +0.50 | **supported via metacognition** |
+| Alternatives | reversed (g = −0.22) | 26.5 | error g = −0.65, discrimination g = +0.28 | **supported via metacognition** |
+| Pause points | reversed (g = −0.57) | 58.2 | error g = −0.33 only | **partially supported** |
+| Reflection task | null (g = −0.03) | 10.6 | null | **not supported** |
 
-Metacognition improves, performance does not. The mechanism is mostly deflated self-estimates
-rather than insight — though reliability cards and alternatives also genuinely sharpen item-level
-discrimination. Every intervention costs user experience. Full detail in
-[`RESULTS.md`](RESULTS.md).
+Metacognition improves, performance does not. BF₀₊ is the JZS Bayes factor for "no improvement"
+over the preregistered improvement hypothesis — strong evidence against a performance gain in
+every condition. A strict no-difference null is assertable only for reflection (BF₀₁ = 8.4,
+TOST-equivalent at |g| < .3); reliability cards and alternatives are inconclusive between no
+effect and a small cost (BF₀₁ ≈ 1), and pause points is a real deficit ([`RESULTS.md`](RESULTS.md)
+§11.1). The metacognition mechanism is mostly deflated self-estimates rather than insight — though
+reliability cards and alternatives also genuinely sharpen item-level discrimination. Every
+intervention costs user experience. Full detail in [`RESULTS.md`](RESULTS.md).
 
 **Caveat:** wave 1 (Jul 2026) collected baseline + reliability cards, wave 2 (Aug 2026) the other
 three, so cross-wave comparisons carry a cohort confound. Within-wave-2 checks confirm the
