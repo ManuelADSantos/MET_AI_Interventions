@@ -10,8 +10,9 @@ vs baseline.
 
 | | |
 |---|---|
-| **[`RESULTS.md`](RESULTS.md)** | Every result: verdict, sample, integrity, confirmatory tests, all-pairs, UX costs, exploratory findings, limitations |
+| **[`RESULTS.md`](RESULTS.md)** | Every result: verdict, sample, integrity, confirmatory tests, all-pairs, UX costs, exploratory findings, follow-up analyses, limitations |
 | **[`METHODS.md`](METHODS.md)** | Pipeline, variable definitions, statistical conventions, metacognition measure selection, reproduce commands |
+| **[`MONITORING_WITHOUT_CONTROL.md`](MONITORING_WITHOUT_CONTROL.md)** | Literature memo: why monitoring improves but performance does not — six candidate explanations mapped to our evidence, for the paper's discussion |
 
 ## Code
 
@@ -23,6 +24,7 @@ vs baseline.
 | [`pairwise_tests_notebook.ipynb`](pairwise_tests_notebook.ipynb) | All 10 condition pairs × 15 outcomes = 150 Welch tests, Holm-corrected, Mann–Whitney robustness | `participant_metrics.csv` |
 | [`rahnev_metrics_notebook.ipynb`](rahnev_metrics_notebook.ipynb) | Implements Rahnev's (2025) 17 metacognition measures; applies the 4 computable ones, validates the SDT family on simulation | raw JSONs |
 | [`hypothesis_tests.R`](hypothesis_tests.R) | Base-R replication of the confirmatory + pairwise tests — reproduces the Python results exactly. Log: [`hypothesis_tests_R_output.txt`](hypothesis_tests_R_output.txt) | `participant_metrics.csv` |
+| [`followup_analyses.py`](followup_analyses.py) | Meeting action items: temporal/trial-split analysis, easy-vs-hard × condition, Dunning–Kruger, trial-level mixed models (GEE/MixedLM), Bayesian assertion of the performance null (results in `RESULTS.md` §11) | both metrics CSVs |
 
 Notebooks are committed executed. Generated tables and figures go to `notebook_analysis_output/`
 (gitignored, regenerated on run). Run commands in [`METHODS.md`](METHODS.md) §7.

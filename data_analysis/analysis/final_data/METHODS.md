@@ -95,6 +95,10 @@ items, 1–5, two reversed); Trust/TSQ (mean, 1–5). Cronbach's α reported per
 | Moderators | Condition × moderator OLS (NFC, trust, AI use frequency, age) on score, error, discrimination |
 | Trend | Jonckheere–Terpstra for ordered patterns across conditions |
 | Wave sensitivity | (a) drop the 5 wave-2 baseline participants; (b) within-wave-2-only omnibus |
+| Performance null | JZS Bayes factors (Cauchy r = .707): two-sided BF₀₁ and directional BF₀₊ vs the preregistered improvement H1; Welch TOST equivalence at \|g\| < 0.3 and 0.2 |
+| Trial-level models | GEE logit (exchangeable working correlation, robust SE, cluster = participant) for accuracy; MixedLM random intercepts for confidence; `BinomialBayesMixedGLM` (VB) robustness. Covariates: baseline-defined item difficulty (z), presentation position (z), NFC (z) |
+| Temporal | Presentation position = rank of interface slot within participant (order randomized); GEE position slopes per condition, halves/thirds contrasts, trial-1-excluded re-analysis |
+| Dunning–Kruger | Within-condition percentile ranks; quartile gaps; slope-modulation OLS (HC3); Gignac–Zajenkowski artifact checks (quadratic term, Breusch–Pagan) |
 
 α = .05 throughout. Figures use a colorblind-safe palette: `ai` #2a78d6, `ai-reliability` #eb6834,
 `alternatives` #1baf7a, `pause-points` #eda100, `reflection-task` #e87ba4.
@@ -168,6 +172,9 @@ jupyter nbconvert --to notebook --execute deep_analysis_notebook.ipynb
 jupyter nbconvert --to notebook --execute pairwise_tests_notebook.ipynb
 jupyter nbconvert --to notebook --execute rahnev_metrics_notebook.ipynb
 jupyter nbconvert --to notebook --execute analysis_S1.ipynb
+
+# Follow-up analyses (temporal, easy/hard, Dunning–Kruger, mixed models, Bayesian null)
+python3 followup_analyses.py
 
 # R
 Rscript hypothesis_tests.R          # base R, no packages — replicates the confirmatory tests

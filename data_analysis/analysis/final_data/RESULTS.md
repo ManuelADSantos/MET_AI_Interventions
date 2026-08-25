@@ -374,7 +374,89 @@ confidence appears anchored to the card information rather than felt effort.
 
 ---
 
-## 11. Limitations
+## 11. Follow-up analyses
+
+From `followup_analyses.py` (trial-level data: 917 × 12 presentation-order-randomized items).
+
+**11.1 The performance null, asserted properly.** JZS Bayes factors (Cauchy r = .707) and Welch
+TOST equivalence tests on actual score vs baseline:
+
+| Intervention | Δ items | g | BF₀₊ (vs improvement) | BF₀₁ (vs any difference) | TOST p (\|g\| < .3) |
+|---|---|---|---|---|---|
+| Reliability cards | −0.39 | −0.23 | 27.0 | 0.90 | .241 |
+| Alternatives | −0.37 | −0.22 | 26.5 | 0.98 | .228 |
+| Pause points | −1.08 | −0.57 | 58.2 | < 0.01 | .995 |
+| Reflection task | −0.05 | −0.03 | 10.6 | **8.41** | **.005** |
+
+The preregistered directional hypothesis (interventions improve performance) is ruled out
+everywhere — BF₀₊ = 11–58, strong evidence for "no improvement." But a *strict* null can only be
+asserted for reflection (BF₀₁ = 8.4, TOST-equivalent within \|g\| < .3). Reliability cards and
+alternatives sit at BF₀₁ ≈ 1: inconclusive between no effect and a small cost (two-sided
+p ≈ .03). Pause points is a real deficit, not a null. Paper phrasing: "no intervention improves
+performance; reflection is demonstrably equivalent to baseline; reliability cards and alternatives
+show weak, inconclusive evidence of a small cost."
+
+**11.2 No within-session learning; trial 1 is not special.** Accuracy is flat across the 12
+positions in every condition (GEE logit slopes, all p ≥ .24; condition × position χ²(4) = 2.57,
+p = .632; halves and thirds flat). Recomputing scores over trials 2–12 changes every effect size
+by ≤ 0.017 (e.g. pause points g = −0.57 → −0.56) and the omnibus survives (Welch F(4, 455.6) =
+9.27, p < .001). Practice, fatigue, and first-trial artifacts can be ruled out as explanations.
+
+**11.3 Easy vs hard items: only pause points has a difficulty-dependent performance effect.**
+Difficulty split on baseline-condition accuracy only (guards circularity). Per-participant
+accuracy:
+
+| Condition | Easy 6 | Hard 6 | vs baseline (easy) | vs baseline (hard) |
+|---|---|---|---|---|
+| Baseline | .641 | .288 | — | — |
+| Reliability cards | .613 | .251 | g = −0.13, n.s. | g = −0.19, n.s. |
+| Alternatives | .620 | .247 | g = −0.10, n.s. | g = −0.22, p = .032 (Holm n.s.) |
+| Pause points | .495 | .253 | **g = −0.65, Holm p < .001** | g = −0.17, n.s. |
+| Reflection task | .658 | .263 | g = +0.08, n.s. | g = −0.13, n.s. |
+
+Formal test (GEE logit, condition × difficulty): omnibus χ²(4) = 24.60, p < .001, carried
+entirely by pause points (interaction b = +0.42, p = .002 — its deficit *shrinks* as items get
+harder). Pause points selectively destroys performance on the items participants would otherwise
+get right; on hard items all conditions are equally near the AI-mediated floor. This sharpens the
+earlier read that there was "no differential effect by difficulty" — there is one, for pause
+points.
+
+**11.4 Dunning–Kruger: the shape is universal and unmodulated; interventions shift its level.**
+Within-condition score percentile vs self-placed percentile (perceived − actual gap):
+
+| Condition | Q1 gap | Q2 gap | Q3 gap | Q4 gap |
+|---|---|---|---|---|
+| Baseline | +47.1 | +10.3 | −23.4 | −35.3 |
+| Reliability cards | +38.7 | +10.7 | −15.4 | −39.9 |
+| Alternatives | +34.4 | +5.8 | −20.5 | −34.7 |
+| Pause points | +31.8 | −1.4 | −19.8 | −31.5 |
+| Reflection task | +39.7 | +19.3 | −21.6 | −35.8 |
+
+The classic pattern holds in all five conditions. The regression slope of perceived on actual
+percentile is ≈ **zero everywhere** (baseline b = −0.05; no condition shifts it, interaction
+χ²(4) = 5.42, p = .247; largest shift pause points +0.18, p = .052) — global relative-standing
+monitoring is essentially uninformative in every condition. Bottom-quartile overplacement is
+smaller under pause points (g = −0.60, Holm p = .008) and alternatives (g = −0.53, Holm p = .018),
+but given the flat slopes this is the overall overestimation reduction moving the whole curve
+down, not a change in DK shape. Artifact checks (Gignac & Zajenkowski 2020): the
+score–self-assessment relation is linear (quadratic p = .898) with homoscedastic errors
+(Breusch–Pagan p = .660), and r(score, signed error) = −.50 — a pattern fully consistent with
+regression-to-the-mean plus better-than-average bias, so the paper should describe the *pattern*
+without claiming an ability-specific metacognitive deficit.
+
+**11.5 Trial-level mixed models (participant random effect; difficulty, position, NFC
+covariates).** Confidence (MixedLM, ICC = .43): condition effects survive all controls
+(reliability −9.7, alternatives −8.9, pause −12.0 pp, all p < .001; reflection −1.5, n.s.), and
+the confidence drop steepens with item difficulty under reliability cards (× difficulty
+−5.7 pp/SD, p < .001) and alternatives (−2.4, p < .001) — the formal version of the selective
+deflation in §10.1. Accuracy (GEE logit): condition ORs 0.85/0.86/0.66/0.99, pause × difficulty
+OR = 1.37 (p < .001, same story as §11.3); a Bayesian random-intercept logit reproduces all
+coefficients. **NFC raises confidence (+3.3 pp/SD, p < .001) with zero effect on accuracy
+(OR = 1.00)** — need for cognition is a pure confidence inflator here, consistent with §10.11.
+
+---
+
+## 12. Limitations
 
 1. **Wave confound.** Conditions were not randomized concurrently; recruitment period is partially
    confounded with condition (§2, §9).
