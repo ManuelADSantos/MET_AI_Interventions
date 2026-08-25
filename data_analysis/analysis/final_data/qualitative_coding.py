@@ -56,61 +56,60 @@ STRATEGY_CODES = {
     "full_reliance": ("Relied on / trusted the AI wholly", [
         r"\b(relied|rely|relying|leaned|leant|depend(ed|ing)?)\b[^.]{0,25}\bai\b",
         r"\btrust(ed)?\b[^.]{0,15}\bai\b",
-        r"\bwent with (the )?ai\b", r"\baccept(ed)? (the )?ai",
+        r"\baccept(ed)? (the )?ai",
         r"\bai (did|do|to do) (it|most|everything|the work)",
-        r"\b(just|simply|only) (copied|pasted|asked|used) ", r"copied and pasted the (questions|scenario)",
-        r"\bused? (the )?ai (exclusively|fully|solely|for (most|everything|all))",
+        r"\b(just|simply) (copied|pasted) [^.]{0,30}(and (let|asked)|into ai)",
+        r"\bused? (the )?ai (exclusively|fully|solely|completely|entirely|for (most|everything|all))", r"had to trust", r"\btrusted?( the)? ai fully",
         r"relied (heavily|mostly|mainly|completely|solely|fully|entirely)",
     ]),
     "own_first_then_compare": ("Formed own answer first, then compared with the AI", [
-        r"\b(my|our) own (answer|conclusion|logic|thought|thinking|reasoning|response)",
+        r"\b(my|our) own (answer|conclusion|logic|thought|thinking|reasoning|response|planning|judge?ment)",
         r"\bmyself[^.]{0,45}\b(then|before|compar|check|ai)\b",
-        r"\b(answer|solve|work(ed)?( it| them)? out|figure(d)?( it| them)? out|read)[^.]{0,20}\b(myself|my ?self|on my own|first)\b[^.]{0,40}\bai\b",
+        r"\b(answer|solve|work(ed)?( it| them)? out|figure(d)?( it| them)? out)[^.]{0,20}\b(myself|my ?self|on my own|first)\b",
         r"\b(first|before)[^.]{0,40}\b(asking|checking|consulting|using)[^.]{0,15}ai",
-        r"compar(e|ed|ing) (my|our) (answers?|conclusions?|results?)",
+        r"compar(e|ed|ing)[^.]{0,25}(my|our|mine)\b", r"(against|to|with) (my|mine)\b",
+        r"\b(manually|in my head|by myself|myself first)\b", r"\bown judge?ment\b",
+        r"(separately|independent(ly)?) from (my|mine)\b",
     ]),
     "verify_against_source": ("Checked the AI's answer against the scenario/brief text", [
         r"\b(back|refer(red)?|return(ed)?|went back|check(ed)?|cross.?check(ed)?|re.?read)[^.]{0,35}\b(scenario|text|brief|source|passage|original|information (given|provided)|the details)",
         r"\b(scenario|text|brief|information)\b[^.]{0,35}\b(check|compar|verify|confirm)",
-        r"against (the )?(scenario|text|information|details)",
+        r"against (the )?(scenario|text|information|details|question)", r"look(ing|ed)? (at|through|back)[^.]{0,20}(scenario|text|task)",
     ]),
     "ai_self_verify": ("Verification delegated to the AI itself (double-check, re-ask, confidence)", [
-        r"\b(ask(ed|ing)?|made|make|got|tell|told|prompt(ed)?|had|have|request(ed)?)\b[^.]{0,30}\bai\b[^.]{0,45}\b(double.?check|check|verify|confirm|review|re.?view|sure|confiden|certain)",
-        r"\bai\b[^.]{0,25}\b(double.?check|check(ed)?) (it(self|s own)?|its (answers?|reasoning|work|findings))",
+        r"\b(ask(ed|ing)?|made|make|got|get|tell|told|telling|prompt(ed|ing)?|had|have|request(ed)?|push(ed)?)\b[^.,;]{0,30}\b(ai|it|them|both)\b[^.,;]{0,45}\b(double.?check|re.?check|check|verify|confirm|review|re.?view|reconsider|re.?evaluate|justify|explain|sure|confiden|certain|likelihood|rating)",
+        r"\bai\b[^.]{0,25}\b(double.?check|check(ed)?|recheck) (it(self|s own)?|its (answers?|reasoning|work(ings)?|findings))",
         r"\bask(ed|ing)?\b[^.]{0,30}\b(again|multiple times|several times|twice|repeatedly|to be sure)",
         r"\b(re.?asked|re.?prompt|regenerat)", r"asked (the )?ai (how )?(its |it was )?confiden",
+        r"asked (it|them|the ai) (if|whether) (it|they) (was|were) (sure|right|correct)",
     ]),
     "reasoning_check": ("Read/critiqued the AI's reasoning or logic", [
         r"\b(check|read|review|follow|evaluate|assess|examin|scan|oversee|critiq|scrutin|interrogat)\w*\b[^.]{0,35}\b(reasoning|logic|thinking|rationale|explanation|justification|working)",
         r"\b(reasoning|logic|explanation|rationale)s?\b[^.]{0,35}\b(check|made sense|makes sense|sound|correct|seemed)",
-        r"logical fallac", r"see if [^.]{0,25}ma(k|d)e[s]? sense",
+        r"logical fallac", r"see if [^.]{0,25}ma(k|d)e[s]? sense", r"analy[sz]ed? (the )?ai.?s? (responses?|answers?)", r"(see|check|read)[^.]{0,15}logical reasoning",
     ]),
     "effort_cost_time": ("Workload/time pressure given as reason for reliance", [
         r"\b(too|very|quite|really|far too) (time.?consum\w*|long|complicated|complex|hard|difficult|demanding|taxing|overwhelm\w*|intense|much)",
         r"time (limit|constraint|pressure|allowed)", r"\bsave(d)? time", r"\bquick(er|ly)\b",
         r"mentally (demanding|taxing|draining|challenging)", r"too much (to read|information|reading|text)",
         r"information (dump|overload)", r"(no|not have|ran out of|short on) time", r"\boverwhelm",
-    ]),
-    "selective_reliance": ("Did easy items alone, used AI for hard ones (or vice versa)", [
-        r"\b(easier|easy|simple)\b[^.]{0,30}\b(myself|my own|alone|without)",
-        r"\b(hard(er)?|difficult|too (hard|difficult|complex))\b[^.]{0,35}\b(ai|assistant|help)", r"challenging(?! the ai)[^.]{0,25}\b(ai|assistant|help)",
-        r"myself[^.]{0,45}(hard(er)?|difficult|challenging)[^.]{0,25}(ai|assistant)",
-        r"\bsometimes\b[^.]{0,25}\b(myself|own)\b[^.]{0,35}\bai\b",
+        r"so (complex|complicated|hard|difficult)", r"\bimpossible\b", r"time[^.]{0,25}(tight|not enough)",
+        r"(tight|not enough)[^.]{0,15}time", r"\b(pressure|stress(ful)?)\b", r"took (far |much |a lot )?longer",
     ]),
     "prompt_engineering": ("Structured the interaction: decomposition, rephrasing, context hygiene", [
-        r"\bbr(eak|oke|eaking)( it| the task| things)? down", r"one (question|task|statement|thing) at a time",
+        r"\bbr(eak|oke|eaking)[^.]{0,25}\bdown\b", r"one (question|task|statement|thing|part) at a time", r"(one|each) (part|section)[^.]{0,20}(then|at a time)", r"part by part|in (parts|sections|stages|chunks)",
         r"\bstep.?by.?step\b", r"simpl(er|ify|ified|e) (language|terms|words)",
         r"\bre.?(phrase|word(ed)?|explain(ed)?)", r"\bstructur(e|ed|ing)\b[^.]{0,15}(prompt|question)",
         r"new (chat|conversation)", r"clear(ing|ed)? (the )?(chat|context|conversation|old)",
-        r"\berasing\b", r"paste[d]? (each|separately|one)", r"\bsummaris|\bsummariz|\bsimplif", r"\btables?\b",
+        r"\berasing\b", r"paste[d]? (each|separately|one)", r"\bsummaris|\bsummariz|\bsimplif", r"(into|made|created?|asked for|as) a? ?tables?\b|\btabulat",
         r"\bnotes?\b[^.]{0,15}(down|paper)|wrote (down|notes)|writing things down|noted down",
     ]),
     "manipulation_use": ("Used the condition's own feature as a strategy (own condition only)", []),
     "overrode_ai": ("Disagreed with / overruled / challenged the AI", [
         r"\bover.?(rul|rode|ride|ruled)", r"\bdisagree", r"\bchalleng(ed|ing)",
-        r"\b(went|go|going) against", r"\bquestion(ed)? (the )?ai",
+        r"\b(went|go|going) against", r"\bquestion(ed)? (the )?ai(?![^.]{0,15}(more|less))",
         r"\b(did ?n[o']t|didn.t|never) (agree|accept|rely|follow|trust)",
-        r"\bcorrect(ed)? (the )?ai", r"\bwrong\b[^.]{0,25}\b(ai|it was)",
+        r"\bcorrect(ed)? (the )?ai", r"\bwrong\b[^.]{0,25}\b(ai|it was)", r"push(ed)? (the )?ai", r"\binterrogat", r"tell(ing)? (it|the ai)[^.]{0,20}wrong|think it.?s wrong",
     ]),
     "unspecified_verification": ("Double-checked / verified without saying how (residual)", [
         r"double.?check", r"\bcheck(ed)?\b[^.]{0,10}\b(my|the|each|every|all)\b[^.]{0,15}\b(answers?|results?|options?|work|times?|schedules?)",
@@ -122,15 +121,20 @@ STRATEGY_CODES = {
 }
 # own-condition feature lexicons for manipulation_use
 FEATURE_LEX = {
-    "ai-reliability": [r"\breliabilit", r"confidence (score|information|level|rating)", r"\bpercentage", r"\b\d{1,3}\s?%"],
+    "ai-reliability": [r"\breliabilit", r"confidence (score|information|level|rating)"],
     "alternatives": [r"\b(both|two|different|each) (ai|answers?|responses?|replies|models?|assistants?|options?)",
                       r"response[s]? a and b", r"\b(a and b|a & b)\b", r"\bagree(d)?\b", r"\bmatch(ed)?\b",
-                      r"\bconsistent", r"\bconflict", r"\bdiscrepanc", r"\bdiffered\b", r"compare[d]? (the )?(answers|responses|replies)"],
+                      r"\bconsistent", r"\bconflict", r"\bdiscrepanc", r"\bdiffered\b", r"compare[d]? (the )?(answers|responses|replies)", r"multiple alternatives", r"(same|opposite|different) answers?", r"\bmajority\b", r"\bthe two\b|\b2 agents\b|\bboth\b"],
     "pause-points": [r"\bstep", r"\bpause"],
     "reflection-task": [r"\breflect"],
     "ai": [],
 }
 NEGATION = re.compile(r"(did ?n[o']t|didn.t|never|not) (rely|trust|depend)")
+GUARDS = {  # code -> pattern that vetoes the code when it co-occurs (context FPs)
+    "own_first_then_compare": re.compile(r"(second.?guess|doubt(ed)?|made me question)[^.]{0,20}my own"),
+    "overrode_ai": re.compile(r"agreed? or disagreed?"),
+    "effort_cost_time": re.compile(r"answers? (were|was)[^.]{0,12}(complex|complicated)"),
+}
 
 def code_strategy(text, cond):
     t = text.lower()
@@ -145,6 +149,9 @@ def code_strategy(text, cond):
                 codes.add(label); break
     if "full_reliance" in codes and NEGATION.search(t):
         codes.discard("full_reliance")
+    for c, guard in GUARDS.items():
+        if c in codes and guard.search(t):
+            codes.discard(c)
     if "no_strategy" in codes and len(codes) > 1:
         codes.discard("no_strategy")
     if "unspecified_verification" in codes and codes & {
@@ -156,19 +163,19 @@ def code_strategy(text, cond):
 MANIP_CODES = {
     "no_change": [r"^(no|none|n/?a|not at all|nothing|it did ?n[o']?t|didn.?t|no,? (it|not))\b.{0,40}$",
                   r"did ?n[o']t (really )?(change|affect|alter|make)", r"didn.t (really )?(change|affect|alter|make)",
-                  r"no (real |big |much )?(change|difference|impact|effect)", r"\bignored?\b", r"same as (usual|always|before)"],
-    "more_careful": [r"more (careful|cautious|critical|attentive|aware|thorough|alert|vigilant|sceptical|skeptical)",
+                  r"no (real |big |much )?(change|difference|impact|effect)", r"\bignored?\b", r"same as (usual|always|before)", r"^not (really|much)\b.{0,30}$", r"didn.?t (trust|use|rely on|pay (much )?attention)"],
+    "more_careful": [r"more (careful|carful|cautious|critical|attentive|aware|thorough|alert|vigilant|sceptical|skeptical)", r"made me question", r"sense.?check", r"stopp?ed blindly trust|not blindly", r"switched to manual|manual(ly)? (mode|check)",
                      r"\bcarefully\b", r"double.?check", r"\bevaluate", r"\bscrutin", r"\bverify",
                      r"question(ed)? (it|things|the ai)? ?more", r"less likely to (just )?accept",
                      r"made me (think|check|read|look|consider|pause)", r"pay (more )?attention", r"slow(ed)? down and (think|check)"],
     "slowed_friction": [r"slow(ed|er)? (me |it |things )?down", r"took (much |a lot |far )?longer",
                         r"\btedious\b", r"\bannoy", r"\bfrustrat", r"\bcumbersome", r"\birritat",
-                        r"more (time|effort|steps|work|prompts|questions)", r"had to (keep|repeatedly|constantly)",
-                        r"extra (steps|prompts|questions|work)", r"\blonge?r process", r"time.?consuming"],
+                        r"more (time|effort|steps|work|prompts|questions)(?! (verify|check|read|look))", r"had to (keep|repeatedly|constantly)",
+                        r"extra (steps|prompts|questions|work)", r"\blonge?r process", r"time.?consuming", r"time[^.]{0,25}not enough|not enough time"],
     "trust_more": [r"trust(ed)? (it|the ai|them)? ?more", r"more trust", r"increas(ed|ing) (my )?trust",
                    r"more confiden(t|ce) in (the )?ai", r"\breassur", r"felt (more )?(safe|secure|confident)"],
     "trust_less": [r"trust(ed)? (it|the ai|them)? ?less", r"less trust", r"(lost|reduced|decreased|lowered) (my )?trust",
-                   r"\bdoubt", r"\bsceptic|\bskeptic", r"\bwary\b", r"\bsuspicious", r"less confiden(t|ce) in (the )?ai",
+                   r"\bdoubt(?![^.]{0,12}my (own|answer))", r"\bsceptic|\bskeptic", r"\bwary\b", r"\bsuspicious", r"less confiden(t|ce) in (the )?ai", r"hard(er)? to trust|difficult to trust", r"could (really )?be wrong", r"\binconsisten", r"\bfailing\b|\bunreliab",
                    r"made me (question|distrust)", r"couldn.t trust|could not trust"],
 }
 def code_manip(text):

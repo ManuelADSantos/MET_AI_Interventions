@@ -482,50 +482,66 @@ with §10.11.
 
 **11.6 Qualitative coding of free-text responses.** Post-study strategies question (821/917
 answered) and the per-condition manipulation question (645 respondents, answers pooled per
-participant), coded multi-label with a transparent lexical codebook (`qualitative_coding.py`).
-Lexical coding is conservative: 38% / 56% of answers are idiosyncratic or vague and stay uncoded,
-so percentages are **lower bounds**; hand-validate a subsample before publishing.
+participant), coded multi-label with a transparent lexical codebook (`qualitative_coding.py`,
+codebook v2). Lexical coding is conservative: 34% / 53% of answers are idiosyncratic or vague and
+stay uncoded, so percentages are **lower bounds**. † marks codes whose held-out reliability is
+low (see the validation note below) — treat those rows as indicative only.
 
 Strategies (% of respondents; χ² across the five conditions):
 
 | Code | ai | ai-rel | alt | pause | refl | χ²(4) p |
 |---|---|---|---|---|---|---|
-| Full reliance on the AI | **23.8** | 11.4 | 6.0 | 11.6 | 16.0 | < .001 |
-| Used the manipulation as a strategy | — | 12.1 | **33.1** | 9.9 | 0.0 | < .001 |
-| Asked the AI to verify itself | 12.2 | 12.1 | 7.2 | 2.9 | 5.6 | .004 |
-| Unspecified double-checking | 11.0 | 16.1 | 7.8 | 7.0 | 17.3 | .008 |
-| Checked answer against the scenario | 10.5 | 6.0 | 9.6 | 5.8 | 4.3 | .140 |
-| Read/critiqued the AI's reasoning | 12.8 | 8.1 | 9.0 | 5.8 | 4.9 | .072 |
-| Own answer first, then compared | 4.7 | 10.7 | 6.6 | 8.7 | 9.9 | .246 |
-| Effort/time given as reason to rely | 8.7 | 3.4 | 3.6 | 7.0 | 9.9 | .059 |
-| Overrode / challenged the AI | 3.5 | 4.0 | 6.6 | 1.2 | 3.7 | .135 |
+| Full reliance on the AI | **18.6** | 8.7 | 3.6 | 11.6 | 14.2 | < .001 |
+| Used the manipulation as a strategy | — | 11.4 | **38.6** | 9.9 | 0.0 | < .001 |
+| Asked the AI to verify itself | 14.0 | 14.8 | 13.3 | 3.5 | 10.5 | .006 |
+| Own answer first, then compared | 12.8 | 19.5 | 13.3 | 12.8 | 19.1 | .197 |
+| Read/critiqued the AI's reasoning | 12.8 | 8.1 | 9.6 | 6.4 | 4.9 | .089 |
+| Effort/time given as reason to rely | 9.3 | 3.4 | 4.2 | 7.0 | 10.5 | .049 |
+| Unspecified double-checking † | 9.3 | 14.8 | 6.6 | 6.4 | 11.7 | .057 |
+| Checked answer against the scenario † | 11.6 | 6.0 | 9.6 | 6.4 | 4.3 | .084 |
+| Overrode / challenged the AI | 3.5 | 4.0 | 6.6 | 1.7 | 3.7 | .237 |
 
 Manipulation question (% of respondents, own condition's wording):
 
 | Code | ai-rel | alt | pause | refl |
 |---|---|---|---|---|
-| Made me more careful / vigilant | **30.6** | 20.9 | 8.7 | 11.7 |
-| No change | 9.5 | 11.0 | 8.7 | **21.6** |
-| Slowed me down / friction | 4.1 | 2.5 | **23.1** | 5.6 |
-| Trust increased | 1.4 | 1.2 | 0.6 | 0.6 |
-| Trust decreased | 14.3 | 9.2 | 1.7 | 0.6 |
+| Made me more careful / vigilant | **34.0** | 25.2 | 9.8 | 12.3 |
+| No change | 13.6 | 12.3 | 8.7 | **24.1** |
+| Slowed me down / friction † | 2.7 | 2.5 | **23.1** | 6.2 |
+| Trust increased † | 1.4 | 1.2 | 0.6 | 0.6 |
+| Trust decreased † | 17.0 | 11.7 | 2.3 | 0.6 |
+
+*Validation.* Two-round protocol (`validation/`): a stratified dev sample (n = 160) was
+hand-annotated blind against codebook v1, whose rule gaps it exposed (strategies Jaccard .50);
+v2 fixed them and one unreliable code (selective reliance, 2 instances, 0 agreement) was retired.
+A **fresh held-out sample** (n = 120, non-overlapping) was then hand-annotated blind and scored
+once against v2: strategies mean Jaccard **.65** (exact set match 55%), manipulation **.76**
+(exact 75%), macro-F1 **.70**. Publication-grade codes (held-out F1 ≥ .7): more careful (.90),
+reasoning check (.86), no change (.82), effort/time (.80), full reliance (.74), manipulation use
+(.73). Moderate: AI-self-verify (.67), overrode (.67, recall-limited), own-first (.64,
+recall-limited), prompt engineering (.60). Low († above): verify-against-source (.40),
+unspecified double-checking (.53), the trust codes and slowed/friction (small support).
+`validation/score_validation.py` reproduces these numbers. The annotator was the analyst (an
+LLM), not an independent second human coder — run one human coder over `holdout_sample_key.csv`
+for publication-grade inter-rater reliability.
 
 What this adds to the mechanism story:
 
 - **Interventions changed self-reported strategy, not just monitoring.** Blanket reliance is
-  highest at baseline (24%) and drops in every intervention; a third of alternatives participants
-  spontaneously describe cross-checking the two replies, and 12% of reliability participants
-  consulting the card. Yet none of this converts to accuracy (§11.1) — adopted strategies are not
-  effective strategies.
+  highest at baseline (19%) and drops in every intervention (4–14%); over a third of alternatives
+  participants spontaneously describe cross-checking the two replies, and 11% of reliability
+  participants consulting the card. Yet none of this converts to accuracy (§11.1) — adopted
+  strategies are not effective strategies.
 - **Verification routes back through the AI or stays shallow.** Where checking is described, it is
-  mostly asking the AI to verify itself (3–12%) or unspecified double-checking (7–17%);
-  independent verification against the scenario is rare (4–11%) and explicit overriding rarer
-  (1–7%). Direct evidence for the verification-asymmetry account
-  ([`MONITORING_WITHOUT_CONTROL.md`](MONITORING_WITHOUT_CONTROL.md) §2.2).
-- **Effort economics is voiced openly** (4–10% cite workload/time as the reason to defer; memo
-  §2.3), and each manipulation's self-described effect matches its quantitative signature:
-  reliability/alternatives → vigilance + trust reduction, pause → friction (SUS −19.6), reflection
-  → "no change" most often (its across-the-board null). Trust *increase* is ~1% everywhere.
+  mostly asking the AI to verify itself (4–15%; lowest under pause points) or unspecified
+  double-checking; independent verification against the scenario stays rare (≤ 12%, low-reliability
+  code) and explicit overriding rarer (2–7%). Direct evidence for the verification-asymmetry
+  account ([`MONITORING_WITHOUT_CONTROL.md`](MONITORING_WITHOUT_CONTROL.md) §2.2).
+- **Effort economics is voiced openly** (3–11% cite workload/time as the reason to defer, χ²
+  p = .049; memo §2.3), and each manipulation's self-described effect matches its quantitative
+  signature: reliability/alternatives → vigilance + trust reduction, pause → friction (SUS −19.6),
+  reflection → "no change" most often (its across-the-board null). Trust *increase* is ~1%
+  everywhere.
 
 ## 12. Paper strategy
 

@@ -1,0 +1,161 @@
+vid,qtype,participant_id,condition,machine_codes,text
+V000,S,5ce031fc7f65ee001a985a6b,ai-reliability,verify_against_source,"i tried to refer back to scenarios, used ai help"
+V001,M,69fa52e3a42b2256bfe76c97,alternatives,UNCODED,It made me choose of the AI's over the other- not ideal because that AI could really be wrong too
+V002,S,602566f8b47a130ae1d2f94b,ai-reliability,full_reliance;manipulation_use;overrode_ai;own_first_then_compare,"I used my own thoughts alongside AI, and if AI went against what I thought, I tended to just go for my gut instinct anyway. Times when I had no idea, I went with the AI answer regardless of the reliability rating etc."
+V003,S,6a1f21e58f39c832ba2d163a,alternatives,UNCODED,logical reasoning
+V004,S,69f0e5c8a2d68fe090716dc0,ai,UNCODED,I read the scenario more than once before answering questions.
+V005,S,697fbcfaae6bc29a56c28d58,ai,UNCODED,I read the scenarios properly before making decisions
+V006,S,5eb29fdddac67500082c1089,reflection-task,UNCODED,I used AI completely because I knew by looking at the time allocated for the study that this was going to be VERY tight as regards to finishing in time which added extra pressure and stress to wards the end. can't say i enjoyed it to be honest
+V007,M,5fff11332f30d263176fa57f,pause-points,UNCODED,I had to break the task down into bits to step by step it
+V008,S,69c872281653bf01d32068cd,pause-points,UNCODED,Copy and paste the information into Ai
+V009,S,6604764cc6719060ae2f667c,alternatives,UNCODED,tried to ask ai more than just the question
+V010,S,6658b1a747c3b7e6e7d4a63e,ai-reliability,no_strategy,none
+V011,M,6a1c1fb42b5e1f493022bd67,pause-points,slowed_friction,"it did, it irritated me that AI couldn't do it properly"
+V012,S,6a0866997112d0a40ec6f298,reflection-task,prompt_engineering;unspecified_verification,"I mapped schedules manually, validated each constraint step-by-step, and verified the AI's Math before deciding."
+V013,S,6023f94d1951e70ae21770ec,alternatives,manipulation_use,just tried to see logical reasoning of both assistants
+V014,S,62b437a2dbff0b6b3d0121e4,pause-points,effort_cost_time;full_reliance,I just relied on AI as it was quite hard
+V015,S,6a174771734bda08a1f5ccd2,pause-points,own_first_then_compare;verify_against_source,"I checked the information given by AI against the scenario, but the AI did make me second guess my own logic"
+V016,S,6a1891c15e6c216540985dce,pause-points,UNCODED,
+V017,M,69f48e4739570aa2f9efbcc1,reflection-task,more_careful;slowed_friction,The post reflection task made me think that the point of the task was to become increasingly frustrated and inpatient with the task and to rely on AI more in the later questions.
+V018,M,6a01fb37db575dd348af07d1,alternatives,more_careful,It made me double check their workings out to see if any were corret
+V019,S,6a74cbaa67f22fab4c1b8a2e,reflection-task,UNCODED,crosscheck and reading repeatedly
+V020,M,5dfc28644b49a19583f7cc7a,ai-reliability,no_change,It took a while to realise the reliability information pop-up was to help me see how confident I should be with the answers. || N/A
+V021,M,6a20a9015099db8796ac2b42,reflection-task,more_careful,it helped me notiicng the timing constraints and verify that myt reasoning was consistient across the task
+V022,S,69efb9b420360a885dd4433c,reflection-task,UNCODED,I kept checking and seeing if AI was correct - and then I started to lead with my thoughts and check.
+V023,S,69ff14a9f746a9d2108f74d0,alternatives,effort_cost_time;verify_against_source,"If the multiple alternatives are giving me opposite answers, that is the only time I checked the scenario and see where is the best answer. By doing so, I save time."
+V024,M,6a46c4af0e50130ea46ff2e5,reflection-task,more_careful,"It made me more aware of using the AI to check it's own work, provide the justification and outline the steps it took."
+V025,M,59ae8d282a78fd00010b80e7,pause-points,UNCODED,it was finding It hard to answer complex questions
+V026,S,5b5f15f2fc072a00017da73d,pause-points,overrode_ai;own_first_then_compare,"worked out myself, compared to AI, questioned AI if it differed. Struggled with ambiguous questions eg cost difference - did it mean between cheapest and next cheapest or cheapest and most expensive, were wages pro rata, did ""at all"" mean allwing an exemption to part of the requirements  - we disagreed on some definitions"
+V027,S,5def9a14d2601a03546e81e1,pause-points,effort_cost_time;unspecified_verification,Occasionally double checking some answers were number involved by quickly having a look at the scenario.
+V028,S,69ff44271a9ace738ae8b113,pause-points,UNCODED,I analyzed the AI's responses and made my judgement
+V029,M,6a0cbcf2dfec28ecd231ff80,reflection-task,no_change,no
+V030,S,659585d0d682df995ad2c5b5,ai,effort_cost_time;reasoning_check,Initially I tried to work things out partially on my own first but the task would have taken me too long. Then I tried to check AI's logic by getting it (for example) to show me possible timetables. I did notice one mistake it had made which made me worry that some of the other legwork it had done might also be wrong. In the end I was too short of time to not trust it
+V031,M,5ca356cb72a23200160ce912,ai-reliability,trust_less,"Made me question AI, which I don't normally do || I took how it rated itself as fact. So if it said AI had a low chance of being correct, it then made me doubt my answer"
+V032,M,6a072733481f9ae0a474664e,alternatives,more_careful,It made me read the answers more carefully to see which one I agreed with the most
+V033,S,6a0fa4d0752408b8b9e0ed8d,ai-reliability,UNCODED,I asked the AI most of the time if the statements asked were true directly.
+V034,S,6a15dcd14c68c56fac0960da,reflection-task,UNCODED,I considered how long the AI was taking to reply and also the content f the response. If it was quick and certain then I was happy but often it delayed and thought and provided mathematical conclusions which reduced my confidence.
+V035,M,6a019c3cc3985370727003c9,ai-reliability,UNCODED,I didn't trust the reliability rating that much. I still trusted the AI if it seemed what it was saying was correct. || I mostly relied on the AI because I thought it would do a better job than me
+V036,S,69f226b2032dea50182cbd55,reflection-task,prompt_engineering,I broke down a lot of the questions to get AI thinking about resolving the issues step by step so that I would be confident that it had considered all of the right things.
+V037,S,6a1133732417b2fc2a138870,ai-reliability,UNCODED,I used AI to break the scenario down.
+V038,S,64b53cb9f438ca54a2ca5065,reflection-task,ai_self_verify;reasoning_check,I made sure to read the reasoning carefully and asked the AI to check on occasion
+V039,M,60ff109e2a8d5d4b4a835630,alternatives,UNCODED,"Yes, I would be more carful if they gave two different answers. I would re read what they put down to see what made more sense"
+V040,S,6a072733481f9ae0a474664e,alternatives,UNCODED,I tended to choose the answer that gave me details to their reasoning
+V041,S,5d48ae562c8b78001a16088d,ai-reliability,UNCODED,I read the scenarios and compared AI responses to my own planning responses
+V042,M,65e729bda61d35956dfd5316,pause-points,UNCODED,I tried to help guide the AI
+V043,M,6130c7f7d0112fa23b17079c,ai-reliability,more_careful,I questioned the AI more when the reliability was low generally speaking. || I relied on the AI generally but used the reliability checker to see if I needed to further examine the AI's logic and answers.
+V044,S,69ebc08476719be8a035de6d,ai,full_reliance,I relied on the AI tool entirely
+V045,S,66b65559efe3c1a9537ffdbc,pause-points,UNCODED,Checked with the AI and then asked questions based on my own understanding.
+V046,S,6a00dc49200488c52c09e666,ai,UNCODED,I just told the AI the scenario then asked it the questions. I checked a couple and I found one error it seemed to make. I also asked the AI on occassion why the answers it gave me were correct and why the rest were wrong.
+V047,S,695c0670de1faedbce882831,ai-reliability,unspecified_verification,I made sure to prompt it to double check using different angles and this helped it reevaluate and not jump to biases
+V048,S,665c302327136dcdb0c4a2e0,reflection-task,full_reliance,I relied on the AI to give me the answers mostly
+V049,S,6a22f3e9176d5e2456f908b0,ai,ai_self_verify;full_reliance,Initially just went with AI answers but then noticed it sometimes gave different answers if asked the same question twice so started double checking to make sure they matched.
+V050,S,5b0f27321e55760001b9a8a5,alternatives,unspecified_verification,"Tried to double check the answers given to me by AI, timings are not my strong point however"
+V051,S,5a6adef80384310001944ba8,pause-points,UNCODED,I guessed as I had a one in four chance of being correct and that seemed good odds
+V052,M,5ec96e3609117f0a67231842,ai-reliability,UNCODED,"the higher the reliability the more I accepted it || if it was very high, I thought it must be okay"
+V053,S,5d352f8bb02857001963539a,ai-reliability,no_strategy,None
+V054,S,609911e00dd4843e39cb88ac,pause-points,prompt_engineering,I had to break down each text into sections for it to understand better
+V055,S,63e8a4efd541d6d1d3f2bb89,alternatives,full_reliance;overrode_ai;prompt_engineering,I tried to use the AI as a first answer/sense check and then checked the responses. I actually overruled the AI at one point then realised on another question that I had misunderstood the meaning in the table and the AI could have been right. I think I probably trusted the AI a bit more after that!
+V056,M,6978c4474a942ca6d266d49b,alternatives,no_change,n/a
+V057,M,6a18b6036aa5ef9ebce73f63,ai-reliability,no_change,No it didn't change the way I used AI || 
+V058,M,6a21e26cfd79d5e984741038,reflection-task,UNCODED,not much
+V059,M,6a17294fd5b8e7f50710573e,reflection-task,UNCODED,I understand that I really need to step up my own organization game.
+V060,M,6112937a54e78094098725fe,pause-points,UNCODED,I split my questions into smaller and smaller parts.
+V061,S,63d0e55975e5beb4cdb7b188,ai,ai_self_verify,"I asked the AI, then checked to see if it was correct looking through the scenario."
+V062,S,69e76b18f44ae52b6f83185f,alternatives,UNCODED,If the ai's didnt give the same answers i would give them both the answers again and get them to reconsider their choices
+V063,M,6a0b21b822bfd4c9686d1752,pause-points,UNCODED,It stopped me from being able to ask for a direct answer and as such forced me to consider each statement individually
+V064,M,6a5f42d69b1ede78e6865ae2,reflection-task,UNCODED,i'm not sure to be honest
+V065,S,69f48e4739570aa2f9efbcc1,reflection-task,verify_against_source,I told the AI to justify its reasoning and provide the steps taken to reach the answer which I double checked against the question and information provided.
+V066,S,6a06e63d31c90ee68757b0d3,ai,full_reliance;own_first_then_compare,Tried to get answer myself and if unable then relied on AI
+V067,M,6a023f4680391bcad5d12a8e,alternatives,UNCODED,It made it hard to trust one over the other and not being able to ask follow up questions to one specific AI model made it difficult to interrogate conflicting answers.
+V068,S,69f0facfb34205fe685cfb63,ai-reliability,UNCODED,cross referencing strategy
+V069,S,6a082966a088c3426743f4bf,alternatives,reasoning_check,I checked any discrepencies between the models and would scan answers to check for logical fallacies.
+V070,S,5b88022114e8c600010485b9,ai-reliability,UNCODED,I asked it to confirm its answers
+V071,S,6a15aecec496a8f5acb7ea17,ai,effort_cost_time;full_reliance;selective_reliance;unspecified_verification,"I briefly read the scenario and considered potential solutions, and checked this aligned with what the AI had said. However, sometimes the scenario was very complex and I found it difficult to verify, so I had to trust the AI."
+V072,M,69fdbb16148df1e63c3a38b1,pause-points,UNCODED,It felt better to do this in stages.
+V073,S,668a563a0991d87c8cc08069,ai,verify_against_source,"i read through the scenario first, ""trying"" to make sense of it LOL.  Then I read the questions one by one and after inputting them into AI for an answer, I referred back to the scenario to try and check if the information AI gave was correct.  Some situations were so complex I wasn't fully able to follow along, and that's why on some questions I wasn't 100% sure if the answer we gave was correct."
+V074,S,6a00f5017f05cbe927628050,reflection-task,UNCODED,i used ai as an aid in this to answer the tasks and questions.
+V075,M,6752efd86136ec83b4e576bc,alternatives,UNCODED,It made me to be looking for correlated answers as a strong signal.
+V076,M,6a25b8b3be3afd2e1c895f96,alternatives,UNCODED,I tried to figure out which was wrong but it was pretty difficult to do so as there was so much info
+V077,S,6a1efce6eacd6a04721457bb,reflection-task,no_strategy,none
+V078,S,6a0f3b12622c149244b455c6,ai-reliability,overrode_ai;reasoning_check,I usually read through the whole task and then asked the AI the question. Afterwards i would go back to the task and check through the reasoning to make sure it was sound before deciding on if i agreed or disagreed with the conclusion.
+V079,M,6a0b69810f6ce3f1814295e2,reflection-task,UNCODED,The post reflection made me realise how strong AI was compared other myself but it couldn't necessarily work things out properly without accurate human instruction.
+V080,S,5b8fe19ae3a406000131f1a6,ai-reliability,unspecified_verification,try to double check the information
+V081,S,6a1d8a523e6779817d014374,ai-reliability,ai_self_verify;manipulation_use,"I asked AI to determine how confident in its answer it was, and if the confidence was less than 70% asked it to check the task"
+V082,S,6a246d7667cc4c295e3135fc,ai-reliability,unspecified_verification,I checked my answers
+V083,S,6a08ca5af96ffba2293ddd28,alternatives,own_first_then_compare,I reviewed the question to try to work out what i could on my own therrn reviewed ai to see if it was similar and the reasons why.
+V084,S,6a74cd687ddf9b40d73847ad,pause-points,UNCODED,this ai required additional questions for each steop
+V085,M,6601a00c30582f248a36232c,alternatives,more_careful,it made me read the given the description output thoroughly and more carefully
+V086,M,6a06f5c82ef7206c2ae0a838,alternatives,UNCODED,I trusted the first response more than the 2nd
+V087,S,668a9e53e7690b3b64d48e92,pause-points,UNCODED,"tried a methodical approach by analysing one part, then other parts"
+V088,M,6a22c3eb4725e325fd168a95,ai-reliability,no_change,It didn't make a huge difference because I couldn't be sure of the AIs answer if i couldnt also work it out myself || I didn't pay too much attention to it
+V089,S,66e40727571b9634abb36af0,pause-points,full_reliance,"I found it impossible to do this planning alone without a piece of paper, so relied on the AI to outline potential scenarios. I pushed AI on a few assumptions to ensure it got the correct answer."
+V090,M,6a01ff6376140a39df37af06,alternatives,UNCODED,Kept changing until both responses were aligned. Not ideal strategy.
+V091,M,69ec7a8369d0eaa4a16a121c,pause-points,more_careful;slowed_friction,it made me slow down and think more
+V092,S,66cdcee5b3f3d7136c690de0,alternatives,UNCODED,worked it out myself first
+V093,S,6a1ca28f39a714391ec26ae5,ai-reliability,UNCODED,I allowed the AI to calculate its answer separately from my own that I did in my head. I then examined what the AI said and how similar our answers aligned.
+V094,S,6a0f23984ca40187cbf977c3,ai-reliability,UNCODED,Try to solve it manually by myself
+V095,S,6a023f4680391bcad5d12a8e,alternatives,full_reliance,Very little as the scenarios were so complex I had to just trust whichever AI response felt most in depth and thought out.
+V096,S,67118c5934ddcc26346c3183,ai,UNCODED,i tried to read the scenerio and get help from ai to understand more better.
+V097,S,6a063889228a40fd72e93598,ai,UNCODED,I asked for a rating of what the AI thought the likelyhood of it being correct was.
+V098,S,6a218fa8083eb457d008e2b4,reflection-task,reasoning_check,Mostly AI. I then applied some logic to make sure the answer looked correct but AI was by far more intelligent.
+V099,M,6a00dbf1a704d2b901583edb,pause-points,UNCODED,Provide procedural confidence
+V100,S,69f22f791b22ddcebf1931c2,pause-points,effort_cost_time,I tended to copy and paste the scenario into AI at first and then the questions. I think I got better at it as I went along. Sometimes the AI's answers were quite complex.
+V101,M,6a05af046f4fff8e7c4bf65f,alternatives,more_careful,It made me want to double check more often as there were a lot of inconsistencies between the 2 agents
+V102,M,69f3b68053fe890f8a646b79,reflection-task,no_change,It didnt really
+V103,M,69c872281653bf01d32068cd,pause-points,UNCODED,The order of the questioning
+V104,S,6a0c2b8a6827ece3df5b621a,pause-points,UNCODED,None really just worked each issue
+V105,S,60c5165878a82f763c29536a,alternatives,full_reliance;manipulation_use,I mainly copied and pasted the scenario and the questions to the AI. If bot AI responses matched ten I moved the slider to 100% certain but if they ad a different answer then I reduced the slider to 60% or less.
+V106,S,69848da89da918a45ff78e1d,alternatives,manipulation_use;verify_against_source,I first checked the differences between both responses and then re-read the scenario to decipher the answer
+V107,S,69f332f70c69cf198ed920ee,ai-reliability,UNCODED,i used the ai's answer as a starting point and tried to check whether it was right.
+V108,S,6a1016e879dc2139b05a30a2,pause-points,UNCODED,Give as much details as possible.
+V109,S,5c61d9cd6f57a000014a8fc4,alternatives,UNCODED,"Prompting the AI to recheck it's workings and telling it that I think it's wrong, for it to then find out that it was the case."
+V110,M,69f6a9b7a7b418e1549df619,ai-reliability,more_careful,"it either added or decreased my  trust in the  ai answer, but eventually i started ignoring it. || It just made me double check the answer if reliability was low"
+V111,S,5ff454f2f0b5ed607169fba6,ai,verify_against_source,I read the text the first time and check it the second time with the AI answer.
+V112,S,66b5172c8f0bd3b23ce66c22,pause-points,unspecified_verification,I tried to check the answers myself too
+V113,S,5f6f3b4884cdf34934e9db6f,ai,UNCODED,Cutting and pasting information into the AI system
+V114,M,62d6f7750e080077c33e150b,reflection-task,no_change,no.
+V115,S,6a1c1fb42b5e1f493022bd67,pause-points,UNCODED,"ADHD CALMING MUSIC IN THE BACKGROUND usually, but today i forgot"
+V116,S,5cab22cd68194f001511b2d6,ai,ai_self_verify;reasoning_check;verify_against_source,I asked the AI the question and then I checked its reasoning against the scenario and decided whether I thought it was correct or not.
+V117,M,6645ead2d999bda561f525ea,pause-points,no_change,it didnt
+V118,M,69f7dbef9b0fbd9afdf8cfd0,reflection-task,UNCODED,"SO HARD, AND BIG PRESSURE BECAUSE THE TIME 47 MINUTES IS NOT ENOUGH AT ALL"
+V119,S,69f3476a557b6eb0c17cdfd3,ai,own_first_then_compare,"I would come to a rough conclusion before checking what the AI thought, and work through it logically if our conclusions differed. It tended to be correct from what I could tell."
+V120,S,680e1b9a36b987121bbc9c9a,reflection-task,full_reliance,The tasks too far longer than anticipated so i needed to rely on the ai for most of them.
+V121,S,6978c4474a942ca6d266d49b,alternatives,unspecified_verification,i checked the answers and confirmed they were correct
+V122,S,69fdaf9d85430102ab57d442,ai-reliability,unspecified_verification,"I asked the AI directly the questions posed to me, and copy/pasted the scenario to give it full context. I double checked the answers occasionally at the beginning and once i felt it was reliable enough I checked less."
+V123,S,6a01836a5b9dd1d277f9bb9b,reflection-task,UNCODED,i didnt have a strategy
+V124,S,5f319edf7543f7087932aa98,ai,UNCODED,own judgement
+V125,S,6a74c64e0aadf8f52443868a,reflection-task,UNCODED,ICC approach
+V126,S,6a0779a03984ef197bcbae39,reflection-task,own_first_then_compare,"I read the questions first, I copied some of AI answers for feedback."
+V127,M,63e68adecf06a17a744aad3c,reflection-task,no_change,It made no change to how I understood the task.
+V128,S,62d6f7750e080077c33e150b,reflection-task,UNCODED,i checked answers
+V129,M,60dca45abca3eb229bafdedf,ai-reliability,UNCODED,the reliability information helped a lot || to decide how well i rated the answer and how much effort i put in to sense checking its output
+V130,S,6a0b003f6fd78e5df58d4c69,ai-reliability,manipulation_use;reasoning_check,If the reliability was low to medium I tried to double check the answers and probe the AI's reasoning.
+V131,S,69fe00b34adec4f226d8b9c4,pause-points,unspecified_verification,at first i checked myself if the answer was true or false but after a while just let ai work it out as it seemed to be thorough
+V132,M,69385c6d6d45913c278c939c,reflection-task,no_change,It didn't.
+V133,M,5def9a14d2601a03546e81e1,pause-points,UNCODED,"As the AI could only respond to one question at a time, I would ask a question which it would give an answer to, then re-ask the second question."
+V134,M,6a1d422c5cd5b69b949f3d4f,ai-reliability,more_careful,I scrutinized the AI information a lot more when the reliability was medium or low || I was more hesitant to use the information provided by the AI when the reliability was low.
+V135,M,6a22567ab2a834da2f8e9057,alternatives,more_careful,"It made me think more when they had different answers, to recall the scenarios and evaluate the information at hand and compare it to what the question is asking, so using AI as the tool for 'thinking' and reasoning really helped, but when they had different answers I assumed there was something I was missing so it made me double check more often."
+V136,M,69f10174456b2d60465d8350,alternatives,UNCODED,i stopper blindly trusting the answers
+V137,S,6346e69ebd7bbf2cda8fa8e0,reflection-task,own_first_then_compare,I would always read the scenario first and try to find the answer myself and then compare my answers to the AI helps answers.
+V138,M,69efbf25ced2d080cad5a7ca,pause-points,slowed_friction,"Yes, I found it to be abit annoying as I found that it didn't really know what I wanted. I felt it was a bit confused and couldn't always give a straight answer."
+V139,S,6a08d7ebd6444314bbbf1112,alternatives,manipulation_use,"I asked it to give me a confidence level and I based it on that, stupidly, I trusted the response on the left since the confidence level was quite high, it wasn't until the last few questions that I decided to check both answers"
+V140,S,69fe8d0b1b03e0d3432cc2ac,reflection-task,unspecified_verification,I would rarely check the AI answer myself.
+V141,M,69f0facfb34205fe685cfb63,ai-reliability,more_careful,if it was low i would always go double check || yes it would determine if i trusted the source
+V142,M,6a1e93a3a409de92d38f9059,ai-reliability,no_change,n/a || n/a
+V143,M,6a0f23984ca40187cbf977c3,ai-reliability,UNCODED,"At first it didn't because I'm used to get reliable answers, but when I saw the reliability information was actually accurate and the model was failing I switched to a manual mode. || At the end when I was more tired and getting more support of the AI, i used the reliability information to score the confidence in my answer."
+V144,S,69ea08bd7a900ff4a9b6f7c2,ai-reliability,UNCODED,"I gave the context up front to the AI then tried to use it to think through the tasks myself and help interrogate answer. It proved a good bouncing board, but not much more."
+V145,M,69ea3ae0cebb94ec4126d00d,ai-reliability,more_careful,"it changed it deeply , i was a lot more cautious || making sure to keep in mind the tips when submitting answers"
+V146,M,5efb4cfd797e7108c3823ae5,reflection-task,UNCODED,It made me aware of the need to do a lot of the leg work myself
+V147,S,6676b999f1116e55d774817f,alternatives,UNCODED,Checking my answers against Ai's
+V148,M,61472242d56808cc5a4c94d9,alternatives,UNCODED,They sometimes confused me.
+V149,S,6a02fc7306ae51f3107c53d0,alternatives,UNCODED,"Used the majority answer, if they were different I used the one that had the best justification."
+V150,M,6a0a3aad897b5c34a76e4f98,reflection-task,UNCODED,Not much.
+V151,M,69fdced3c093b1d6f1b3b2d2,ai-reliability,more_careful;slowed_friction,"It did not significantly change my interaction with the AI. I still reviewed all responses critically, but the reliability information provided additional context when assessing the answers || I used the reliability information as a cue for how much confidence to place in the AI’s responses. When reliability was high, I was more willing to rely on the AI’s recommendations. When reliability was lower, I was more cautious and spent more time verifying the information independently before using it."
+V152,S,666ead197fa250fa7cffe77a,reflection-task,full_reliance,I trusted the Ai fully
+V153,S,6647553d43a5c4dd9a129193,alternatives,prompt_engineering,I'd ask them to re-read and spell out the question more concisely. and also asked them to break down the question for my understanding - in turn making it clear to them tepp.
+V154,S,5fbf90f025a567296d943c7e,ai,ai_self_verify,"I tried to read the scenario carefully to try and understand it, I really needed the AI's help. I tried to read the AI's responses and compare it from what I understood from the text. I also asked the AI to double check  until I was fairly confident that the AI was giving the correct answers. If there was any confusion on the part of the AI I asked why so I could understand the thinking behind it."
+V155,M,69f8d38303babfe52ae1e992,pause-points,UNCODED,It made it easier to work with the AI.
+V156,S,6a062356e11b977c2d0a0eef,ai,ai_self_verify,I asked AI to double-check
+V157,S,57f9238bc786ac00011ebc72,ai,UNCODED,"I inputted the scenario provided into the AI agent, alongside the specific questions that needed to be assessed. From there, I asked it to answer the questions provided, bolding up any key bits of information relevant to solving the questions to determine which were correct, if either."
+V158,S,6a0a875862e9e69af20e91bb,pause-points,own_first_then_compare;reasoning_check,i used the AI to help work through the questions but I also used my own reasoning to check whether its answers made sense
+V159,M,67d18f41f2533fd38b55a10f,pause-points,no_change,it didnt

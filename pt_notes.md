@@ -63,4 +63,7 @@ Newest first. One entry per working day.
 - CHI submission (Kai) + inform Paul; fallback: extended abstract/poster.
 - Precision Conference profile: DBLP → "N/A", link ORCID.
 - Replicae core materials: self-fidelity/replication-score section update.
-- Hand-validate a subsample of the lexical qualitative codes before publishing (§11.6 caveat).
+- For publication-grade IRR, have a human coder annotate
+  `data_analysis/analysis/final_data/validation/holdout_sample_key.csv` and score with
+  `validation/score_validation.py` (LLM-annotator validation done: held-out Jaccard .65/.76,
+  macro-F1 .70; codebook v2).
