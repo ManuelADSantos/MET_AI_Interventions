@@ -480,6 +480,53 @@ with §10.11.
 
 ---
 
+**11.6 Qualitative coding of free-text responses.** Post-study strategies question (821/917
+answered) and the per-condition manipulation question (645 respondents, answers pooled per
+participant), coded multi-label with a transparent lexical codebook (`qualitative_coding.py`).
+Lexical coding is conservative: 38% / 56% of answers are idiosyncratic or vague and stay uncoded,
+so percentages are **lower bounds**; hand-validate a subsample before publishing.
+
+Strategies (% of respondents; χ² across the five conditions):
+
+| Code | ai | ai-rel | alt | pause | refl | χ²(4) p |
+|---|---|---|---|---|---|---|
+| Full reliance on the AI | **23.8** | 11.4 | 6.0 | 11.6 | 16.0 | < .001 |
+| Used the manipulation as a strategy | — | 12.1 | **33.1** | 9.9 | 0.0 | < .001 |
+| Asked the AI to verify itself | 12.2 | 12.1 | 7.2 | 2.9 | 5.6 | .004 |
+| Unspecified double-checking | 11.0 | 16.1 | 7.8 | 7.0 | 17.3 | .008 |
+| Checked answer against the scenario | 10.5 | 6.0 | 9.6 | 5.8 | 4.3 | .140 |
+| Read/critiqued the AI's reasoning | 12.8 | 8.1 | 9.0 | 5.8 | 4.9 | .072 |
+| Own answer first, then compared | 4.7 | 10.7 | 6.6 | 8.7 | 9.9 | .246 |
+| Effort/time given as reason to rely | 8.7 | 3.4 | 3.6 | 7.0 | 9.9 | .059 |
+| Overrode / challenged the AI | 3.5 | 4.0 | 6.6 | 1.2 | 3.7 | .135 |
+
+Manipulation question (% of respondents, own condition's wording):
+
+| Code | ai-rel | alt | pause | refl |
+|---|---|---|---|---|
+| Made me more careful / vigilant | **30.6** | 20.9 | 8.7 | 11.7 |
+| No change | 9.5 | 11.0 | 8.7 | **21.6** |
+| Slowed me down / friction | 4.1 | 2.5 | **23.1** | 5.6 |
+| Trust increased | 1.4 | 1.2 | 0.6 | 0.6 |
+| Trust decreased | 14.3 | 9.2 | 1.7 | 0.6 |
+
+What this adds to the mechanism story:
+
+- **Interventions changed self-reported strategy, not just monitoring.** Blanket reliance is
+  highest at baseline (24%) and drops in every intervention; a third of alternatives participants
+  spontaneously describe cross-checking the two replies, and 12% of reliability participants
+  consulting the card. Yet none of this converts to accuracy (§11.1) — adopted strategies are not
+  effective strategies.
+- **Verification routes back through the AI or stays shallow.** Where checking is described, it is
+  mostly asking the AI to verify itself (3–12%) or unspecified double-checking (7–17%);
+  independent verification against the scenario is rare (4–11%) and explicit overriding rarer
+  (1–7%). Direct evidence for the verification-asymmetry account
+  ([`MONITORING_WITHOUT_CONTROL.md`](MONITORING_WITHOUT_CONTROL.md) §2.2).
+- **Effort economics is voiced openly** (4–10% cite workload/time as the reason to defer; memo
+  §2.3), and each manipulation's self-described effect matches its quantitative signature:
+  reliability/alternatives → vigilance + trust reduction, pause → friction (SUS −19.6), reflection
+  → "no change" most often (its across-the-board null). Trust *increase* is ~1% everywhere.
+
 ## 12. Paper strategy
 
 The story: **metacognition is easy to change; joint human-AI performance is hard to change by

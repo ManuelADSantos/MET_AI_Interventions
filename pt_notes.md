@@ -48,11 +48,19 @@ Newest first. One entry per working day.
 - Consolidated the parallel session's `MEETING_ANALYSES.md` into §11 (its numbers cross-validated
   mine; kept `meeting_analyses.py` as the replication script).
 
-**Commits**: 72318ca, afa6f38, 720179b, c2a3060 (parallel), d2c5953, 51200bb, ed4e73d.
+- **Qualitative coding** (`RESULTS.md` §11.6, `qualitative_coding.py`): lexical multi-label
+  coding of 821 strategies + 645 manipulation answers. Blanket reliance highest at baseline (24%)
+  and reduced by every intervention; a third of alternatives participants adopted cross-checking
+  the two replies as their strategy — adopted strategies did not convert to accuracy. Verification
+  mostly routes back through the AI itself or stays unspecified; independent checking against the
+  scenario is rare (4-11%). Manipulation self-reports match the quantitative signatures
+  (reliability -> vigilance + trust drop, pause -> friction, reflection -> "no change").
+
+**Commits**: 72318ca, afa6f38, 720179b, c2a3060 (parallel), d2c5953, 51200bb, ed4e73d, f97b52d.
 
 **Open (not doable from this repo)**
 - Overleaf paper writing — next check-in **Wednesday**.
 - CHI submission (Kai) + inform Paul; fallback: extended abstract/poster.
 - Precision Conference profile: DBLP → "N/A", link ORCID.
 - Replicae core materials: self-fidelity/replication-score section update.
-- Qualitative coding of free-text responses (why participants didn't act on sensed AI errors).
+- Hand-validate a subsample of the lexical qualitative codes before publishing (§11.6 caveat).
