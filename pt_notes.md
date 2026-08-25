@@ -47,16 +47,25 @@ Newest first. One entry per working day.
 - Verdict tables in `README.md` and `RESULTS.md` §1 now carry BF₀₊.
 - Consolidated the parallel session's `MEETING_ANALYSES.md` into §11 (its numbers cross-validated
   mine; kept `meeting_analyses.py` as the replication script).
+- **Qualitative coding** (`RESULTS.md` §11.6, `qualitative_coding.py`, codebook v2): lexical
+  multi-label coding of 821 strategies + 645 manipulation answers. Blanket reliance highest at
+  baseline (19% vs 4-14% in interventions, p < .001); 39% of alternatives participants adopted
+  cross-checking the two replies as their strategy — adopted strategies did not convert to
+  accuracy. Verification mostly routes back through the AI itself (4-15%) or stays unspecified;
+  independent checking against the scenario stays rare (low-reliability code, flagged).
+  Manipulation self-reports match the quantitative signatures (reliability -> vigilance + trust
+  drop, pause -> friction 23%, reflection -> "no change" 24%).
+- **Codebook validation** (`validation/`, two rounds, blind annotation by the analyst LLM):
+  dev sample n = 160 against v1 exposed recall gaps (strategies Jaccard .50) -> v2 fixed rules,
+  retired selective-reliance. Fresh held-out sample n = 120 scored once against v2:
+  **strategies Jaccard .65 (exact 55%), manipulation .76 (exact 75%), macro-F1 .70**.
+  Publication-grade codes (F1 >= .7): more careful .90, reasoning check .86, no change .82,
+  effort/time .80, full reliance .74, manipulation use .73. Low-reliability (flagged † in
+  §11.6): verify-against-source .40, unspecified double-checking .53, trust codes,
+  slowed/friction. Prevalences are lower bounds (34%/53% uncoded).
 
-- **Qualitative coding** (`RESULTS.md` §11.6, `qualitative_coding.py`): lexical multi-label
-  coding of 821 strategies + 645 manipulation answers. Blanket reliance highest at baseline (24%)
-  and reduced by every intervention; a third of alternatives participants adopted cross-checking
-  the two replies as their strategy — adopted strategies did not convert to accuracy. Verification
-  mostly routes back through the AI itself or stays unspecified; independent checking against the
-  scenario is rare (4-11%). Manipulation self-reports match the quantitative signatures
-  (reliability -> vigilance + trust drop, pause -> friction, reflection -> "no change").
-
-**Commits**: 72318ca, afa6f38, 720179b, c2a3060 (parallel), d2c5953, 51200bb, ed4e73d, f97b52d.
+**Commits**: 72318ca, afa6f38, 720179b, c2a3060 (parallel), d2c5953, 51200bb, ed4e73d, f97b52d,
+87746a8, 6e5827f.
 
 **Open (not doable from this repo)**
 - Overleaf paper writing — next check-in **Wednesday**.
