@@ -480,7 +480,43 @@ with §10.11.
 
 ---
 
-## 12. Limitations
+## 12. Paper strategy
+
+The story: **metacognition is easy to change; joint human-AI performance is hard to change by
+intervention.** The Bayesian results (§11.1) dictate how precisely the performance side must be
+phrased — the "null" is not uniform across interventions:
+
+| Intervention | Claim the paper can make | Claim it cannot make |
+|---|---|---|
+| All four | "does not *improve* performance" (BF₀₊ = 11–58) | — |
+| Reflection task | "performance-*equivalent* to baseline" (BF₀₁ = 8.4, TOST \|g\| < .3) | — |
+| Reliability cards / Alternatives | "no improvement, possibly a small cost" (BF₀₁ ≈ 1, two-sided p ≈ .03) | "performance-equivalent" — the data cannot assert it |
+| Pause points | "*harms* performance" (g = −0.57, BF₁₀ ≈ 1.3 × 10⁵) | any null claim |
+
+So the headline is "no intervention improves performance," backed by directional Bayes factors —
+not "performance is unchanged," which only reflection supports. That the family can also *harm*
+performance (pause points, concentrated on easy items, §11.3) strengthens rather than weakens the
+monitoring-without-control story.
+
+Supporting moves, status:
+
+- **Monitoring/control dissociation framing** — literature memo with six candidate explanations
+  in [`MONITORING_WITHOUT_CONTROL.md`](MONITORING_WITHOUT_CONTROL.md); sharpest framing is
+  rational deference (§2.6 there): interventions changed beliefs, not the competence ratio that
+  makes deference optimal.
+- **Temporal robustness** — done (§11.2): no learning, no fatigue, trial-1 exclusion changes
+  nothing.
+- **Dunning–Kruger section** — done (§11.4), with the caveat that artifact checks favor
+  regression-to-the-mean + better-than-average phrasing over an ability-specific deficit.
+- **Qualitative data** — still open: code free-text responses for why participants did not act on
+  sensed AI errors (candidate mechanisms: no alternative answer, verification too costly, deference
+  rational).
+- **Fallback** — CHI extended abstract/poster if the full paper is not ready.
+- **Two-paper arc** — this paper: monitoring moves, control does not. Follow-up (e.g. the
+  ~100-trial Ravens-matrices paradigm): test whether control follows monitoring when items are
+  verifiable and trial counts support individual-level sensitivity estimates.
+
+## 13. Limitations
 
 1. **Wave confound.** Conditions were not randomized concurrently; recruitment period is partially
    confounded with condition (§2, §9).
