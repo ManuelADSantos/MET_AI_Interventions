@@ -4,6 +4,28 @@ Newest first. One entry per working day.
 
 ---
 
+## 2026-09-02
+
+**New analyses**
+- **LLM-competence split** (`RESULTS.md` §11.7, `llm_competence_analysis.py`): classified each
+  of 12 items as AI-correct (baseline modal answer matches correct answer, 5 items) or AI-wrong
+  (7 items). Condition × AI-competence interaction χ²(4) = 25.7, p < .001, driven by pause points
+  (b = −0.45): its deficit falls on AI-correct items (g = −0.65) not AI-wrong (g = −0.23).
+  Reliability/alternatives/reflection show uniform effects across item types (|b| ≤ 0.22).
+  Key finding: no intervention improves accuracy on AI-wrong items — direct evidence for the
+  verification-asymmetry account (Fok & Weld 2024).
+- **Item difficulty distribution figure** (`notebook_analysis_output/item_difficulty_llm_competence.png`):
+  two-panel plot — (A) per-item accuracy by condition sorted by baseline difficulty, background
+  shaded by AI-competence classification; (B) per-item intervention effect in percentage points.
+
+**Documentation**
+- `RESULTS.md` §11.7 added; paper strategy (§12) updated with LLM-competence finding and
+  qualitative data status.
+- `METHODS.md` §5 and §7 updated (new analysis row + reproduce command).
+- `README.md` code index updated with `llm_competence_analysis.py`.
+
+---
+
 ## 2026-08-25
 
 **Data verification**

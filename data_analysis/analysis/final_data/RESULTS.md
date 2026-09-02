@@ -543,6 +543,46 @@ What this adds to the mechanism story:
   reflection → "no change" most often (its across-the-board null). Trust *increase* is ~1%
   everywhere.
 
+**11.7 LLM-competence split.** Each of the 12 items was classified as *AI-correct* (the
+baseline-condition modal answer matches the correct answer) or *AI-wrong* (it does not). Five
+items are AI-correct (baseline accuracy 54–86%) and seven are AI-wrong (20–43%). Code in
+`llm_competence_analysis.py`.
+
+| Condition | Accuracy on AI-correct (5) | Accuracy on AI-wrong (7) | Gap |
+|---|---|---|---|
+| Baseline | .682 | .309 | +.374 |
+| Reliability cards | .643 | .281 | +.362 |
+| Alternatives | .656 | .274 | +.382 |
+| Pause points | .526 | .266 | +.261 |
+| Reflection task | .705 | .286 | +.419 |
+
+The condition × AI-competence interaction (GEE logit, cluster = participant) is significant:
+χ²(4) = 25.7, p < .001 — driven entirely by pause points (interaction b = −0.45, p < .001),
+whose accuracy deficit falls on AI-correct items (g = −0.65) with only a small cost on
+AI-wrong items (g = −0.23). The other three interventions show near-zero interaction terms
+(|b| ≤ 0.22, all p > .09): their small deficits are uniform across item types.
+
+Key implications:
+
+- **No intervention helps on items where the AI is wrong.** If metacognitive interventions
+  converted monitoring to control, they would improve accuracy selectively on AI-wrong items
+  (where critical evaluation is needed). None do. This is direct quantitative evidence for the
+  verification-asymmetry account ([`MONITORING_WITHOUT_CONTROL.md`](MONITORING_WITHOUT_CONTROL.md)
+  §2.2): participants who sense AI error still lack the domain knowledge to produce a better answer.
+- **Pause points disrupts compliance with *correct* AI guidance.** Its deficit is concentrated
+  on AI-correct items — the step-by-step delivery adds friction that causes participants to abandon
+  correct answers they would otherwise follow, consistent with indiscriminate disruption rather
+  than selective critical evaluation.
+- **The AI-correct/AI-wrong split correlates with but refines the easy/hard split (§11.3).**
+  The easy/hard split uses baseline accuracy as a continuous proxy; the AI-competence split uses
+  the categorical fact of whether the modal recommendation is correct. All five AI-correct items
+  have baseline accuracy ≥ .55 (four of the six "easy" items), but GP-05 (baseline .43) is
+  AI-wrong despite being near the median — the two classifications mostly but not perfectly agree.
+
+Figure: `notebook_analysis_output/item_difficulty_llm_competence.png` — item-level accuracy by
+condition (Panel A, sorted by baseline difficulty, background shaded by AI competence) and
+per-item intervention effect in percentage points (Panel B).
+
 ## 12. Paper strategy
 
 The story: **metacognition is easy to change; joint human-AI performance is hard to change by
@@ -571,9 +611,11 @@ Supporting moves, status:
   nothing.
 - **Dunning–Kruger section** — done (§11.4), with the caveat that artifact checks favor
   regression-to-the-mean + better-than-average phrasing over an ability-specific deficit.
-- **Qualitative data** — still open: code free-text responses for why participants did not act on
-  sensed AI errors (candidate mechanisms: no alternative answer, verification too costly, deference
-  rational).
+- **LLM-competence split** — done (§11.7): no intervention improves accuracy on items where the
+  AI misleads; pause points selectively harms items where the AI is correct. Direct evidence that
+  monitoring does not convert to control because participants cannot verify AI errors.
+- **Qualitative data** — done (§11.6): self-reported strategies confirm the mechanism — verification
+  routes back through the AI itself; independent scenario-checking stays rare.
 - **Fallback** — CHI extended abstract/poster if the full paper is not ready.
 - **Two-paper arc** — this paper: monitoring moves, control does not. Follow-up (e.g. the
   ~100-trial Ravens-matrices paradigm): test whether control follows monitoring when items are

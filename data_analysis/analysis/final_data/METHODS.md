@@ -99,6 +99,7 @@ items, 1–5, two reversed); Trust/TSQ (mean, 1–5). Cronbach's α reported per
 | Trial-level models | GEE logit (exchangeable working correlation, robust SE, cluster = participant) for accuracy; MixedLM random intercepts for confidence; `BinomialBayesMixedGLM` (VB) robustness. Covariates: baseline-defined item difficulty (z), presentation position (z), NFC (z) |
 | Temporal | Presentation position = rank of interface slot within participant (order randomized); GEE position slopes per condition, halves/thirds contrasts, trial-1-excluded re-analysis |
 | Dunning–Kruger | Within-condition percentile ranks; quartile gaps; slope-modulation OLS (HC3); Gignac–Zajenkowski artifact checks (quadratic term, Breusch–Pagan) |
+| LLM-competence split | Each item classified as AI-correct (baseline modal answer = correct) or AI-wrong; per-item-set Welch contrasts vs baseline; GEE logit condition × AI-competence interaction |
 
 α = .05 throughout. Figures use a colorblind-safe palette: `ai` #2a78d6, `ai-reliability` #eb6834,
 `alternatives` #1baf7a, `pause-points` #eda100, `reflection-task` #e87ba4.
@@ -175,6 +176,9 @@ jupyter nbconvert --to notebook --execute analysis_S1.ipynb
 
 # Follow-up analyses (temporal, easy/hard, Dunning–Kruger, mixed models, Bayesian null)
 python3 followup_analyses.py
+
+# LLM-competence split and item difficulty figure
+python3 llm_competence_analysis.py
 
 # R
 Rscript hypothesis_tests.R          # base R, no packages — replicates the confirmatory tests
