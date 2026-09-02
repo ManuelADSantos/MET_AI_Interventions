@@ -27,6 +27,7 @@ vs baseline.
 | [`followup_analyses.py`](followup_analyses.py) | Meeting action items: temporal/trial-split analysis, easy-vs-hard × condition, Dunning–Kruger, trial-level mixed models (GEE/MixedLM), Bayesian assertion of the performance null (results in `RESULTS.md` §11) | both metrics CSVs |
 | [`meeting_analyses.py`](meeting_analyses.py) | Independent replication of §11 with alternative operationalizations (pooled-difficulty split, items-metric DK modulation, linear-probability mixed model) — agreements noted inline in §11 | both metrics CSVs |
 | [`qualitative_coding.py`](qualitative_coding.py) | Lexical multi-label coding of the post-study free-text responses (strategies + manipulation questions); prevalence tables in `RESULTS.md` §11.6 | raw JSONs |
+| [`llm_competence_analysis.py`](llm_competence_analysis.py) | LLM-competence split (AI-correct vs AI-wrong items) and item difficulty distribution figure; results in `RESULTS.md` §11.7 | both metrics CSVs |
 
 Notebooks are committed executed. Generated tables and figures go to `notebook_analysis_output/`
 (gitignored, regenerated on run). Run commands in [`METHODS.md`](METHODS.md) §7.
