@@ -14,11 +14,30 @@ sys.path.insert(0, os.path.dirname(HERE))
 from qualitative_coding import code_strategy, code_manip
 os.chdir(HERE)
 
-which = sys.argv[1] if len(sys.argv) > 1 else "holdout"
+import argparse
+ap = argparse.ArgumentParser()
+ap.add_argument("which", nargs="?", default="holdout", choices=["dev", "holdout"])
+ap.add_argument("--labels", default=None, help="CSV with vid and a label column (default: <which>_hand_labels.csv)")
+ap.add_argument("--labels-col", default="hand_codes", help="column holding ';'-separated codes")
+ap.add_argument("--compare", default=None, help="second label CSV (hand_codes column) to compute per-code Cohen's kappa against --labels")
+args = ap.parse_args()
+which = args.which
 prefix = {"dev": "dev", "holdout": "holdout"}[which]
 key = {r["vid"]: r for r in csv.DictReader(open(f"{prefix}_sample_key.csv"))}
-hand = {r["vid"]: set(filter(None, r["hand_codes"].split(";")))
-        for r in csv.DictReader(open(f"{prefix}_hand_labels.csv"))}
+labels_file = args.labels or f"{prefix}_hand_labels.csv"
+hand = {r["vid"]: set(filter(None, r[args.labels_col].strip().split(";")))
+        for r in csv.DictReader(open(labels_file))}
+if args.compare:
+    other = {r["vid"]: set(filter(None, r["hand_codes"].split(";"))) for r in csv.DictReader(open(args.compare))}
+    codes = sorted({c for v in list(hand.values()) + list(other.values()) for c in v})
+    print(f"Cohen's kappa, {labels_file} vs {args.compare} (n = {len(hand)}):")
+    for c in codes:
+        a = [c in hand[v] for v in hand]; b = [c in other.get(v, set()) for v in hand]
+        po = sum(x == y for x, y in zip(a, b)) / len(a)
+        pe = (sum(a) / len(a)) * (sum(b) / len(b)) + (1 - sum(a) / len(a)) * (1 - sum(b) / len(b))
+        kappa = (po - pe) / (1 - pe) if pe < 1 else float("nan")
+        print(f"  {c:28s} kappa = {kappa:.2f} (n coded: {sum(a)} vs {sum(b)})")
+    print()
 for v in hand.values():
     v.discard("selective_reliance")  # retired after dev round
 

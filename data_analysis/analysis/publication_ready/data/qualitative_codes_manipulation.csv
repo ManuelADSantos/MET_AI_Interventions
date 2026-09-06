@@ -1,0 +1,647 @@
+participant_id,condition,item,question,text,codes
+69e91eb03d3b8e3a861ec30b,ai-reliability,pooled,manipulation (pooled),At the start it made me doubt or trust the AI decisions || Not at all,trust_less
+6978d836ea6703b9dde8f92e,ai-reliability,pooled,manipulation (pooled),it made me doubt the AI's answers || it made me second guess the right answers but I often still listened to the AI,trust_less
+6a00dc03128b71d40ab29141,ai-reliability,pooled,manipulation (pooled),"didnt change how i interacted with AI, it did make me check the answer || yes",UNCODED
+6978df95c23f5064d0581f23,ai-reliability,pooled,manipulation (pooled),"It made me doubel check the AI's  reasoninh rather than just accepting the final answer. || I sued it to judge how much weight to give the AI's answer. If the explanation was clear  and matches the data from the scinario, I relied on it.",UNCODED
+6a0daf62ec01cd69c04d1da8,ai-reliability,pooled,manipulation (pooled),It made me double-check it and I was more critical. || I would trust it much less if I was told it wasn't as reliable.,more_careful
+5d68c8aa40524c00189e8ac2,ai-reliability,pooled,manipulation (pooled),"Initially, it made me more wary, but I saw the reliability information seemed random without any basis in the AI's accuracy, after checking. || It made me warier at first, but past the first couple of questions, I just treated the AI as reliable as any other AI regardless of the reliability information.",trust_less
+6a0f3b12622c149244b455c6,ai-reliability,pooled,manipulation (pooled),I didnt really change the way i interacted at all since i assumed that it was fake and just there to influence the user. I made the assumption that everything was working normally and simply double checked the AI's output as i would normally do. || I didnt use it at all.,more_careful
+59e7276d5de9b000017ed1c1,ai-reliability,pooled,manipulation (pooled),"Making the AI reassess its answers at times, when the reliability advice was indicating a lower confidence rating. || I did not use is strictly to make the final decision but it worked as a guide and prompted me to challenge the AI",UNCODED
+6a197061d6e8373f3d65e81f,ai-reliability,pooled,manipulation (pooled),"It sometimes made me less likely to just accept an answer || When it was high it gave me more confidence, but I still tried to check all the answers",more_careful
+67d80b3db0cac8b1bd982fb2,ai-reliability,pooled,manipulation (pooled),I tried to be more keen on the AI that had low reliability check. || I tried to be more keen on the AI that had low reliability check and less keen on those that had high reliability check.,UNCODED
+6a1133732417b2fc2a138870,ai-reliability,pooled,manipulation (pooled),It made me doubt it more than I usually would. || It made me less certain for the answer to be right.,trust_less
+69fdef338f87c1f1bf52ec2d,ai-reliability,pooled,manipulation (pooled),"I checked more thoroughly if the AI was shown to not have high reliability. || If it was higher, I tended to trust it more and was less thorough in my checking. If it was lower, I then checked more thoroughly.",more_careful;trust_more
+6a14ed94ddfccd8c074e9f98,ai-reliability,pooled,manipulation (pooled),It did. It made me more cautious and I ensured to ask the AI follow up questions || I did a lot and looked at what made it unreliable by looking at the extra information,more_careful;trust_less
+69f20160e7342e6f292d61ba,ai-reliability,pooled,manipulation (pooled),a little || just as a secondary information,UNCODED
+6a19abd9f379edc1b66ac895,ai-reliability,pooled,manipulation (pooled),"I know better now that AI are prone to mistakes especially when dealing with complex tasks || I checked it all through before choosing an answer. When it was low, I took out more time to read through the scenario",slowed_friction
+6a25c070d132810cf4aa0a9b,ai-reliability,pooled,manipulation (pooled),Yes as my answers were more professional || Yes,UNCODED
+60dca45abca3eb229bafdedf,ai-reliability,pooled,manipulation (pooled),the reliability information helped a lot || to decide how well i rated the answer and how much effort i put in to sense checking its output,more_careful
+667178d77f8b6ed980c256ff,ai-reliability,pooled,manipulation (pooled),"It made me note if I needed to spend more time checking AI answers. || I just read whether the reliability was low, medium, or high.",UNCODED
+59dbb88b0fb3a90001bd90b0,ai-reliability,pooled,manipulation (pooled),"It reminded me I should be cautious of it's reliability and question it if I thought I knew different. || it didn't influence me a lot, but it made me subconsciously more aware at checking the answer. If I was totally lost though I was more likely to just follow the AI.",more_careful
+6a142dc26ed32d4a9430fab8,ai-reliability,pooled,manipulation (pooled),It made me ask more follow up questions when the reliability was low || I relied on the AI regardless as I found the information difficult to process on my own,UNCODED
+6a0adda4ab63b9293ca9d4ab,ai-reliability,pooled,manipulation (pooled),"It made me less confident in my answer but I still went with the AI suggestion as I found it difficult to try and piuzzle it out myself || I still went with AI but if it was low, I'd quickly check for an obvious error or ask ""are you sure"" to see if it guessed again",UNCODED
+6a25abc2ee592e874458786b,ai-reliability,pooled,manipulation (pooled),i was more wary if the relability was low || more likely to double check if the reliabliliy said it was low,more_careful;trust_less
+69ea08bd7a900ff4a9b6f7c2,ai-reliability,pooled,manipulation (pooled),"It made me question some of the AI's logic, which I was doing anyway, but I was suspicious the reliability information wasn't accurate anyway. || See previous answer",more_careful;trust_less
+6658b1a747c3b7e6e7d4a63e,ai-reliability,pooled,manipulation (pooled),made me think of research || fifty fifty,more_careful
+6a1eccd60ae50d68ab01c141,ai-reliability,pooled,manipulation (pooled),"it came up fairly reliably however it lacks the emotional intelligence of a human || i used it more than i expected to, but still left marginal room for me to make an informed decision.",UNCODED
+6a246d7667cc4c295e3135fc,ai-reliability,pooled,manipulation (pooled),somewhat || most the time,UNCODED
+56896501d3d6a7000ca23da8,ai-reliability,pooled,manipulation (pooled),"It made me more likely to double check the AIs answers. || It made me more inclined to double check it's answers, but I interacted with it consistently across all questions regardless of whether it's reliability at the time was low, medium or high.",more_careful
+69f6a9b7a7b418e1549df619,ai-reliability,pooled,manipulation (pooled),"it either added or decreased my  trust in the  ai answer, but eventually i started ignoring it. || It just made me double check the answer if reliability was low",more_careful
+6a0b23f183c91f11588f9713,ai-reliability,pooled,manipulation (pooled),It made me doubt AI more when using it || I used the relibility information to make a judgment on which was the real correct answer,trust_less
+6a158948095b952dff4cf19a,ai-reliability,pooled,manipulation (pooled),"Thing is I am goo0d at these type of reasoning things, so i considered AI as a toll to double check || Just like a second opinion",more_careful
+5eb9da8201c8981162b0cb03,ai-reliability,pooled,manipulation (pooled),I just used good command to interact with AI. || I took it that the AI interacts with the whole internet.,UNCODED
+6a018269dce40eb22c0b9026,ai-reliability,pooled,manipulation (pooled),I dont think it had any impact || I just relied on AI,UNCODED
+672380a64e984ba03695602f,ai-reliability,pooled,manipulation (pooled),"Yes it helped me in places where my answer differs from the AI answers, so i used the reliablity checker to make my final decision.",UNCODED
+6a18b6036aa5ef9ebce73f63,ai-reliability,pooled,manipulation (pooled),No it didn't change the way I used AI || ,no_change
+5d352f8bb02857001963539a,ai-reliability,pooled,manipulation (pooled),I sometimes asked if it was sure to see if it would change its mind if reliability was low || I was less trusting of my answer if the reliability was low,trust_less
+69fdced3c093b1d6f1b3b2d2,ai-reliability,pooled,manipulation (pooled),"It did not significantly change my interaction with the AI. I still reviewed all responses critically, but the reliability information provided additional context when assessing the answers || I used the reliability information as a cue for how much confidence to place in the AI’s responses. When reliability was high, I was more willing to rely on the AI’s recommendations. When reliability was lower, I was more cautious and spent more time verifying the information independently before using it.",more_careful
+69ebd19b31c8e6f5e203c471,ai-reliability,pooled,manipulation (pooled),It definitely made me think twice about just accepting the answer given || I had awareness of it but i felt the odds were still good enough mostly,more_careful
+6a1440fbc95e29c6e954c401,ai-reliability,pooled,manipulation (pooled),It made me reconsider selection at some point || if reliability was low I consider to go with my understanding and ignore Ai,no_change
+69ea53a90c6cacb935a68043,ai-reliability,pooled,manipulation (pooled),"Yes, it did. I confirmed well before using the answers || Yes I used it",UNCODED
+69f11629a735e5ddc2434cb9,ai-reliability,pooled,manipulation (pooled),i choose to believe when it was high and not believe when it was low || i double checked if the score was low,more_careful
+66c62c2a76d4919685cd6767,ai-reliability,pooled,manipulation (pooled),it made me not trust it || heavily,UNCODED
+6a0ee010a00d40c9212e139e,ai-reliability,pooled,manipulation (pooled),I find it very liable || I trusted AI's responses to my prompts,UNCODED
+5bbb5e3f118c0600013c3202,ai-reliability,pooled,manipulation (pooled),It made me feel confident to an extent || I read it but still went with my gut,UNCODED
+6a213d191d739202448d3b7d,ai-reliability,pooled,manipulation (pooled),"Made me more confident if there was a high reliability || Higher the reliability score, the more I trusted it's results",UNCODED
+69fbbd287ad72ce563b72cb7,ai-reliability,pooled,manipulation (pooled),I just did the study judiciously. || I just did the study judiciously.,UNCODED
+57c57ea095a3ea00016e5a14,ai-reliability,pooled,manipulation (pooled),i tended to trust the ai less when its reliability was lower so i got less wronjg aswers for it || i avoided trusting the ais answers as much if the reliability was low,trust_less
+6a1c62ade144e261ce52fc53,ai-reliability,pooled,manipulation (pooled),no || no,no_change
+5ec96e3609117f0a67231842,ai-reliability,pooled,manipulation (pooled),"the higher the reliability the more I accepted it || if it was very high, I thought it must be okay",UNCODED
+6a00ec1a75c6444a2a6e3d69,ai-reliability,pooled,manipulation (pooled),The only thing it changed my certainty assumptions at the end of the questions || I had a brief look but accepted the AI answers regardless.,UNCODED
+677f2415a436ac59cafc20a7,ai-reliability,pooled,manipulation (pooled),A little || I used that for the confidence scale,UNCODED
+6a0480dac0d46c461e741542,ai-reliability,pooled,manipulation (pooled),The reliable information made me  concentrate on the AI suggestions and verify them against the task || I used it as a factor to weigh how much to give the AI is recommendation and whether to check again,more_careful
+636cc5fa559ec4d93e272972,ai-reliability,pooled,manipulation (pooled),I was more willing to accept AI s answers if reliability was high || The reliability information percentage I checked before relying on information,UNCODED
+6a185f2e5f903801a7899ddd,ai-reliability,pooled,manipulation (pooled),"In cases that were too complex for me to verify myself, if reliability was high I just accepted it. With low or medium reliability I always doubel checked || In cases that were too complex for me to verify myself, if reliability was high I just accepted it. With low or medium reliability I always doubel checked",more_careful
+665ddc38a270e0c579baf993,ai-reliability,pooled,manipulation (pooled),I red the ai's answers to make sure they made sense || the reliability information would make me more or less skeptical of the ai's answers,trust_less
+6234a3d5cd2f63c705e5842d,ai-reliability,pooled,manipulation (pooled),I did read the scenario and the questions but it would require too much mental faculty to check the AI's answers even when the reliability level was low || It only affected my confidence level,UNCODED
+5edf878332e230257937edd1,ai-reliability,pooled,manipulation (pooled),If it was high I scrutinised the answers provided less || I paid attention to the suggestions to check the work,more_careful
+69fced1caced4f03469e3287,ai-reliability,pooled,manipulation (pooled),When reliability was low i asked AI to recheck answers given often causing them to change. || I continued to rely on AI,UNCODED
+6a243b3f378e1499259d8683,ai-reliability,pooled,manipulation (pooled),IT WAS MADE FASTER AND EASIER AS AI WILL ALWAYS GIVE FEED BACKS || I USED IT VERY WELL AND RELIED ON AI,UNCODED
+6a03636a700eaf3d19f2809a,ai-reliability,pooled,manipulation (pooled),Reliability make me double check the answers thoroughly || not really but helpful,more_careful
+61505373bc903980a66ab1e1,ai-reliability,pooled,manipulation (pooled),it didnt || with less reliability more checks are necessary,no_change
+6a1ab9e31755a18be4c11991,ai-reliability,pooled,manipulation (pooled),not much || not much,no_change
+69f3c29f7f3969d3695109a8,ai-reliability,pooled,manipulation (pooled),sometimes i didnt understand the AI answer choice so i went with my gut feeling || if the answers made sense and had a logic,UNCODED
+656f0ce82c0ba5e95ad58a03,ai-reliability,pooled,manipulation (pooled),It made me less confident and unsure if the answers were correct or not || I still used the AI for help but was unsure if the answer was correct,UNCODED
+60b932147633bf0dd446941e,ai-reliability,pooled,manipulation (pooled),i  found it intrusive || i didn't use it.,no_change
+6a019c3cc3985370727003c9,ai-reliability,pooled,manipulation (pooled),I didn't trust the reliability rating that much. I still trusted the AI if it seemed what it was saying was correct. || I mostly relied on the AI because I thought it would do a better job than me,no_change
+5d48ae562c8b78001a16088d,ai-reliability,pooled,manipulation (pooled),It made me double check responses if there was low reliability noted || I did not necessarlily rely on AI when the reliability score was low,more_careful
+5d35c29a467d18001981d677,ai-reliability,pooled,manipulation (pooled),I would doubt the AI more if the reliability scale was low or medium. I would force the AI to check over it's answer multiple times. || ,trust_less
+603b9be389c6cf7d0dd74fd1,ai-reliability,pooled,manipulation (pooled),"I noticed the reliability, and this just made me less convinced that i would do well in the study! as i was not good at the informtation processing myself, just made me not confident || I relyed on AI regardless, as i still thought it had a better chance than me of getting the question correct",UNCODED
+6a08c850e3be322170e22d6f,ai-reliability,pooled,manipulation (pooled),"I was more wary when answering the questions where the reliability was low. I still checked when the reliability was high although I perhaps wasn't as thorough. || If it was low, I was more wary about checking the scenario and making sure the answer sounded right.",trust_less
+6130c7f7d0112fa23b17079c,ai-reliability,pooled,manipulation (pooled),I questioned the AI more when the reliability was low generally speaking. || I relied on the AI generally but used the reliability checker to see if I needed to further examine the AI's logic and answers.,more_careful
+69f332f70c69cf198ed920ee,ai-reliability,pooled,manipulation (pooled),when it was low i was less inclined to give the ai answer or said i was less confident || it very much did as i felt like i didnt trust it as much when the information said low.,no_change
+6a0329b483b7cb1ca6763ffe,ai-reliability,pooled,manipulation (pooled),"It made me more concious in cross checking the AI answers carefully || When the reliability level of the AI was low and Medium, I tried to get the answers myself without AI help but when the reliability level was high, I didnt crosscheck my answers.",more_careful
+695c0670de1faedbce882831,ai-reliability,pooled,manipulation (pooled),"Yes it did, as I used that information to help tweak some of the prompts for better reasoning || I used it to see which questions would need more of my double checking and input",more_careful
+62b44f66a16d45783569fad6,ai-reliability,pooled,manipulation (pooled),I think it made me more wary of the AI answers especially when I wasn't sure myself. Maybe it made me overconfident on some too. || I think it probably did make me more likely to verify information to check its accuracy if I felt the AI was unreliable.,more_careful;trust_less
+5ae82944a0e4390001f090fd,ai-reliability,pooled,manipulation (pooled),I genreally trusted the ai. Not sure if that was a good move or not || I used it on almost every question.,UNCODED
+6a02840904eed4f800acaf95,ai-reliability,pooled,manipulation (pooled),It made me more likely to double check information if reliability was low || It did a little bit,more_careful
+6a1ca28f39a714391ec26ae5,ai-reliability,pooled,manipulation (pooled),"I generally didn't pay too much attention, however it did make me check more closely when it was lower. || The lower the reliability, the more I checked into each answer before confirming",UNCODED
+69f63441f6c4dbf4138036ee,ai-reliability,pooled,manipulation (pooled),a little but i still found the AI more than valid with it's reasoning most of the time || just gave more more or less confidence in the answer provided when using the reliability information.,UNCODED
+6a1d926a6d8b19bb96fa8054,ai-reliability,pooled,manipulation (pooled),I did not find it useful || I did not use it,UNCODED
+609ac2fa3340da7e2c5557ee,ai-reliability,pooled,manipulation (pooled),I double checked everything that was Low reliability and asked more questions || checked more,more_careful;slowed_friction
+6a12f8b2075822430f96d6e6,ai-reliability,pooled,manipulation (pooled),Just a little || I used it moderately,UNCODED
+6a1d422c5cd5b69b949f3d4f,ai-reliability,pooled,manipulation (pooled),I scrutinized the AI information a lot more when the reliability was medium or low || I was more hesitant to use the information provided by the AI when the reliability was low.,more_careful
+6a1878f047ada5b4889358bc,ai-reliability,pooled,manipulation (pooled),it did change the way I read the information if it had low reliability and I would put more effort into reading what it said || I used it for all of them,slowed_friction
+5ce031fc7f65ee001a985a6b,ai-reliability,pooled,manipulation (pooled),yes i didnt trust it as much where low reliability came up and tried to make my own judgement || i used it to help choose between correctness of statements but with pinch of salt where reliaboltiy was low.,no_change
+5ca356cb72a23200160ce912,ai-reliability,pooled,manipulation (pooled),"Made me question AI, which I don't normally do || I took how it rated itself as fact. So if it said AI had a low chance of being correct, it then made me doubt my answer",more_careful;trust_less
+69fdaf9d85430102ab57d442,ai-reliability,pooled,manipulation (pooled),It only effected how high or low on the 'sure/unsure' scale I selected. || It just informed how sure i was on the ratings scale.,UNCODED
+67139698ab79b82f8afd1e93,ai-reliability,pooled,manipulation (pooled),no || i paid more attention,no_change
+5e909d6c5321c13abee11725,ai-reliability,pooled,manipulation (pooled),reliability increased my confidence to rely fully on the AI || used my own assumptions less when AI was high reliability,UNCODED
+602566f8b47a130ae1d2f94b,ai-reliability,pooled,manipulation (pooled),"It made me consider the AI answer depending on it, but I did also wonder if the reliability rating was also AI which may have its own issues with reliability. || Same as above.",more_careful
+65bbf83dbe0f27e1a871bf48,ai-reliability,pooled,manipulation (pooled),"Made me read through the information a bit more than I had anticipated at the start || Used it to check if the AI output was poor, if yes then re-read the question and all info provided then made my decisions",more_careful
+5ba33d995196c600014853b6,ai-reliability,pooled,manipulation (pooled),It did make me question the AI answers more. || I'd get the AI to double check and take it's time,more_careful
+6a00bcb801abd80f812f7c4b,ai-reliability,pooled,manipulation (pooled),I felt the high reliability I just accepted the AI response. The low or medium I tried to work out myself. || The reliability helped as it meant if it was high I could just copy the answers. It is scary how much we put trust it these metrics. I mean what if the answer was wrong. I am hoping it is right.,UNCODED
+69ee2a86be2657dd6b52f0dc,ai-reliability,pooled,manipulation (pooled),I always doubled checked you can't rely on AI getting the correct answer,UNCODED
+6a0de69c307d0b81b5a95bf9,ai-reliability,pooled,manipulation (pooled),"It did not change much, because I cross check every question to be sure the answer was correct. || I didn't use it much.",no_change
+6a2409cf2b45d40f46952ea2,ai-reliability,pooled,manipulation (pooled),it made me consider that AI was not infalliable || The reliability information was the key piece of information i used in deciding whether to rely on AI,more_careful
+63beebaa4c5884797ff00a98,ai-reliability,pooled,manipulation (pooled),I tried to work the answer out myself if it was low || if low I did not rely on it,UNCODED
+69fcc5eb8c8ed4f5ace0d917,ai-reliability,pooled,manipulation (pooled),It made me less certain of the AI's response and I would try to double check its answer. || I used it to decide how reliable the information was and whether it could be completely trusted.,more_careful
+6a12071b383cff537e09f28b,ai-reliability,pooled,manipulation (pooled),"it made me unsure, in some cases i think i was right and the AI was right, but it made me second guess || it pushed me to think my first mental answer was right",UNCODED
+60d35fa71e56e17e064c2c1e,ai-reliability,pooled,manipulation (pooled),"i then less trusted the AI || i used it completely, if it was lower than high i wouldnt trust it",trust_less
+58ff31a1d10e2b000108579e,ai-reliability,pooled,manipulation (pooled),"Not at all. I was so busy struggling with the interface that I just had no mental energy left to care about it. || It just made me exasperated and annoyed. I would need about an hour to work out a good method to approach these tasks with paper and coloured pens just to get into a ballpark where I could assess my own reliability, before I had a good feeling for assessing the AI",slowed_friction
+6a1f0c595bd98a080100d47f,ai-reliability,pooled,manipulation (pooled),It didn't. || I didn't. I saw the flag but it didn't change how I treated each question,no_change
+69ea3ae0cebb94ec4126d00d,ai-reliability,pooled,manipulation (pooled),"it changed it deeply , i was a lot more cautious || making sure to keep in mind the tips when submitting answers",more_careful
+69fa1661524487df9d12bcd3,ai-reliability,pooled,manipulation (pooled),I prompted me to double check. || A very little. I did not manually check all the possibilities as the tasks were very challenging.,more_careful
+69e6ca5cda0abb6476671ca3,ai-reliability,pooled,manipulation (pooled),didn't change anything || n/a,no_change
+6a0377ab9f56f6356a06f3ec,ai-reliability,pooled,manipulation (pooled),i choose to believe it more || i still choose to believe AI,UNCODED
+69e7635ed757a3fa3d7ecef5,ai-reliability,pooled,manipulation (pooled),"High reliability made me more certain that the response provided was correct, while low reliability meant I had to double-check to confirm the answer. || I was more inclined to rely on the AI when reliability was higher.",more_careful
+69f0facfb34205fe685cfb63,ai-reliability,pooled,manipulation (pooled),if it was low i would always go double check || yes it would determine if i trusted the source,more_careful
+6a22c3eb4725e325fd168a95,ai-reliability,pooled,manipulation (pooled),It didn't make a huge difference because I couldn't be sure of the AIs answer if i couldnt also work it out myself || I didn't pay too much attention to it,no_change
+6a1d90acdbc882a935904998,ai-reliability,pooled,manipulation (pooled),i was more suspicious of low reliability answers || used it to help format new prompts,trust_less
+6a00de0fef1ab5f141829594,ai-reliability,pooled,manipulation (pooled),It made me more ready to challenge it || I used it to help judge how much I could rely on any given answer,UNCODED
+6a0fa4d0752408b8b9e0ed8d,ai-reliability,pooled,manipulation (pooled),Not much; I read through the excerpts and used my own knowledge to base my opinions. The AI seemed fine even when given low scores for reliability. || I mostly still used the AI because it helped more than not.,UNCODED
+6a158d6cdc77d53781df91dd,ai-reliability,pooled,manipulation (pooled),"It made me less trusting and more likely to interrogate the AI || If it was low reliability, I made sure to ask more probing questions and also feed in the tips to check for",trust_less
+6a0f3f3bcf45b31c84254187,ai-reliability,pooled,manipulation (pooled),"It made me ask more follow-up questions and think more carefully about the AI's suggestions instead of accepting them immediately. || I used it as one factor when deciding how much to trust the AI, but I also compared its reasoning with my own before making a decision.",more_careful
+69fef864a0d772b10f302eab,ai-reliability,pooled,manipulation (pooled),"I would double check the given information and the AI generated output, I would double check a lot more when reliability was low || When reliability was high I felt more confident in using the AI's answer",more_careful;trust_more
+6a05df9dcade14a5baa8434a,ai-reliability,pooled,manipulation (pooled),"i trusted the high ones, but little to no faith in the lower ones so i checked those ones more. || i would get the low ones to check their information again.",UNCODED
+696d0dc6c9d44fdb4020b215,ai-reliability,pooled,manipulation (pooled),It made me adjust my trust level for the AI responses || I trusted the response from the AI that had a high reliability score more than the one that had a low or medium reliability score,UNCODED
+63d3f928e97451dbc1c745da,ai-reliability,pooled,manipulation (pooled),I mean it didn't really make me change the way I usually do only thing I did this time was double check and carefully read through the information provided to ensure I got the same result. || Same way as I said above honestly. Just double check and made sure to read things correctly.,more_careful
+5b8fe19ae3a406000131f1a6,ai-reliability,pooled,manipulation (pooled),made me doubt the answers || checked it against the info given,trust_less
+6a1ef512fd22c5aeb0f054b9,ai-reliability,pooled,manipulation (pooled),"I would usually just accept that AI is smarter than me and not check as thoroughly, because of the reliability info it made me question the AI answers more.",more_careful;trust_less
+6048c1da4fb34916883f2e7d,ai-reliability,pooled,manipulation (pooled),a great deal || used it to rate the answer,UNCODED
+6a0afb57417835eaa8cf978e,ai-reliability,pooled,manipulation (pooled),"While the reliability information did influence me, I still checked the information given to me regardless of the rating or advice, as it was better to be collaborative than to rely solely on the ai system. || When I was already sure about a question and the task I gave the ai was easy, I would trust a high reliability rating. In any other instance, I would check much more extensively.",UNCODED
+69f0bd15dacaf72b392f5c90,ai-reliability,pooled,manipulation (pooled),It certainly prompted me to feed the AI more context to help get more reliable answers,UNCODED
+6a259d5aa0f34da2cfbf5004,ai-reliability,pooled,manipulation (pooled),"If the answer was potentially unreliable, then i was less likely to trust the answer that was provided. || Low reliability made me double check some answers.",more_careful;trust_less
+665efdf173820edd2b8d4d23,ai-reliability,pooled,manipulation (pooled),"Yes, if it was low I checked more, if it was high I generally trusted it. || Yes, if it was low I checked more, if it was high I generally trusted it.",UNCODED
+5dfc28644b49a19583f7cc7a,ai-reliability,pooled,manipulation (pooled),It took a while to realise the reliability information pop-up was to help me see how confident I should be with the answers. || N/A,no_change
+6a1e8e544ddce8244cfc707f,ai-reliability,pooled,manipulation (pooled),"I stopped trusting it towards the end. It seemed to be randomly asigning levels after i had put the scenario in and before the exercise instructions so there was nothing for it to really evaluate. || I did on the first one, it went from medium to high when i asked a question but I didnt take much notice of it towards the end",more_careful
+5b88022114e8c600010485b9,ai-reliability,pooled,manipulation (pooled),I got it to check more || I did rely it on it mostly,UNCODED
+6a1e93a3a409de92d38f9059,ai-reliability,pooled,manipulation (pooled),n/a || n/a,no_change
+676ae3e650a28a06d8486941,ai-reliability,pooled,manipulation (pooled),the only thing it changed was how confident I entered the slider afterwards || Didn't change anything for me,no_change
+6a0633e7c1fd84e5fadfe80e,ai-reliability,pooled,manipulation (pooled),It clued me in more when their may be too many variables || It gave me a better idea of if I was on the right track when interacting with the AI,UNCODED
+69f0e10237e70629b1851b6f,ai-reliability,pooled,manipulation (pooled),AI required some hand holding || I double checked and verified the sanitzed result as best I could,more_careful
+69f3b206e69dd82798c52778,ai-reliability,pooled,manipulation (pooled),"If the reliability level was high I was more likely to trust the info, if it was low I'd go over the answer carefully. || I used the reliability info to know when to reread the AI answer and go over the info with more attention.",more_careful
+6a1b22b2400fd8fa375bf6d2,ai-reliability,pooled,manipulation (pooled),"When given the clue that the probability of AI being incorrect, I was cross refrence. || //",UNCODED
+66019f5e10adbe524f2a844a,ai-reliability,pooled,manipulation (pooled),i saw the pop ups and read them but i still trusted the AI anyway! || if it was low i paid more attention to the answer that it gave me,UNCODED
+6a025bd21792d1c049fa132b,ai-reliability,pooled,manipulation (pooled),"i didn't always trust the answers || I struggled to work it out myself so i went with the AI answers, but was less confident in them",UNCODED
+56b78f11e77ebe000cbefe79,ai-reliability,pooled,manipulation (pooled),I asked the AI to make their own assessment of reliability as a % and compared that to the information. The AI also explained why they gave that % and I took a view whether it was persuasive or not. || Partly and set my confidences lower apart from one or two where the AI's argument for a much higher level of confidence was persuasive as at least some AI's were known to get the questions write so it could easily be mine.,UNCODED
+6a1ebce36344944543760e59,ai-reliability,pooled,manipulation (pooled),"I paid attention to it, but using my aforementioned strategy it didn't matter to much. I was checking its responses for mistakes anyway. || I always mostly relied on the AI because they were complex problems. I didn't have a notepad in front of me to draw or take notes so it was tough. Also I didn't want to change tab or change to notepad in case autoproctor got mad. Thus I trusted the AI along with some checks by me.",UNCODED
+67e8289e4c317bd8072e7c96,ai-reliability,pooled,manipulation (pooled),"I would be more dilligent in trying to disprove the AI when the reliability was lower. || I didn't use the additional information at all, just the reliability score. I would use that to determine how much time I would spent trying to disprove the AI's logic.",no_change
+6a1d8a523e6779817d014374,ai-reliability,pooled,manipulation (pooled),It didn't,no_change
+69f4765b9bfd320086f11f14,ai-reliability,pooled,manipulation (pooled),I was slightly more suspicious of its answers if the reliability was low || I used it in deciding whether to double check more,more_careful;trust_less
+69fd88994d71fdbe41dc06cb,ai-reliability,pooled,manipulation (pooled),I think it was a great way of flagging how a prompt may or may not work and what to do. In this case I didn;t use it as much as I would have liked due to time contraints but I would definitely use it in the future. || I think I was mindful of trying to ask 'are you sure - what about x' questions.,no_change
+6a04366fb4a4aa679e7dc1ba,ai-reliability,pooled,manipulation (pooled),i just double checked the answer || i just rechecked my answer,more_careful
+6a0f23984ca40187cbf977c3,ai-reliability,pooled,manipulation (pooled),"At first it didn't because I'm used to get reliable answers, but when I saw the reliability information was actually accurate and the model was failing I switched to a manual mode. || At the end when I was more tired and getting more support of the AI, i used the reliability information to score the confidence in my answer.",more_careful;trust_less
+69fd091c3ac967918648e10c,ai-reliability,pooled,manipulation (pooled),I was checking more carefully when I saw AI may not be reliable || I checked more carefully if there was strong indication it will not be correct,more_careful
+6a0b4fa8c69b7f8c74ef1238,ai-reliability,pooled,manipulation (pooled),"I probed the AI on whether or not it was certain or asked it to crosscheck its answers after each question regardless if the reliability score. || At first the reliability information made me trust the AI's competence more, but it got to a stage where the AI gave doubtful answers even with its reliability score on high .",trust_less
+6a0b003f6fd78e5df58d4c69,ai-reliability,pooled,manipulation (pooled),"If the reliability was high, I read through the reasoning to check but I generally accepted it. If the reliability was low I tried to figure it out on my own or probe the AI further. || I used the reliability information a lot. If it was low I made sure to fact check the answers.",UNCODED
+668d16ae27f1ad4461650742,ai-reliability,pooled,manipulation (pooled),The reliability made me more dubious of it's output and reaffirmed the accuracy of my own calculations. || I ignored it as it was far to inconsistent.,trust_less
+612a1e54112f947dc881398a,alternatives,pooled,manipulation (pooled),The alternative replies made me go back through and check the scenarios again,UNCODED
+6a023f4680391bcad5d12a8e,alternatives,pooled,manipulation (pooled),It made it hard to trust one over the other and not being able to ask follow up questions to one specific AI model made it difficult to interrogate conflicting answers.,trust_less
+5b0f27321e55760001b9a8a5,alternatives,pooled,manipulation (pooled),"absolutely, it made me question both of them",more_careful;trust_less
+6a05af046f4fff8e7c4bf65f,alternatives,pooled,manipulation (pooled),It made me want to double check more often as there were a lot of inconsistencies between the 2 agents,more_careful;trust_less
+5c0f6121a166d700013881ec,alternatives,pooled,manipulation (pooled),The AI would give me different answers to start with on both response A and B and I had to trigger it to re-assess its findings.,UNCODED
+6a14f818ca7d49f469ab3163,alternatives,pooled,manipulation (pooled),i had to be more thorough especially when given different answers,more_careful
+69f1386d8f8e9af4ec5759a7,alternatives,pooled,manipulation (pooled),It made me double check answers and think twice about what i was writing as if they were contradicting i wouldn't know what to believe.  It made me rely on myself more.,more_careful
+61472242d56808cc5a4c94d9,alternatives,pooled,manipulation (pooled),They sometimes confused me.,UNCODED
+6a06ee4535f3599505bc54f6,alternatives,pooled,manipulation (pooled),It did not change. It only gave me dynamic perspectives.,no_change
+6a01ff6376140a39df37af06,alternatives,pooled,manipulation (pooled),Kept changing until both responses were aligned. Not ideal strategy.,UNCODED
+69ee224d4896c8720f0ed466,alternatives,pooled,manipulation (pooled),In so much as it was a reminder that AI can get it wrong.,UNCODED
+6a0b2039dd72f88d56961a7c,alternatives,pooled,manipulation (pooled),It didn't really change my strategy,no_change
+603ceb8f82d6b0a88e6cb99a,alternatives,pooled,manipulation (pooled),I tended to use the first column answers,UNCODED
+6a08d7ebd6444314bbbf1112,alternatives,pooled,manipulation (pooled),It made me question the AI response,more_careful;trust_less
+6601a00c30582f248a36232c,alternatives,pooled,manipulation (pooled),it made me read the given the description output thoroughly and more carefully,more_careful
+5cacc30ef7db0100175998e7,alternatives,pooled,manipulation (pooled),Didn't really do anything,no_change
+69ed80361ac67e060ad6e85e,alternatives,pooled,manipulation (pooled),Different answers made me ask follow_up questions and check the reasoning more carefully.,more_careful
+68123a73ba06c472ccd5edb8,alternatives,pooled,manipulation (pooled),No not really,no_change
+5fb281433a31c686f0ec3ecb,alternatives,pooled,manipulation (pooled),it remained the same,UNCODED
+66e1961788c0c89fa75ecb42,alternatives,pooled,manipulation (pooled),yes,UNCODED
+6a05ee899cecc3b8b6d7f6a9,alternatives,pooled,manipulation (pooled),"Very much, pushed me analyse and challenge the AI",UNCODED
+6a09d6941d61d7f9899ff0ac,alternatives,pooled,manipulation (pooled),"Slightly, I could compare.",UNCODED
+6a491aa7aaf10918bfb6954d,alternatives,pooled,manipulation (pooled),They made me think about what would be the more realistic answer.,more_careful
+5f84e472052cf81ae5752252,alternatives,pooled,manipulation (pooled),made me think more critically,more_careful
+5fb3eee93064870009d4ed30,alternatives,pooled,manipulation (pooled),It didn't as I'm happy and used to chatting with AI to review its own output,UNCODED
+629dd4199343d7710fcdb39c,alternatives,pooled,manipulation (pooled),"If the AIs agreed then it made me more likely to trust the answers, although I would still check them.",UNCODED
+5c5ff87f8c0552000109d7de,alternatives,pooled,manipulation (pooled),I interacted with it in the same way,UNCODED
+6a25b8b3be3afd2e1c895f96,alternatives,pooled,manipulation (pooled),I tried to figure out which was wrong but it was pretty difficult to do so as there was so much info,UNCODED
+6a207b2c1a84a11c40e28dd0,alternatives,pooled,manipulation (pooled),not really,no_change
+659d52af923c07a8e1aac79a,alternatives,pooled,manipulation (pooled),made me think more,more_careful
+63e8a4efd541d6d1d3f2bb89,alternatives,pooled,manipulation (pooled),Any discrepancies between the two highlighted to me that I should be carefully checking both responses/ the correct answer.,more_careful
+6551469abe377d3646c6cd6e,alternatives,pooled,manipulation (pooled),i had to quickly double check over it,more_careful
+63e5412532b6ef655b596338,alternatives,pooled,manipulation (pooled),"Yeah, it made me realise that they can sometimes be wrong and I shouldn't always trust their answers",UNCODED
+6a01c1a9359a62df3c7e44cb,alternatives,pooled,manipulation (pooled),multiple outputs gave me data to cross-reference,UNCODED
+6a105589ebb19a9c0de90949,alternatives,pooled,manipulation (pooled),it changed it significantly.,UNCODED
+5aafe2a9fb22320001babb3a,alternatives,pooled,manipulation (pooled),"I had to ask the AI to be honest and not give me a answer that aint true, and I had to tell it that I received an answer that is different.",UNCODED
+6a15d35d97c9ae5e06f572af,alternatives,pooled,manipulation (pooled),Choose carefully,more_careful
+69f10174456b2d60465d8350,alternatives,pooled,manipulation (pooled),i stopper blindly trusting the answers,UNCODED
+6a58b015795466b0e827a675,alternatives,pooled,manipulation (pooled),It made me second guess its answers. I had to check the scenarios more,UNCODED
+5f392fae9168cc472f0468f6,alternatives,pooled,manipulation (pooled),I don't think it changed anything,UNCODED
+6676d41ded1cb587040780e3,alternatives,pooled,manipulation (pooled),they made me reaslise that AI cant be trusted without double checking the answers,more_careful
+69162d60bbb2b3e0981e6521,alternatives,pooled,manipulation (pooled),postive,UNCODED
+6a07fdc3d6f0cebc8d73922e,alternatives,pooled,manipulation (pooled),Absolutely - it made me realise that it was interpreting the information differently.,UNCODED
+55d51a6b8ce09000127d4821,alternatives,pooled,manipulation (pooled),"It showed me that AI models can think differently and that although they sound confident, they aren't necessarily giving me the correct answer.",UNCODED
+69fd21146ec1cd3f5cf58aa2,alternatives,pooled,manipulation (pooled),When they disagreed with each other I questioned the reliability more,UNCODED
+6a1c84e1bb1c82a05c2deead,alternatives,pooled,manipulation (pooled),"It wsa nice to see alternative perspectives with similar answers, it was reassuring.",trust_more
+69fc8055319a58b14e700432,alternatives,pooled,manipulation (pooled),I questioned the reasoning at times partly using arguments from the other AI,UNCODED
+6a21c6513a6c4fe6762d46bd,alternatives,pooled,manipulation (pooled),"Again, similar to the above, the multiple alternatives meant that I had a choice in terms of what I thought could be the right answer. When it comes to advanced planning or organisation, with a lot of calculation, it's important to review answers properly. In the best case scenario with more time, you could work it out yourself as well",slowed_friction
+6023f94d1951e70ae21770ec,alternatives,pooled,manipulation (pooled),I trusted one assistant more than other,UNCODED
+67673a7ecec3cd778dfbd91f,alternatives,pooled,manipulation (pooled),it was a little confusing so i feel i didn't interact with it like i usually would but i felt the answers gave me enough detail to make my choice,UNCODED
+6694751cee786dace40d4112,alternatives,pooled,manipulation (pooled),no,no_change
+60c39b2c50f631d28eb09b60,alternatives,pooled,manipulation (pooled),It make me consider things a little more.,UNCODED
+69ece68ef03e274276ba73c8,alternatives,pooled,manipulation (pooled),neither,UNCODED
+598f22af33481c000164d359,alternatives,pooled,manipulation (pooled),I got AI to double check as many times as I felt necessary,more_careful
+6a101293fd6e7c493e3b4ff7,alternatives,pooled,manipulation (pooled),compared how comprehensive they sounded.,UNCODED
+6a14c4f28aee84ae414353a5,alternatives,pooled,manipulation (pooled),"yes, get ai to check their answers",UNCODED
+60154af277ec314fd8fe1449,alternatives,pooled,manipulation (pooled),It made me more cautious in trusting the answers given,more_careful
+6a01fb37db575dd348af07d1,alternatives,pooled,manipulation (pooled),It made me double check their workings out to see if any were corret,more_careful
+676db977f398d4be462fca83,alternatives,pooled,manipulation (pooled),i started to get a bit overwhelmed and confuised,UNCODED
+69f48669f09bb26f32069f27,alternatives,pooled,manipulation (pooled),It didn't change the way I interacted but it did make me question the answers more since on alot they each gave a different answer.,no_change
+60745654775360c343322bd9,alternatives,pooled,manipulation (pooled),It made me question the truth when replies were different.,more_careful;trust_less
+56b6e2fcf2fc70000c32f9d5,alternatives,pooled,manipulation (pooled),I tried to make it more analytical. I also lost trust in the answers and consequently lost confidence in my own answers,trust_less
+69e7da37fa7a6441a477386f,alternatives,pooled,manipulation (pooled),It forced me to be more critical of the models reponse,more_careful
+65c242831388550b0a42bd25,alternatives,pooled,manipulation (pooled),encouraged questionning,UNCODED
+6a07658dda0017a86f04f995,alternatives,pooled,manipulation (pooled),"yes, it did especially having them give incorrect answers",UNCODED
+6761e75cf22f2b17fc157335,alternatives,pooled,manipulation (pooled),"I think it made me a bit more sceptical, because the AI sometimes changed its mind after the initial response, after I asked it to double check its answers",more_careful;trust_less
+6a257563faa98b484c52eb69,alternatives,pooled,manipulation (pooled),I was able to see different perspectives side by side and choose which looked better,UNCODED
+5c3e562ebff5620001e34dd5,alternatives,pooled,manipulation (pooled),"It made me more suspicious of it, it made them both feel very poor quality, like they were just guessing, because their answers were not the same as each other.",trust_less
+5951a92fcea3470001827a18,alternatives,pooled,manipulation (pooled),Unsure.,UNCODED
+5b39fe0206f9f90001fb91c8,alternatives,pooled,manipulation (pooled),No difference,no_change
+5999aedebbe8480001796677,alternatives,pooled,manipulation (pooled),no,no_change
+60c5165878a82f763c29536a,alternatives,pooled,manipulation (pooled),When AI gave me multiple alternatives it helped me compare the answers more easily. If both agreed I felt certain but if they disagreed I was more cautious and adjusted the slider lower.,more_careful
+6a072733481f9ae0a474664e,alternatives,pooled,manipulation (pooled),It made me read the answers more carefully to see which one I agreed with the most,more_careful
+58bfee7de5869400018f5e9e,alternatives,pooled,manipulation (pooled),It was confusing when the answer was not the same between both alternatives,UNCODED
+542bdb6dfdf99b324ea37c3a,alternatives,pooled,manipulation (pooled),not really,no_change
+677c00e0f6d8cdcff534ecb7,alternatives,pooled,manipulation (pooled),I think that it made me a bit more flexible in the way that I considered whether either statement was true. I think that it made me think a little bit harder than I would normally if I were using an AI model to plan things or events out. I usually just copy and paste things into an AI model and let it work things out because I'm quite bad at planning things.,more_careful
+644a9152838d4d270af3b94f,alternatives,pooled,manipulation (pooled),"yes, i used them against each other to see if it changed minds/responses.",UNCODED
+5dcdbf658d32d102ba69e839,alternatives,pooled,manipulation (pooled),I found it quite difficult to wrap my head around the multiple answers but it meant I was extra vigilant,UNCODED
+69ea564f2751bfb18c2c7c79,alternatives,pooled,manipulation (pooled),i used both replies to build the correct answer,UNCODED
+671ac509e93a57b5220b3d4e,alternatives,pooled,manipulation (pooled),confusing,UNCODED
+60e02be4699a3f5cbe314e99,alternatives,pooled,manipulation (pooled),I wanted them both to check the answers and wanted both of them to come to the same conclusions,UNCODED
+59961863004c4f0001cc864a,alternatives,pooled,manipulation (pooled),I kept asking til both agreed.,UNCODED
+69fb5b3f4a9a2b584b72f80f,alternatives,pooled,manipulation (pooled),No,no_change
+6752efd86136ec83b4e576bc,alternatives,pooled,manipulation (pooled),It made me to be looking for correlated answers as a strong signal.,UNCODED
+57b6dfafe2d5a60001099543,alternatives,pooled,manipulation (pooled),it made me more uncertain when the answers differed,UNCODED
+6768758c4deabe73a9da9a5e,alternatives,pooled,manipulation (pooled),it made me want clearer tables so I could see where the inaccuracies were.,UNCODED
+6a034d39ee8639d4c7a0cdd8,alternatives,pooled,manipulation (pooled),I didn't take anything for granted and it allowed me to scrutanise their answers,UNCODED
+69ff14a9f746a9d2108f74d0,alternatives,pooled,manipulation (pooled),I feel more confident about my answers.,UNCODED
+6a1d9d56cfece324378b6731,alternatives,pooled,manipulation (pooled),"Where the outputs differed, I would ask further questions to ascertain which model/version had made the mistake and read the reasoning and scenarioin more depth. I had lower confidence in these responses.",UNCODED
+6a009fb698bfd622eca974a9,alternatives,pooled,manipulation (pooled),It made me disregard one of them when I saw that it was consistently incorrect,UNCODED
+6a1f21e58f39c832ba2d163a,alternatives,pooled,manipulation (pooled),no,no_change
+69fa52e3a42b2256bfe76c97,alternatives,pooled,manipulation (pooled),It made me choose of the AI's over the other- not ideal because that AI could really be wrong too,trust_less
+6604764cc6719060ae2f667c,alternatives,pooled,manipulation (pooled),,UNCODED
+67d01671bd666a9fb9c603fb,alternatives,pooled,manipulation (pooled),N/A,no_change
+6a038221e63d68a1f45e2060,alternatives,pooled,manipulation (pooled),it made me double check if the answers deviated from one and other,more_careful
+5eaae0b28ba2df0570296c3a,alternatives,pooled,manipulation (pooled),Lost trust with some answers,trust_less
+66cdcee5b3f3d7136c690de0,alternatives,pooled,manipulation (pooled),made me more doubtful,trust_less
+6446839f023ba8de55365437,alternatives,pooled,manipulation (pooled),it confused me but asking twice i reached a common reply from both,UNCODED
+6658b1d67df7606690e4d6da,alternatives,pooled,manipulation (pooled),No,no_change
+6676b999f1116e55d774817f,alternatives,pooled,manipulation (pooled),Made me second guess,UNCODED
+6043a1dc4c33ef37c64f0812,alternatives,pooled,manipulation (pooled),"yes for sure it made me worry a bit more about answers especially when they differed, i was much more cautious and read the reasoning",more_careful
+6126c376b030f1ef149929fb,alternatives,pooled,manipulation (pooled),Yes it did change it and I had to question the result when they did not match each other however I also then lost confidence in the one answer being correct.,UNCODED
+69f1565fdf85268879a918d9,alternatives,pooled,manipulation (pooled),I double checked the working and got the ai to double check and explain its reasoning,more_careful
+5c61d9cd6f57a000014a8fc4,alternatives,pooled,manipulation (pooled),"When one said one thing, the other said the other thing, I then felt like I lost trust in the AI and needed the calculations rechecked",trust_less
+66c0382392286c820e1d3623,alternatives,pooled,manipulation (pooled),made me question the ai and wonder why it gave different answers as i assumed both ai would give the same answer,more_careful;trust_less
+6a08dbc70f88fa516082241a,alternatives,pooled,manipulation (pooled),it clearly demonstrated the scerios,UNCODED
+5c3fa8f562ada90001275f5e,alternatives,pooled,manipulation (pooled),It made me look at certain logic the AI models applied,more_careful
+6a0b2e634890878fbf46baad,alternatives,pooled,manipulation (pooled),the different AI gave different answers so I checked those. If they both agreed I still checked but was happier to accept the answer,UNCODED
+6a1b23ab6edd3063c9739989,alternatives,pooled,manipulation (pooled),If I got two different answers I asked the AI to re run its last prompt so I could see if there was an outlier.,UNCODED
+6a1f447463e5c07aabec8187,alternatives,pooled,manipulation (pooled),it showed me the flaws of the Ai so i knew when to scrutinise the answer. if both AI agreed then i spent less time checking the answer.,more_careful
+6a22567ab2a834da2f8e9057,alternatives,pooled,manipulation (pooled),"It made me think more when they had different answers, to recall the scenarios and evaluate the information at hand and compare it to what the question is asking, so using AI as the tool for 'thinking' and reasoning really helped, but when they had different answers I assumed there was something I was missing so it made me double check more often.",more_careful
+660c14cb05dd9faa6eda805a,alternatives,pooled,manipulation (pooled),"when they gave different answers, had to be more attentive and not trust it",more_careful
+69848da89da918a45ff78e1d,alternatives,pooled,manipulation (pooled),"I noticed a difference in the responses that made me wary of the following responses. Because I noticed that in some scenarios, one response seemed to do better than the other, I paid closer attention to the response with the better track record",trust_less
+6a05a78f5dceb1b1abe2dc52,alternatives,pooled,manipulation (pooled),"When they would get things wrong, it made me trust them less, so I wouldn't be as confident with my answers.",trust_less
+6a158d28cf874d1b7eab9575,alternatives,pooled,manipulation (pooled),Hedged my bets,UNCODED
+6a05c37ffa65471def84e817,alternatives,pooled,manipulation (pooled),none,no_change
+69fa27f897bf4caf2d505098,alternatives,pooled,manipulation (pooled),they made me double check,more_careful
+60dfa6a5a12413b99195c3de,alternatives,pooled,manipulation (pooled),Made me realise that AI can lie and can be wrong.,UNCODED
+53a18b8ffdf99b79ca51df6e,alternatives,pooled,manipulation (pooled),if they both agreed I felt more secure that they were right,trust_more
+667130c07398403120cb2bc4,alternatives,pooled,manipulation (pooled),"It offers different ways of logic thinking, and also shows double check is needed of ai-generated answer",more_careful
+672b24390a9c197eb61f2f72,alternatives,pooled,manipulation (pooled),"i tended to look at the answers first , if there was difference only then did i review the replies in detail",UNCODED
+6a1edc2c42116f4499c0e8c8,alternatives,pooled,manipulation (pooled),If both were the same i would accept the response,UNCODED
+6a0465dbc4519ab0aa7db764,alternatives,pooled,manipulation (pooled),It acted as a good comparison and view of inconsistency.,trust_less
+6a2199e15b03d651347b9916,alternatives,pooled,manipulation (pooled),I trusted one more than the other.,UNCODED
+6a0f047a86b88ad53907a7ca,alternatives,pooled,manipulation (pooled),"It did not really change much, maybe questioning more if the two responses were very different.",no_change
+6471e0a407b30a4f171dbd35,alternatives,pooled,manipulation (pooled),I had expected them to produce same responses so i had to work harder than expected,UNCODED
+698b045589588a7dea2bef84,alternatives,pooled,manipulation (pooled),"come of the alternatives were contrasting, so I had to determine with one is correct",UNCODED
+6a0cd3ed8bba7edfec81cbc8,alternatives,pooled,manipulation (pooled),No,no_change
+6a05bed431af49069330ecf5,alternatives,pooled,manipulation (pooled),"The multiple ai’s were interesting in the different perspectives they took. They were not always helpful in expressing why they came to the conclusion that they came to, but I got a decent idea of what they meant.",UNCODED
+69f1f9fe2aeb480ab8168d0f,alternatives,pooled,manipulation (pooled),it made me realize that AI can give false answers,UNCODED
+6a06f5c82ef7206c2ae0a838,alternatives,pooled,manipulation (pooled),I trusted the first response more than the 2nd,UNCODED
+66a208fff5715f2926f70289,alternatives,pooled,manipulation (pooled),it didn't change the way i interacted at all,no_change
+6647553d43a5c4dd9a129193,alternatives,pooled,manipulation (pooled),It terrified me at first because i tend to just rely on what AI is saying! Though i do know from personal experiecne it can be wrong,UNCODED
+69fe15dbdae228494b7e163c,alternatives,pooled,manipulation (pooled),quite a bit as I've got 2 complete different answers that made me go and check the facts,UNCODED
+5a9012adf053610001718912,alternatives,pooled,manipulation (pooled),"yes, it made me question it more than i usually would",more_careful;trust_less
+6a019609213326e427f7e358,alternatives,pooled,manipulation (pooled),Definitely opened my eyes up to the possibility of error or multiple interpretation of facts,UNCODED
+54f5a98cfdf99b2e7ccaeb91,alternatives,pooled,manipulation (pooled),It made me ask the AI lot's more questions and to explain itself. I had to be a bit more thoughtful and try to get it to poke holes in its own reasoning.,slowed_friction
+6a194d2c84c40cb2a1a0e06a,alternatives,pooled,manipulation (pooled),VERY much. Showed that AI assistants are not infallible. But sharing both reasonings with each AI wored.,UNCODED
+63d141f040c855b7fb494d13,alternatives,pooled,manipulation (pooled),it made it a little more difficult if they gave different answers as I then had to challenge them to see why they were different,UNCODED
+675ab3f6c12c9e3fd27046b3,alternatives,pooled,manipulation (pooled),As above. If they had the same answer I was more content that it was correct without having to properly review the reasoning. It was only if there was 2 sets of different answers that I was confused or unsure and would have to manually check the question.,more_careful
+6a21be8a98a32ca1859a6003,alternatives,pooled,manipulation (pooled),I cross checked them as one may of picked up on something else that me and the other AI didnt,UNCODED
+697a53e8b315729705307e4b,alternatives,pooled,manipulation (pooled),"It made me question the ai's decision making more than I normally would. I would normally be inclined to agree with an ai output, however when I saw conflicting answers to the same question with the same context, I spent more time trying to understand where a mistake was made.",more_careful;slowed_friction;trust_less
+6a0493b0ba30180995ebd884,alternatives,pooled,manipulation (pooled),It made me doubt if either was right,trust_less
+5e3ddcf95556b204cb143eab,alternatives,pooled,manipulation (pooled),dont know,UNCODED
+59d3ef2c078dbe000195117f,alternatives,pooled,manipulation (pooled),Both AI's had different answers to the questions so it was extra work trying to figure out which answer could be correct.,slowed_friction
+6a082966a088c3426743f4bf,alternatives,pooled,manipulation (pooled),"Made me evaluate more carefully, ask folow ups etc.",more_careful
+601ecf037d641438c0840330,alternatives,pooled,manipulation (pooled),it made me less confident that I was getting a good response.,UNCODED
+6a08ca5af96ffba2293ddd28,alternatives,pooled,manipulation (pooled),it gave me more to think about.,UNCODED
+6a02fc7306ae51f3107c53d0,alternatives,pooled,manipulation (pooled),"I read both, and used the majority answer",UNCODED
+6978c4474a942ca6d266d49b,alternatives,pooled,manipulation (pooled),n/a,no_change
+60ff109e2a8d5d4b4a835630,alternatives,pooled,manipulation (pooled),"Yes, I would be more carful if they gave two different answers. I would re read what they put down to see what made more sense",more_careful
+5c99d104490924000111bfcc,alternatives,pooled,manipulation (pooled),It changed several times and that lowered my confidence levels.,UNCODED
+69f4bd1e41af27997a51769e,alternatives,pooled,manipulation (pooled),none,no_change
+6a22345db1c9fc990edae263,alternatives,pooled,manipulation (pooled),"It gave me more confidence that my answer was correct if both AI chatbots gave the same answer. When they gave different answers, it didn't really help, and I had to analyse the data on my own, which wasn't helpful.",UNCODED
+697cbad7849402bb0a689ecc,alternatives,pooled,manipulation (pooled),It showed me that each of them had different reasoning mechanism,UNCODED
+6a04aecf042ae05708c21c53,alternatives,pooled,manipulation (pooled),It made me use my brain to think about if I felt their answer was right when they weren't in agreement,UNCODED
+5f666a0ad2f324242a45da71,alternatives,pooled,manipulation (pooled),"It helped me understand that AI, as brilliant as it is, will give the wrong answer to something laid out of it plain as day and that sometimes you need to be double checking because it quite literally just makes things up even though you've given it everything it needs to get the answer right the first time.",more_careful
+69e76b18f44ae52b6f83185f,alternatives,pooled,manipulation (pooled),it allowed me to compare both of them side by side but my interactions where much more formal and straight to the point,UNCODED
+5a0c4184fe645f0001e9f5dd,alternatives,pooled,manipulation (pooled),"When the answers were conflicting, it made me more cautious.",more_careful
+6a0c6edb557807b3a0065dcd,alternatives,pooled,manipulation (pooled),"It sometimes contradicted itself, where one answer understood the information incorrectly. On the first task, it thought one of the consultants could work more days than she actually could in one answer. This confirmed my distrust of AI generated information.",UNCODED
+6a44271bdfffd689f0762d81,alternatives,pooled,manipulation (pooled),"Where they contradicted, I used them against one another to check answers.",UNCODED
+69f4a61347ac4d6e32a619d1,alternatives,pooled,manipulation (pooled),I asked clarifying questions to get the ai to double check particularly where one reply said something different to the other,more_careful
+6a0480ac461e8896e84534e2,alternatives,pooled,manipulation (pooled),i asked for them to check their answers,UNCODED
+6a1fd86b35130b24ecb78cbb,pause-points,pooled,manipulation (pooled),I would usually just do it all in one go but I had to slow down and break my questions down individually,slowed_friction
+6a099929b303063f931ed8c6,pause-points,pooled,manipulation (pooled),N/A,no_change
+6112937a54e78094098725fe,pause-points,pooled,manipulation (pooled),I split my questions into smaller and smaller parts.,UNCODED
+59e721e0ac0af70001b36a13,pause-points,pooled,manipulation (pooled),na,no_change
+69efbf25ced2d080cad5a7ca,pause-points,pooled,manipulation (pooled),"Yes, I found it to be abit annoying as I found that it didn't really know what I wanted. I felt it was a bit confused and couldn't always give a straight answer.",slowed_friction
+6a7a1385268c61376472e418,pause-points,pooled,manipulation (pooled),On few cases yes and mostly no. Even if I ask different questions it gave the same reply.,UNCODED
+5bf54dd783653500016776ec,pause-points,pooled,manipulation (pooled),It helped a lot as I wouldn't have known how to prompt the AI for the answers,UNCODED
+60b8b31eb3143c92b950deba,pause-points,pooled,manipulation (pooled),It was frustrating and encouraged me to take other approaches.,slowed_friction
+66b5172c8f0bd3b23ce66c22,pause-points,pooled,manipulation (pooled),I tried to understand it more as it was step by step,UNCODED
+5a5a6ed7f6c517000195029e,pause-points,pooled,manipulation (pooled),It made it easier to decide,UNCODED
+6a0c6c707a72dd321106bd53,pause-points,pooled,manipulation (pooled),"It made me go back and check for inconsistencies, particularly on the last Qs",trust_less
+6a078e18e9921951cb664c9b,pause-points,pooled,manipulation (pooled),"The step by step reply provided a easy guide towards the rationale for the answers, it also provided me with enough comfort to trust the response from the AI.",UNCODED
+6a00dbf1a704d2b901583edb,pause-points,pooled,manipulation (pooled),Provide procedural confidence,UNCODED
+69fd24e9380cef436aa891df,pause-points,pooled,manipulation (pooled),"I eventually developed a way to circumvent this step by step reply system by posing a very simple ""true or false"" question to one of the two statements in turn, coupled with a confidence estimate.  If I was using this AI for a critical problem, I would want to take more time to thoroughly evaluate its responses, but found its responses a little obtuse compared to the usual AI systems I have used.",more_careful;slowed_friction
+63f54db123b350a3b5836638,pause-points,pooled,manipulation (pooled),I broke things down bit by bit instead of everything in one message.,UNCODED
+59ae8d282a78fd00010b80e7,pause-points,pooled,manipulation (pooled),it was finding It hard to answer complex questions,UNCODED
+6a0302ce582dfd822c6b6db8,pause-points,pooled,manipulation (pooled),I had to ask it to test each statement at a time,UNCODED
+69f8d38303babfe52ae1e992,pause-points,pooled,manipulation (pooled),It made it easier to work with the AI.,UNCODED
+5e80b109ca1800791e1ca40c,pause-points,pooled,manipulation (pooled),It did help me double check things more and take it slower to understand the question more.,more_careful
+6a74cd687ddf9b40d73847ad,pause-points,pooled,manipulation (pooled),"its new experience, will implement it",UNCODED
+5c5844d8dd470300014ee3f1,pause-points,pooled,manipulation (pooled),It was a bit annoying I would expect an AI model to just work it all out and explain automatically not want to work step by step.,slowed_friction
+6a0f6db3e15513eddac1a67a,pause-points,pooled,manipulation (pooled),AI would give me refined/updated replies after every follow up question.,UNCODED
+68729361bee62f6a3fb232ec,pause-points,pooled,manipulation (pooled),It gave me more insight on what I should be doing.,UNCODED
+5db061b0f876e1001620e2ee,pause-points,pooled,manipulation (pooled),it meant i had to go in stages,UNCODED
+60d4558116de644bde568dde,pause-points,pooled,manipulation (pooled),It changed because it gave me suggestions on what I could/should do next to firm up the answer rather than just going straight to the result.,UNCODED
+6a0643def96c580502e0624d,pause-points,pooled,manipulation (pooled),"The step by step reply enabled me to see and understand the reasoning and logic of the ai which in turn required less double checking, prompting and verifying that the answers madw sense and were correct. It streamlined and focused getting the right answers for the task at hand.",more_careful
+5fff11332f30d263176fa57f,pause-points,pooled,manipulation (pooled),I had to break the task down into bits to step by step it,UNCODED
+69fc2d7674f4ab68ebfd7559,pause-points,pooled,manipulation (pooled),it made it a bit annoying until i realised it was refusing to answer out of step,slowed_friction
+614485923ba5c4783abe671e,pause-points,pooled,manipulation (pooled),it made me have toask more questions,slowed_friction
+5ea950e4befef302772be716,pause-points,pooled,manipulation (pooled),It didn't,no_change
+5d864cfdb6dced0019221047,pause-points,pooled,manipulation (pooled),It made me more careful in asking the questions,more_careful
+6a03459e5c3c329e6670a53e,pause-points,pooled,manipulation (pooled),it helps me think deeper and more,UNCODED
+60dd27004a74c325f5b22e17,pause-points,pooled,manipulation (pooled),It did irritate me slightly as the AI could have just worked on the whole problem,slowed_friction
+69fceb8e585a4cd6e9401180,pause-points,pooled,manipulation (pooled),It made me look at the responses more closely and critically. It allowed me to follow the full work out process and see where errors may have been made or where it had made assumptions.,more_careful
+60001f74b9d8d70009041d15,pause-points,pooled,manipulation (pooled),I think it just made me use the AI to save time and even though I checked I still was a bit lazy in my thinking towards the end.,UNCODED
+6a0b21b822bfd4c9686d1752,pause-points,pooled,manipulation (pooled),It stopped me from being able to ask for a direct answer and as such forced me to consider each statement individually,UNCODED
+6575c7da000442e5a54f5e24,pause-points,pooled,manipulation (pooled),"It helped me a little bit, but sometime the step by step was slightly confusing and didn't actually lead to the answer.",UNCODED
+6500615b226d81ec5db464d7,pause-points,pooled,manipulation (pooled),"A bit more time consuming to keep putting in questions, but maybe it made it more accurate",slowed_friction
+55b765befdf99b0416ce5382,pause-points,pooled,manipulation (pooled),It made me double check each step and see if there was any hallucination between that step and the final verdict,more_careful
+666344916bdba2e2c980dcd0,pause-points,pooled,manipulation (pooled),i had to slow down and be more thoughtful,slowed_friction
+5996d2256b939900012d9f22,pause-points,pooled,manipulation (pooled),i pressed for certain clarity,UNCODED
+69f478835e7f45a7c46f4def,pause-points,pooled,manipulation (pooled),Made me ask clearer questions and follow the reasoning instead of just the answer.,UNCODED
+6645ead2d999bda561f525ea,pause-points,pooled,manipulation (pooled),it didnt,no_change
+5978f6f009bdcf000153f43d,pause-points,pooled,manipulation (pooled),It give structure and defination to my approach,UNCODED
+5cbb1374517cd00001310c43,pause-points,pooled,manipulation (pooled),"I found it very frustrating as I wanted my answer all at once, and I found it confusing at points. In the end I started sending it one question at a time instead of both together to try avoid it being verbose and confusing me.",slowed_friction
+5a86e1a4eea3d300016e7981,pause-points,pooled,manipulation (pooled),made me slow down,slowed_friction
+69f98463f2070bddf692b800,pause-points,pooled,manipulation (pooled),helped me make informed decisions.,UNCODED
+6a74c3b4c83fe41d76c99bdc,pause-points,pooled,manipulation (pooled),if was annoying if something is needed quickly or someone is just double checking the answers,more_careful;slowed_friction
+5b68c9eb87af310001584803,pause-points,pooled,manipulation (pooled),it made me more reliant on it for answers,UNCODED
+69989e39e6be042257d81204,pause-points,pooled,manipulation (pooled),"I think the more I interacted with it, the more I realized physical notes are a safer way to pick a sensible option",UNCODED
+69e7dede938d7a2dfc8c7d90,pause-points,pooled,manipulation (pooled),"A little, i felt it wsn't providing me the concrete answer as much as alternate platforms. I asked more directly for the answer on more than one occasion.",UNCODED
+69ecb1819cd77515892fa2e3,pause-points,pooled,manipulation (pooled),I had to enter more prompts than usual,slowed_friction
+5e3c759575109a055e99b38a,pause-points,pooled,manipulation (pooled),not that much as it was not very helpful to be honest but rather destructive,UNCODED
+69f8b18fb41597c2c0ad0428,pause-points,pooled,manipulation (pooled),Because Ai was step by step it made me not read it at all as I was just looking for the specific answer I needed so the step by step was a little frustrating.,slowed_friction
+6a16282936d3887f0d5fee83,pause-points,pooled,manipulation (pooled),realised i had to prompt mutliple tomes to get asnswetr so i told it to do each case one by one,UNCODED
+5def9a14d2601a03546e81e1,pause-points,pooled,manipulation (pooled),"As the AI could only respond to one question at a time, I would ask a question which it would give an answer to, then re-ask the second question.",UNCODED
+5ec1b6036575405f2f634581,pause-points,pooled,manipulation (pooled),It didn't,no_change
+6a4395a81fed13bab18d322c,pause-points,pooled,manipulation (pooled),"it slowed me down which I found frustrating, the questions were difficult and it wasn't answering the way i wanted it to",slowed_friction
+5f4d4f3a2059689f1a2c33db,pause-points,pooled,manipulation (pooled),It made me ask questions with the statements individually rather than copy and pasting the entire question/statements.,UNCODED
+638070625c26e262f2163254,pause-points,pooled,manipulation (pooled),i began to ask for true or false answers to match what was demanded by the task and to cut out repeats of the senario,UNCODED
+66b0fee11fefcf5586763c55,pause-points,pooled,manipulation (pooled),"It made it more intentional, but also more frustrating at times",slowed_friction
+6a1c1fb42b5e1f493022bd67,pause-points,pooled,manipulation (pooled),"it did, it irritated me that AI couldn't do it properly",slowed_friction
+69ff44271a9ace738ae8b113,pause-points,pooled,manipulation (pooled),yes,UNCODED
+69f29515d1fe3f9e5661426b,pause-points,pooled,manipulation (pooled),it just meant I have to interact more,UNCODED
+6a09ed98e46b23c32ad77c35,pause-points,pooled,manipulation (pooled),it slowed me down a little nd I did go back and compare some of the answers with the data,slowed_friction
+63af557b3d4f219c3226b7d6,pause-points,pooled,manipulation (pooled),The step my step probably helped break things down a bit and gave smaller chunks of info for me to work through but I still didn't have the brain capacity to determine if the AI was accurate or not.,UNCODED
+6a1c7f17c07216b846c7acd4,pause-points,pooled,manipulation (pooled),"I replied to it before reading its responses, just to get it to finish all of it's thinking.",UNCODED
+69ff5f187b4fbf6b369fbe4d,pause-points,pooled,manipulation (pooled),I relied more on AI than I would usually.,UNCODED
+5bb5d4c9ac45e6000130a58f,pause-points,pooled,manipulation (pooled),"There were moments where i pushed for an answer, while i verfied the 2 respones to the statement i didnt examine how the final choice response's justification for that choice, i enjoy using prompts like council this, in claude, and i expect to use that more; give the final response then use the AI's as an antagonist to its response to verify it",more_careful
+6a20af2717f5d870ff6f4bd8,pause-points,pooled,manipulation (pooled),"Yes,",UNCODED
+6a02df6af4b0aa04e01b293d,pause-points,pooled,manipulation (pooled),"It provided some insight into the information provided, but I used an alternative use of the AI to help me answer and find out the information of the scenario more effectively.",UNCODED
+5f74a934c78e6208615393b7,pause-points,pooled,manipulation (pooled),it made me interact with AI more carefully instead of just accepting the answers they were giving me because i went with my logic and what seemed right to me,more_careful
+6a039e71511f493fa36e35cf,pause-points,pooled,manipulation (pooled),NA,no_change
+69eb527785170b639380861c,pause-points,pooled,manipulation (pooled),I aimed to get the answers by utilizing the follow up questions to those step by steps,UNCODED
+65c8d70512b2fc050e53d0d1,pause-points,pooled,manipulation (pooled),no i think it just made me more frustrated,slowed_friction
+6748d5757f25aa6f759b0fdd,pause-points,pooled,manipulation (pooled),it made me become more patient and understand how the ai processes things and understands them better when the information has been disected for it,UNCODED
+6a1ca50dc52e2130653c1d5d,pause-points,pooled,manipulation (pooled),na,no_change
+60537fdcda0ac05f1c59c57f,pause-points,pooled,manipulation (pooled),"I broke it down a little bit more, but I mostly copy and pasted the exercise questions.",UNCODED
+6a039eb0472ddda8704646aa,pause-points,pooled,manipulation (pooled),It didn't.,no_change
+6a05e8e197b8f213e1c10548,pause-points,pooled,manipulation (pooled),"It was annoying at first, but once seemed to work itself out.",slowed_friction
+6a147acd1b66ae1bb4057f80,pause-points,pooled,manipulation (pooled),it made me know that the ai was not able on its own to come to a conlusion so i guided it to the answer,UNCODED
+65e729bda61d35956dfd5316,pause-points,pooled,manipulation (pooled),I tried to help guide the AI,UNCODED
+675230603ce35dd4658c4dd0,pause-points,pooled,manipulation (pooled),It made me pay attention more and think about the type of questions I need to ask in order to get the answers I hoped,more_careful
+6a1e0745ad50e296a4ffec34,pause-points,pooled,manipulation (pooled),slower me down.,slowed_friction
+6a7374f530220c02fc990c8b,pause-points,pooled,manipulation (pooled),I will definitely will ask more questions.,slowed_friction
+5d8f8b062ff1bd0015a9c059,pause-points,pooled,manipulation (pooled),The AI seemed to remember more information as time went on.,UNCODED
+568aab53316b10000d50d76b,pause-points,pooled,manipulation (pooled),i used it more,UNCODED
+69e8df670508d24eaee76b66,pause-points,pooled,manipulation (pooled),ws a help,UNCODED
+5df6c8bd77f8654c718ee1d9,pause-points,pooled,manipulation (pooled),it changed in the way that the AI wanted to test the statements individually and not all of them at once.,UNCODED
+6a02ed5bd6acf52c07ab46fa,pause-points,pooled,manipulation (pooled),it helped break down the sense checking i had to do,more_careful
+6a15a91b3cb743236edebfbe,pause-points,pooled,manipulation (pooled),I had to change it to questions as it wouldn't answer the statement questions correctly.,UNCODED
+6a0a875862e9e69af20e91bb,pause-points,pooled,manipulation (pooled),It made me look more carefully at how the AI reached its answer rather than just accepting the final answer,more_careful
+6a05cf98c2fd3c0371091d73,pause-points,pooled,manipulation (pooled),It gave me some comparisons in terms of reasoning which slightly influenced my decision making in selecting the final answer.,UNCODED
+6a1c1871c37def832f8aec12,pause-points,pooled,manipulation (pooled),for me it was hinderance,UNCODED
+67658ce91a0ea2195ae7e09d,pause-points,pooled,manipulation (pooled),I definitely had to be more patient and get used to the approach,UNCODED
+67606d1000aaf43f68f723bc,pause-points,pooled,manipulation (pooled),no way,no_change
+6658b1491e88ec15902d5301,pause-points,pooled,manipulation (pooled),It was frustrating when the AI would focus on a non-important part of the scenario or question asked.,slowed_friction
+5ed2ad10a45ef20a9b1412eb,pause-points,pooled,manipulation (pooled),i didnt,UNCODED
+6a019bcbebf84c25dadd6759,pause-points,pooled,manipulation (pooled),I started to learn the how the AI worked and worked with it to come up with the answer,UNCODED
+6a0a1c14b6721d40f4ce941d,pause-points,pooled,manipulation (pooled),I think it was what I was expecting,UNCODED
+67703fbc861d8367775d5d66,pause-points,pooled,manipulation (pooled),"Yes, I had to be more patient than jumping straight to an answer but also made me rethink the wording of how i talk to ai",UNCODED
+603ce8db15614aaf5b15e0fe,pause-points,pooled,manipulation (pooled),I had to split up my questions more,UNCODED
+6a01b82647e5dd21cd05d8ee,pause-points,pooled,manipulation (pooled),It made me ask more specific questions and check each part of the answer instead of fully accepting their output. Each answer made me trust it less,trust_less
+6a00dc1c1475c019d0eca5c8,pause-points,pooled,manipulation (pooled),I trusted it less after it admitted it had made a mistake and got something wrong.,trust_less
+6a1c834ae50cf1d3c6a7b706,pause-points,pooled,manipulation (pooled),Asked it more questions rather than all in one go,slowed_friction
+6a1016e879dc2139b05a30a2,pause-points,pooled,manipulation (pooled),"yes, i have to follow the strategies/orders that AI offers me",UNCODED
+69c872281653bf01d32068cd,pause-points,pooled,manipulation (pooled),The order of the questioning,UNCODED
+69fdbb16148df1e63c3a38b1,pause-points,pooled,manipulation (pooled),It felt better to do this in stages.,UNCODED
+676ab826096d376d750459e4,pause-points,pooled,manipulation (pooled),YES I HAD TO PROMPT  FURTHER,UNCODED
+5eeb4ad567a40221fd8a1a04,pause-points,pooled,manipulation (pooled),"I then asked it for an answer in one sentence to summarise all the jargon,",UNCODED
+691711e3fae4be5b1a8022ed,pause-points,pooled,manipulation (pooled),it made it more transparent,UNCODED
+6a0c2b8a6827ece3df5b621a,pause-points,pooled,manipulation (pooled),It lead me with what to ask next which I went with,UNCODED
+6a174771734bda08a1f5ccd2,pause-points,pooled,manipulation (pooled),I think it makes you think for yourself more than other AI tools because it requires more involved direction,UNCODED
+69fd9c37b73502b67f736eef,pause-points,pooled,manipulation (pooled),saved me a lot of time,UNCODED
+6a22006608feebcc6c3d3e7d,pause-points,pooled,manipulation (pooled),yes it was different and depend on the scenario,UNCODED
+6a14b1a790658bd6f13f5eb4,pause-points,pooled,manipulation (pooled),"Changed a lot, I unterstood that more we interact to it, more data it has and we are more likely to get a right answer",UNCODED
+5e299d8c2e9dc4000be0fde0,pause-points,pooled,manipulation (pooled),"It made me question if the ai truely understood, at tiem si felt it disregarded questions",more_careful;trust_less
+6a25f628ee342d4413a3e075,pause-points,pooled,manipulation (pooled),It made me ask more questions,slowed_friction
+668a9e53e7690b3b64d48e92,pause-points,pooled,manipulation (pooled),"yes, I selected options it gave me",UNCODED
+6658f0a58f1ee667f4264a93,pause-points,pooled,manipulation (pooled),breaking down into smaller chunks so AI focused on one piece of information at a time,UNCODED
+6813af32a57bc43516a6101c,pause-points,pooled,manipulation (pooled),It made me engage more to help it understand what i want better,UNCODED
+670ff7a65beb0c8e83fe3fa3,pause-points,pooled,manipulation (pooled),n/a,no_change
+6a10b457d13d2d9e45d96676,pause-points,pooled,manipulation (pooled),it affected the order i asked things,UNCODED
+5ca6717bb54fe60001e22441,pause-points,pooled,manipulation (pooled),It didn't.,no_change
+60743e408fd768b1a939ed4c,pause-points,pooled,manipulation (pooled),it made me think about it more,more_careful
+66e40727571b9634abb36af0,pause-points,pooled,manipulation (pooled),"I found that very frustrating. Once I had enough information to make a decision I wanted to move on, but it felt very rigid in its approach.",slowed_friction
+69f892c99e68d83dff98d43f,pause-points,pooled,manipulation (pooled),helped me focus the information,UNCODED
+6a189309fb359f0ad0f6a529,pause-points,pooled,manipulation (pooled),it made me ask more specific questions,UNCODED
+691b9fedd4b881047aaf3b8e,pause-points,pooled,manipulation (pooled),"it made me add more prompt 
+s apart from the exercise and scenarios",UNCODED
+5edbd2c61d9e420b6b420343,pause-points,pooled,manipulation (pooled),It required a lot more reading and understanding and then tailoring the question in order to get an exact answer to my original question,UNCODED
+6a0185b7a86b0e9f056e3a18,pause-points,pooled,manipulation (pooled),It was very annoying to be honest,slowed_friction
+69f22f791b22ddcebf1931c2,pause-points,pooled,manipulation (pooled),I found the step by step reply thorough but a bit too complex at times. I would have preferred a straight answer. It also only answered one of the questions at a time so I had to ask it to answer the second one each time.,UNCODED
+6a270efd0c0ce956e0180ad8,pause-points,pooled,manipulation (pooled),It encouraged me to ask the AI to explain it's reasoning and verify and answer rather than relying on the first response. I used the Ai on my phone anyway for a few answers.,more_careful
+5a6c9ecfe70ca900017acfb9,pause-points,pooled,manipulation (pooled),it made it quicker and more organised.,UNCODED
+69eca51e4cdaf82e2ded7a9f,pause-points,pooled,manipulation (pooled),It didn't help me to figure out the answer alongside the AI explanation,UNCODED
+6a0c39b59f6146b344d7ceba,pause-points,pooled,manipulation (pooled),made me go over it more myself,UNCODED
+6a0f04f06efd948bd17ca76c,pause-points,pooled,manipulation (pooled),Made the process longer,UNCODED
+6a04cd59f9b7f1ac48082446,pause-points,pooled,manipulation (pooled),"it annoyed me, I prefer it to just answer the questions I ask",slowed_friction
+6a0e2f70d9e17e0c87420ebf,pause-points,pooled,manipulation (pooled),"Yes, it made it easier to problem solve.",UNCODED
+6a0334858f8c934d3d0a11ce,pause-points,pooled,manipulation (pooled),"Yes, it did because I have to read each step at a time",UNCODED
+6a4a3ec3caf0957b76a1e073,pause-points,pooled,manipulation (pooled),Was slower but made me use the AI more to prompt it,UNCODED
+677302ad15f7e3d0c1725fef,pause-points,pooled,manipulation (pooled),I didn't like the step by step reply since it was very confusing and time consuming,slowed_friction
+6a1b258ff8d3406f726eea12,pause-points,pooled,manipulation (pooled),It seemed to get a lot more incorrect or do things I didn't ask of it. I had to check it a lot more and it actually confused my own working out.,UNCODED
+5a6adef80384310001944ba8,pause-points,pooled,manipulation (pooled),I dont trust ai,UNCODED
+666640831e2f8d963f8c528f,pause-points,pooled,manipulation (pooled),"I didn't really like it. It felt like I was being cordened off and not really listened to by the AI, and I was restricted, like a game of chess or something I guess? It frustrated me because it became tunnel visioned and didn't really appreciate that I was trying to reason and look further into things outside of the boundary it was stuck to.",slowed_friction
+5e35408359b1364ee5b596fc,pause-points,pooled,manipulation (pooled),I don't feel like it changed my interaction,UNCODED
+6a16a850d2171801a188dc1c,pause-points,pooled,manipulation (pooled),It did make trust the Ai more,trust_more
+69fe00b34adec4f226d8b9c4,pause-points,pooled,manipulation (pooled),i preferred to just trust it and let me have the final answers but this wasnt available,UNCODED
+664f594f41a618628b969bdf,pause-points,pooled,manipulation (pooled),It just infuriated me as i was giving it all of the information but it was only giving me small bits back,UNCODED
+5c158ec0c6b01c0001bcfa72,pause-points,pooled,manipulation (pooled),Yeah it made it a lot longer as most of the time Ive done the steps in my head already.,UNCODED
+6a0f8efb0cc2316c82861f4b,pause-points,pooled,manipulation (pooled),Made me more aware that am using AI to complete a task.,more_careful
+646e53ef6c1dac9a13cd2985,pause-points,pooled,manipulation (pooled),Trying to ask it one question/step at a time,UNCODED
+6a2517dadd6e85c29e03e6f7,pause-points,pooled,manipulation (pooled),It made it potentially a bit longer but allowed me to fine tune things better,UNCODED
+66a0d2b35975ab1d10e81ebb,pause-points,pooled,manipulation (pooled),It annoyed me,slowed_friction
+609911e00dd4843e39cb88ac,pause-points,pooled,manipulation (pooled),It made me break it down and then it gave me good reasoning for each step,UNCODED
+5b9ca13a06114100010699b8,pause-points,pooled,manipulation (pooled),I felt as though it took a lot more effort and would have preferred for it to have given me the answer straightaway without having to do it step by step.,slowed_friction
+6a05d361e5c107c390a6e223,pause-points,pooled,manipulation (pooled),It helped me to see the reasoning of the AI. I had to work in a step by step order myself.,UNCODED
+69e941fec7b56938303e7a3e,pause-points,pooled,manipulation (pooled),It did not change anything.,no_change
+628f7669ee68aabf3930123b,pause-points,pooled,manipulation (pooled),It was annoying having to prompt it all the time it wouldn't solve the problem in one go,slowed_friction
+65107641138d7e50e2a290d0,pause-points,pooled,manipulation (pooled),It made me frustrated that it wouldn't just give me the answer straight away,slowed_friction
+6a034f612dd48f90f2baee7a,pause-points,pooled,manipulation (pooled),It made me slow down my approach and really think of the questions and answers in a learning manner — to show the working out/reasoning,slowed_friction
+673b694b8d15e20276e3ce1a,pause-points,pooled,manipulation (pooled),None.,no_change
+67d18f41f2533fd38b55a10f,pause-points,pooled,manipulation (pooled),it didnt,no_change
+69ec7a8369d0eaa4a16a121c,pause-points,pooled,manipulation (pooled),it made me slow down and think more,more_careful;slowed_friction
+5d131f87906ece001a15fb92,pause-points,pooled,manipulation (pooled),"it made me change my questions to the AI,",UNCODED
+69fc826bd8e65c7cf15b35a7,pause-points,pooled,manipulation (pooled),"I found the step by step reply slightly frustrating so instead of giving fuller instructions, I started giving shorter replies to receive and answer as quick as possible.",slowed_friction
+5f62904e937bc130e1d9faaa,pause-points,pooled,manipulation (pooled),It made me really frustrated!,slowed_friction
+69fb7121bda1452e5ec319e7,pause-points,pooled,manipulation (pooled),It resulted in me asking the AI more questions than I normally would have if there was no step-by-step reply.,slowed_friction
+6694f651114152694e96d7c4,pause-points,pooled,manipulation (pooled),made it easier to follow the reasoingng process. allowed for quicker verification and spot any errors that may have shown up,UNCODED
+5b5f15f2fc072a00017da73d,pause-points,pooled,manipulation (pooled),whether or not we interpreted the question the same way. Some questions or scenarios were ambiguous with no option to clarify,UNCODED
+62b437a2dbff0b6b3d0121e4,pause-points,pooled,manipulation (pooled),NA,no_change
+66b65559efe3c1a9537ffdbc,pause-points,pooled,manipulation (pooled),It made it harder to use the AI as I had to break down my questions.,UNCODED
+6a146da67998f9a45a214595,pause-points,pooled,manipulation (pooled),it help me alot in my interreaction with AI,UNCODED
+69ff99e1cd9b013439f9530d,reflection-task,pooled,manipulation (pooled),It had me thinking about what my thoughts were on the AI chat.,UNCODED
+5dcfaad2dd9a740c2493fc28,reflection-task,pooled,manipulation (pooled),It made me have less confidence in myself because I struggled and also the AI because it gave me conflicting answers,UNCODED
+5c6e60b04e08ad00018cc995,reflection-task,pooled,manipulation (pooled),I only discovered these part way through. They were helpful as I could recall the questions in the earlier questions,UNCODED
+6a43ebbf2ae2c486a86a665b,reflection-task,pooled,manipulation (pooled),Yes It did,UNCODED
+676053613a0bc18718ea31c1,reflection-task,pooled,manipulation (pooled),it didnt,no_change
+5adc587be0feeb0001ca9d0a,reflection-task,pooled,manipulation (pooled),It made me ensure that I truly understood the reasoning for my answers so that I could justify them.,UNCODED
+663ba23f097e7f91190f09f4,reflection-task,pooled,manipulation (pooled),Not at all,no_change
+6a20a9015099db8796ac2b42,reflection-task,pooled,manipulation (pooled),it helped me notiicng the timing constraints and verify that myt reasoning was consistient across the task,more_careful
+576fc3462984e70001a97fc3,reflection-task,pooled,manipulation (pooled),I tried to take in more of the wording so that I could make my justification for the answer clearer.,UNCODED
+6a1b645c7ff6912c3579eeae,reflection-task,pooled,manipulation (pooled),It made it clearly for me to understand how I understood the questions.,UNCODED
+6a33b6f5e3d9dff938626d9d,reflection-task,pooled,manipulation (pooled),none,no_change
+5efb4cfd797e7108c3823ae5,reflection-task,pooled,manipulation (pooled),It made me aware of the need to do a lot of the leg work myself,UNCODED
+60e39059c89cadf89f4e29eb,reflection-task,pooled,manipulation (pooled),I felt like I shouldn't use the ai because it meant that my reflections would be poor as I was relying on the technology to do the task,UNCODED
+65651805d1afb42ba1a55476,reflection-task,pooled,manipulation (pooled),It helps reviewing the answers,UNCODED
+6a15a776d6937e1be30e13ab,reflection-task,pooled,manipulation (pooled),It made me realise that there was more than one way to complete the task: I was worried that my reliance on AI would mean my submission would be rejected for being invalid.,UNCODED
+6a0a3aad897b5c34a76e4f98,reflection-task,pooled,manipulation (pooled),Not much.,no_change
+6a08f7fa9599d060886bef37,reflection-task,pooled,manipulation (pooled),Writing justifications exposed hidden assumptions,UNCODED
+6a20c2beaba792630fa44aea,reflection-task,pooled,manipulation (pooled),"A little, I was not sure during the task if the AI agent was actually being helpful, or giving me some false information. I think it was possible the task was to see how much we trust or rely on Ai withouth cross checking information.",UNCODED
+697b9cf8538b1071d7c63b06,reflection-task,pooled,manipulation (pooled),it just was annoying to write and answer it,slowed_friction
+5fbfffc4e214a60ab1b745fd,reflection-task,pooled,manipulation (pooled),No,no_change
+5b35824a975e260001e9b7a6,reflection-task,pooled,manipulation (pooled),"It didn't really at all, the AI agent and myself seemed to merge like we were on the same team or co-workers, it's difficult to fully explain, it was more of an experience, something native, like an inferior iphone or likewise.",UNCODED
+6601b76d13817c7dc3117d2a,reflection-task,pooled,manipulation (pooled),Maybe it was ok to be frustrated after all I dont feel so bad now having filled in the post questionnaire,slowed_friction
+6a17294fd5b8e7f50710573e,reflection-task,pooled,manipulation (pooled),I understand that I really need to step up my own organization game.,UNCODED
+5a4996b835c9d50001fdcdbf,reflection-task,pooled,manipulation (pooled),IT DIDINT,UNCODED
+680e37dc68c49de2410f133d,reflection-task,pooled,manipulation (pooled),As I went through the study I started to realise what I was going to be asked and it made me slow down and think about how I was coming to conclusions and how to put them into words.,more_careful;slowed_friction
+6a06f60afee0417ae606bca1,reflection-task,pooled,manipulation (pooled),i still dont understand the task very well it would have been impossible with AI,UNCODED
+69f51ac40b8325daeec5b518,reflection-task,pooled,manipulation (pooled),i understood it more as some of the scenarios were very long and detailed and there was no way i could remember it all,UNCODED
+6a06362b6da286172b5a7281,reflection-task,pooled,manipulation (pooled),The post task reflection was hard to focus on when the questions were no longer present and whilst constantly switching between question contexts,UNCODED
+67882337daf76c4bcb799f5b,reflection-task,pooled,manipulation (pooled),not much,no_change
+6a1497259d26df68f0217f45,reflection-task,pooled,manipulation (pooled),Not especially,UNCODED
+665c302327136dcdb0c4a2e0,reflection-task,pooled,manipulation (pooled),it did not change anything,no_change
+651abcc13ecbad9f2062ac4f,reflection-task,pooled,manipulation (pooled),I was unsure of some of my answers and relied upon the AI though repeatedly asked it to recheck its answers,UNCODED
+637e3bedd8c3601a81a65889,reflection-task,pooled,manipulation (pooled),It made me consider other ways of achieving the correct outcome and reminded me of the need to compile a fuller justification for my answers.,more_careful
+6a0620a6000e5c5d2bed8b50,reflection-task,pooled,manipulation (pooled),not too much,UNCODED
+6980965c3d62835f7947c33e,reflection-task,pooled,manipulation (pooled),It didn't. I was just hurrying through that bit after the first 5 problems.,UNCODED
+66358d404b95112d53513391,reflection-task,pooled,manipulation (pooled),It didnt - I am exhausted by this task. So many scenarios to run in insufficient time :-(,UNCODED
+59ff8226ab721b0001ef6e61,reflection-task,pooled,manipulation (pooled),Without seeing the AI response it was not always easy to remember the full justification.,UNCODED
+63fbf0e3b18cc14adc0dbfb6,reflection-task,pooled,manipulation (pooled),It made understanding the task important to explain how it was worked out.,UNCODED
+6a74c432d1f8e14197cba20c,reflection-task,pooled,manipulation (pooled),"Very much, as those tasks are very hard, and without AI's direction, it takes a lot of time to cross-check scenarios with different probabilities.",UNCODED
+6a5f42d69b1ede78e6865ae2,reflection-task,pooled,manipulation (pooled),i'm not sure to be honest,UNCODED
+6a0a1d0620ab03bd3ef2d77a,reflection-task,pooled,manipulation (pooled),This did not change the way I task. I often use copy and paste to make sure that the AI has the full details when doing tasking.,no_change
+6a024f725261d2958f108b09,reflection-task,pooled,manipulation (pooled),none,no_change
+65099be3415f7ca701bb2a0b,reflection-task,pooled,manipulation (pooled),I think it was to see how I would feel after completing a task repeatedly and if this increased my use of AI in the later stages of the task compared to the beginning,UNCODED
+6a04ae863ac91cfca3e95923,reflection-task,pooled,manipulation (pooled),"i dont use ai often as i can usually handle them on my own, but i feel like i have abused ai in this task as i had to use ai no matter what",UNCODED
+66620cf0297a4b3c61f5a8ee,reflection-task,pooled,manipulation (pooled),no,no_change
+61fa90b1d42cb19beec491c3,reflection-task,pooled,manipulation (pooled),I had to be more involved in understanding the scenarios than if id not have reflected at all,UNCODED
+59e74a640fb3a90001bd9867,reflection-task,pooled,manipulation (pooled),i started copying the ai answers for the post reflection,UNCODED
+6a01c9b02847d30e43b0a264,reflection-task,pooled,manipulation (pooled),Made me consider how the AI was used and it's reliability,more_careful
+669e58ff5a1c84c90a37a962,reflection-task,pooled,manipulation (pooled),It made me think about whether the AI could think the same as a person,more_careful
+6a0779a03984ef197bcbae39,reflection-task,pooled,manipulation (pooled),"I found it hard to remember exactly what I had done. I wish I could have gone back to check,",UNCODED
+69f5a188951962a8f4061267,reflection-task,pooled,manipulation (pooled),AI helped justify my reasoning,UNCODED
+5b898547990403000114de1d,reflection-task,pooled,manipulation (pooled),"As  I said above, I think at first I thought it was me just being able to use AI rather than understand the specifics I was reading about, then I realised I was meant to be taking more in and understanding it all so I tried harder after that first one to understand the scenario's and the answers the AI was giving me.",UNCODED
+6a0e3b3d4d59d3110d005558,reflection-task,pooled,manipulation (pooled),I do not think it was about planning. I think it was about how we interact with the machine and about levels of trust and accountability.,UNCODED
+6a1f209b48870c2ea2929806,reflection-task,pooled,manipulation (pooled),I couldn't even remember my justifications so I just felt more confused and like I didn't know why I'd done what I did,UNCODED
+5e695632d40a492070942196,reflection-task,pooled,manipulation (pooled),NO,no_change
+6346e69ebd7bbf2cda8fa8e0,reflection-task,pooled,manipulation (pooled),"It did not really change the way i understand the task,",no_change
+6a0f4a69f9ccf5a7b2a53a31,reflection-task,pooled,manipulation (pooled),It made me realise without AI this task would be very hard.,UNCODED
+5cb6a087c515b0001a70d108,reflection-task,pooled,manipulation (pooled),none,no_change
+6a00cc06a18f6650215fb5b2,reflection-task,pooled,manipulation (pooled),n/a,no_change
+6a1efce6eacd6a04721457bb,reflection-task,pooled,manipulation (pooled),it didnt,no_change
+6736f802bbe77d3d5eb07ca4,reflection-task,pooled,manipulation (pooled),"A little, but I was entering the unknown so to speak",UNCODED
+69fcc7490d4d25bd8b8260d0,reflection-task,pooled,manipulation (pooled),more than half the time,UNCODED
+6a00f5017f05cbe927628050,reflection-task,pooled,manipulation (pooled),it makes me realise how much more useful ai actually is,UNCODED
+5bdc609519b9ba000157d122,reflection-task,pooled,manipulation (pooled),n/a,no_change
+6a1dbe60c18ee2a0e3be9960,reflection-task,pooled,manipulation (pooled),It helped me understand how AI works a little but more and changed my opinion slightly.,UNCODED
+69161c55f85eb185becef67b,reflection-task,pooled,manipulation (pooled),I tried to double check my answers before,more_careful
+5d20f6cbc1dc1c0001162dd5,reflection-task,pooled,manipulation (pooled),it changed nothing,UNCODED
+6a0700dd7ae6caa65ab25c47,reflection-task,pooled,manipulation (pooled),"The post task reflection was awful. It was an utterly mind numbing task that served to do nothing except test my own mental memory of the task since I couldn't even see my own working out. The questions for reflection were so rigid I felt like I was just finding different ways of writing the same stuff, and having a minimum of 100 characters was utterly irrelevant, useless and completely arbitrary",UNCODED
+6a15c26368d15a5feacfdd52,reflection-task,pooled,manipulation (pooled),I mean I'd just say it was clearly making me justify my answers in 100 characters minimum and anyone like me who largely relied on the AI would struggle to fill those gaps. Maybe the task was just to see if people would start to think independently after a while,UNCODED
+612198f856c9f4f2f02f7046,reflection-task,pooled,manipulation (pooled),I think it made me think about why I was choosing the answers I was picking.,more_careful
+69fc7f3c38ab2a03de2b881e,reflection-task,pooled,manipulation (pooled),I don't believe it did for this instance.,UNCODED
+5ec3bcec194de722b74d9533,reflection-task,pooled,manipulation (pooled),Strange answer but I now believe this task was specifically asking me to test an organisation model.,UNCODED
+6140ce04fc55c3149baf0f8b,reflection-task,pooled,manipulation (pooled),"it did make me look at organising it different,",UNCODED
+6a21bca6b2d44f85d2956acb,reflection-task,pooled,manipulation (pooled),It made me feel like I rely a lot on ai to give me courage to my own answers,UNCODED
+5883d68d300c0b000113db56,reflection-task,pooled,manipulation (pooled),It made me think about the way I was approaching the problems and how efficently I was using the AI,more_careful
+67269f439696d166fbb74e09,reflection-task,pooled,manipulation (pooled),No,no_change
+6a1c823e2fcad33e33e5c7f9,reflection-task,pooled,manipulation (pooled),"help me slow down, understand every rule and double checking.",more_careful;slowed_friction
+69c2c2e3d95e188fd657d9db,reflection-task,pooled,manipulation (pooled),The tiredness of typing in post task reflection increased my rely on AI answers to reduce my pressure.,UNCODED
+6165467eb6321c819c2edb0a,reflection-task,pooled,manipulation (pooled),It made me feel quite stupid/inadequate as I relied a lot on the AI.,UNCODED
+6a74c64e0aadf8f52443868a,reflection-task,pooled,manipulation (pooled),"Yes, by confidence level",UNCODED
+69efb9b420360a885dd4433c,reflection-task,pooled,manipulation (pooled),It was maybe a bit too detailed but it made me think about whyI wastrusting the AI and whether it was accurate.,more_careful
+5a7226d9f660ae0001a9a547,reflection-task,pooled,manipulation (pooled),It made me think about how much I relied on the AI or myself in the task,more_careful
+60f816ff1fa74fcfab532378,reflection-task,pooled,manipulation (pooled),"There isn't anything within this reflection which has changed the understanding of the task. The task was very long winded, I thought the questions about each scenario would be grouped together to make it easier to refer back but they weren't so I had to start afresh every questions and it took such a long time which was frustrating.",slowed_friction
+66598c98a133d3735cdc4fdc,reflection-task,pooled,manipulation (pooled),It just made me feel bad for using the AI tool in full to get the answer as I had no reflection of my own most of the time,UNCODED
+66def1304e37adb3349f648f,reflection-task,pooled,manipulation (pooled),"I am not sure that it did, I just got better with the task as I went on",UNCODED
+69f226b2032dea50182cbd55,reflection-task,pooled,manipulation (pooled),It mostly validated that way that I approached each task.,UNCODED
+5eb29fdddac67500082c1089,reflection-task,pooled,manipulation (pooled),"it didn't change the way i looked at the task, i used the same method for every question so i felt like i was repeating myself a lot on the reflections.",no_change
+6a00c8f030917dccf9734123,reflection-task,pooled,manipulation (pooled),"I didn't find it helpful, after the fisrt 3-4 questions i just found it irritating and  waste of time typing teh same thing over and over and over",slowed_friction
+6775d2dc10021f9d74ab65aa,reflection-task,pooled,manipulation (pooled),It made me question how confident I was in the task and my ability to explain the rationale I gained from the AI advice.,more_careful;trust_less
+5d888c72662f2c0017f6339a,reflection-task,pooled,manipulation (pooled),"I don't think it did, I felt like maybe I should have done more of my own work with less reliance on AI as justifying the answer was hard as I was mostly influenced by the AI assistant.",UNCODED
+69f24574b54c25c94cb2a42a,reflection-task,pooled,manipulation (pooled),I was able to understand what was expected of me from this exercise.,UNCODED
+69fcc05f140c19957cbdc016,reflection-task,pooled,manipulation (pooled),"I'm too annoyed to think about it right now, it was mentally draining",slowed_friction
+6a74cbaa67f22fab4c1b8a2e,reflection-task,pooled,manipulation (pooled),it was new and different for me.,UNCODED
+69f22308a09515c4b0bb3999,reflection-task,pooled,manipulation (pooled),It made me look at it in a different way,more_careful
+69ffa80077ddde4fae81232d,reflection-task,pooled,manipulation (pooled),N.A,UNCODED
+69fe8d0b1b03e0d3432cc2ac,reflection-task,pooled,manipulation (pooled),It make me feel like i had to remember the AI reasoning more.,UNCODED
+64b53cb9f438ca54a2ca5065,reflection-task,pooled,manipulation (pooled),I don't think it did,UNCODED
+6a0c84116baeec20e6a2daeb,reflection-task,pooled,manipulation (pooled),"It didn't very much. I understand that this task is probably more about the AI assistant than my planning skills, which is evident because my planning skills are poor and I still qualified for the study.",UNCODED
+69385c6d6d45913c278c939c,reflection-task,pooled,manipulation (pooled),It didn't.,no_change
+6a0866997112d0a40ec6f298,reflection-task,pooled,manipulation (pooled),It prompted me to structure my reasoning clearly and catch subtle timing or logic gaps in the AI's advice.,UNCODED
+6a13567c2708fe5a72d06e20,reflection-task,pooled,manipulation (pooled),"It has made me think that the AI is more trustworthy than originally thought, and that this task was to see how my thoughts would change before and after the task.",more_careful;trust_more
+67803b5508f3d995ef13696b,reflection-task,pooled,manipulation (pooled),"It got me thinking more about my relationship to the Ai - whether i was using it to think for me, using it to back up my answers or working with it or whether i felt like i was training it.",UNCODED
+6a06492bd18cc8c960c61577,reflection-task,pooled,manipulation (pooled),it helped me recognise the importance of checking each condition carefully and not relying on an answer without comparing it with the info given in the scenario,more_careful
+69f7dbef9b0fbd9afdf8cfd0,reflection-task,pooled,manipulation (pooled),"SO HARD, AND BIG PRESSURE BECAUSE THE TIME 47 MINUTES IS NOT ENOUGH AT ALL",slowed_friction
+6a0f4f1cd8a7e2077d91f7b0,reflection-task,pooled,manipulation (pooled),"The hardest part, on first few question I was aware then the task got tougher my brain also getting drain lol.",UNCODED
+6a1c909acac501fda8f70a1f,reflection-task,pooled,manipulation (pooled),"Yes.. And in fact, at one point, i realized i chose wrong answer which i mentioned later in answer justification.",UNCODED
+6a0e73f23463fbfd2d3fad26,reflection-task,pooled,manipulation (pooled),yes needed more concentration,UNCODED
+59e879752f63d30001c8fb9f,reflection-task,pooled,manipulation (pooled),I'm glad it asked me about how stessful it was,UNCODED
+6a01836a5b9dd1d277f9bb9b,reflection-task,pooled,manipulation (pooled),no,no_change
+6a258e58da162873e87be594,reflection-task,pooled,manipulation (pooled),"I think I read the scenario and consider what I feel is correct but ask the model and when it gives me a suggestion that contradicts what I think, I ask it again",UNCODED
+6a0391221d9e1acf4cddf176,reflection-task,pooled,manipulation (pooled),no,no_change
+65537e14439274fe5036b4d2,reflection-task,pooled,manipulation (pooled),It didnt make a difference to how i saw the task,no_change
+63d7c110ae88487271c4bfd1,reflection-task,pooled,manipulation (pooled),"Not hugely, but it reminded me that it was prob set up to make some mistakes to see if I was checking.",UNCODED
+666ead197fa250fa7cffe77a,reflection-task,pooled,manipulation (pooled),it didn't,no_change
+69fcf284ba393d763498206c,reflection-task,pooled,manipulation (pooled),it did not,no_change
+69e77eeca0f0281b1d24813f,reflection-task,pooled,manipulation (pooled),left me totally confused if im being honest,UNCODED
+69e7cca9182bc6179eefff1d,reflection-task,pooled,manipulation (pooled),no difference.,no_change
+6a0cbcf2dfec28ecd231ff80,reflection-task,pooled,manipulation (pooled),no,no_change
+66d4407f31981698998d25d8,reflection-task,pooled,manipulation (pooled),IT did very well,UNCODED
+59269aac7724de000109190f,reflection-task,pooled,manipulation (pooled),not sure,UNCODED
+6a202e14d9aec81592aba952,reflection-task,pooled,manipulation (pooled),It made me more careful with my choices and forced me to double check my logic behind my decisions .,more_careful
+6a1ca4ab0a23bbbf31ce1110,reflection-task,pooled,manipulation (pooled),None,no_change
+665ed3e9a6d856341025d5e1,reflection-task,pooled,manipulation (pooled),Because I had to really check and understand the justification,UNCODED
+5b9d57e5737d030001ad2cbf,reflection-task,pooled,manipulation (pooled),"I HATED the post task reflection, what w as of time having to type 100 characters EVERY TIME",UNCODED
+69f3b68053fe890f8a646b79,reflection-task,pooled,manipulation (pooled),It didnt really,no_change
+5a4574fb817d1800018d1635,reflection-task,pooled,manipulation (pooled),It hasn't.,UNCODED
+6a21e26cfd79d5e984741038,reflection-task,pooled,manipulation (pooled),not much,no_change
+5db8ffe349e506000ab230e2,reflection-task,pooled,manipulation (pooled),Not at all,no_change
+6a01a4b08b201b568f23c56e,reflection-task,pooled,manipulation (pooled),"It confirmed that AI is frustrating and very easy to just assume is correct, and when having to use it, a task is so much more tiring as you effectively have to do it twice",slowed_friction
+664a0d8b5ef52adae600c9fa,reflection-task,pooled,manipulation (pooled),Not really very much,no_change
+69fa15c79a2799256f5942b5,reflection-task,pooled,manipulation (pooled),It made me think about how I tackle problems,more_careful
+6a218fa8083eb457d008e2b4,reflection-task,pooled,manipulation (pooled),It was muchh harder than I thought. I didnt like that fact I had to use AI so much.,UNCODED
+63e68adecf06a17a744aad3c,reflection-task,pooled,manipulation (pooled),It made no change to how I understood the task.,no_change
+5982eef79dfc3e00011d81e0,reflection-task,pooled,manipulation (pooled),It made me rethink my original answers.,UNCODED
+69f48e4739570aa2f9efbcc1,reflection-task,pooled,manipulation (pooled),The post reflection task made me think that the point of the task was to become increasingly frustrated and inpatient with the task and to rely on AI more in the later questions.,more_careful;slowed_friction
+64481bca476d6bfbae2066e2,reflection-task,pooled,manipulation (pooled),in a positive way,UNCODED
+6a1bc766ef0d7920efdec396,reflection-task,pooled,manipulation (pooled),It was a lot more complicated than i imagined before starting this.,UNCODED
+69f4be9a3c29e1891011777b,reflection-task,pooled,manipulation (pooled),I should have tried harder to answer myself,UNCODED
+671c1c699ca32031a83014e8,reflection-task,pooled,manipulation (pooled),I fully used AI to scan through the information and find the relevant parts needed to work out the answer. 100% AI used.,UNCODED
+6a46c4af0e50130ea46ff2e5,reflection-task,pooled,manipulation (pooled),"It made me more aware of using the AI to check it's own work, provide the justification and outline the steps it took.",more_careful
+6a05f99c631ebdf67b5a0e72,reflection-task,pooled,manipulation (pooled),it helped me understand the task and how it worked,UNCODED
+69f3ea80805d1a5c20d5dc2d,reflection-task,pooled,manipulation (pooled),"At the end, and I wish I did this at the start, I wish I would have copied and pasted the justifications from AI as that was probably more what you were looking for.",UNCODED
+680e1b9a36b987121bbc9c9a,reflection-task,pooled,manipulation (pooled),it didn't really have an influence as i didn't have time to reflect further,UNCODED
+6a1dafb1d5c6c593aebccf80,reflection-task,pooled,manipulation (pooled),I'm not really sure it did but I'm not sure.,UNCODED
+6a15dcd14c68c56fac0960da,reflection-task,pooled,manipulation (pooled),the more we did the more I realised I could trust the AI.,UNCODED
+63d3fb730f03adf8b4a28a37,reflection-task,pooled,manipulation (pooled),It did not really change the way I understood the task,no_change
+68a5eefd236f1c08d08ffce6,reflection-task,pooled,manipulation (pooled),The task took significantly longer than what I expected.,UNCODED
+5a402a0258be2b0001983b5e,reflection-task,pooled,manipulation (pooled),no change in my understanding,no_change
+69ef97b25c6d974beccd7e7b,reflection-task,pooled,manipulation (pooled),It did not,no_change
+6674bd2b56aae0985600d533,reflection-task,pooled,manipulation (pooled),"Not really, I think I just struggled to understand the task questions.",UNCODED
+62d6f7750e080077c33e150b,reflection-task,pooled,manipulation (pooled),no.,no_change
+69fc78f4d53d5c9d17e65e46,reflection-task,pooled,manipulation (pooled),made me think more about how i came to that answer,more_careful
+6a0b69810f6ce3f1814295e2,reflection-task,pooled,manipulation (pooled),The post reflection made me realise how strong AI was compared other myself but it couldn't necessarily work things out properly without accurate human instruction.,UNCODED
+6299f89b3e1728339a42725a,reflection-task,pooled,manipulation (pooled),Perhaps it was designed to test my capabilities and how much I would rely on AI when feeling overwhelmed.,UNCODED
+6a0588c47fa42e9df12e0ea9,reflection-task,pooled,manipulation (pooled),It enphasised how much i relied on th AI,UNCODED
+6a05b83fc83d531b41447965,reflection-task,pooled,manipulation (pooled),After ignoring the Ai inputs i could then think of a solution that made sense to me,UNCODED
+5994d7d9c825cf0001d7dd30,reflection-task,pooled,manipulation (pooled),It didn't really as I didn't always read it,no_change
+66eada82e2a59d472d2dd086,reflection-task,pooled,manipulation (pooled),it didnt,no_change
+6a1e72ab2466d2972cce1610,reflection-task,pooled,manipulation (pooled),didnt,no_change
+60b7d053a787ce9076e74227,reflection-task,pooled,manipulation (pooled),I think I am realising that the AI might not have been correct immediately and maybe if I pushed back it would've potentially changed its answer to some of them.,UNCODED
+69f47c9ad9e8281561903d39,reflection-task,pooled,manipulation (pooled),It made me re question whether what I was doing was right,UNCODED
+6a1cb568ab1871e6d6041a6e,reflection-task,pooled,manipulation (pooled),it did really have an effect,UNCODED

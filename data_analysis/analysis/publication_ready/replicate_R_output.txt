@@ -1,0 +1,219 @@
+R replication of the paper's inferential statistics
+N = 917 ; per condition: 187 182 181 184 183 
+
+===== Estimation error ( absolute_estimation_error ) =====
+ANOVA: F(4, 912) = 11.08, p = 8.85e-09, omega^2 = 0.042
+Welch ANOVA (robustness): F(4, 455.5) = 11.87, p = 3.48e-09
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 7.104e+05
+Tukey HSD:
+                                 diff    lwr    upr p adj
+ai-reliability-ai              -1.071 -1.733 -0.409 0.000
+alternatives-ai                -1.461 -2.124 -0.798 0.000
+pause-points-ai                -0.808 -1.468 -0.148 0.008
+reflection-task-ai             -0.390 -1.051  0.271 0.490
+alternatives-ai-reliability    -0.390 -1.058  0.277 0.499
+pause-points-ai-reliability     0.262 -0.402  0.927 0.817
+reflection-task-ai-reliability  0.681  0.016  1.347 0.042
+pause-points-alternatives       0.653 -0.013  1.318 0.058
+reflection-task-alternatives    1.071  0.405  1.738 0.000
+reflection-task-pause-points    0.419 -0.245  1.082 0.419
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =  -4.41, p = 1.34e-05, g = -0.46 [-0.66, -0.25]
+  alternatives     t(366) =  -6.29, p = 9.05e-10, g = -0.65 [-0.86, -0.44]
+  pause-points     t(369) =  -3.20, p = 0.00151, g = -0.33 [-0.54, -0.13]
+  reflection-task  t(368) =  -1.53, p = 0.127, g = -0.16 [-0.36, +0.05]
+
+===== Confidence discrimination ( confidence_discrimination ) =====
+ANOVA: F(4, 912) = 8.30, p = 1.41e-06, omega^2 = 0.031
+Welch ANOVA (robustness): F(4, 452.0) = 8.08, p = 2.7e-06
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 4543
+Tukey HSD:
+                                 diff    lwr    upr p adj
+ai-reliability-ai               5.398  2.165  8.632 0.000
+alternatives-ai                 3.254  0.016  6.491 0.048
+pause-points-ai                 0.799 -2.425  4.024 0.961
+reflection-task-ai             -0.234 -3.463  2.995 1.000
+alternatives-ai-reliability    -2.145 -5.404  1.115 0.375
+pause-points-ai-reliability    -4.599 -7.845 -1.353 0.001
+reflection-task-ai-reliability -5.632 -8.883 -2.382 0.000
+pause-points-alternatives      -2.454 -5.705  0.797 0.237
+reflection-task-alternatives   -3.488 -6.743 -0.232 0.029
+reflection-task-pause-points   -1.033 -4.275  2.208 0.907
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =   4.78, p = 2.56e-06, g = +0.50 [+0.29, +0.70]
+  alternatives     t(366) =   2.72, p = 0.00677, g = +0.28 [+0.08, +0.49]
+  pause-points     t(369) =   0.74, p = 0.461, g = +0.08 [-0.13, +0.28]
+  reflection-task  t(368) =  -0.25, p = 0.806, g = -0.03 [-0.23, +0.18]
+
+===== Score ( actual_score ) =====
+ANOVA: F(4, 912) = 11.49, p = 4.16e-09, omega^2 = 0.044
+Welch ANOVA (robustness): F(4, 455.4) = 9.44, p = 2.44e-07
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 1.506e+06
+Tukey HSD:
+                                 diff    lwr    upr p adj
+ai-reliability-ai              -0.391 -0.884  0.103 0.194
+alternatives-ai                -0.373 -0.867  0.121 0.236
+pause-points-ai                -1.083 -1.575 -0.591 0.000
+reflection-task-ai             -0.048 -0.540  0.445 0.999
+alternatives-ai-reliability     0.018 -0.480  0.515 1.000
+pause-points-ai-reliability    -0.692 -1.188 -0.197 0.001
+reflection-task-ai-reliability  0.343 -0.153  0.839 0.323
+pause-points-alternatives      -0.710 -1.206 -0.214 0.001
+reflection-task-alternatives    0.326 -0.171  0.822 0.379
+reflection-task-pause-points    1.035  0.541  1.530 0.000
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =  -2.18, p = 0.0301, g = -0.23 [-0.43, -0.02]
+  alternatives     t(366) =  -2.13, p = 0.0336, g = -0.22 [-0.43, -0.02]
+  pause-points     t(369) =  -5.47, p = 8.5e-08, g = -0.57 [-0.77, -0.36]
+  reflection-task  t(368) =  -0.26, p = 0.792, g = -0.03 [-0.23, +0.18]
+
+===== Prompts per problem ( prompts_per_task ) =====
+ANOVA: F(4, 912) = 100.45, p = 7.17e-71, omega^2 = 0.303
+Welch ANOVA (robustness): F(4, 447.9) = 54.06, p = 3.6e-37
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 1.984e+67
+Tukey HSD:
+                                 diff    lwr    upr p adj
+ai-reliability-ai               0.022 -0.318  0.362 1.000
+alternatives-ai                 0.179 -0.161  0.519 0.604
+pause-points-ai                 2.095  1.756  2.434 0.000
+reflection-task-ai              0.689  0.349  1.028 0.000
+alternatives-ai-reliability     0.157 -0.186  0.499 0.722
+pause-points-ai-reliability     2.073  1.732  2.414 0.000
+reflection-task-ai-reliability  0.667  0.325  1.008 0.000
+pause-points-alternatives       1.916  1.575  2.258 0.000
+reflection-task-alternatives    0.510  0.168  0.852 0.000
+reflection-task-pause-points   -1.407 -1.747 -1.066 0.000
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =   0.30, p = 0.763, g = +0.03 [-0.17, +0.24]
+  alternatives     t(366) =   2.28, p = 0.0232, g = +0.24 [+0.03, +0.44]
+  pause-points     t(369) =  13.13, p = 1.44e-32, g = +1.36 [+1.13, +1.59]
+  reflection-task  t(368) =   7.09, p = 6.93e-12, g = +0.74 [+0.52, +0.95]
+
+===== SUS ( sus_score ) =====
+ANOVA: F(4, 912) = 28.41, p = 2.87e-22, omega^2 = 0.107
+Welch ANOVA (robustness): F(4, 455.3) = 25.05, p = 9.11e-19
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 1.47e+19
+Tukey HSD:
+                                  diff     lwr     upr p adj
+ai-reliability-ai               -4.945 -10.383   0.493 0.095
+alternatives-ai                -12.047 -17.492  -6.602 0.000
+pause-points-ai                -19.641 -25.064 -14.219 0.000
+reflection-task-ai              -6.732 -12.162  -1.302 0.007
+alternatives-ai-reliability     -7.102 -12.584  -1.620 0.004
+pause-points-ai-reliability    -14.696 -20.156  -9.237 0.000
+reflection-task-ai-reliability  -1.787  -7.254   3.680 0.899
+pause-points-alternatives       -7.594 -13.061  -2.127 0.001
+reflection-task-alternatives     5.315  -0.160  10.789 0.062
+reflection-task-pause-points    12.909   7.457  18.361 0.000
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =  -2.62, p = 0.00914, g = -0.27 [-0.48, -0.07]
+  alternatives     t(366) =  -6.27, p = 1.01e-09, g = -0.65 [-0.86, -0.44]
+  pause-points     t(369) =  -9.30, p = 1.28e-18, g = -0.96 [-1.18, -0.75]
+  reflection-task  t(368) =  -3.61, p = 0.000352, g = -0.37 [-0.58, -0.17]
+
+===== UEQ-S ( ueq_overall ) =====
+ANOVA: F(4, 912) = 23.88, p = 8.37e-19, omega^2 = 0.091
+Welch ANOVA (robustness): F(4, 455.4) = 20.86, p = 8.38e-16
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 5.632e+15
+Tukey HSD:
+                                 diff    lwr    upr p adj
+ai-reliability-ai              -0.241 -0.564  0.082 0.248
+alternatives-ai                -0.502 -0.825 -0.179 0.000
+pause-points-ai                -1.095 -1.417 -0.773 0.000
+reflection-task-ai             -0.445 -0.767 -0.123 0.002
+alternatives-ai-reliability    -0.261 -0.587  0.064 0.182
+pause-points-ai-reliability    -0.854 -1.178 -0.530 0.000
+reflection-task-ai-reliability -0.204 -0.528  0.121 0.424
+pause-points-alternatives      -0.593 -0.917 -0.268 0.000
+reflection-task-alternatives    0.057 -0.267  0.382 0.989
+reflection-task-pause-points    0.650  0.326  0.974 0.000
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =  -2.11, p = 0.0355, g = -0.22 [-0.42, -0.01]
+  alternatives     t(366) =  -4.54, p = 7.5e-06, g = -0.47 [-0.68, -0.27]
+  pause-points     t(369) =  -8.79, p = 5.96e-17, g = -0.91 [-1.12, -0.70]
+  reflection-task  t(368) =  -3.76, p = 0.000201, g = -0.39 [-0.59, -0.18]
+
+===== NASA-TLX ( tlx_mean ) =====
+ANOVA: F(4, 912) = 40.52, p = 2.83e-31, omega^2 = 0.147
+Welch ANOVA (robustness): F(4, 455.6) = 34.27, p = 5.06e-25
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 1.145e+28
+Tukey HSD:
+                                diff    lwr   upr p adj
+ai-reliability-ai              1.546  0.676 2.416 0.000
+alternatives-ai                1.845  0.973 2.716 0.000
+pause-points-ai                2.001  1.133 2.869 0.000
+reflection-task-ai             4.012  3.143 4.881 0.000
+alternatives-ai-reliability    0.299 -0.579 1.176 0.885
+pause-points-ai-reliability    0.455 -0.419 1.329 0.613
+reflection-task-ai-reliability 2.466  1.591 3.341 0.000
+pause-points-alternatives      0.156 -0.719 1.032 0.988
+reflection-task-alternatives   2.167  1.291 3.044 0.000
+reflection-task-pause-points   2.011  1.138 2.884 0.000
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =   4.80, p = 2.35e-06, g = +0.50 [+0.29, +0.70]
+  alternatives     t(366) =   5.75, p = 1.94e-08, g = +0.60 [+0.39, +0.81]
+  pause-points     t(369) =   6.26, p = 1.05e-09, g = +0.65 [+0.44, +0.86]
+  reflection-task  t(368) =  11.62, p = 8.51e-27, g = +1.21 [+0.98, +1.43]
+
+===== Trust ( trust_mean ) =====
+ANOVA: F(4, 912) = 19.91, p = 9.92e-16, omega^2 = 0.076
+Welch ANOVA (robustness): F(4, 455.7) = 19.81, p = 4.72e-15
+Bayesian ANOVA (JZS, rscaleFixed = 0.5): BF10 = 5.21e+12
+Tukey HSD:
+                                 diff    lwr    upr p adj
+ai-reliability-ai              -0.324 -0.548 -0.100 0.001
+alternatives-ai                -0.628 -0.852 -0.403 0.000
+pause-points-ai                -0.518 -0.741 -0.295 0.000
+reflection-task-ai             -0.141 -0.365  0.082 0.417
+alternatives-ai-reliability    -0.303 -0.529 -0.078 0.002
+pause-points-ai-reliability    -0.194 -0.419  0.031 0.129
+reflection-task-ai-reliability  0.183 -0.043  0.408 0.174
+pause-points-alternatives       0.110 -0.116  0.335 0.672
+reflection-task-alternatives    0.486  0.261  0.712 0.000
+reflection-task-pause-points    0.376  0.152  0.601 0.000
+Uncorrected two-sided t-tests vs baseline (pooled variance) with Hedges' g [95% CI]:
+  ai-reliability   t(367) =  -4.06, p = 5.97e-05, g = -0.42 [-0.63, -0.22]
+  alternatives     t(366) =  -7.67, p = 1.6e-13, g = -0.80 [-1.01, -0.59]
+  pause-points     t(369) =  -6.34, p = 6.82e-10, g = -0.66 [-0.86, -0.45]
+  reflection-task  t(368) =  -1.77, p = 0.0777, g = -0.18 [-0.39, +0.02]
+
+Score ai-reliability   BF0+ = 27.0, two-sided BF01 = 0.896
+Score alternatives     BF0+ = 26.5, two-sided BF01 = 0.979
+Score pause-points     BF0+ = 58.2, two-sided BF01 = 7.75e-06
+Score reflection-task  BF0+ = 10.6, two-sided BF01 = 8.41
+
+Score without pause points: BF01 = 3.958
+
+Follow rate ANOVA: F(4, 860) = 14.74, p = 1.17e-11
+  ai-reliability   M = 0.863, t(357) =  -3.89, p = 0.00012, g = -0.41
+  alternatives     M = 0.959, t(359) =   2.04, p = 0.0418, g = +0.21
+  pause-points     M = 0.841, t(331) =  -3.75, p = 0.000208, g = -0.41
+  reflection-task  M = 0.944, t(362) =   0.91, p = 0.364, g = +0.10
+
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin25.4.0
+Running under: macOS Tahoe 26.6.2
+
+Matrix products: default
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.34/lib/libopenblasp-r0.3.34.dylib 
+LAPACK: /opt/homebrew/Cellar/r/4.6.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C
+
+time zone: Europe/Helsinki
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] effectsize_1.0.3       BayesFactor_0.9.12-4.8 Matrix_1.7-5          
+[4] coda_0.19-4.1         
+
+loaded via a namespace (and not attached):
+ [1] datawizard_1.3.1   lattice_0.22-9     magrittr_2.0.5     glue_1.8.1        
+ [5] stringr_1.6.0      parameters_0.29.3  parallel_4.6.1     lifecycle_1.0.5   
+ [9] mvtnorm_1.4-2      cli_3.6.6          bayestestR_0.18.1  grid_4.6.1        
+[13] compiler_4.6.1     tools_4.6.1        pbapply_1.7-5      Rcpp_1.1.2        
+[17] rlang_1.3.0        stringi_1.8.9      insight_1.5.3      MatrixModels_0.5-4

@@ -1,0 +1,116 @@
+Posterior ranking of conditions (BayesFactor::anovaBF, rscaleFixed = 0.5, 1e+05 MCMC draws)
+N = 917 
+
+===== Estimation error ( absolute_estimation_error ); BF10 = 710000 =====
+              baseline cards  alts pausep  refl
+P(best)           0.00 0.058 0.938  0.003 0.000
+E[rank]           4.94 2.091 1.064  2.896 4.009
+P(> baseline)       NA 1.000 1.000  0.999 0.941
+P(all four interventions better than baseline) = 0.941
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  0.00 0.00   0.00 0.06
+cards        1.00    NA 0.06   0.85 1.00
+alts         1.00  0.94   NA   1.00 1.00
+pausep       1.00  0.15 0.00     NA 0.95
+refl         0.94  0.00 0.00   0.05   NA
+
+===== Confidence discrimination ( confidence_discrimination ); BF10 = 4540 =====
+              baseline cards  alts pausep  refl
+P(best)          0.000 0.960 0.040  0.000 0.000
+E[rank]          4.164 1.041 1.987  3.434 4.374
+P(> baseline)       NA 1.000 0.996  0.744 0.423
+P(all four interventions better than baseline) = 0.376
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  0.00 0.00   0.26 0.58
+cards        1.00    NA 0.96   1.00 1.00
+alts         1.00  0.04   NA   0.98 1.00
+pausep       0.74  0.00 0.02     NA 0.80
+refl         0.42  0.00 0.00   0.20   NA
+
+===== Score ( actual_score ); BF10 = 1510000 =====
+              baseline cards  alts pausep  refl
+P(best)          0.597 0.004 0.006      0 0.393
+E[rank]          1.438 3.484 3.400      5 1.678
+P(> baseline)       NA 0.018 0.023      0 0.397
+P(all four interventions better than baseline) = 0.000
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  0.98 0.98      1 0.60
+cards        0.02    NA 0.46      1 0.03
+alts         0.02  0.54   NA      1 0.04
+pausep       0.00  0.00 0.00     NA 0.00
+refl         0.40  0.97 0.96      1   NA
+
+===== Prompts per problem ( prompts_per_task ); BF10 = 1.98e+67 =====
+              baseline cards  alts pausep refl
+P(best)          0.000 0.000 0.000      1    0
+E[rank]          4.494 4.323 3.183      1    2
+P(> baseline)       NA 0.570 0.924      1    1
+P(all four interventions better than baseline) = 0.555
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  0.43 0.08      0    0
+cards        0.57    NA 0.11      0    0
+alts         0.92  0.89   NA      0    0
+pausep       1.00  1.00 1.00     NA    1
+refl         1.00  1.00 1.00      0   NA
+
+===== SUS ( sus_score ); BF10 = 1.47e+19 =====
+              baseline cards  alts pausep  refl
+P(best)          0.992 0.007 0.000      0 0.000
+E[rank]          1.008 2.183 3.996      5 2.813
+P(> baseline)       NA 0.007 0.000      0 0.000
+P(all four interventions better than baseline) = 0.000
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  0.99    1      1 1.00
+cards        0.01    NA    1      1 0.81
+alts         0.00  0.00   NA      1 0.00
+pausep       0.00  0.00    0     NA 0.00
+refl         0.00  0.19    1      1   NA
+
+===== UEQ-S ( ueq_overall ); BF10 = 5.63e+15 =====
+              baseline cards  alts pausep  refl
+P(best)          0.978 0.022 0.000      0 0.000
+E[rank]          1.022 2.041 3.665      5 3.272
+P(> baseline)       NA 0.022 0.000      0 0.000
+P(all four interventions better than baseline) = 0.000
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  0.98 1.00      1 1.00
+cards        0.02    NA 0.98      1 0.95
+alts         0.00  0.02   NA      1 0.32
+pausep       0.00  0.00 0.00     NA 0.00
+refl         0.00  0.05 0.68      1   NA
+
+===== NASA-TLX ( tlx_mean ); BF10 = 1.15e+28 =====
+              baseline cards  alts pausep refl
+P(best)              1 0.000 0.000  0.000    0
+E[rank]              1 2.257 3.136  3.607    5
+P(> baseline)       NA 0.000 0.000  0.000    0
+P(all four interventions better than baseline) = 0.000
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  1.00 1.00   1.00    1
+cards           0    NA 0.82   0.92    1
+alts            0  0.18   NA   0.69    1
+pausep          0  0.08 0.31     NA    1
+refl            0  0.00 0.00   0.00   NA
+
+===== Trust ( trust_mean ); BF10 = 5.21e+12 =====
+              baseline cards  alts pausep  refl
+P(best)          0.955 0.000 0.000  0.000 0.045
+E[rank]          1.045 2.995 4.904  4.086 1.970
+P(> baseline)       NA 0.000 0.000  0.000 0.045
+P(all four interventions better than baseline) = 0.000
+P(row better than column):
+         baseline cards alts pausep refl
+baseline       NA  1.00  1.0   1.00 0.96
+cards        0.00    NA  1.0   0.99 0.01
+alts         0.00  0.00   NA   0.10 0.00
+pausep       0.00  0.01  0.9     NA 0.00
+refl         0.04  0.99  1.0   1.00   NA
+
+[1] "0.9.12-4.8"
