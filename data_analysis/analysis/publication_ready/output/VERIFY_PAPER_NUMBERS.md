@@ -95,31 +95,31 @@ Cards: mean |estimate - 7.1| = 1.93 vs |estimate - actual| = 3.35 (paper 1.9 vs 
 
 ## Qualitative codes on the analysed sample (tab:qual)
 
-Strategies: N = 814 (per condition [170, 147, 165, 172, 160]); uncoded [0.0, 0.0, 0.0, 0.0, 0.0]%
+Strategies: 814 of 814 answers human-coded; the rest lexical codebook v2
+Strategies: N = 814 (per condition [170, 147, 165, 172, 160]); uncoded [1.2, 0.0, 0.6, 2.3, 0.6]%
 | code | Base | Cards | Alts | Pausep | Refl | chi2 (df) | p | Cramer's V | N |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UNCODED | 33.5 | 24.5 | 28.5 | 45.9 | 33.8 | 19.14 (4) | 0.001 | 0.153 | 814 |
-| ai_self_verify | 14.1 | 15.0 | 13.3 | 3.5 | 10.6 | 14.67 (4) | 0.005 | 0.134 | 814 |
-| effort_cost_time | 9.4 | 3.4 | 4.2 | 7.0 | 10.6 | 9.60 (4) | 0.048 | 0.109 | 814 |
-| full_reliance | 18.8 | 8.8 | 3.6 | 11.6 | 14.4 | 21.23 (4) | 0.000 | 0.161 | 814 |
-| manipulation_use | 0.0 | 11.6 | 38.8 | 9.9 | 0.0 | 105.08 (3) | 0.000 | 0.404 | 644 |
-| no_strategy | 1.2 | 3.4 | 3.0 | 1.7 | 4.4 | 4.15 (4) | 0.386 | 0.071 | 814 |
-| overrode_ai | 3.5 | 4.1 | 6.7 | 1.7 | 3.8 | 5.54 (4) | 0.236 | 0.083 | 814 |
-| own_first_then_compare | 12.9 | 19.7 | 13.3 | 12.8 | 19.4 | 6.25 (4) | 0.181 | 0.088 | 814 |
-| prompt_engineering | 5.3 | 6.1 | 3.6 | 7.0 | 5.0 | 2.04 (4) | 0.728 | 0.050 | 814 |
-| reasoning_check | 12.9 | 8.2 | 9.1 | 6.4 | 5.0 | 8.01 (4) | 0.091 | 0.099 | 814 |
-| unspecified_verification | 9.4 | 15.0 | 6.7 | 6.4 | 10.6 | 8.85 (4) | 0.065 | 0.104 | 814 |
-| verify_against_source | 11.8 | 6.1 | 9.7 | 6.4 | 4.4 | 8.25 (4) | 0.083 | 0.101 | 814 |
+| ai_self_verify | 14.7 | 12.2 | 18.2 | 6.4 | 8.8 | 13.83 (4) | 0.008 | 0.130 | 814 |
+| effort_cost_time | 1.2 | 2.7 | 1.8 | 1.7 | 8.8 | 20.50 (4) | 0.000 | 0.159 | 814 |
+| full_reliance | 51.2 | 34.7 | 26.1 | 47.1 | 50.0 | 32.34 (4) | 0.000 | 0.199 | 814 |
+| manipulation_use | 0.0 | 11.6 | 34.5 | 1.2 | 0.0 | 122.12 (3) | 0.000 | 0.435 | 644 |
+| no_strategy | 2.9 | 6.8 | 7.9 | 9.9 | 8.1 | 6.88 (4) | 0.142 | 0.092 | 814 |
+| overrode_ai | 2.9 | 2.0 | 3.0 | 4.7 | 3.1 | 1.87 (4) | 0.761 | 0.048 | 814 |
+| own_first_then_compare | 14.7 | 14.3 | 14.5 | 14.0 | 16.9 | 0.68 (4) | 0.954 | 0.029 | 814 |
+| prompt_engineering | 8.8 | 8.8 | 7.3 | 16.9 | 10.0 | 10.26 (4) | 0.036 | 0.112 | 814 |
+| reasoning_check | 26.5 | 27.2 | 36.4 | 19.8 | 15.0 | 23.02 (4) | 0.000 | 0.168 | 814 |
+| unspecified_verification | 5.3 | 4.8 | 3.0 | 2.9 | 5.0 | 2.16 (4) | 0.706 | 0.052 | 814 |
+| verify_against_source | 8.8 | 5.4 | 8.5 | 8.7 | 7.5 | 1.70 (4) | 0.791 | 0.046 | 814 |
 
-Effect of the manipulation: N = 640 (per condition [145, 162, 173, 160]); uncoded [0.0, 0.0, 0.0, 0.0]%
+Effect of the manipulation: 640 of 640 answers human-coded; the rest lexical codebook v2
+Effect of the manipulation: N = 640 (per condition [145, 162, 173, 160]); uncoded [6.9, 4.9, 3.5, 11.2]%
 | code | Cards | Alts | Pausep | Refl | chi2 (df) | p | Cramer's V | N |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| UNCODED | 40.0 | 52.5 | 57.8 | 59.4 | 14.05 (3) | 0.003 | 0.148 | 640 |
-| more_careful | 33.1 | 25.3 | 9.8 | 11.9 | 36.77 (3) | 0.000 | 0.240 | 640 |
-| no_change | 13.8 | 12.3 | 8.7 | 24.4 | 17.78 (3) | 0.000 | 0.167 | 640 |
-| slowed_friction | 2.8 | 2.5 | 23.1 | 6.2 | 58.56 (3) | 0.000 | 0.303 | 640 |
-| trust_less | 17.2 | 11.7 | 2.3 | 0.6 | 40.82 (3) | 0.000 | 0.253 | 640 |
-| trust_more | 1.4 | 1.2 | 0.6 | 0.6 | 0.87 (3) | 0.833 | 0.037 | 640 |
+| more_careful | 42.8 | 48.8 | 49.1 | 32.5 | 11.97 (3) | 0.007 | 0.137 | 640 |
+| no_change | 17.9 | 16.0 | 12.1 | 38.8 | 41.65 (3) | 0.000 | 0.255 | 640 |
+| slowed_friction | 2.8 | 15.4 | 26.6 | 9.4 | 40.96 (3) | 0.000 | 0.253 | 640 |
+| trust_less | 31.7 | 34.0 | 11.0 | 4.4 | 65.74 (3) | 0.000 | 0.321 | 640 |
+| trust_more | 19.3 | 21.6 | 18.5 | 17.5 | 0.96 (3) | 0.812 | 0.039 | 640 |
 
 Held-out validation: macro-F1 over all 16 codes = 0.61 (paper .61); codes with F1 >= .7: ['effort_cost_time', 'full_reliance', 'manipulation_use', 'more_careful', 'no_change', 'no_strategy', 'reasoning_check']
 

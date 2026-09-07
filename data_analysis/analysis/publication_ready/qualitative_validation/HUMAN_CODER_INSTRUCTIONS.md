@@ -1,5 +1,7 @@
 # Human coding of the free-text answers
 
+Status: complete (2026-09-07). All 1,454 rows coded by Manuel; tab:qual is computed from these codes by `scripts/verify_paper_numbers.py`.
+
 Purpose: the lexical codebook (`scripts/qualitative_coding.py`) was so far validated only against blind annotation by
 the analyst (an LLM). Manuel decided (2026-09-06) to hand-code the complete analysed set, so the human codes become the
 reported coding and the lexical codebook is scored against them as a reliability check.

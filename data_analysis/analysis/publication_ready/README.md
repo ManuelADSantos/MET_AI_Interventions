@@ -33,7 +33,7 @@ SciPy 1.17.1, pandas 3.0.5, numpy 2.4.6); R 4.6.1 (BayesFactor 0.9.12-4.8, effec
 | Tukey HSD comparisons quoted in the text | `output/APA_RESULTS.md` (Tukey blocks) |
 | Bayesian ANOVA on score without pause points (BF01 = 3.96) | `output/apa_results.json` -> `extra.score_bf_without_pause`; R: `replicate_R_output.txt` |
 | tab:reliance, follow-rate ANOVA and t-tests, GEE logits | `output/apa_results.json` -> `reliance`; `output/APA_RESULTS.md` |
-| tab:qual (code prevalences, chi-square, Cramer's V on the analysed sample: 814 strategy and 640 manipulation answers) and the held-out macro-F1 (.61 over all 16 codes) | `output/VERIFY_PAPER_NUMBERS.md` (section Qualitative codes); raw codes in `data/qualitative_codes_*.csv` (these still include the 7 + 5 answers from excluded participants) |
+| tab:qual (human-coded prevalences, chi-square, Cramer's V on the analysed sample: 814 strategy and 640 manipulation answers) | `output/VERIFY_PAPER_NUMBERS.md` (section Qualitative codes), computed from `qualitative_validation/full_coding_sheet.csv` (first author's codes, complete 2026-09-07); the lexical codes in `data/qualitative_codes_*.csv` are no longer reported (agreement with the human codes: `score_validation.py full`, mean Jaccard .28 strategies / .39 manipulation, macro-F1 .38) |
 | tab:calib, Brier/Murphy decomposition, type-2 AUC, difficulty GEE, time course, card anchoring, trust correlations | `output/VERIFY_PAPER_NUMBERS.md` |
 | tab:null (directional and two-sided JZS BF, Welch TOST at |g| < .3, GEE OR with NFC and position covariates) | `output/apa_results.json` -> `extra.null_robustness`; rendered in `output/apa_tables.tex`; BFs cross-checked in `replicate_R_output.txt` |
 | tab:ranking (posterior P(best) [expected rank], P(all four beat baseline)) and the ranking paragraph | `output/rank_table.tex`; full matrices in `rank_posterior_output.txt` |
@@ -54,6 +54,4 @@ SciPy 1.17.1, pandas 3.0.5, numpy 2.4.6); R 4.6.1 (BayesFactor 0.9.12-4.8, effec
 
 - `verdict_parse.py` and `qualitative_coding.py` need the raw chat logs in `data_analysis/raw_data/data/final_data/`,
   which are not copied here; their outputs are.
-- The qualitative codebook was validated against blind annotation by the analyst (an LLM), not by a human coder. The
-  complete set is being hand-coded in `qualitative_validation/full_coding_sheet.csv` (see `HUMAN_CODER_INSTRUCTIONS.md`);
-  once done, `score_validation.py full` gives the human-coded prevalences for tab:qual and the codebook's agreement.
+- The qualitative codes reported in the paper are the first author's (`qualitative_validation/full_coding_sheet.csv`, all 1,454 analysed answers, single coder). The lexical codebook (`scripts/qualitative_coding.py`) was a development tool and is kept only for the agreement check.

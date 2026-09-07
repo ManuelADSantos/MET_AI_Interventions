@@ -5,7 +5,7 @@ Run:  ../../../.venv/bin/python verify_paper_numbers.py   (from final_data/)
 Writes VERIFY_PAPER_NUMBERS.md next to this file.
 """
 import json
-import os
+import os, re
 import sys
 
 import numpy as np
@@ -197,10 +197,33 @@ for col, name in [("absolute_estimation_error", "abs. estimation error"), ("sign
 sec("Qualitative codes on the analysed sample (tab:qual)")
 from scipy.stats import chi2_contingency
 inc = set(pm.participant_id)
+# Human codes (first author, full_coding_sheet.csv; shorthand a-k / 0-4, "-" = none) replace the lexical codes wherever a
+# row has been coded; uncoded rows keep the lexical codes. Numbers exports use ';' and a BOM.
+SHORT = dict(zip("abcdefghijk", ["full_reliance", "own_first_then_compare", "verify_against_source", "ai_self_verify",
+                                 "reasoning_check", "effort_cost_time", "prompt_engineering", "manipulation_use",
+                                 "overrode_ai", "unspecified_verification", "no_strategy"]))
+SHORT.update(dict(zip("01234", ["no_change", "more_careful", "slowed_friction", "trust_more", "trust_less"])))
+HUMAN = {}
+for cand in [os.path.join(HERE, "..", "qualitative_validation", "full_coding_sheet.csv"), os.path.join(HERE, "validation", "full_coding_sheet.csv")]:
+    if os.path.exists(cand):
+        import csv as _csv
+        raw = open(cand, encoding="utf-8-sig").read()
+        delim = _csv.Sniffer().sniff(raw[:5000], delimiters=";,").delimiter
+        for r in _csv.DictReader(raw.splitlines(), delimiter=delim):
+            cell = (r["human_codes"] or "").strip().lower()
+            if not cell:
+                continue
+            qt = "strategies" if r["question"].startswith("STRATEGIES") else "manipulation"
+            codes = set() if cell == "-" else {SHORT.get(t, t) for tok in re.split(r"[;,\s]+", cell) for t in ([tok] if tok in SHORT or not all(ch in SHORT for ch in tok) else list(tok)) if t}
+            HUMAN[(r["participant_id"], qt)] = ";".join(sorted(codes))
+        break
 for f, title in [("strategies", "Strategies"), ("manipulation", "Effect of the manipulation")]:
     Q = pd.read_csv(os.path.join(NB, f"qualitative_codes_{f}.csv"))
     Q = Q[Q.participant_id.isin(inc)].copy()
-    Q["codes"] = Q["codes"].fillna("")
+    Q["codes"] = Q["codes"].fillna("").replace("UNCODED", "")
+    hum = Q.participant_id.map(lambda pid: HUMAN.get((pid, f)))
+    Q.loc[hum.notna(), "codes"] = hum[hum.notna()]
+    L.append(f"{title}: {int(hum.notna().sum())} of {len(Q)} answers human-coded; the rest lexical codebook v2")
     conds = [o for o in ORDER if o in Q.condition.unique()]
     L.append(f"{title}: N = {len(Q)} (per condition {Q.condition.value_counts().reindex(conds).tolist()}); "
              f"uncoded {[round(100 * x, 1) for x in Q.groupby('condition').apply(lambda d: (d.codes == '').mean()).reindex(conds)]}%")
@@ -220,7 +243,8 @@ for f, title in [("strategies", "Strategies"), ("manipulation", "Effect of the m
 # macro-F1 of the lexical codebook vs the held-out annotation, over all 16 codes (paper) and the codes with F1 >= .7
 try:
     import subprocess
-    out = subprocess.run([sys.executable, os.path.join(HERE, "validation", "score_validation.py"), "holdout"], capture_output=True, text=True, cwd=os.path.join(HERE, "validation")).stdout
+    vdir = next(d for d in [os.path.join(HERE, "validation"), os.path.join(HERE, "..", "qualitative_validation")] if os.path.isdir(d))
+    out = subprocess.run([sys.executable, os.path.join(vdir, "score_validation.py"), "holdout"], capture_output=True, text=True, cwd=vdir).stdout
     f1s = {}
     for line in out.splitlines():
         parts = line.split()
