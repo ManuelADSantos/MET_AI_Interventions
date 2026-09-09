@@ -291,7 +291,7 @@ def reliance(df):
 def null_robustness(df):
     """Score under alternative specifications: directional and two-sided JZS t-test Bayes factors
     (r = 0.707), Welch TOST at |g| < .3, and a trial-level GEE-logit odds ratio of a correct answer
-    vs baseline with participant clustering and covariates (need for cognition, display position)."""
+    vs baseline with participant clustering and need for cognition as covariate."""
     out = {}
     base = df.loc[df.condition == "ai", "actual_score"].values
     tm = pd.read_csv(os.path.join(NB, "task_metrics.csv"))
@@ -299,7 +299,7 @@ def null_robustness(df):
     tm = tm.merge(df[["participant_id", "nfc_mean"]], on="participant_id")
     tm["nfc_z"] = (tm.nfc_mean - tm.nfc_mean.mean()) / tm.nfc_mean.std(ddof=1)
     tm["condition"] = pd.Categorical(tm.condition, COND_ORDER)
-    gee = smf.gee("correct ~ C(condition, Treatment('ai')) + nfc_z + display_index", groups="participant_id", data=tm,
+    gee = smf.gee("correct ~ C(condition, Treatment('ai')) + nfc_z", groups="participant_id", data=tm,
                   family=sm.families.Binomial(), cov_struct=sm.cov_struct.Exchangeable()).fit()
     for c in COND_ORDER[1:]:
         x = df.loc[df.condition == c, "actual_score"].values

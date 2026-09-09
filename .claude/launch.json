@@ -4,8 +4,24 @@
     {
       "name": "dashboard",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8765", "-d", "data_analysis"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "-d",
+        "data_analysis"
+      ],
       "port": 8765
+    },
+    {
+      "name": "study",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": [
+        "compose",
+        "up",
+        "--build"
+      ],
+      "port": 5173
     }
   ]
 }

@@ -34,10 +34,10 @@ SciPy 1.17.1, pandas 3.0.5, numpy 2.4.6); R 4.6.1 (BayesFactor 0.9.12-4.8, effec
 | Bayesian ANOVA on score without pause points (BF01 = 3.96) | `output/apa_results.json` -> `extra.score_bf_without_pause`; R: `replicate_R_output.txt` |
 | tab:reliance, follow-rate ANOVA and t-tests, GEE logits | `output/apa_results.json` -> `reliance`; `output/APA_RESULTS.md` |
 | tab:qual (human-coded prevalences, chi-square, Cramer's V on the analysed sample: 814 strategy and 640 manipulation answers) | `output/VERIFY_PAPER_NUMBERS.md` (section Qualitative codes), computed from `qualitative_validation/full_coding_sheet.csv` (first author's codes, complete 2026-09-07); the lexical codes in `data/qualitative_codes_*.csv` are no longer reported (agreement with the human codes: `score_validation.py full`, mean Jaccard .28 strategies / .39 manipulation, macro-F1 .38) |
-| tab:calib, Brier/Murphy decomposition, type-2 AUC, difficulty GEE, time course, card anchoring, trust correlations | `output/VERIFY_PAPER_NUMBERS.md` |
+| tab:calib, Brier/Murphy decomposition, type-2 AUC, difficulty GEE, card anchoring, trust correlations | `output/VERIFY_PAPER_NUMBERS.md` |
 | tab:null (directional and two-sided JZS BF, Welch TOST at |g| < .3, GEE OR with NFC and position covariates) | `output/apa_results.json` -> `extra.null_robustness`; rendered in `output/apa_tables.tex`; BFs cross-checked in `replicate_R_output.txt` |
 | tab:ranking (posterior P(best) [expected rank], P(all four beat baseline)) and the ranking paragraph | `output/rank_table.tex`; full matrices in `rank_posterior_output.txt` |
-| fig:results, fig:confidence, fig:difficulty, fig:reliance | `figures/*_tikz.tex` (used in main.tex); `.pdf`/`.pgf` renderings alongside |
+| fig:results, fig:confidence, fig:difficulty, fig:reliance | `figures/*_tikz.tex` (used in main.tex; fig:difficulty = `difficulty_profiles_points_tikz.tex`, points with 95% CIs, chosen 2026-09-07; the line version is written to the paper's archive only); `.pdf`/`.pgf` renderings alongside |
 
 ## Testing logic
 

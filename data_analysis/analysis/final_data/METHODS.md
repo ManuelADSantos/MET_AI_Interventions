@@ -96,8 +96,8 @@ items, 1–5, two reversed); Trust/TSQ (mean, 1–5). Cronbach's α reported per
 | Trend | Jonckheere–Terpstra for ordered patterns across conditions |
 | Wave sensitivity | (a) drop the 5 wave-2 baseline participants; (b) within-wave-2-only omnibus |
 | Performance null | JZS Bayes factors (Cauchy r = .707): two-sided BF₀₁ and directional BF₀₊ vs the preregistered improvement H1; Welch TOST equivalence at \|g\| < 0.3 and 0.2 |
-| Trial-level models | GEE logit (exchangeable working correlation, robust SE, cluster = participant) for accuracy; MixedLM random intercepts for confidence; `BinomialBayesMixedGLM` (VB) robustness. Covariates: baseline-defined item difficulty (z), presentation position (z), NFC (z) |
-| Temporal | Presentation position = rank of interface slot within participant (order randomized); GEE position slopes per condition, halves/thirds contrasts, trial-1-excluded re-analysis |
+| Trial-level models | GEE logit (exchangeable working correlation, robust SE, cluster = participant) for accuracy; MixedLM random intercepts for confidence; `BinomialBayesMixedGLM` (VB) robustness. Covariates: baseline-defined item difficulty (z), NFC (z) |
+| Temporal | Dropped from the paper on 2026-09-09 (no display-position or time-course analysis, per co-author decision); the GEE contrasts adjust for NFC only |
 | Dunning–Kruger | Within-condition percentile ranks; quartile gaps; slope-modulation OLS (HC3); Gignac–Zajenkowski artifact checks (quadratic term, Breusch–Pagan) |
 | LLM-competence split | Each item classified as AI-correct (baseline modal answer = correct) or AI-wrong; per-item-set Welch contrasts vs baseline; GEE logit condition × AI-competence interaction |
 

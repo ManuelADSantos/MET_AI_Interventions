@@ -69,18 +69,13 @@ GEE logit correct ~ condition x difficulty_z (interaction terms):
 - C(condition, Treatment('ai'))[T.alternatives]:difficulty_z: b = -0.03, z = -0.39, p = 0.694
 - C(condition, Treatment('ai'))[T.pause-points]:difficulty_z: b = +0.33, z = 4.26, p = 0.000
 - C(condition, Treatment('ai'))[T.reflection-task]:difficulty_z: b = -0.11, z = -1.34, p = 0.180
-Pause points vs baseline on the six easy items: t(360.1) = -6.25, p = 1.18e-09, g = -0.65 (paper g = -0.65).
+Pause points vs baseline on the six easy items: t(369) = -6.25, p = 1.10e-09, g = -0.65 (paper g = -0.65).
 
 GEE linear confidence ~ condition x difficulty_z (interaction = extra pp of confidence per SD of difficulty vs baseline):
 - C(condition, Treatment('ai'))[T.ai-reliability]:difficulty_z: b = -5.97, z = -9.00, p = 0.000
 - C(condition, Treatment('ai'))[T.alternatives]:difficulty_z: b = -2.55, z = -4.99, p = 0.000
 - C(condition, Treatment('ai'))[T.pause-points]:difficulty_z: b = -0.73, z = -1.35, p = 0.177
 - C(condition, Treatment('ai'))[T.reflection-task]:difficulty_z: b = +0.02, z = 0.04, p = 0.969
-
-## Time course
-
-Accuracy vs display position, pooled r = 0.014, p = 0.155 (paper r = .001).
-Second half minus first half accuracy: M = -0.011, t(916) = -1.10, p = 0.272.
 
 ## Card anchoring
 

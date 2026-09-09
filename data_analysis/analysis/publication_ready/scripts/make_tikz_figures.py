@@ -208,7 +208,122 @@ def difficulty():
                         [(f"\\draw[{COL[c]}, line width={'1.6pt' if c == 'ai' else '1.2pt'}] (0,0) -- (16pt,0) node[midway, circle, fill={COL[c]}, inner sep=0pt, minimum size=2.5pt] {{}};", NAME[c]) for c in ORDER],
                         "-0.50in", 7),
           r"\end{tikzpicture}", ""]
-    save("difficulty_profiles_tikz.tex", "\n".join(L))
+    # line version superseded by difficulty_points() on 2026-09-07; kept in the paper archive only
+    arch = "/Users/dionism1/Desktop/CHI27_METAI_Interventions/archive/figs/results"
+    if os.path.isdir(arch):
+        open(os.path.join(arch, "difficulty_profiles_tikz.tex"), "w").write("\n".join(L))
+
+
+# --------------------------------------------------------------------------- difficulty profiles, discrete variant
+def difficulty_points():
+    """Variant B (Robin, 2026-09-07): points with 95% CIs instead of lines, so the item axis does not read as time.
+    Accuracy: Wilson interval; confidence - accuracy: t-based interval over participants. Conditions are offset within each item."""
+    from scipy import stats
+    pm = pd.read_csv(os.path.join(NB, "participant_metrics.csv"))
+    pm = pm[pm.exclude_primary == False]
+    tm = pd.read_csv(os.path.join(NB, "task_metrics.csv"))
+    tm = tm[tm.participant_id.isin(pm.participant_id)]
+    items = list(tm[tm.condition == "ai"].groupby("task_name").correct.mean().sort_values(ascending=False).index)
+    base = BASE.replace("ytick style={draw=none}, ", "").replace("xticklabel style={font=" + F(8), "xticklabel style={font=" + F(6))
+    off = {c: (i - 2) * 0.17 for i, c in enumerate(ORDER)}
+    # assistant-alone accuracy per item: the values shown on the reliability cards (pre-study evaluation, 20 runs per item,
+    # GPT-5.4-mini, low reasoning; task index 1-12 = order of CORRECT_ANSWERS in the study app). Source: Manuel's card table, 2026-09-09.
+    CARD = {"ypc_02": 80, "ypc_03": 45, "ypc_05": 55, "ypc_06": 35, "car_racing_01": 85, "car_racing_02": 35, "car_racing_03": 55,
+            "car_racing_05": 30, "graduation_party_01": 85, "graduation_party_05": 65, "graduation_party_06": 75, "graduation_party_07": 60}
+    base_acc = tm[tm.condition == "ai"].groupby("task_name").correct.mean() * 100
+    rho, p_rho = stats.spearmanr([base_acc[i] for i in items], [CARD[i] for i in items])
+    L = [header("difficulty_profiles_points"), f"% Baseline item accuracy vs. card value: Spearman rho = {rho:.2f}, p = {p_rho:.3f}; card mean = {np.mean(list(CARD.values())):.1f}%.", r"\begin{tikzpicture}",
+         r"\begin{groupplot}[group style={group size=2 by 1, horizontal sep=0.5356in}, width=2.4027in, height=1.6267in, scale only axis,",
+         f"  xmin=0.4, xmax=12.6, xtick={{1,...,12}}, ymajorgrids, {base},",
+         f"  xlabel={{Items, easiest to hardest at baseline}}, xlabel style={{font={F(7)}, yshift=1pt}}, ylabel style={{font={F(7)}, xshift=-1pt}},",
+         r"  every axis plot/.append style={only marks, mark=*, mark size=1.1pt, mark options={line width=0pt}, error bars/y dir=both, error bars/y explicit, error bars/error bar style={line width=0.5pt}, error bars/error mark options={rotate=90, mark size=0.9pt, line width=0.5pt}}]"]
+    for col, ylabel in [("acc", "Accuracy (\\%)"), ("gap", r"Confidence $-$ accuracy (pp)")]:
+        L.append(f"\\nextgroupplot[ylabel={{{ylabel}}}" + (", ymin=0, ymax=100, ytick={0,20,40,60,80,100}" if col == "acc" else ", ymin=-20, ymax=80, ytick={-20,0,20,40,60,80}") + "]")
+        lo, hi = (0, 100) if col == "acc" else (-20, 80)
+        # alternating bands so the five points of one item read as a group (Manuel, 2026-09-07)
+        for i in range(0, 12, 2):
+            L.append(f"\\fill[black!6] (axis cs:{i + 0.5},{lo}) rectangle (axis cs:{i + 1.5},{hi});")
+        if col == "acc":
+            L.append(r"\draw[okzero, line width=0.6pt, dotted] (axis cs:0.4,25) -- (axis cs:12.6,25);")
+            L.append(f"\\node[anchor=south west, font={F(6)}, text=black!53, inner sep=0pt] at (axis cs:0.6,26) {{guessing floor}};")
+        for c in ORDER:
+            t = tm[tm.condition == c]
+            pts = []
+            for i, it in enumerate(items):
+                d = t[t.task_name == it]
+                n = len(d)
+                if col == "acc":
+                    k = d.correct.sum(); z = 1.96
+                    centre = (k + z * z / 2) / (n + z * z); half = z * np.sqrt(k * (n - k) / n + z * z / 4) / (n + z * z)
+                    y, e = 100 * d.correct.mean(), 100 * half
+                    # Wilson interval is asymmetric; pgfplots takes one symmetric error, so use the half-width around the Wilson centre
+                    y = 100 * centre
+                else:
+                    g = d.confidence - 100 * d.correct
+                    y, e = g.mean(), stats.t.ppf(0.975, n - 1) * g.std(ddof=1) / np.sqrt(n)
+                pts.append(f"({i + 1 + off[c]},{y:.1f}) +- (0,{e:.1f})")
+            L.append(f"\\addplot[{COL[c]}, mark options={{fill={COL[c]}}}] coordinates {{{' '.join(pts)}}};")
+        if col == "acc":  # grey bar per item = the assistant's own accuracy (card value)
+            for i, it in enumerate(items):
+                L.append(f"\\draw[okgray, line width=0.9pt] (axis cs:{i + 0.58},{CARD[it]}) -- (axis cs:{i + 1.42},{CARD[it]});")
+    L += [r"\end{groupplot}",
+          legend_matrix("group c1r1.south west)!0.5!(group c2r1.south east",
+                        [(f"\\draw[{COL[c]}, line width=0.5pt] (8pt,-3pt) -- (8pt,3pt) node[midway, circle, fill={COL[c]}, inner sep=0pt, minimum size=2.2pt] {{}};", NAME[c]) for c in ORDER]
+                        + [(r"\draw[okgray, line width=0.9pt] (2pt,0) -- (14pt,0);", "assistant alone (card value)")],
+                        "-0.50in", 7),
+          r"\end{tikzpicture}", ""]
+    save("difficulty_profiles_points_tikz.tex", "\n".join(L))
+
+
+# --------------------------------------------------------------------------- spider (radar) profiles
+def spider():
+    """One radar per intervention: Hedges' g vs. baseline on eight outcomes (profiles_spider_tikz.tex).
+    Axes are oriented so that outward = lower estimation error and workload, higher everything else; the dashed
+    ring is the baseline (g = 0). Marker fills follow the forest plot (Tukey / uncorrected / n.s.). Plain TikZ,
+    no pgfplots library needed. Robin's suggestion of 4 September (Overleaf comment on the Results heading)."""
+    import math
+    res = {r["outcome"]: r for r in J["outcomes"]}
+    axes = [("absolute_estimation_error", r"Est.\ error$^{-}$", -1), ("confidence_discrimination", r"$\Delta$Conf", 1),
+            ("actual_score", "Score", 1), ("prompts_per_task", "Prompts", 1), ("sus_score", "SUS", 1),
+            ("ueq_overall", "UEQ-S", 1), ("tlx_mean", r"TLX$^{-}$", -1), ("trust_mean", "Trust", 1)]
+    R0, SC, RMAX, PITCH, VPITCH = 1.0, 0.55, 1.9, 6.4, 5.9   # baseline ring, units per g, spoke length, panel pitch (2 x 2 grid)
+    anchors = ["south", "south west", "west", "north west", "north", "north east", "east", "south east"]
+    L = [header("profiles_spider").replace("pgfplots twin of profiles_spider.pgf", "TikZ radar figure (no matplotlib twin)"),
+         r"\begin{tikzpicture}[x=0.28in, y=0.28in]"]
+    for i, c in enumerate(ORDER[1:]):
+        col = COL[c]
+        L.append(f"\\begin{{scope}}[shift={{({(i % 2) * PITCH:.2f},{-(i // 2) * VPITCH:.2f})}}]")
+        for g_ring in (-1, 1):
+            L.append(f"  \\draw[okgrid, line width=0.5pt] (0,0) circle ({R0 + SC * g_ring:.3f});")
+        L.append(f"  \\draw[okzero, dashed, line width=0.6pt] (0,0) circle ({R0:.3f});")
+        pts = []
+        for k, (o, lab, direction) in enumerate(axes):
+            ang = 90 - 45 * k
+            L.append(f"  \\draw[okgrid, line width=0.5pt] (0,0) -- ({ang}:{RMAX});")
+            L.append(f"  \\node[anchor={anchors[k]}, font={F(6.5)}, inner sep=1pt, text=black!70] at ({ang}:{RMAX + 0.18:.2f}) {{{lab}}};")
+            v = res[o]["vs_baseline"][c]
+            r = R0 + SC * direction * v["g"]
+            x, y = r * math.cos(math.radians(ang)), r * math.sin(math.radians(ang))
+            tuk = {frozenset((t["A"], t["B"])): t["p"] for t in res[o]["tukey"]}[frozenset(("ai", c))]
+            fill = col if tuk < .05 else (f"{col}!45" if v["p"] < .05 else "white")
+            pts.append((x, y, fill))
+        path = " -- ".join(f"({x:.3f},{y:.3f})" for x, y, _ in pts) + " -- cycle"
+        L.append(f"  \\fill[{col}, opacity=0.15] {path};")
+        L.append(f"  \\draw[{col}, line width=1pt, line join=round] {path};")
+        for x, y, fill in pts:
+            L.append(f"  \\node[circle, draw={col}, fill={fill}, minimum size=4pt, inner sep=0pt, line width=1pt] at ({x:.3f},{y:.3f}) {{}};")
+        if i == 0:  # ring values once
+            for g_ring in (-1, 0, 1):
+                L.append(f"  \\node[anchor=south west, font={F(5.5)}, text=black!55, inner sep=0.5pt] at (0.05,{R0 + SC * g_ring:.3f}) {{${g_ring:+d}$}};".replace("$+0$", "$0$"))
+        L.append(f"  \\node[anchor=south, font={F(7.5)}, text={col}, inner sep=0pt] at (0,{RMAX + 0.62:.2f}) {{{NAME[c]}}};")
+        L.append(r"\end{scope}")
+    L += [f"\\coordinate (legL) at (0,{-VPITCH - RMAX - 0.55:.2f}); \\coordinate (legR) at ({PITCH:.2f},{-VPITCH - RMAX - 0.55:.2f});",
+          legend_matrix("legL)!0.5!(legR", [(dot("okgray", "okgray", "1pt"), r"$p < .05$, Tukey HSD vs.\ baseline"),
+                                            (dot("okgray", "okgray!45", "1pt"), r"$p < .05$, uncorrected only"),
+                                            (dot("okgray", "white", "1pt"), "not significant"),
+                                            (r"\draw[okzero, dashed, line width=0.6pt] (-4pt,0) -- (4pt,0);", r"baseline, $g = 0$")], "0in", 7),
+          r"\end{tikzpicture}", ""]
+    save("profiles_spider_tikz.tex", "\n".join(L))
 
 
 if __name__ == "__main__":
@@ -217,4 +332,6 @@ if __name__ == "__main__":
     confidence()
     reliance()
     difficulty()
+    difficulty_points()
+    spider()
     print("tikz figures written to", OUTDIRS)

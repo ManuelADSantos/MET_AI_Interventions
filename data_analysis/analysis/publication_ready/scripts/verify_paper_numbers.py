@@ -157,8 +157,8 @@ for name in m.params.index:
 easy_score = tm[~tm.hard].groupby(["participant_id", "condition"], observed=True).correct.sum().reset_index()
 x = easy_score[easy_score.condition == "pause-points"].correct
 y = easy_score[easy_score.condition == "ai"].correct
-tt = pg.ttest(x, y, correction=True).iloc[0]
-L.append(f"Pause points vs baseline on the six easy items: t({tt['dof']:.1f}) = {tt['T']:.2f}, p = {tt['p_val']:.2e}, g = {pg.compute_effsize(x, y, eftype='hedges'):+.2f} (paper g = -0.65).")
+tt = pg.ttest(x, y, correction=False).iloc[0]  # pooled-variance t, as for every baseline contrast in the paper
+L.append(f"Pause points vs baseline on the six easy items: t({tt['dof']:.0f}) = {tt['T']:.2f}, p = {tt['p_val']:.2e}, g = {pg.compute_effsize(x, y, eftype='hedges'):+.2f} (paper g = -0.65).")
 # confidence deflation slope with difficulty (item-level confidence ~ condition x difficulty)
 mc = smf.gee("confidence ~ C(condition, Treatment('ai')) * difficulty_z", groups="participant_id", data=tm, family=sm.families.Gaussian(), cov_struct=cov).fit()
 L.append("\nGEE linear confidence ~ condition x difficulty_z (interaction = extra pp of confidence per SD of difficulty vs baseline):")
@@ -166,16 +166,7 @@ for name in mc.params.index:
     if ":" in name:
         L.append(f"- {name}: b = {mc.params[name]:+.2f}, z = {mc.tvalues[name]:.2f}, p = {mc.pvalues[name]:.3f}")
 
-# ----------------------------------------------------------------------------- time course
-sec("Time course")
-tm["pos"] = tm.display_index
-r = stats.pearsonr(tm.pos, tm.correct)
-L.append(f"Accuracy vs display position, pooled r = {r[0]:.3f}, p = {r[1]:.3f} (paper r = .001).")
-half = tm.groupby(["participant_id", "condition", tm.pos >= tm.pos.median()], observed=True).correct.mean().unstack()
-half.columns = ["first", "second"]
-d = half["second"] - half["first"]
-tt = stats.ttest_1samp(d, 0)
-L.append(f"Second half minus first half accuracy: M = {d.mean():+.3f}, t({len(d) - 1}) = {tt.statistic:.2f}, p = {tt.pvalue:.3f}.")
+# time-course checks removed on 2026-09-09 (Robin: no display-position analysis)
 
 # ----------------------------------------------------------------------------- card anchoring
 sec("Card anchoring")
