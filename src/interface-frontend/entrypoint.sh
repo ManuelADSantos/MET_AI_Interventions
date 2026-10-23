@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Generate Vite .env from study.config.yml when mounted (local docker-compose).
+# On Railway there is no config file: set VITE_* variables on the service instead.
+
+CONFIG_FILE="/study.config.yml"
+
+if [ -f "$CONFIG_FILE" ]; then
+    echo "Generating .env file from study.config.yml..."
+
+    cat > /app/.env << EOF
+VITE_PROXY_URL=$(grep '^backend_url:' $CONFIG_FILE | sed 's/backend_url: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
+VITE_ALLOW_IMAGES=$(grep '^allow_image_attachments:' $CONFIG_FILE | sed 's/allow_image_attachments: *//;s/  *#.*//;s/ *$//')
+VITE_DEV_MODE=$(grep '^dev_mode:' $CONFIG_FILE | sed 's/dev_mode: *//;s/  *#.*//;s/ *$//')
+VITE_SYSTEM_PROMPT=$(grep '^system_prompt:' $CONFIG_FILE | sed 's/system_prompt: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
+VITE_COPY_BUTTON_TEMPLATE=$(grep '^copy_button_template:' $CONFIG_FILE | sed 's/copy_button_template: *//;s/"//g;s/'\''//g;s/  *#.*//;s/ *$//')
+VITE_RANDOMIZE_TASKS=$(grep '^randomize_tasks:' $CONFIG_FILE | sed 's/randomize_tasks: *//;s/  *#.*//;s/ *$//')
+VITE_USE_AUTOPROCTOR=$(grep '^use_autoproctor:' $CONFIG_FILE | sed 's/use_autoproctor: *//;s/  *#.*//;s/ *$//')
+VITE_STUDY_INFO=$(grep '^study_info:' $CONFIG_FILE | sed 's/study_info: *//;s/  *#.*//;s/ *$//')
+VITE_ENABLE_TASK_TO_CHAT_BUTTON=$(grep '^enable_task_to_chat_button:' $CONFIG_FILE | sed 's/enable_task_to_chat_button: *//;s/  *#.*//;s/ *$//')
+VITE_ENABLE_TASK_TEXT_COPYING=$(grep '^enable_task_text_copying:' $CONFIG_FILE | sed 's/enable_task_text_copying: *//;s/  *#.*//;s/ *$//')
+VITE_INTERVENTION_SIMILARITY_THRESHOLD=$(grep '^intervention_similarity_threshold:' $CONFIG_FILE | sed 's/intervention_similarity_threshold: *//;s/  *#.*//;s/ *$//')
+VITE_RELIABILITY_SIMILARITY_THRESHOLD=$(grep '^reliability_similarity_threshold:' $CONFIG_FILE | sed 's/reliability_similarity_threshold: *//;s/  *#.*//;s/ *$//')
+EOF
+
+    echo ".env file generated successfully:"
+    cat /app/.env
+else
+    echo "No study.config.yml found - using VITE_* environment variables as provided."
+fi
+
+PORT="${PORT:-5173}"
+
+if [ -n "$RAILWAY_ENVIRONMENT" ]; then
+    echo "Railway detected: building static bundle..."
+    npm run build && exec npm run preview -- --host 0.0.0.0 --port "$PORT"
+else
+    echo "Starting Vite dev server..."
+    exec npm run dev -- --host 0.0.0.0 --port "$PORT"
+fi

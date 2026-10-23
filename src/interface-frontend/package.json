@@ -1,0 +1,33 @@
+{
+  "name": "chat-tasks",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@assistant-ui/react": "^0.14.23",
+    "@assistant-ui/react-markdown": "^0.14.4",
+    "@nextui-org/react": "^2.2.10",
+    "class-variance-authority": "^0.7.1",
+    "framer-motion": "11.0.8",
+    "lucide-react": "^1.21.0",
+    "radix-ui": "^1.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.2",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+"@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.4"
+  }
+}

@@ -1,0 +1,54 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: src/interface-frontend/Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./study.config.yml:/study.config.yml:ro
+      - ./src/customizations/tasks:/app/customizations:ro
+      - ./src/interface-frontend/src:/app/src
+      - ./src/interface-frontend/vite.config.js:/app/vite.config.js
+      - ./tests:/tests:ro
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: src/interface-backend/Dockerfile
+    # Dev uses gunicorn too, so local stress tests resemble Railway; --reload keeps hot-reload
+    command: gunicorn --reload --workers 2 --threads 64 --timeout 180 --bind 0.0.0.0:5001 app:app
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./study.config.yml:/study.config.yml:ro
+      - ./src/customizations/questions/correct_answers.py:/app/correct_answers.py
+      - ./src/interface-backend:/app
+      - ./tests:/tests:ro
+    environment:
+      - DATABASE_URL=postgresql://study:study@db:5432/study
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=study
+      - POSTGRES_PASSWORD=study
+      - POSTGRES_DB=study
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U study"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  pgdata:

@@ -1,0 +1,374 @@
+# AI Study Platform
+
+## Quick Start
+
+### Prerequisites
+
+- **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop/)
+  - Click Download Docker Desktop -> choose installer depending on your OS and processor
+  - (Windows laptops most commonly have AMD or Intel processors -> choose the AMD64 installer)
+
+### Setup
+
+1. **Clone or download this repository**
+
+   - Navigate to your preferred command prompt location
+   - Find the repository url from this git repo, click green "code" button -> choose "https" -> copy the url 
+
+   ```bash
+   git clone <repository-url> 
+   cd MET_AI_Interventions
+   ```
+   - Alternatively download as zip and unzip the project
+
+2. **Set up config and data files**
+   - Run the following in your terminal:
+   ```bash
+   # Mac / Linux
+   cp study.config.example.yml study.config.yml
+   ```
+   - OR create a file "study.config.yml" in the root of the repository and copy "study.config.example.yml" to it manually. Then:
+   - Open `study.config.yml` in any text editor
+   - Add your OpenAI API key 
+   - Customize other settings as needed (see Configuration section below)
+
+3. **Start the application**
+   - Open Docker Desktop app on your computer
+   - Navigate to this project's root in command prompt and run:
+     
+   ```bash
+   docker compose up --force-recreate
+   ```
+
+4. **Access the study**
+   - After the app is up and running, open your browser to http://localhost:5173
+   - The study interface will load automatically
+
+5. **Stop the application**
+   - Press `Ctrl+C` in the terminal where Docker Compose is running
+   - Or run:
+   ```bash
+    docker compose down -v --rmi local
+   ```
+
+## Customizing Your Study
+
+All customization is done by editing files on your computer. Changes take effect immediately (hot-reload) without rebuilding Docker containers.
+
+| What to Change | File to Edit | Notes |
+|----------------|--------------|-------|
+| Survey questions & instructions | `src/customizations/tasks/<condition>_tasks.md` | Uses taskParser markdown format (see below) |
+| Study info / consent page | `src/customizations/tasks/*_studyinfo_example.md` | First page participants see |
+| Correct answers for scoring | `src/customizations/questions/correct_answers.py` | Python list of correct answers |
+| GPT model | `study.config.yml` → `gpt_model` | e.g. `gpt-5.4-mini`, `gpt-4-turbo` |
+| ChatGPT system prompt | `study.config.yml` → `system_prompt` | Defines ChatGPT behavior |
+| Experimental condition | URL query `?condition=<name>` | Matches a `*_tasks.md` file; defaults to `ai` |
+| Which pages show chat | `:::chat-enabled` in task `.md` file | Per-page directive |
+| Completion code/URL | `study.config.yml` → `completion_code/url` | For Prolific or other platforms |
+| UI components (advanced) | `src/interface-frontend/src/components/` | React components with hot-reload |
+
+### Task File Format
+
+Task files use a markdown-based format. See [`src/customizations/examples.md`](src/customizations/examples.md) for a full reference, or `src/customizations/tasks/ai_tasks.md` for a working example.
+
+```markdown
+# Page Title
+
+> Paragraph text shown to the participant.
+> Use > for all displayed text.
+
+> Pick one:
+
+    $option; Choice A; Choice B; Choice C
+
+> Rate on a scale:
+
+    $slider; 0; 100; Low label; High label
+
+> Put visible task content and context in tabs:
+
+:::tab Exercise
+> Exercise text here.
+:::
+
+:::tab Context
+> Context text here.
+:::
+
+> Add text copied by the tab copy button:
+
+:::copy
+Text to copy into the AI chat.
+:::
+
+> Require at least one AI prompt before the Next button appears:
+
+:::require-ai-prompt
+
+> How much do you agree?
+
+    $likert; 1; 7; Strongly disagree; Strongly agree
+
+> How many?
+
+    $number
+
+> Describe your experience:
+
+    $text
+
+> Any additional comments?
+
+    $textarea
+
+# Next Page
+
+> Content for the next page starts here.
+
+%% RANDOMIZE
+
+# Randomized Page 1
+
+> This page and the ones below will appear in random order.
+
+# Randomized Page 2
+
+> Until the closing %% marker.
+
+%%
+```
+
+**Key syntax:**
+- `#` starts a new page (with optional title)
+- `##` creates a section heading within a page
+- `> text` displays paragraph text to the participant
+- `$option; A; B; C` creates radio buttons (semicolon-separated; `Other` or a `*`-suffixed option opens a text field)
+- `$checkbox; A; B; C` creates checkboxes for multi-select (same syntax as `$option`, stores an array)
+- `$slider; min; max; lowLabel; highLabel` creates a slider (append `; tooltip` or `; tooltip%` to show the selected value)
+- `$likert; min; max; lowLabel; highLabel` creates a Likert scale
+- `$number` creates a number input (optionally `$number; min; max`, defaults 0–999)
+- `$text` creates a single-line text input
+- `$textarea` creates a multi-line text area
+- Append `?` to any type (e.g. `$text?`) to make the question optional
+- `:::tab Title` ... `:::` creates a tab on the current page
+- `:::copy` ... `:::` adds copy-button text without displaying it as page content
+- `:::chat-enabled` shows the chat panel on this page (chat conditions only, ignored for `no-*` conditions)
+- `:::require-ai-prompt` gates the Next button behind at least one AI prompt (chat conditions only)
+- `%% RANDOMIZE` ... `%%` randomizes the pages inside the block
+- `%% SECTION` ... `%%` marks a block as a section but keeps its page order
+- A standalone `%% RANDOMIZE_SECTIONS` line anywhere in the file shuffles all marked
+  sections amongst themselves (unmarked content, e.g. an intro, stays in place)
+- Question inputs must be indented with 4 spaces
+
+## Configuration Reference
+
+### study.config.yml
+
+```yaml
+# API Settings
+openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
+gpt_model: gpt-5.4-mini            # Model to use
+reasoning_effort: none            # Optional: none, low, medium, high, or xhigh for reasoning models
+base_url: https://api.openai.com/v1    # Optional: Custom API base URL
+
+# Study Settings
+randomize_tasks: true              # Shuffle tasks within sections
+study_info: true                   # Show study info pages (false to skip them)
+system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
+
+# Chat Availability
+allow_image_attachments: false     # Enable image uploads
+copy_button_template: "{copyText}" # Copy-button template text
+enable_task_to_chat_button: true    # Show the task-and-scenario paste-to-chat button
+enable_task_text_copying: true      # Allow manual selection/copying of task and scenario text
+
+# Development
+dev_mode: true                     # Dev mode: skip ID validation, free page navigation, optional fields
+
+# Completion
+completion_code: COMPLETE          # Code shown at end
+completion_url: ""                 # Redirect URL (optional)
+
+# Data export
+export_token: ""                   # Set a secret to enable GET /export?token=<secret>
+```
+
+## Adding Conditions
+
+Conditions are auto-discovered from `src/customizations/tasks/` — no code changes needed.
+
+### Steps
+
+1. **Create a task file** in `src/customizations/tasks/`:
+   - `<name>_tasks.md` — the survey/task pages (required)
+   - `study_info/<name>_studyinfo.md` — consent / intro pages (optional)
+
+2. **Set the condition** via URL query parameter: `?condition=<name>` (defaults to `ai` if omitted)
+
+### Naming conventions
+
+- Underscores in the filename become hyphens in the condition name (`pause_points_tasks.md` → condition `pause-points`)
+- **Chat visibility:** conditions starting with `no-` hide the chat panel; all others show it (see `conditionHasChat()` in `src/scripts/conditions.js`)
+
+### Example
+
+To add a condition called `ai-limited`:
+
+```
+src/customizations/tasks/ai_limited_tasks.md              # task pages (required)
+src/customizations/tasks/study_info/ai_limited_studyinfo.md  # consent pages (optional)
+```
+
+Open `http://localhost:5173?condition=ai-limited`. The chat panel will appear (name doesn't start with `no-`).
+
+### Condition-specific UI components
+
+If a condition needs custom visual elements (e.g. confidence cards, a post-task reflection screen), keep the logic self-contained. See `src/scripts/conditions.js` for the central condition registry. Load condition-specific config (JSON, etc.) via `import.meta.glob` rather than hardcoded imports, and guard rendering on the condition name so other conditions are unaffected.
+
+## AutoProctor Integration (Optional)
+
+To enable browser-based proctoring via [AutoProctor](https://www.autoproctor.co):
+
+1. Set `use_autoproctor: true` in `study.config.yml` (or `VITE_USE_AUTOPROCTOR=true` on Railway)
+2. Set `AUTOPROCTOR_API_KEY` and `AUTOPROCTOR_TEST_LABEL` on the **backend** (env vars or Railway variables)
+3. Share the Prolific URL as usual — participants will see a consent flow, then be redirected to AutoProctor which opens the study in a proctored iframe
+
+The consent flow shows your study info pages, then AutoProctor-specific disclosure (screen monitoring, tab switching, single-monitor requirement). Inside the proctored iframe, participants enter their Prolific ID to sync their session and begin the study.
+
+No code changes needed — the routing is automatic when `VITE_USE_AUTOPROCTOR` is `true`. When `false` (default), the existing PID-entry flow works unchanged.
+
+## Viewing Collected Data
+
+Participant data is saved to Postgres (the `db` container). Each record includes:
+
+- `participantId`: Unique participant identifier
+- `condition`: Which condition they were in (e.g. `ai`, `pause-points`, or any custom condition)
+- `tasks`: All their survey responses
+- `messages`: Chat conversation history (if applicable)
+- `correctAnswers`, `totalQuestions`, `answerResults`: Scoring details
+- `savedAt`: Timestamp of submission
+
+### Exporting Data
+
+Set `export_token` in `study.config.yml` (or the `EXPORT_TOKEN` env var on Railway), then:
+
+```bash
+curl "http://localhost:5001/export?token=YOUR_TOKEN" > study_data.json
+```
+
+Or query Postgres directly:
+
+```bash
+docker compose exec db psql -U study -c "SELECT data FROM participants"
+```
+
+The exported JSON can be analyzed with pandas (`pd.read_json`), R (`jsonlite`), or imported into Excel.
+
+## Troubleshooting
+
+### "Docker is not running"
+- Open Docker Desktop and wait for it to start
+- On Windows: Ensure WSL 2 is installed and enabled in Docker Desktop settings
+
+### "Port 5173 (or 5001) is already in use"
+- Another application or a previous Docker session is using this port
+- Find and kill the process occupying the port:
+  ```bash
+  # Mac / Linux
+  lsof -i :5001
+  kill -9 <PID>
+
+  # Windows (Command Prompt / PowerShell, run as Administrator)
+  netstat -ano | findstr :5001
+  taskkill /PID <PID> /F
+  ```
+- Or stop any running Docker containers first: `docker compose down`
+
+### "API key is not set"
+- Open `study.config.yml` and set your OpenAI API key
+- Make sure you've saved the file after editing
+
+### Changes not appearing
+- **Frontend source** (`src/interface-frontend/src/`): Hot-reloads instantly via Vite HMR — no rebuild needed.
+- **Task files** (`src/customizations/tasks/`): Also hot-reloaded (mounted into the container).
+- **`study.config.yml`**: Requires a restart (`docker compose down && docker compose up`).
+- **`package.json` or `Dockerfile` changes**: Require a rebuild (`docker compose up --build`).
+
+### "Cannot connect to backend" or "Failed to save data"
+- Check that both containers are running: `docker compose ps`
+- Backend should be at http://localhost:5001
+- Frontend should be at http://localhost:5173
+- If accessing from another device on the network, open port 5001 in Windows Firewall (run as Administrator):
+  ```powershell
+  netsh advfirewall firewall add rule name="AI Study Backend" dir=in action=allow protocol=TCP localport=5001
+  ```
+
+### OpenAI API errors
+- Check your API key is correct in `study.config.yml`
+- Check the model name is correct (e.g., `gpt-5.4-mini`)
+
+## Architecture
+
+Three containers, orchestrated by `docker-compose.yml`:
+
+| Container | Role |
+|-----------|------|
+| `frontend` | React + Vite study interface (port 5173) |
+| `backend` | Flask API: chat proxy, scoring, data persistence (port 5001) |
+| `db` | Postgres — all participant data |
+
+## Deploying to Railway
+
+See [RAILWAY_DEPLOY.md](RAILWAY_DEPLOY.md) for full setup instructions.
+
+## Tests
+
+See [tests/README.md](tests/README.md): stimulus identity across conditions, the intervention gate,
+task-order randomization, and save/scoring for all 5 conditions. Free, no API calls.
+
+## Project Structure
+
+```
+AI_study/
+├── study.config.example.yml      # Config template (copy to study.config.yml)
+├── study.config.yml              # Your configuration (created during setup, gitignored)
+├── docker-compose.yml            # Docker orchestration (frontend, backend, db)
+├── src/
+│   ├── customizations/           # Student workspace for editing
+│   │   ├── tasks/                # Task + study info markdown files
+│   │   └── questions/            # Answer key (correct_answers.py) + question reference
+│   ├── interface-backend/        # Flask backend
+│   │   ├── Dockerfile
+│   │   ├── app.py
+│   │   ├── db.py                 # Postgres persistence
+│   │   ├── chat_helpers.py
+│   │   ├── config_loader.py
+│   │   └── requirements.txt
+│   └── interface-frontend/       # React + Vite frontend
+│       ├── Dockerfile
+│       ├── entrypoint.sh
+│       ├── package.json
+│       ├── vite.config.js
+│       └── src/
+├── tests/                        # Stimulus, gate, randomization and save/scoring checks
+├── data_analysis/
+│   └── all_data.csv              # One row per participant, all 5 conditions (de-identified)
+└── RAILWAY_DEPLOY.md             # Railway deployment guide
+```
+
+## Security Notes
+
+- **Never commit `study.config.yml` to git** - it contains your API key
+- The `.gitignore` file is configured to prevent accidental commits
+- Keep your OpenAI API key secret
+- For production deployment, use environment variables instead of the config file
+- `/chat/stream` requires a per-participant bearer token (minted via `POST /token` at study start) and is capped at `CHAT_MESSAGE_CAP` calls per participant, plus per-IP rate limits on `/chat`, `/token` and `/save`
+- Prolific URL parameters are stripped from the address bar on load; the condition saved with the data is the one registered server-side at study start, not the client-sent one
+
+## Support
+
+For issues or questions:
+1. Check the Troubleshooting section above
+2. Review the configuration reference
+3. Check Docker Desktop is running and up-to-date
+4. Verify your OpenAI API key is valid and has credits

@@ -1,0 +1,34 @@
+# API Settings
+openai_api_key: sk-YOUR_KEY_HERE  # Required: Your OpenAI API key
+gpt_model: gpt-5.4-mini            # Model to use
+reasoning_effort: low            # Optional: none, low, medium, high, or xhigh for reasoning models
+base_url: https://api.openai.com/v1    # Optional: Custom API base URL (e.g., for Azure OpenAI)
+
+# Study Settings
+randomize_tasks: true              # Shuffle tasks within sections and sections amongst themselves
+study_info: true                   # Show the study-information pages before the questionnaire
+system_prompt: You are a helpful logical reasoning assistant          # system prompt behavior instructions
+
+# Interventions (see INTERVENTION_PROMPTS in src/interface-backend/app.py)
+reliability_similarity_threshold: 0.2    # ai-reliability: cosine similarity between prompt and task text needed to show the reliability card (0 = any prompt)
+intervention_similarity_threshold: 0.6   # fraction of the task question's distinctive words a prompt must carry before an intervention engages (pasting the scenario alone is not enough)
+alternatives_mode: opposing        # How the two columns of the `alternatives` dual chat diverge: `opposing` (each column gets a supporting/challenging stance prompt) or `temperature` (same prompt, 0.3 vs 1.0 — requires reasoning_effort: none)
+
+# Chat Availability
+allow_image_attachments: false     # Enable image uploads
+copy_button_template: "{copyText}" # Placeholders: {title}, {tabTitle}, {tabText}, {exerciseText}, {allTabsText}, {copyText}, {allCopyText}, {questionText}, {optionsText}
+enable_task_to_chat_button: false    # Show the "Copy-paste task & scenario to chat" button
+enable_task_text_copying: true      # Allow drag-selection and copying of task/scenario text
+
+# Proctoring (optional)
+use_autoproctor: false             # Enable AutoProctor proctoring (requires AUTOPROCTOR_API_KEY + AUTOPROCTOR_TEST_LABEL env vars on the backend)
+
+# Development
+dev_mode: true                     # Skip participant ID validation
+
+# Completion
+completion_code: COMPLETE          # Code shown at end
+completion_url: ""                 # Redirect URL (optional)
+
+# Data export
+export_token: "EXPORT_TOKEN"                   # Set a secret to enable GET /export?token=<secret>; empty disables it
